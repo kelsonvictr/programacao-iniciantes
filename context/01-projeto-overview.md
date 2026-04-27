@@ -13,7 +13,7 @@ Lógica de Programação e Algoritmos básicos com **Python**.
 - GitHub: [kelsonvictr](https://github.com/kelsonvictr)
 
 ## 🏛️ Instituição
-**Programa AI** — programa de cursos práticos e didáticos.
+**programa AI** — programa de cursos práticos e didáticos.
 
 ## 🎯 Público-alvo
 **Iniciantes absolutos em programação.** Pessoas que nunca escreveram uma linha de código. O material precisa ser:

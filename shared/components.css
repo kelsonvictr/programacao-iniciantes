@@ -841,9 +841,9 @@ pre{
 .logo-marquee:hover .logo-marquee-track{animation-play-state:paused}
 .logo-marquee-item{
   flex:0 0 auto;
-  height:54px;
+  height:46px;
   display:flex;align-items:center;justify-content:center;
-  padding:8px 18px;
+  padding:6px 14px;
   background:linear-gradient(135deg, #ffffff 0%, #f4f6ff 100%);
   border-radius:12px;
   box-shadow:
@@ -860,42 +860,112 @@ pre{
 .logo-marquee-item img{
   height:100%;
   width:auto;
-  max-width:160px;
+  max-width:130px;
   object-fit:contain;
   filter:drop-shadow(0 2px 4px rgba(0,0,0,0.18));
 }
 
-/* ---- Grid de logo-cards (organizado em grupos) ---- */
+/* ---- Stats strip — social proof MEGA marketing ---- */
+.stats-strip{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+  margin:14px 0 22px;
+}
+.stat-tile{
+  position:relative;
+  isolation:isolate;
+  padding:22px 18px;
+  border-radius:18px;
+  text-align:center;
+  background:linear-gradient(135deg, rgba(108,99,255,0.10) 0%, rgba(247,183,49,0.06) 100%);
+  border:1.5px solid rgba(108,99,255,0.28);
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(0,0,0,0.30), inset 0 0 0 1px rgba(255,255,255,0.05);
+  transition:transform 0.35s cubic-bezier(.2,.9,.3,1.3), border-color 0.35s, box-shadow 0.35s;
+}
+.stat-tile::before{
+  content:'';
+  position:absolute;inset:-1px;border-radius:inherit;
+  background:radial-gradient(120% 80% at 50% 0%, rgba(167,139,250,0.35) 0%, transparent 60%);
+  opacity:0; z-index:-1; transition:opacity 0.4s;
+}
+.stat-tile:hover{
+  transform:translateY(-6px) scale(1.02);
+  border-color:rgba(247,183,49,0.55);
+  box-shadow:0 18px 42px rgba(0,0,0,0.40), 0 0 30px rgba(247,183,49,0.30);
+}
+.stat-tile:hover::before{opacity:1}
+.stat-num{
+  display:inline-block;
+  font-family:'JetBrains Mono', monospace;
+  font-size:3.2rem;line-height:1;font-weight:900;
+  background:linear-gradient(135deg, var(--python-y) 0%, var(--accent5) 50%, var(--accent2) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  letter-spacing:-1.5px;
+  filter:drop-shadow(0 2px 8px rgba(247,183,49,0.30));
+}
+.stat-suffix{
+  display:inline-block;
+  font-family:'JetBrains Mono', monospace;
+  font-size:2rem;font-weight:900;
+  color:var(--accent5);
+  vertical-align:top;
+  margin-left:2px;
+}
+.stat-label{
+  margin-top:6px;
+  font-size:0.78rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--text-dim);
+}
+.stat-tile.flag-tile .stat-num{
+  font-size:2.6rem;
+  background:none;-webkit-background-clip:initial;background-clip:initial;
+  color:var(--text);
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  letter-spacing:0;
+}
+@media (max-width:600px){
+  .stats-strip{grid-template-columns:1fr; gap:10px}
+  .stat-tile{padding:16px 14px}
+  .stat-num{font-size:2.5rem}
+  .stat-suffix{font-size:1.6rem}
+}
+
+/* ---- Grid de logo-cards (quadro de logos) ---- */
 .logo-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
   gap:14px;
   margin:14px 0 6px;
+  perspective:1000px;
 }
 
 .logo-card{
   position:relative;
   isolation:isolate;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-  padding:22px 14px 16px;
-  height:140px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:18px 14px;
+  height:128px;
   background:linear-gradient(135deg, #ffffff 0%, #f1f4ff 70%, #e9edff 100%);
-  border:1.5px solid rgba(255,255,255,0.08);
-  border-radius:18px;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
   overflow:hidden;
   cursor:default;
   opacity:0;
   animation:
     logoCardFadeIn 0.7s cubic-bezier(.2,.9,.3,1.3) forwards,
     logoFloat 5s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 60ms), calc(var(--i, 0) * 60ms + 0.7s);
+  animation-delay: calc(var(--i, 0) * 50ms), calc(var(--i, 0) * 50ms + 0.7s);
   transition:
     box-shadow 0.35s ease,
     border-color 0.35s ease,
     filter 0.35s ease;
   box-shadow:
-    0 6px 18px rgba(0,0,0,0.30),
-    inset 0 0 0 1px rgba(255,255,255,0.45);
+    0 4px 12px rgba(0,0,0,0.25),
+    inset 0 0 0 1px rgba(255,255,255,0.4);
 }
 
 /* Halo colorido por trás (brilho pulsante) */
@@ -933,35 +1003,79 @@ pre{
 
 .logo-card:hover{
   animation-play-state:running, paused; /* pausa o float, mantém o fade já completo */
-  transform:translateY(-10px) scale(1.06) !important;
+  transform:translateY(-8px) scale(1.08) rotateX(6deg) !important;
   border-color:var(--brand, #6c63ff);
   box-shadow:
-    0 22px 50px rgba(0,0,0,0.45),
+    0 22px 44px rgba(0,0,0,0.50),
     0 0 32px var(--brand-glow, rgba(108,99,255,0.55)),
     inset 0 0 0 1px rgba(255,255,255,0.6);
-  filter:saturate(1.15);
+  filter:saturate(1.18);
+  z-index:2;
 }
 
 .logo-card img{
-  max-height:62px;
-  max-width:90%;
+  max-height:78px;
+  max-width:92%;
   object-fit:contain;
   transition:transform 0.5s cubic-bezier(.2,.9,.3,1.3);
-  filter:drop-shadow(0 3px 6px rgba(0,0,0,0.20));
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,0.18));
 }
 .logo-card:hover img{
   transform:scale(1.10) rotate(-2deg);
 }
 
+/* ---- Ribbon "ATUAL" — destaca empregador atual ---- */
+.logo-card.current::before{ /* sobrepõe o shimmer */
+  background:linear-gradient(110deg,
+    transparent 20%,
+    rgba(247,183,49,0.85) 50%,
+    transparent 80%);
+}
+.logo-card.current{
+  border:1.5px solid var(--accent5);
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.30),
+    0 0 18px rgba(247,183,49,0.40),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+.logo-card .ribbon{
+  position:absolute;
+  top:8px; right:-30px;
+  background:linear-gradient(135deg, var(--accent5), var(--accent2));
+  color:#1a1a2e;
+  font-family:'JetBrains Mono', monospace;
+  font-size:0.55rem;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  padding:3px 32px;
+  transform:rotate(35deg);
+  box-shadow:0 4px 8px rgba(0,0,0,0.30);
+  z-index:3;
+  pointer-events:none;
+}
+
+/* Nome aparece como overlay no rodapé só no hover — quadro fica limpo */
 .logo-card .logo-name{
-  font-size:0.72rem;
+  position:absolute;
+  left:0;right:0;bottom:0;
+  padding:5px 6px 4px;
+  font-size:0.62rem;
   font-weight:900;
   text-transform:uppercase;
-  letter-spacing:1.1px;
-  color:#1f2247;
+  letter-spacing:0.6px;
+  color:#fff;
   text-align:center;
-  line-height:1.2;
-  opacity:0.85;
+  line-height:1.15;
+  background:linear-gradient(180deg, transparent 0%, var(--brand, #6c63ff) 100%);
+  opacity:0;
+  transform:translateY(100%);
+  transition:opacity 0.25s ease, transform 0.25s ease;
+  pointer-events:none;
+}
+.logo-card:hover .logo-name{
+  opacity:1;
+  transform:translateY(0);
 }
 
 /* ---- Tile texto (fallback p/ marcas sem arquivo de logo) ---- */
@@ -979,17 +1093,15 @@ pre{
 .logo-card.logo-text .logo-text-mark{
   font-family:'JetBrains Mono', monospace;
   font-weight:900;
-  font-size:1.55rem;
-  line-height:1;
+  font-size:1.4rem;
+  line-height:1.05;
+  text-align:center;
   color:transparent;
   background:linear-gradient(135deg, var(--brand, var(--accent)) 0%, var(--accent6) 100%);
   -webkit-background-clip:text;
           background-clip:text;
-  letter-spacing:-0.5px;
-}
-.logo-card.logo-text .logo-name{
-  color:var(--text-dim);
-  opacity:1;
+  letter-spacing:-0.3px;
+  padding:0 4px;
 }
 
 /* ---- Cores de marca por chip (CSS vars que alimentam glow/halo) ---- */
@@ -1017,11 +1129,14 @@ pre{
 .logo-card.b-programa { --brand:#a78bfa; --brand-glow:rgba(167,139,250,0.55);}
 .logo-card.b-profkv   { --brand:#6c63ff; --brand-glow:rgba(108,99,255,0.55); }
 
-/* ---- Mobile: encurta o card e reduz logo ---- */
+/* ---- Mobile: ainda destaque, mas menor ---- */
 @media (max-width: 600px){
   .logo-grid{grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:10px}
-  .logo-card{height:120px;padding:16px 10px 12px}
-  .logo-card img{max-height:46px}
-  .logo-marquee-item{height:42px;padding:6px 14px}
-  .logo-marquee-item img{max-width:120px}
+  .logo-card{height:96px;padding:12px 10px}
+  .logo-card img{max-height:54px}
+  .logo-card .logo-name{font-size:0.58rem;letter-spacing:0.4px}
+  .logo-card.logo-text .logo-text-mark{font-size:1rem}
+  .logo-card .ribbon{top:6px; right:-32px; font-size:0.5rem; padding:2px 30px}
+  .logo-marquee-item{height:42px;padding:6px 12px}
+  .logo-marquee-item img{max-width:110px}
 }

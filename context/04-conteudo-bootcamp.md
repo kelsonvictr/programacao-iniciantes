@@ -52,7 +52,7 @@ PDF: `../programacao-iniciantes/old-slides/Bootcamp_  Programação para Inician
 
 ### Quizzes
 - "3.14 é A)int B)float..." (B)
-- "nome = 'Programa AI' é A) texto..." (A)
+- "nome = 'programa AI' é A) texto..." (A)
 
 ---
 

@@ -1,6 +1,6 @@
 # 🐍 Bootcamp: Programação para Iniciantes
 
-> Material visual e interativo do bootcamp **Programação para Iniciantes** do Programa AI, ministrado pelo **prof. Kelson Almeida**.
+> Material visual e interativo do bootcamp **Programação para Iniciantes** da programa AI, ministrado pelo **prof. Kelson Almeida**.
 
 🌐 **Acesse online:** [kelsonvictr.github.io/programacao-iniciantes](https://kelsonvictr.github.io/programacao-iniciantes/)
 
