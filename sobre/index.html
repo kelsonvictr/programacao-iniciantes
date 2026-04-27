@@ -48,96 +48,93 @@
     </div>
 
     <div class="card">
-      <div class="about-grid">
 
-        <!-- COLUNA ESQUERDA: BIO -->
-        <div>
-          <p style="color:var(--text-dim);font-size:1rem;margin-bottom:14px">
-            Olá! Sou o <strong style="color:var(--text)">Kelson Almeida</strong> — apaixonado por ensinar e
-            por construir software que resolve problemas reais. Faz tempo que ando nessa estrada,
-            e cada turma me ensina algo novo. Aqui vai um <em>sumarinho</em>:
-          </p>
-
-          <ul class="about-bullets">
-            <li>
-              <div>
-                <strong>"Profissional" de TI desde de … sempre?</strong>
-                Comecei essa jornada como <em>"Dev"</em> de páginas HTML no
-                <strong>Dreamweaver</strong>, <strong>Frontpage</strong>,
-                <strong>Bloco de Notas</strong> e <strong>PHP</strong> 🦣
-              </div>
-            </li>
-            <li>
-              <div>
-                <strong>Mestre em Informática</strong> pela
-                <strong>Universidade Federal da Paraíba (UFPB)</strong>
-              </div>
-            </li>
-            <li>
-              <div>
-                <strong>Bacharel em Sistemas de Informação</strong> também pela
-                <strong>UFPB</strong>
-              </div>
-            </li>
-            <li>
-              <div>
-                Participei de <strong>Projetos de Pesquisa</strong> na
-                <strong>University of New Brunswick</strong> 🇨🇦 — Canadá
-              </div>
-            </li>
-            <li>
-              <div>
-                Atualmente <strong>Desenvolvedor Sênior</strong> na
-                <strong>NTT Data Europe & Latam</strong> alocado no <strong>Itaú</strong> 🏦
-              </div>
-            </li>
-          </ul>
-
-          <div class="tip" style="margin-top:18px">
-            <span class="tip-icon">💡</span>
-            <div class="tip-content">
-              <strong>Programar não é talento — é prática.</strong> Eu mesmo errei (e ainda erro)
-              um caminhão de coisas. O que mudou foi <strong>continuar tentando</strong>.
-              Esse bootcamp é o que eu queria ter tido quando comecei.
-            </div>
+      <!-- AVATAR ILUSTRADO EM DESTAQUE — clicável pra ampliar -->
+      <div class="prof-banner">
+        <div class="banner-img-wrap" onclick="openLightbox('../assets/images/avatar-kelson.png')">
+          <img class="banner-img"
+               src="../assets/images/avatar-kelson.png"
+               alt="Prof. Coder — explicar é minha superpoder! Ilustração com perfil do Prof. Kelson, mix perfeito (40% professor, 35% programador, 15% curioso, 10% cafédependente), Programa AI, livros e laptop"
+               onerror="this.style.display='none';this.parentElement.querySelector('.banner-fallback').style.display='flex';this.parentElement.style.cursor='default';this.parentElement.onclick=null">
+          <div class="banner-fallback" style="display:none">
+            <div class="big-letter">K</div>
+            <div class="big-name">Prof. Kelson Almeida</div>
           </div>
         </div>
-
-        <!-- COLUNA DIREITA: AVATAR + MEME -->
-        <aside class="about-aside">
-
-          <!-- Avatar (com fallback caso a imagem não exista ainda) -->
-          <div class="prof-avatar">
-            <img class="avatar-img"
-                 src="../assets/images/avatar-kelson.png"
-                 alt="Avatar do Prof. Kelson"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="avatar-fallback" style="display:none">K</div>
-            <div class="avatar-name">Prof. Kelson Almeida</div>
-            <div class="avatar-role">Programa AI · Bora codar?</div>
-            <span class="avatar-shirt">👕 Professor Programa AI</span>
-          </div>
-
-          <!-- Meme do Sócrates (com fallback estilizado) -->
-          <div class="meme-card">
-            <img class="meme-img"
-                 src="../assets/images/meme-socrates.png"
-                 alt="Meme: Quem é tu na fila do pão? Sócrates: escreve aí — Conhece a ti mesmo"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <div class="meme-fallback" style="display:none">
-              <div class="meme-quote">"Quem é tu na fila do pão?"</div>
-              <div class="meme-author">— um curioso qualquer</div>
-              <div class="meme-bottom">Sócrates: ESCREVE AÍ — "CONHECE A TI MESMO"</div>
-            </div>
-            <div class="meme-caption">
-              ⚱️ <strong>Filosofia de bolso pro programador:</strong>
-              antes de querer dominar a linguagem, conheça <strong>como você aprende</strong>.
-            </div>
-          </div>
-
-        </aside>
-
+        <div class="banner-caption" style="margin-top:14px">
+          <span class="zoom-hint">🔍 clique na imagem pra ampliar</span>
+        </div>
+        <div class="banner-caption">
+          <strong>"Explicar é minha superpoder!"</strong> ·
+          Mix perfeito: 40% professor · 35% programador · 15% curioso · 10% cafédependente ☕
+        </div>
       </div>
+
+      <!-- BIO EM TEXTO -->
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:14px">
+        Olá! Sou o <strong style="color:var(--text)">Kelson Almeida</strong> — apaixonado por ensinar e
+        por construir software que resolve problemas reais. Faz tempo que ando nessa estrada,
+        e cada turma me ensina algo novo. Aqui vai um <em>sumarinho</em>:
+      </p>
+
+      <ul class="about-bullets">
+        <li>
+          <div>
+            <strong>"Profissional" de TI desde de … sempre?</strong>
+            Comecei essa jornada como <em>"Dev"</em> de páginas HTML no
+            <strong>Dreamweaver</strong>, <strong>Frontpage</strong>,
+            <strong>Bloco de Notas</strong> e <strong>PHP</strong> 🦣
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Mestre em Informática</strong> pela
+            <strong>Universidade Federal da Paraíba (UFPB)</strong>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Bacharel em Sistemas de Informação</strong> também pela
+            <strong>UFPB</strong>
+          </div>
+        </li>
+        <li>
+          <div>
+            Participei de <strong>Projetos de Pesquisa</strong> na
+            <strong>University of New Brunswick</strong> 🇨🇦 — Canadá
+          </div>
+        </li>
+        <li>
+          <div>
+            Atualmente <strong>Desenvolvedor Sênior</strong> na
+            <strong>NTT Data Europe &amp; Latam</strong> alocado no <strong>Itaú</strong> 🏦
+          </div>
+        </li>
+        <li>
+          <div>
+            Empresário na <strong>Programa AI</strong> 🚀 — onde transformamos
+            <strong>ideias em soluções</strong> com tecnologia de propósito
+          </div>
+        </li>
+      </ul>
+
+      <div class="tip" style="margin-top:18px">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Programar não é talento — é prática.</strong> Eu mesmo errei (e ainda erro)
+          um caminhão de coisas. O que mudou foi <strong>continuar tentando</strong>.
+          Esse bootcamp é o que eu queria ter tido quando comecei.
+        </div>
+      </div>
+
+      <div class="warning" style="margin-top:14px">
+        <span class="warning-icon">❤️</span>
+        <div class="warning-content">
+          <strong>No final do dia:</strong> código é sobre <strong>pessoas</strong>.
+          E pessoas transformam o mundo. Aprender &gt; Ensinar &gt; Inspirar.
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -322,6 +319,29 @@
   <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
 </footer>
 
+<!-- LIGHTBOX — clique na imagem do prof pra ampliar -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()" aria-label="Fechar">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <script src="../shared/scripts.js" defer></script>
+<script>
+function openLightbox(src){
+  const lb  = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  img.src = src;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
 </body>
 </html>
