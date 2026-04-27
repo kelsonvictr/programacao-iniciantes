@@ -75,6 +75,26 @@
   from{stroke-dashoffset:1000}
   to  {stroke-dashoffset:0}
 }
+@keyframes shimmerSweep{
+  0%       {left:-120%}
+  60%,100% {left:140%}
+}
+@keyframes logoFloat{
+  0%,100%{transform:translateY(0)}
+  50%    {transform:translateY(-6px)}
+}
+@keyframes logoMarquee{
+  from{transform:translateX(0)}
+  to  {transform:translateX(-50%)}
+}
+@keyframes logoCardFadeIn{
+  from{opacity:0;transform:translateY(20px) scale(0.92)}
+  to  {opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes haloPulse{
+  0%,100%{opacity:0.35;transform:scale(1)}
+  50%    {opacity:0.7; transform:scale(1.08)}
+}
 
 /* Auto-flow: cycles a "active" state through the boxes when the
    .flow-container.autoplay scopes its children */

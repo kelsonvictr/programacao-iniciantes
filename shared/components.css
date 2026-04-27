@@ -811,3 +811,217 @@ pre{
 
 /* Stagger for chips */
 .companies-row .company-chip{animation-delay:calc(var(--i,0) * 30ms)}
+
+/* =========================================================
+   LOGO WALL — parede de logos das empresas (com brilho e movimento)
+   ========================================================= */
+
+/* ---- Marquee infinito (faixa de honra no topo) ---- */
+.logo-marquee{
+  position:relative;
+  margin:6px 0 28px;
+  padding:18px 0;
+  overflow:hidden;
+  border-radius:18px;
+  background:
+    radial-gradient(800px 120px at 50% 50%, rgba(108,99,255,0.10), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.06);
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.logo-marquee-track{
+  display:flex;
+  gap:42px;
+  align-items:center;
+  width:max-content;
+  animation:logoMarquee 38s linear infinite;
+  will-change:transform;
+}
+.logo-marquee:hover .logo-marquee-track{animation-play-state:paused}
+.logo-marquee-item{
+  flex:0 0 auto;
+  height:54px;
+  display:flex;align-items:center;justify-content:center;
+  padding:8px 18px;
+  background:linear-gradient(135deg, #ffffff 0%, #f4f6ff 100%);
+  border-radius:12px;
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
+  transition:transform 0.4s cubic-bezier(.2,.9,.3,1.3), box-shadow 0.3s;
+}
+.logo-marquee-item:hover{
+  transform:translateY(-4px) scale(1.06);
+  box-shadow:
+    0 14px 32px rgba(108,99,255,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.8);
+}
+.logo-marquee-item img{
+  height:100%;
+  width:auto;
+  max-width:160px;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.18));
+}
+
+/* ---- Grid de logo-cards (organizado em grupos) ---- */
+.logo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+  gap:14px;
+  margin:14px 0 6px;
+}
+
+.logo-card{
+  position:relative;
+  isolation:isolate;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding:22px 14px 16px;
+  height:140px;
+  background:linear-gradient(135deg, #ffffff 0%, #f1f4ff 70%, #e9edff 100%);
+  border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:18px;
+  overflow:hidden;
+  cursor:default;
+  opacity:0;
+  animation:
+    logoCardFadeIn 0.7s cubic-bezier(.2,.9,.3,1.3) forwards,
+    logoFloat 5s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 60ms), calc(var(--i, 0) * 60ms + 0.7s);
+  transition:
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    filter 0.35s ease;
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.30),
+    inset 0 0 0 1px rgba(255,255,255,0.45);
+}
+
+/* Halo colorido por trás (brilho pulsante) */
+.logo-card::after{
+  content:'';
+  position:absolute;
+  inset:-2px;
+  border-radius:inherit;
+  background:radial-gradient(120% 120% at 50% 0%, var(--brand, #6c63ff) 0%, transparent 60%);
+  opacity:0;
+  z-index:-1;
+  transition:opacity 0.4s ease;
+}
+.logo-card:hover::after{
+  opacity:0.55;
+  animation:haloPulse 2.2s ease-in-out infinite;
+}
+
+/* Shimmer (faixa de luz que cruza) */
+.logo-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:-120%;
+  width:55%;height:100%;
+  background:linear-gradient(110deg,
+    transparent 20%,
+    rgba(255,255,255,0.85) 50%,
+    transparent 80%);
+  transform:skewX(-22deg);
+  pointer-events:none;
+  animation:shimmerSweep 4.5s ease-in-out infinite;
+  animation-delay:calc(var(--i, 0) * 180ms);
+  mix-blend-mode:screen;
+}
+
+.logo-card:hover{
+  animation-play-state:running, paused; /* pausa o float, mantém o fade já completo */
+  transform:translateY(-10px) scale(1.06) !important;
+  border-color:var(--brand, #6c63ff);
+  box-shadow:
+    0 22px 50px rgba(0,0,0,0.45),
+    0 0 32px var(--brand-glow, rgba(108,99,255,0.55)),
+    inset 0 0 0 1px rgba(255,255,255,0.6);
+  filter:saturate(1.15);
+}
+
+.logo-card img{
+  max-height:62px;
+  max-width:90%;
+  object-fit:contain;
+  transition:transform 0.5s cubic-bezier(.2,.9,.3,1.3);
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,0.20));
+}
+.logo-card:hover img{
+  transform:scale(1.10) rotate(-2deg);
+}
+
+.logo-card .logo-name{
+  font-size:0.72rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1.1px;
+  color:#1f2247;
+  text-align:center;
+  line-height:1.2;
+  opacity:0.85;
+}
+
+/* ---- Tile texto (fallback p/ marcas sem arquivo de logo) ---- */
+.logo-card.logo-text{
+  background:linear-gradient(135deg, #1a1a2e 0%, #222240 100%);
+  border-color:rgba(255,255,255,0.10);
+}
+.logo-card.logo-text::before{
+  background:linear-gradient(110deg,
+    transparent 20%,
+    rgba(108,99,255,0.30) 50%,
+    transparent 80%);
+  mix-blend-mode:normal;
+}
+.logo-card.logo-text .logo-text-mark{
+  font-family:'JetBrains Mono', monospace;
+  font-weight:900;
+  font-size:1.55rem;
+  line-height:1;
+  color:transparent;
+  background:linear-gradient(135deg, var(--brand, var(--accent)) 0%, var(--accent6) 100%);
+  -webkit-background-clip:text;
+          background-clip:text;
+  letter-spacing:-0.5px;
+}
+.logo-card.logo-text .logo-name{
+  color:var(--text-dim);
+  opacity:1;
+}
+
+/* ---- Cores de marca por chip (CSS vars que alimentam glow/halo) ---- */
+.logo-card.b-itau     { --brand:#ec7014; --brand-glow:rgba(236,112,20,0.55); }
+.logo-card.b-ntt      { --brand:#0054a6; --brand-glow:rgba(0,84,166,0.55);   }
+.logo-card.b-db1      { --brand:#4eb2e0; --brand-glow:rgba(78,178,224,0.55); }
+.logo-card.b-stefanini{ --brand:#00a650; --brand-glow:rgba(0,166,80,0.55);   }
+.logo-card.b-creditas { --brand:#ff6200; --brand-glow:rgba(255,98,0,0.55);   }
+.logo-card.b-abinbev  { --brand:#d4a017; --brand-glow:rgba(212,160,23,0.55); }
+.logo-card.b-motorola { --brand:#0080b0; --brand-glow:rgba(0,128,176,0.55);  }
+.logo-card.b-brk      { --brand:#009ade; --brand-glow:rgba(0,154,222,0.55);  }
+.logo-card.b-linx     { --brand:#00b14f; --brand-glow:rgba(0,177,79,0.55);   }
+.logo-card.b-ducz     { --brand:#00b14f; --brand-glow:rgba(0,177,79,0.55);   }
+.logo-card.b-snet     { --brand:#9aa0a6; --brand-glow:rgba(154,160,166,0.55);}
+.logo-card.b-prodesp  { --brand:#ff8000; --brand-glow:rgba(255,128,0,0.55);  }
+.logo-card.b-spgov    { --brand:#d62a31; --brand-glow:rgba(214,42,49,0.55);  }
+.logo-card.b-sti      { --brand:#0052a5; --brand-glow:rgba(0,82,165,0.55);   }
+.logo-card.b-ufpb     { --brand:#006534; --brand-glow:rgba(0,101,52,0.55);   }
+.logo-card.b-ci-ufpb  { --brand:#0a8043; --brand-glow:rgba(10,128,67,0.55);  }
+.logo-card.b-lavid    { --brand:#dc3545; --brand-glow:rgba(220,53,69,0.55);  }
+.logo-card.b-ifpb     { --brand:#009a50; --brand-glow:rgba(0,154,80,0.55);   }
+.logo-card.b-uniesp   { --brand:#004396; --brand-glow:rgba(0,67,150,0.55);   }
+.logo-card.b-unb-ca   { --brand:#d81e31; --brand-glow:rgba(216,30,49,0.55);  }
+.logo-card.b-cic      { --brand:#0b4f9e; --brand-glow:rgba(11,79,158,0.55);  }
+.logo-card.b-programa { --brand:#a78bfa; --brand-glow:rgba(167,139,250,0.55);}
+.logo-card.b-profkv   { --brand:#6c63ff; --brand-glow:rgba(108,99,255,0.55); }
+
+/* ---- Mobile: encurta o card e reduz logo ---- */
+@media (max-width: 600px){
+  .logo-grid{grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:10px}
+  .logo-card{height:120px;padding:16px 10px 12px}
+  .logo-card img{max-height:46px}
+  .logo-marquee-item{height:42px;padding:6px 14px}
+  .logo-marquee-item img{max-width:120px}
+}
