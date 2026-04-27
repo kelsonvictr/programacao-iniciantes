@@ -92,6 +92,9 @@
     <a class="sidebar-link" onclick="goTo('bora-codar-11')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 1.1</a>
     <a class="sidebar-link" onclick="goTo('bora-codar-12')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.2</a>
     <a class="sidebar-link" onclick="goTo('bora-codar-13')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.3</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-14')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.4</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-15')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.5</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-16')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.6</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
   </div>
@@ -1222,6 +1225,292 @@ idade            = <span class="num">2026</span> - ano_nascimento
               uma <em>string</em> (texto). E texto não dá pra subtrair! Tipo isso aqui dá erro:
               <code>"2002" - 2026</code>. Convertendo com <code>int()</code>, você diz pro Python:
               <em>"vai, vira número que eu preciso fazer conta"</em>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11.1 DESAFIO 1.4 — mensagem_dupla.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-14">
+    <div class="step-header">
+      <div class="step-number sn-purple">1.4</div>
+      <div>
+        <div class="step-title">Desafio Individual — mensagem_dupla.py</div>
+        <div class="step-sub">Fez o 1.3? Bora reforçar com mais um 💪</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · mensagem_dupla.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>mensagem_dupla.py</code>. Vamos juntar
+          <strong>três informações</strong> numa mensagem só:
+        </p>
+        <p>
+          Peça com <code>input()</code>: <strong>seu nome</strong>, o
+          <strong>nome de um amigo(a)</strong>, e a <strong>cidade</strong> de vocês.
+        </p>
+        <p>
+          No final, mostre uma frase tipo:
+          <em>"Olá! Eu sou [nome], meu amigo(a) é [amigo] e somos lá de [cidade]."</em>
+        </p>
+        <p>
+          Mesma ideia do <strong>boas_vindas.py</strong> (1.2), só que com
+          <strong>três variáveis</strong> na mesma f-string. Você consegue!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Lembrando: cada <code>{ }</code>
+          dentro da f-string vira o conteúdo de uma variável.
+          <strong>Espiar antes de tentar = aprendizado pela metade.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">mensagem_dupla.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="cm"># pega os três dados</span>
+nome   = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)
+amigo  = <span class="bi">input</span>(<span class="st">"Nome do(a) amigo(a): "</span>)
+cidade = <span class="bi">input</span>(<span class="st">"Cidade de vocês: "</span>)
+
+<span class="bi">print</span>(<span class="st">f"Olá! Eu sou {nome}, meu amigo(a) é {amigo} e somos lá de {cidade}."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · mensagem_dupla.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Seu nome: </span><span class="typed" data-text="Lucas"></span><br>
+              <span class="out">Nome do(a) amigo(a): </span><span class="typed" data-text="Bia"></span><br>
+              <span class="out">Cidade de vocês: </span><span class="typed" data-text="João Pessoa"></span><br>
+              <span class="typed" data-text="Olá! Eu sou Lucas, meu amigo(a) é Bia e somos lá de João Pessoa."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Variação:</strong> tente trocar a frase por
+              <em>"E aí, [amigo]? O [nome] mandou um salve de [cidade]!"</em>.
+              Mesma ideia, ordem diferente — a f-string aceita as variáveis na ordem que você quiser.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11.2 DESAFIO 1.5 — dias_de_vida.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-15">
+    <div class="step-header">
+      <div class="step-number sn-purple">1.5</div>
+      <div>
+        <div class="step-title">Desafio Individual — dias_de_vida.py</div>
+        <div class="step-sub">Fez o 1.4? Bora pra mais uma conta 🧮</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · dias_de_vida.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>dias_de_vida.py</code>. Peça a <strong>idade</strong> do usuário e
+          mostre <strong>quantos dias ele já viveu</strong> (aproximadamente).
+        </p>
+        <p>
+          Lembra do <strong>1.3 (calculo_idade.py)</strong>? A pegadinha é a mesma:
+          <code>input()</code> devolve texto. Pra fazer conta com a idade, precisa
+          converter com <code>int()</code>.
+        </p>
+        <p>
+          Fórmula simples: <code>dias = idade * 365</code>. Depois mostre algo como
+          <em>"Você já viveu cerca de [dias] dias!"</em>
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Se aparecer um erro, leia com calma —
+          o Python costuma dizer EXATAMENTE qual linha tá com problema.
+          Errar uma vez ensina mais que acertar de primeira.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">dias_de_vida.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="cm"># pega a idade e CONVERTE pra inteiro</span>
+idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantos anos você tem? "</span>))
+dias  = idade * <span class="num">365</span>
+
+<span class="bi">print</span>(<span class="st">f"Você já viveu cerca de {dias} dias!"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · dias_de_vida.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Quantos anos você tem? </span><span class="typed" data-text="20"></span><br>
+              <span class="typed" data-text="Você já viveu cerca de 7300 dias!"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🧮</span>
+            <div class="tip-content">
+              <strong>Bônus:</strong> mostre também as horas! É só multiplicar dias por 24:
+              <code>horas = dias * 24</code>. Vai te impressionar quantas horas
+              você já passou neste planeta. ⏰
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11.3 DESAFIO 1.6 — conversor_metros.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-16">
+    <div class="step-header">
+      <div class="step-number sn-purple">1.6</div>
+      <div>
+        <div class="step-title">Desafio Individual — conversor_metros.py</div>
+        <div class="step-sub">Fez o 1.5? Esse é o último — fechamento com chave de ouro 🏆</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · conversor_metros.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>conversor_metros.py</code>. Peça um valor em <strong>metros</strong>
+          e mostre <strong>duas conversões</strong>:
+        </p>
+        <ul style="margin:6px 0 6px 20px;color:var(--text-dim)">
+          <li>em <strong>centímetros</strong> (× 100)</li>
+          <li>em <strong>milímetros</strong> (× 1000)</li>
+        </ul>
+        <p>
+          Lembre de usar <code>int()</code> pra converter o input em número antes de fazer conta.
+          Você pode usar <strong>dois <code>print()</code></strong> diferentes (um pra cada conversão)
+          ou um só com várias coisas separadas por <code>,</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o desafio mais
+          "matemático" do capítulo — e o mais útil. Calculadora portátil!
+          Tenta um caminho, se travar, tenta outro. <em>Só não espia ainda.</em>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">conversor_metros.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="cm"># pega o valor em metros</span>
+metros = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantos metros? "</span>))
+cm     = metros * <span class="num">100</span>
+mm     = metros * <span class="num">1000</span>
+
+<span class="bi">print</span>(<span class="st">f"{metros} metros = {cm} cm = {mm} mm"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · conversor_metros.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Quantos metros? </span><span class="typed" data-text="5"></span><br>
+              <span class="typed" data-text="5 metros = 500 cm = 5000 mm"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Mandou bem!</strong> Você acabou de criar sua primeira <em>"calculadora"</em>
+              em Python. Toda a base do capítulo está aí: <code>input</code>, <code>int</code>,
+              <em>conta</em> e <code>print</code> com f-string. <strong>Você já é um programador iniciante.</strong> 🎉
             </div>
           </div>
         </div>

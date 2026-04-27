@@ -99,6 +99,9 @@
     <a class="sidebar-link" onclick="goTo('fstrings')"><span class="dot" style="background:var(--accent5)"></span>F-strings</a>
     <a class="sidebar-link" onclick="goTo('bora-codar-20')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 2.0</a>
     <a class="sidebar-link" onclick="goTo('desafio-apresentacao')"><span class="dot" style="background:var(--accent6)"></span>Desafio apresentacao.py</a>
+    <a class="sidebar-link" onclick="goTo('desafio-media')"><span class="dot" style="background:var(--accent6)"></span>Desafio media_notas.py</a>
+    <a class="sidebar-link" onclick="goTo('desafio-temperatura')"><span class="dot" style="background:var(--accent6)"></span>Desafio temperatura.py</a>
+    <a class="sidebar-link" onclick="goTo('desafio-receita')"><span class="dot" style="background:var(--accent6)"></span>Desafio receita.py</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
   </div>
@@ -977,6 +980,291 @@ hobby = <span class="bi">input</span>(<span class="st">"Seu hobby favorito: "</s
               <strong>Variação criativa:</strong> tente trocar a frase pra usar
               <code>{idade + 1}</code> e mostrar quantos anos a pessoa terá ano que vem.
               Ou some <code>idade + 10</code> e fala que daqui 10 anos ela vai estar uma fera no Python!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10.1 DESAFIO — media_notas.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-media">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Desafio Individual — media_notas.py</div>
+        <div class="step-sub">Fez o apresentacao.py? Bora pra mais um 💪</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · media_notas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>media_notas.py</code>. Peça <strong>duas notas</strong>
+          ao usuário (números com decimal, tipo <em>7.5</em>) e mostre a <strong>média</strong>.
+        </p>
+        <p>
+          🎯 Pegadinha: como nota tem <strong>vírgula</strong> (ex.: 7.5), você não pode usar
+          <code>int()</code> dessa vez — precisa usar <code>float()</code>.
+          A fórmula é simples: <code>media = (n1 + n2) / 2</code>.
+        </p>
+        <p>
+          Mostre algo como: <em>"A média de 7.5 e 8.0 é 7.75."</em>
+          (use f-string, igualzinho aos exercícios do cap 01).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Lembre: <code>float()</code>
+          aceita <code>"7.5"</code>, mas <code>int()</code> dá erro. Se você esquecer e
+          o programa quebrar — ótimo! É assim que a gente aprende.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">media_notas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># pega as duas notas (com float pra aceitar vírgula!)</span>
+n1    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Primeira nota: "</span>))
+n2    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Segunda nota: "</span>))
+media = (n1 + n2) / <span class="num">2</span>
+
+<span class="bi">print</span>(<span class="st">f"A média de {n1} e {n2} é {media}."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · media_notas.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Primeira nota: </span><span class="typed" data-text="7.5"></span><br>
+              <span class="out">Segunda nota: </span><span class="typed" data-text="8.0"></span><br>
+              <span class="typed" data-text="A média de 7.5 e 8.0 é 7.75."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Limpa essa média!</strong> Tente formatar com <code>{media:.2f}</code>
+              pra mostrar só 2 casas decimais. Aí <em>7.75</em> continua <em>7.75</em>,
+              mas <em>8.333333...</em> vira <em>8.33</em> — bem mais elegante.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10.2 DESAFIO — temperatura.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-temperatura">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Desafio Individual — temperatura.py</div>
+        <div class="step-sub">Fez a média? Conversor de Celsius pra Fahrenheit 🌡️</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · temperatura.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>temperatura.py</code>. Peça uma temperatura em
+          <strong>Celsius</strong> (ex.: 25.0) e mostre o equivalente em
+          <strong>Fahrenheit</strong>.
+        </p>
+        <p>
+          Fórmula: <code>F = C * 1.8 + 32</code>. Use <code>float()</code> de novo,
+          já que temperatura geralmente tem decimal.
+        </p>
+        <p>
+          Resultado tipo: <em>"25.0°C equivalem a 77.0°F."</em>
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Atenção à
+          <strong>ordem das operações</strong> em Python: a multiplicação acontece
+          antes da soma, então <code>C * 1.8 + 32</code> funciona certinho —
+          não precisa de parênteses.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">temperatura.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="cm"># pega a temperatura em Celsius</span>
+celsius    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Temperatura em Celsius: "</span>))
+fahrenheit = celsius * <span class="num">1.8</span> + <span class="num">32</span>
+
+<span class="bi">print</span>(<span class="st">f"{celsius}°C equivalem a {fahrenheit}°F."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · temperatura.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Temperatura em Celsius: </span><span class="typed" data-text="25"></span><br>
+              <span class="typed" data-text="25.0°C equivalem a 77.0°F."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🌡️</span>
+            <div class="tip-content">
+              <strong>Curiosidade:</strong> 0°C (água congela) = 32°F. E 100°C
+              (água ferve) = 212°F. Roda o seu programa com esses dois valores e veja
+              se bate!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10.3 DESAFIO — receita.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-receita">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Desafio Individual — receita.py</div>
+        <div class="step-sub">Fez os dois anteriores? Bora pra um caso real: caixa de loja 💰</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · receita.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>receita.py</code>. Imagine que você é o <strong>caixa de uma loja</strong>.
+          Peça o <strong>preço unitário</strong> de um produto e a
+          <strong>quantidade</strong> que o cliente comprou. Mostre o
+          <strong>total a pagar</strong> formatado com 2 casas decimais.
+        </p>
+        <p>
+          Tipos diferentes! Preço usa <code>float()</code> (tem vírgula),
+          quantidade usa <code>int()</code> (sempre inteiro — ninguém compra meia camisa).
+        </p>
+        <p>
+          Use <code>{total:.2f}</code> na f-string pra ficar bonito tipo
+          <em>"Total: R$ 89.70"</em> em vez de <em>R$ 89.7</em>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o exercício mais
+          "vida real" do capítulo — esse mesmo cálculo roda em milhares de e-commerces
+          do Brasil. Bora resolver por conta. <em>Olhinho só depois.</em>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">receita.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># preço com decimal · quantidade sempre inteira</span>
+preco      = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Preço unitário (R$): "</span>))
+quantidade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantidade: "</span>))
+total      = preco * quantidade
+
+<span class="bi">print</span>(<span class="st">f"Total: R$ {total:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · receita.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Preço unitário (R$): </span><span class="typed" data-text="29.90"></span><br>
+              <span class="out">Quantidade: </span><span class="typed" data-text="3"></span><br>
+              <span class="typed" data-text="Total: R$ 89.70"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Olha o que você fez!</strong> Acabou de escrever a essência de
+              um <em>checkout de e-commerce</em>: receber valores, multiplicar, formatar.
+              Acrescente um <code>desconto</code> ou um <code>frete</code> pra brincar mais —
+              é só somar/subtrair antes do <code>print</code>. 🛒
             </div>
           </div>
         </div>
