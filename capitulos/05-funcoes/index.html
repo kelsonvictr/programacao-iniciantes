@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 05 — Funções | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ─────────────────────────────────────────────
+   Extras locais ao Capítulo 05 — Funções
+   ───────────────────────────────────────────── */
+
+/* Hero theme */
+.hero-badge.funcs{
+  background:linear-gradient(135deg,var(--accent7),var(--accent3));
+  color:#0a0a12;
+}
+
+/* "Repetição cansa" — antes vs depois */
+.repeat-pain{
+  background:linear-gradient(135deg,rgba(255,107,107,0.08),rgba(255,71,87,0.04));
+  border:1px solid rgba(255,107,107,0.20);
+  border-radius:16px;padding:18px;margin:16px 0;
+}
+.repeat-pain h4{color:var(--accent2);margin-bottom:8px;font-size:0.95rem}
+.repeat-pain pre{font-size:0.78rem;line-height:1.7;background:transparent;padding:0}
+.repeat-relief{
+  background:linear-gradient(135deg,rgba(6,214,160,0.08),rgba(78,205,196,0.04));
+  border:1px solid rgba(6,214,160,0.22);
+  border-radius:16px;padding:18px;margin:16px 0;
+}
+.repeat-relief h4{color:var(--accent7);margin-bottom:8px;font-size:0.95rem}
+
+/* ─────────────────────────────────────────────
+   Função-Máquina (WOW visual)
+   ───────────────────────────────────────────── */
+.machine{
+  background:linear-gradient(135deg,rgba(6,214,160,0.06),rgba(78,205,196,0.04));
+  border:1px solid rgba(6,214,160,0.20);
+  border-radius:20px;
+  padding:30px 22px;margin:24px 0;
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:14px;align-items:center;
+  position:relative;overflow:hidden;
+}
+@media(max-width:680px){
+  .machine{grid-template-columns:1fr;gap:18px}
+  .machine .arrow-h{transform:rotate(90deg)}
+}
+.machine::before{
+  content:'';position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(6,214,160,0.08),transparent 70%);
+  pointer-events:none;
+}
+.machine-side{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;position:relative;z-index:1;
+}
+.machine-label{
+  font-family:'Caveat',cursive;font-size:1.4rem;font-weight:700;
+  margin-bottom:6px;
+}
+.machine-label.in{color:var(--accent4)}
+.machine-label.out{color:var(--accent5)}
+.machine-pill{
+  background:var(--surface2);
+  border:2px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:12px 18px;
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:0.92rem;min-width:120px;
+  position:relative;
+  transition:all 0.3s;
+}
+.machine-pill.in{border-color:var(--accent4);color:var(--accent4)}
+.machine-pill.out{border-color:var(--accent5);color:var(--accent5)}
+.machine-pill.pulse{animation:pillPulse 3s ease-in-out infinite}
+@keyframes pillPulse{
+  0%,100%{box-shadow:0 0 0 rgba(0,0,0,0)}
+  50%    {box-shadow:0 0 24px rgba(6,214,160,0.30);transform:scale(1.06)}
+}
+.arrow-h{
+  display:flex;align-items:center;gap:4px;
+  color:var(--accent7);font-weight:900;font-size:1.3rem;
+  position:relative;z-index:1;
+}
+.arrow-h .line{
+  width:38px;height:2px;background:linear-gradient(90deg,var(--accent4),var(--accent7));
+  border-radius:2px;
+}
+.arrow-h .line.out{background:linear-gradient(90deg,var(--accent7),var(--accent5))}
+.arrow-h .head{font-size:1rem;line-height:1}
+
+.machine-box{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,rgba(6,214,160,0.18),rgba(78,205,196,0.10));
+  border:2px solid var(--accent7);
+  border-radius:18px;padding:20px 24px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(6,214,160,0.18);
+  min-width:170px;
+  animation:machineHum 4s ease-in-out infinite;
+}
+@keyframes machineHum{
+  0%,100%{box-shadow:0 0 25px rgba(6,214,160,0.18)}
+  50%    {box-shadow:0 0 50px rgba(6,214,160,0.35)}
+}
+.machine-box .gear{
+  font-size:2.2rem;display:block;margin-bottom:4px;
+  animation:gearSpin 6s linear infinite;
+}
+@keyframes gearSpin{
+  from{transform:rotate(0)}
+  to  {transform:rotate(360deg)}
+}
+.machine-box .name{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:800;color:var(--text);font-size:0.95rem;
+}
+.machine-box .role{
+  font-size:0.7rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:1.5px;
+  margin-top:4px;font-weight:800;
+}
+
+/* ─────────────────────────────────────────────
+   Reaproveitamento — 3 chamadas
+   ───────────────────────────────────────────── */
+.reuse-grid{
+  display:grid;gap:12px;margin:18px 0;
+}
+.reuse-row{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;gap:14px;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:14px 18px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88rem;
+  opacity:0.5;
+  transition:all 0.4s;
+}
+.reuse-row.active{
+  opacity:1;
+  border-color:var(--accent7);
+  background:rgba(6,214,160,0.06);
+  transform:scale(1.02);
+  box-shadow:0 0 24px rgba(6,214,160,0.18);
+}
+.reuse-row .call{color:var(--accent4);font-weight:700}
+.reuse-row .out {color:var(--accent5);font-weight:700}
+.reuse-row .ar  {color:var(--text-dim);font-size:1.1rem}
+@media(max-width:560px){
+  .reuse-row{grid-template-columns:1fr;text-align:center;gap:6px}
+  .reuse-row .ar{transform:rotate(90deg)}
+}
+
+/* ─────────────────────────────────────────────
+   Anatomia da função (anotações)
+   ───────────────────────────────────────────── */
+.anatomy{
+  background:var(--code-bg);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:24px 18px;margin:18px 0;
+  font-family:'JetBrains Mono',monospace;
+  position:relative;
+}
+.anatomy .line{
+  font-size:0.95rem;line-height:1.85;color:#c9d1d9;
+}
+.anatomy .annot{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:10px;margin-top:18px;
+  font-family:'Nunito',sans-serif;
+}
+.anatomy .annot .a-card{
+  background:var(--surface2);
+  border-left:3px solid var(--accent7);
+  border-radius:10px;padding:10px 14px;
+  font-size:0.82rem;color:var(--text-dim);
+}
+.anatomy .annot .a-card strong{color:var(--accent7);font-family:'JetBrains Mono',monospace}
+.anatomy .annot .a-card.b1{border-left-color:var(--accent6)}
+.anatomy .annot .a-card.b1 strong{color:var(--accent6)}
+.anatomy .annot .a-card.b2{border-left-color:var(--accent5)}
+.anatomy .annot .a-card.b2 strong{color:var(--accent5)}
+.anatomy .annot .a-card.b3{border-left-color:var(--accent4)}
+.anatomy .annot .a-card.b3 strong{color:var(--accent4)}
+
+/* Evolução: antes vs depois */
+.evolution{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin:18px 0;
+}
+@media(max-width:680px){.evolution{grid-template-columns:1fr}}
+.evo-side{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px;
+  position:relative;
+}
+.evo-side.before{border-left:4px solid var(--accent2)}
+.evo-side.after {border-left:4px solid var(--accent7)}
+.evo-tag{
+  position:absolute;top:-10px;left:14px;
+  padding:2px 10px;border-radius:6px;
+  font-size:0.7rem;font-weight:900;letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.evo-side.before .evo-tag{background:var(--accent2);color:#0a0a12}
+.evo-side.after  .evo-tag{background:var(--accent7);color:#0a0a12}
+.evo-side h5{margin:8px 0 8px;color:var(--text);font-size:0.92rem}
+
+/* Coffee machine analogy */
+.coffee-card{
+  background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(78,205,196,0.04));
+  border:1px solid rgba(167,139,250,0.18);
+  border-radius:16px;padding:22px;margin:18px 0;
+  display:flex;gap:18px;align-items:center;
+}
+.coffee-card .ic{font-size:3rem;flex-shrink:0;animation:bounce 2.4s ease-in-out infinite}
+.coffee-card .text{color:var(--text-dim);font-size:0.94rem}
+.coffee-card .text strong{color:var(--text)}
+@media(max-width:520px){.coffee-card{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🟢 Capítulo 05</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('por-que-funcoes')"><span class="dot" style="background:var(--accent7)"></span>Por que funções?</a>
+    <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz de aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('def')"><span class="dot" style="background:var(--accent3)"></span>def — criando funções</a>
+    <a class="sidebar-link" onclick="goTo('maquina')"><span class="dot" style="background:var(--accent7)"></span>Função = máquina 🛠️</a>
+    <a class="sidebar-link" onclick="goTo('parametros')"><span class="dot" style="background:var(--accent4)"></span>Parâmetros</a>
+    <a class="sidebar-link" onclick="goTo('reaproveitar')"><span class="dot" style="background:var(--accent6)"></span>Reaproveitando</a>
+    <a class="sidebar-link" onclick="goTo('exercicio-soma')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar — soma</a>
+    <a class="sidebar-link" onclick="goTo('exercicio-saudacao')"><span class="dot" style="background:var(--accent6)"></span>Desafio — saudação</a>
+    <a class="sidebar-link" onclick="goTo('return')"><span class="dot" style="background:var(--accent5)"></span>return</a>
+    <a class="sidebar-link" onclick="goTo('quiz-meio')"><span class="dot" style="background:var(--accent5)"></span>Quiz return</a>
+    <a class="sidebar-link" onclick="goTo('sistema-notas')"><span class="dot" style="background:var(--accent4)"></span>Sistema de Notas</a>
+    <a class="sidebar-link" onclick="goTo('sistema-notas-func')"><span class="dot" style="background:var(--accent6)"></span>Sistema de Notas (refatorado)</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('ranking')"><span class="dot" style="background:var(--accent6)"></span>Mini Projeto — Ranking 🎓</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🛠️ ⚙️ ✨</div>
+  <span class="hero-badge funcs">Capítulo 05 · Bootcamp Programa AI</span>
+  <h1>Funções</h1>
+  <p class="subtitle">
+    Lembra quando você tinha que <strong>copiar e colar o mesmo código</strong> várias vezes?
+    Hoje a gente acaba com isso. Você vai aprender a <strong>empacotar pedaços de código</strong>
+    e reutilizar quantas vezes quiser. Bora?
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">🛠️ def</span>
+    <span class="stack-chip">📥 parâmetros</span>
+    <span class="stack-chip">📤 return</span>
+    <span class="stack-chip">🎓 zip + sorted</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. POR QUE FUNÇÕES?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="por-que-funcoes">
+    <div class="step-header">
+      <div class="step-number sn-mint">🎯</div>
+      <div>
+        <div class="step-title">Por que funções?</div>
+        <div class="step-sub">A regra de ouro: não repita você mesmo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Imagina que você quer <strong>cumprimentar três pessoas</strong> diferentes no seu programa.
+        Sem função, você acabaria fazendo isso aqui:
+      </p>
+
+      <div class="repeat-pain">
+        <h4>😫 Repetindo igual papagaio…</h4>
+        <pre><span class="bi">print</span>(<span class="st">"Olá, Ana! Bem-vinda ao Programa AI 🐍"</span>)
+<span class="bi">print</span>(<span class="st">"Olá, João! Bem-vindo ao Programa AI 🐍"</span>)
+<span class="bi">print</span>(<span class="st">"Olá, Davi! Bem-vindo ao Programa AI 🐍"</span>)</pre>
+      </div>
+
+      <p>
+        Olha quanto código duplicado! Se um dia o curso mudar de nome,
+        você teria que <strong>editar três linhas</strong>. Se forem <em>cem</em> alunos…
+        já viu, né?
+      </p>
+
+      <div class="repeat-relief">
+        <h4>😎 Com função, escreve UMA vez e usa quantas quiser</h4>
+        <pre><span class="kw">def</span> <span class="fn">saudacao</span>(<span class="var">nome</span>):
+    <span class="bi">print</span>(<span class="st">f"Olá, {nome}! Bem-vindo ao Programa AI 🐍"</span>)
+
+<span class="fn">saudacao</span>(<span class="st">"Ana"</span>)
+<span class="fn">saudacao</span>(<span class="st">"João"</span>)
+<span class="fn">saudacao</span>(<span class="st">"Davi"</span>)</pre>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Função é tipo uma receita de bolo escrita</div>
+        <p>
+          Você escreve a receita <strong>uma vez</strong>. Depois, sempre que quiser bolo,
+          é só <strong>seguir a receita</strong> — não precisa inventar tudo do zero.
+          Função em Python é exatamente isso: um <strong>pedaço de código com nome</strong>,
+          guardado, esperando você chamar.
+        </p>
+      </div>
+
+      <div class="coffee-card">
+        <span class="ic">☕</span>
+        <div class="text">
+          Pensa numa <strong>máquina de café</strong>: você aperta o botão e sai café.
+          Você <em>não</em> precisa explicar pra máquina como moer o grão, ferver a água, passar o pó —
+          ela sabe. <strong>Função é a mesma ideia:</strong> você "aperta o botão" (chama a função),
+          ela faz o trabalho.
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Filosofia:</strong> programador bom é <em>preguiçoso de qualidade</em> —
+          não copia código, cria função. Menos código pra escrever, menos lugares pra dar bug.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. QUIZ AQUECIMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-aquecimento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Aquecimento rápido</div>
+        <div class="step-sub">Marca a tua aposta antes</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> Pra que serve uma função?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Decorar o código com cores diferentes</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) Empacotar um pedaço de código pra reutilizar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) Fazer o computador funcionar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Substituir o input()</button>
+        </div>
+        <div class="quiz-feedback" data-explain="exatamente! Função é código com nome, que você pode chamar várias vezes sem repetir."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. DEF — CRIANDO FUNÇÕES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="def">
+    <div class="step-header">
+      <div class="step-number sn-green">🛠️</div>
+      <div>
+        <div class="step-title">def — criando uma função</div>
+        <div class="step-sub">A palavrinha mágica</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Pra criar uma função em Python, a gente usa a palavra-chave
+        <code>def</code> (de <em>define</em>, "definir"). Olha que simples:
+      </p>
+
+      <div class="anatomy">
+        <div class="line"><span class="kw">def</span> <span class="fn">saudacao</span>():</div>
+        <div class="line">    <span class="bi">print</span>(<span class="st">"Olá! Bem-vindo ao Programa AI 🐍"</span>)</div>
+
+        <div class="annot">
+          <div class="a-card"><strong>def</strong> palavra-chave que abre uma função</div>
+          <div class="a-card b1"><strong>saudacao</strong> nome que VOCÊ escolhe (sem espaço, sem acento)</div>
+          <div class="a-card b2"><strong>()</strong> parênteses obrigatórios (mesmo vazios!)</div>
+          <div class="a-card b3"><strong>:</strong> dois pontos no fim — abre o "bloco" da função</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">📐</span>
+        <div class="warning-content">
+          O que vier <strong>indentado</strong> (com 4 espaços) faz parte da função.
+          Quando você "desindenta", saiu da função. Igualzinho ao <code>if</code> e ao <code>for</code> que a gente já viu.
+        </div>
+      </div>
+
+      <p style="margin-top:14px">
+        Mas atenção: <strong>definir</strong> a função NÃO faz nada acontecer ainda!
+        É como escrever a receita do bolo — o bolo ainda não existe.
+        Pra ela rodar, a gente precisa <strong>chamar</strong>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">primeira_funcao.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># 1) DEFINIÇÃO — só ensina o Python o que é "saudacao"</span>
+<span class="kw">def</span> <span class="fn">saudacao</span>():
+    <span class="bi">print</span>(<span class="st">"Olá! Bem-vindo ao Programa AI 🐍"</span>)
+
+<span class="cm"># 2) CHAMADA — agora SIM ela executa</span>
+<span class="fn">saudacao</span>()</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · primeira_funcao.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python primeira_funcao.py</span><br>
+          <span class="typed" data-text="Olá! Bem-vindo ao Programa AI 🐍"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          <strong>Resumindo:</strong> <code>def</code> = ensinar a função.
+          <code>saudacao()</code> = mandar ela rodar. Os parênteses no fim são <em>essenciais</em> —
+          sem eles, você só "aponta" pra função, não chama.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. FUNÇÃO COMO MÁQUINA — VISUAL WOW
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="maquina">
+    <div class="step-header">
+      <div class="step-number sn-mint">🛠️</div>
+      <div>
+        <div class="step-title">Função é uma máquina</div>
+        <div class="step-sub">Entra um valor, sai um valor</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Esse é o jeito <strong>mais útil</strong> de pensar em função: como uma maquininha.
+        Você joga uma coisa <strong>na entrada</strong>, ela processa, e devolve algo <strong>na saída</strong>:
+      </p>
+
+      <div class="machine">
+        <div class="machine-side">
+          <div class="machine-label in">entrada (parâmetro)</div>
+          <div class="machine-pill in pulse">"Ana"</div>
+        </div>
+
+        <div class="arrow-h">
+          <div class="line"></div>
+          <span class="head">▶</span>
+        </div>
+
+        <div class="machine-box">
+          <span class="gear">⚙️</span>
+          <div class="name">saudacao()</div>
+          <div class="role">a função</div>
+        </div>
+
+        <div class="arrow-h" style="grid-column:auto">
+          <div class="line out"></div>
+          <span class="head">▶</span>
+        </div>
+
+        <div class="machine-side">
+          <div class="machine-label out">saída (return)</div>
+          <div class="machine-pill out pulse">"Olá, Ana!"</div>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Tipo um liquidificador 🥤</div>
+        <p>
+          Você joga <strong>frutas</strong> dentro (entrada), aperta o botão e sai
+          <strong>vitamina</strong> (saída). Cada vez que você troca a fruta,
+          sai uma vitamina diferente — mas o liquidificador é o mesmo.
+        </p>
+        <p>
+          Função em Python = mesma ideia. <strong>Mesmo código, entradas diferentes, resultados diferentes.</strong>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          Toda vez que você ver uma função, pensa: <strong>"o que entra, o que processa, o que sai"</strong>.
+          É a chave pra entender qualquer função do Python — desde <code>print()</code> até as suas.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. PARÂMETROS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="parametros">
+    <div class="step-header">
+      <div class="step-number sn-blue">📥</div>
+      <div>
+        <div class="step-title">Parâmetros — dando entrada pra função</div>
+        <div class="step-sub">A função fica configurável</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Até agora nossa função sempre fala <em>"Olá! Bem-vindo…"</em> genérico.
+        Que tal personalizar pra cada pessoa? Pra isso, a gente coloca um
+        <strong>parâmetro</strong> entre os parênteses:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">saudacao_param.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">def</span> <span class="fn">saudacao</span>(<span class="var">nome</span>):
+    <span class="bi">print</span>(<span class="st">f"Olá, {nome}! Bem-vindo ao Programa AI 🐍"</span>)
+
+<span class="fn">saudacao</span>(<span class="st">"Ana"</span>)
+<span class="fn">saudacao</span>(<span class="st">"João"</span>)</pre>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📥 parâmetro vs 📦 argumento</div>
+        <p>
+          <strong>Parâmetro</strong> é o nome que aparece na <strong>definição</strong>
+          (entre os parênteses do <code>def</code>). É tipo um <em>espaço reservado</em>:
+          "aqui vai vir um nome".
+        </p>
+        <p>
+          <strong>Argumento</strong> é o valor real que você passa quando <strong>chama</strong>:
+          <code>saudacao("Ana")</code> — "Ana" é o argumento.
+        </p>
+        <p>
+          Tranquilo se misturar os dois nomes, todo mundo faz isso 😅.
+        </p>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🎯</span>
+        <div class="warning-content">
+          Você pode ter <strong>quantos parâmetros quiser</strong>, separados por vírgula:
+          <code>def soma(a, b):</code> recebe dois números.
+          <code>def cadastro(nome, idade, curso):</code> recebe três coisas.
+          Só não esquece de passar o mesmo número de argumentos quando for chamar!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. REAPROVEITANDO — animação de 3 chamadas
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="reaproveitar">
+    <div class="step-header">
+      <div class="step-number sn-purple">♻️</div>
+      <div>
+        <div class="step-title">Reaproveitando — chama quantas vezes quiser</div>
+        <div class="step-sub">Mesmo código, entradas diferentes</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Olha como a mesma função, chamada <strong>três vezes</strong> com argumentos diferentes,
+        produz três resultados diferentes — sem você reescrever nada:
+      </p>
+
+      <div class="reuse-grid" id="reuseGrid">
+        <div class="reuse-row">
+          <span class="call">saudacao("Ana")</span>
+          <span class="ar">▶</span>
+          <span class="out">"Olá, Ana! Bem-vindo ao Programa AI 🐍"</span>
+        </div>
+        <div class="reuse-row">
+          <span class="call">saudacao("João")</span>
+          <span class="ar">▶</span>
+          <span class="out">"Olá, João! Bem-vindo ao Programa AI 🐍"</span>
+        </div>
+        <div class="reuse-row">
+          <span class="call">saudacao("Davi")</span>
+          <span class="ar">▶</span>
+          <span class="out">"Olá, Davi! Bem-vindo ao Programa AI 🐍"</span>
+        </div>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · saudacao_param.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Olá, Ana! Bem-vindo ao Programa AI 🐍"></span><br>
+          <span class="typed" data-text="Olá, João! Bem-vindo ao Programa AI 🐍"></span><br>
+          <span class="typed" data-text="Olá, Davi! Bem-vindo ao Programa AI 🐍"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">😌</span>
+        <div class="tip-content">
+          <strong>Sente o alívio?</strong> A receita foi escrita uma vez.
+          Cada "chamada" é só apertar o botão de novo, com fruta diferente no liquidificador.
+          <em>Esse é o superpoder das funções.</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">💻</span>
+    <span class="chapter-number">Hora de Codar — Parte 1</span>
+    <h2 class="grad-funcs">Bora criar nossas funções!</h2>
+    <p class="chapter-subtitle">
+      Dois exercícios curtinhos antes de aprender o <strong>return</strong>.
+      O primeiro a gente faz junto. O segundo… olhinho 👀.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. EXERCÍCIO GUIADO — func_soma.py
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exercicio-soma">
+    <div class="step-header">
+      <div class="step-number sn-blue">5.0</div>
+      <div>
+        <div class="step-title">Bora Codar! — Função de soma</div>
+        <div class="step-sub">Junto com o professor · func_soma.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado</div>
+          <div class="exercise-sub">Vamos fazer juntos · func_soma.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Vamos criar uma função que <strong>recebe dois números</strong> e <strong>imprime a soma</strong>.
+        Passo a passo:
+      </p>
+
+      <div style="display:grid;gap:8px;margin:14px 0">
+        <div class="tip">
+          <span class="tip-icon">1️⃣</span>
+          <div class="tip-content">Crie o arquivo <code>func_soma.py</code> no PyCharm.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">2️⃣</span>
+          <div class="tip-content">Defina a função com <strong>dois parâmetros</strong>: <code>a</code> e <code>b</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">3️⃣</span>
+          <div class="tip-content">Dentro dela, dê um <code>print()</code> mostrando o resultado de <code>a + b</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">4️⃣</span>
+          <div class="tip-content">Chame ela <strong>duas vezes</strong> com pares diferentes pra testar.</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">func_soma.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">def</span> <span class="fn">soma</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="bi">print</span>(<span class="st">f"{a} + {b} = {a + b}"</span>)
+
+<span class="fn">soma</span>(<span class="num">2</span>, <span class="num">3</span>)
+<span class="fn">soma</span>(<span class="num">10</span>, <span class="num">7</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · func_soma.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="2 + 3 = 5"></span><br>
+          <span class="typed" data-text="10 + 7 = 17"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🚀</span>
+        <div class="tip-content">
+          <strong>Sacou?</strong> A função <code>soma</code> existe pra sempre. Pode chamar mil vezes,
+          com mil pares — não precisa reescrever a continha.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. DESAFIO SOLO — func_saudacao.py
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exercicio-saudacao">
+    <div class="step-header">
+      <div class="step-number sn-purple">5.1</div>
+      <div>
+        <div class="step-title">Desafio Individual — saudação personalizada</div>
+        <div class="step-sub">Agora é com você · func_saudacao.py</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · func_saudacao.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>func_saudacao.py</code>. Defina uma função chamada
+          <code>saudar</code> que recebe <strong>dois parâmetros</strong>: <code>nome</code> e <code>curso</code>.
+        </p>
+        <p>
+          Dentro dela, use <code>print()</code> com <strong>f-string</strong> mostrando algo como
+          <em>"Olá, [nome]! Bom estudo no curso de [curso] 🚀"</em>.
+        </p>
+        <p>
+          Depois chame ela <strong>três vezes</strong> com pessoas/cursos diferentes.
+          Lembra do exercício da soma? É a mesma estrutura — só muda o que tem dentro!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Errar com função é completamente normal —
+          esquecer dois pontos, esquecer parêntese… <strong>todo mundo passa por isso!</strong>
+          Tenta antes de espiar 👀.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">func_saudacao.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">def</span> <span class="fn">saudar</span>(<span class="var">nome</span>, <span class="var">curso</span>):
+    <span class="bi">print</span>(<span class="st">f"Olá, {nome}! Bom estudo no curso de {curso} 🚀"</span>)
+
+<span class="fn">saudar</span>(<span class="st">"Ana"</span>, <span class="st">"Python"</span>)
+<span class="fn">saudar</span>(<span class="st">"João"</span>, <span class="st">"JavaScript"</span>)
+<span class="fn">saudar</span>(<span class="st">"Davi"</span>, <span class="st">"Lógica de Programação"</span>)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> Os <em>parâmetros</em> entram na ordem em que você
+              definiu. <code>saudar("Ana", "Python")</code> → <code>nome="Ana"</code>, <code>curso="Python"</code>.
+              Trocar a ordem na chamada vira bagunça!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. RETURN — função devolve valor
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="return">
+    <div class="step-header">
+      <div class="step-number sn-yellow">📤</div>
+      <div>
+        <div class="step-title">return — quando a função devolve um valor</div>
+        <div class="step-sub">A saída da máquina</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Até agora nossas funções só <strong>mostravam</strong> coisas com <code>print()</code>.
+        Mas e se a gente quiser <strong>guardar</strong> o resultado da função pra usar depois?
+        Pra isso existe o <code>return</code>:
+      </p>
+
+      <div class="evolution">
+        <div class="evo-side before">
+          <span class="evo-tag">Antes</span>
+          <h5>Só imprime — não dá pra reaproveitar</h5>
+          <div class="code-block with-lines" style="margin:0">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_print.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="kw">def</span> <span class="fn">soma</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="bi">print</span>(<span class="var">a</span> + <span class="var">b</span>)
+
+<span class="fn">soma</span>(<span class="num">2</span>, <span class="num">3</span>)  <span class="cm"># mostra 5 e acabou</span></pre>
+          </div>
+        </div>
+
+        <div class="evo-side after">
+          <span class="evo-tag">Depois</span>
+          <h5>Devolve o valor — você guarda numa variável!</h5>
+          <div class="code-block with-lines" style="margin:0">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_return.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">def</span> <span class="fn">soma</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span>
+
+<span class="var">resultado</span> = <span class="fn">soma</span>(<span class="num">2</span>, <span class="num">3</span>)
+<span class="bi">print</span>(<span class="var">resultado</span> * <span class="num">10</span>)  <span class="cm"># 50</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📤 return = "ó, devolvendo aqui pra você"</div>
+        <p>
+          Quando o Python encontra um <code>return</code>, ele <strong>sai da função</strong>
+          levando aquele valor pra fora. Quem chamou a função pode guardar esse valor numa variável
+          ou usar direto numa conta.
+        </p>
+        <p>
+          <strong>Diferença chave:</strong> <code>print()</code> só mostra na tela, ninguém pega o valor.
+          <code>return</code> entrega o valor de volta — você decide o que fazer com ele.
+        </p>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · soma_return.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="50"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          <strong>Mantra:</strong> "função sem <code>return</code> é igual telefone sem voz —
+          ela faz coisa, mas não te conta nada de volta". Quando você quiser <em>usar</em>
+          o resultado, use <code>return</code>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. QUIZ DO MEIO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-meio">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz rápido — return</div>
+        <div class="step-sub">Confere o que entendeu</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> Qual a diferença entre <code>print()</code> e <code>return</code>?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) São a mesma coisa, escritos diferente</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) print mostra na tela; return devolve o valor pra usar depois</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) return é mais rápido que print</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) print só funciona dentro de funções</button>
+        </div>
+        <div class="quiz-feedback" data-explain="é isso! print é pra HUMANO ver. return é pra OUTRO PEDAÇO DE CÓDIGO usar."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> O que acontece com <code>saudacao</code> sem os parênteses, em <code>saudacao</code>?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Roda a função normalmente</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">B) Dá erro de sintaxe</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">C) Não roda — você só "aponta" pra função, mas não chama</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Roda só metade do código</button>
+        </div>
+        <div class="quiz-feedback" data-explain="exato! Sem () o Python só vê o nome da função, mas não executa. Erro clássico do BugZilla 🐛"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. SISTEMA DE NOTAS (sem função) — guiado
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="sistema-notas">
+    <div class="step-header">
+      <div class="step-number sn-blue">5.2</div>
+      <div>
+        <div class="step-title">Bora Codar! — Sistema de Notas</div>
+        <div class="step-sub">Junto com o professor · sistema_notas.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado</div>
+          <div class="exercise-sub">Pega 3 notas, calcula média, diz se passou</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Vamos juntar tudo que a gente já viu (input, conversão, condicional, agora função!)
+        num sistema simples: o usuário digita 3 notas, a gente calcula a média e diz se passou.
+        <strong>Aprovado se média &ge; 7.</strong>
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">sistema_notas.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre><span class="cm"># pega as 3 notas (convertendo pra float, podem ter vírgula)</span>
+<span class="var">n1</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 1: "</span>))
+<span class="var">n2</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 2: "</span>))
+<span class="var">n3</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 3: "</span>))
+
+<span class="var">media</span> = (<span class="var">n1</span> + <span class="var">n2</span> + <span class="var">n3</span>) / <span class="num">3</span>
+
+<span class="kw">if</span> <span class="var">media</span> &gt;= <span class="num">7</span>:
+    <span class="bi">print</span>(<span class="st">f"Média {media:.1f} — APROVADO ✅"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"Média {media:.1f} — REPROVADO ❌"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · sistema_notas.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Nota 1: </span><span class="typed" data-text="8"></span><br>
+          <span class="out">Nota 2: </span><span class="typed" data-text="6"></span><br>
+          <span class="out">Nota 3: </span><span class="typed" data-text="9"></span><br>
+          <span class="typed" data-text="Média 7.7 — APROVADO ✅"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🤔</span>
+        <div class="warning-content">
+          <strong>Beleza, funciona.</strong> Mas e se eu quiser calcular a média de
+          <em>outro</em> aluno? Tem que copiar tudo de novo? E se forem 50 alunos? 😱
+          <br><br>
+          <em>Pois é. É aí que entra a função!</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. SISTEMA DE NOTAS REFATORADO — solo
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="sistema-notas-func">
+    <div class="step-header">
+      <div class="step-number sn-purple">5.3</div>
+      <div>
+        <div class="step-title">Desafio Individual — Sistema de Notas com função</div>
+        <div class="step-sub">Refatorando · sistema_notas_func.py</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Refatorando com função</div>
+          <div class="exercise-sub">Faça sozinho · sistema_notas_func.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Bora <strong>refatorar</strong> (deixar mais inteligente) o exercício anterior.
+          Crie <code>sistema_notas_func.py</code>. Defina uma função <code>resultado_aluno</code>
+          que recebe <strong>3 parâmetros</strong> (<code>n1</code>, <code>n2</code>, <code>n3</code>).
+        </p>
+        <p>
+          Dentro dela: calcula a média e <strong>retorna</strong> uma frase pronta tipo
+          <em>"Média 7.7 — APROVADO ✅"</em> ou <em>"Média 4.2 — REPROVADO ❌"</em>.
+        </p>
+        <p>
+          Depois, fora da função, peça as 3 notas com <code>input()</code>, chame a função e
+          imprima o que ela retornou. <strong>Bônus:</strong> chame a função 2 ou 3 vezes
+          com notas diferentes — repare como agora ficou fácil!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o exercício do "olhar de novo
+          o exercício de cima" — copia mentalmente, ajusta. Você consegue!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">sistema_notas_func.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+<pre><span class="kw">def</span> <span class="fn">resultado_aluno</span>(<span class="var">n1</span>, <span class="var">n2</span>, <span class="var">n3</span>):
+    <span class="var">media</span> = (<span class="var">n1</span> + <span class="var">n2</span> + <span class="var">n3</span>) / <span class="num">3</span>
+    <span class="kw">if</span> <span class="var">media</span> &gt;= <span class="num">7</span>:
+        <span class="kw">return</span> <span class="st">f"Média {media:.1f} — APROVADO ✅"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="st">f"Média {media:.1f} — REPROVADO ❌"</span>
+
+<span class="cm"># pega as notas do usuário</span>
+<span class="var">n1</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 1: "</span>))
+<span class="var">n2</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 2: "</span>))
+<span class="var">n3</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 3: "</span>))
+
+<span class="cm"># chama a função e mostra o que ela retornou</span>
+<span class="bi">print</span>(<span class="fn">resultado_aluno</span>(<span class="var">n1</span>, <span class="var">n2</span>, <span class="var">n3</span>))</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎉</span>
+            <div class="tip-content">
+              <strong>Olha a evolução!</strong> Agora a "lógica do aluno" está
+              empacotada em uma função. Pra calcular outro aluno, é só chamar de novo:
+              <code>print(resultado_aluno(5, 4, 6))</code>. <em>Esse é o poder da reutilização.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. BUGZILLA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu — erros clássicos com função</div>
+        <div class="step-sub">Os 3 mais comuns que TODO MUNDO comete</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">"Minha função não rodou! / Deu erro!"</div>
+          <div class="bugzilla-sub">Calma, o BugZilla tá explicando — vamos pegar ele</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p>
+          Função é onde o iniciante mais escorrega. Mas todo erro é o mesmo padrão: você
+          está chamando errado, ou esqueceu um detalhe. Olha os clássicos 👇
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>1. Esquecer os parênteses ao chamar 🎯</h3>
+      <div class="evolution">
+        <div class="evo-side before">
+          <span class="evo-tag">Errado</span>
+          <h5>O Python só "aponta" — não executa</h5>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">bug_1.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre><span class="kw">def</span> <span class="fn">saudacao</span>():
+    <span class="bi">print</span>(<span class="st">"Olá!"</span>)
+
+<span class="fn">saudacao</span>   <span class="cm"># ❌ sem ()</span></pre>
+          </div>
+          <p style="font-size:0.84rem;color:var(--text-dim);margin-top:8px">
+            <strong>Resultado:</strong> nada aparece. O programa termina silencioso.
+          </p>
+        </div>
+        <div class="evo-side after">
+          <span class="evo-tag">Correto</span>
+          <h5>Com () você manda rodar</h5>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">fix_1.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre><span class="kw">def</span> <span class="fn">saudacao</span>():
+    <span class="bi">print</span>(<span class="st">"Olá!"</span>)
+
+<span class="fn">saudacao</span>()  <span class="cm"># ✅ com ()</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px">2. Esquecer os dois pontos no <code>def</code> 🎯</h3>
+      <div class="evolution">
+        <div class="evo-side before">
+          <span class="evo-tag">Errado</span>
+          <h5>SyntaxError instantâneo</h5>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">bug_2.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre><span class="kw">def</span> <span class="fn">saudacao</span>(<span class="var">nome</span>)   <span class="cm"># ❌ faltou :</span>
+    <span class="bi">print</span>(<span class="var">nome</span>)</pre>
+          </div>
+        </div>
+        <div class="evo-side after">
+          <span class="evo-tag">Correto</span>
+          <h5>Sempre dois-pontinhos no fim do def!</h5>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">fix_2.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre><span class="kw">def</span> <span class="fn">saudacao</span>(<span class="var">nome</span>):  <span class="cm"># ✅</span>
+    <span class="bi">print</span>(<span class="var">nome</span>)</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px">3. Variável que existe SÓ dentro da função 🎯</h3>
+      <div class="bug-box">
+        <span class="bug-icon">🐛</span>
+        <div class="bug-content">
+          <strong>O caso clássico:</strong> você cria uma variável <em>dentro</em> da função
+          e tenta usar fora. Não rola.
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">bug_escopo.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">def</span> <span class="fn">calcular</span>():
+    <span class="var">resultado</span> = <span class="num">42</span>   <span class="cm"># existe SÓ dentro daqui</span>
+
+<span class="fn">calcular</span>()
+<span class="bi">print</span>(<span class="var">resultado</span>)  <span class="cm"># ❌ NameError: name 'resultado' is not defined</span></pre>
+      </div>
+
+      <div class="tip" style="margin-top:14px">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Solução simples:</strong> use <code>return</code>! A função devolve o valor
+          e você guarda numa variável fora:
+          <code>resultado = calcular()</code>. Sem mistério.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🎓</span>
+    <span class="chapter-number">Mini Projeto Final</span>
+    <h2 class="grad-funcs">Ranking de Alunos</h2>
+    <p class="chapter-subtitle">
+      Hora de juntar tudo: função, lista, loop e duas <strong>novas armas</strong> —
+      <code>zip()</code> e <code>sorted()</code>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       14. MINI PROJETO — RANKING ALUNOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="ranking">
+    <div class="step-header">
+      <div class="step-number sn-purple">5.4</div>
+      <div>
+        <div class="step-title">Mini Projeto — Ranking de Alunos 🎓</div>
+        <div class="step-sub">Climax do capítulo · ranking_alunos.py</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Imagina que você tem <strong>uma lista de nomes</strong> e <strong>uma lista de notas</strong>,
+        e quer mostrar do <strong>maior</strong> pro <strong>menor</strong>. A gente vai usar duas
+        ferramentinhas novas (entry-level, juro):
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🤝 zip() — junta duas listas em pares</div>
+        <p>
+          <code>zip(["Ana","João"], [9, 6])</code> &rarr; <code>[("Ana",9), ("João",6)]</code>.
+          É tipo um zíper de calça: pega o primeiro de cada lado e une.
+        </p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📊 sorted() — ordena qualquer coisa</div>
+        <p>
+          <code>sorted([3, 1, 2])</code> &rarr; <code>[1, 2, 3]</code>.
+          Pra ordenar do maior pro menor, passa <code>reverse=True</code>.
+        </p>
+        <p>
+          E pra ordenar pares pela <strong>segunda posição</strong> (a nota), a gente usa
+          <code>key=lambda x: x[1]</code>. Não precisa entender a fundo agora —
+          é só uma "fórmula pronta" pra essa situação.
+        </p>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Mini Projeto Individual</div>
+          <div class="exercise-sub">Faça sozinho · ranking_alunos.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>ranking_alunos.py</code>. Faça assim:
+        </p>
+        <p>
+          <strong>1)</strong> Crie duas listas: <code>alunos = ["Ana","João","Davi","Lia"]</code>
+          e <code>notas = [9, 6, 7.5, 8]</code>.
+        </p>
+        <p>
+          <strong>2)</strong> Defina uma função <code>ranking(alunos, notas)</code> que:
+          junta com <code>zip()</code>, ordena com <code>sorted(..., key=lambda x: x[1], reverse=True)</code>,
+          e <code>return</code> a lista ordenada.
+        </p>
+        <p>
+          <strong>3)</strong> Fora da função, chame ela e use um <code>for</code> pra imprimir
+          cada aluno + nota com a posição (1º, 2º, 3º…).
+        </p>
+        <p>
+          Lembra do <code>for</code> com <code>enumerate</code>? <em>Não precisa</em> —
+          dá pra fazer com um contador simples também. Ou usa <code>enumerate</code>
+          pra ficar bonito 😉.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse é o boss final do capítulo.</strong> Erra à vontade.
+          Se travar muito, abre o olhinho — mas tenta primeiro!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">ranking_alunos.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
+<pre><span class="kw">def</span> <span class="fn">ranking</span>(<span class="var">alunos</span>, <span class="var">notas</span>):
+    <span class="cm"># 1) une os pares: [("Ana",9),("João",6),...]</span>
+    <span class="var">pares</span> = <span class="bi">list</span>(<span class="bi">zip</span>(<span class="var">alunos</span>, <span class="var">notas</span>))
+    <span class="cm"># 2) ordena pelo segundo item (a nota), do maior pro menor</span>
+    <span class="var">ordenado</span> = <span class="bi">sorted</span>(<span class="var">pares</span>, <span class="var">key</span>=<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span>[<span class="num">1</span>], <span class="var">reverse</span>=<span class="bool">True</span>)
+    <span class="kw">return</span> <span class="var">ordenado</span>
+
+<span class="var">alunos</span> = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>, <span class="st">"Lia"</span>]
+<span class="var">notas</span>  = [<span class="num">9</span>, <span class="num">6</span>, <span class="num">7.5</span>, <span class="num">8</span>]
+
+<span class="var">classificacao</span> = <span class="fn">ranking</span>(<span class="var">alunos</span>, <span class="var">notas</span>)
+
+<span class="bi">print</span>(<span class="st">"🏆 RANKING DE ALUNOS"</span>)
+<span class="kw">for</span> <span class="var">posicao</span>, (<span class="var">nome</span>, <span class="var">nota</span>) <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">classificacao</span>, <span class="var">start</span>=<span class="num">1</span>):
+    <span class="bi">print</span>(<span class="st">f"{posicao}º — {nome}: {nota}"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · ranking_alunos.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="typed" data-text="🏆 RANKING DE ALUNOS"></span><br>
+              <span class="typed" data-text="1º — Ana: 9"></span><br>
+              <span class="typed" data-text="2º — Lia: 8"></span><br>
+              <span class="typed" data-text="3º — Davi: 7.5"></span><br>
+              <span class="typed" data-text="4º — João: 6"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎓</span>
+            <div class="tip-content">
+              <strong>Você acabou de fazer um sistema de ranking de verdade.</strong>
+              Função, lista, loop, <code>zip</code>, <code>sorted</code> — tudo junto.
+              Dá um zoom mental nesse código. Você criou ele!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       15. RESUMO + PRÓXIMO CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 05</div>
+        <div class="step-sub">O que você acabou de aprender</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🛠️</span>
+          <span class="kw-name">def</span>
+          <span class="kw-desc">Cria uma função: <code>def nome():</code></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📥</span>
+          <span class="kw-name">parâmetros</span>
+          <span class="kw-desc">Entradas que a função recebe entre os parênteses</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📤</span>
+          <span class="kw-name">return</span>
+          <span class="kw-desc">Devolve um valor pra quem chamou</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">♻️</span>
+          <span class="kw-name">Reaproveitar</span>
+          <span class="kw-desc">Escreve uma vez, chama mil — DRY!</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⚙️</span>
+          <span class="kw-name">Função = máquina</span>
+          <span class="kw-desc">Entra, processa, sai</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🤝</span>
+          <span class="kw-name">zip()</span>
+          <span class="kw-desc">Junta duas listas em pares</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📊</span>
+          <span class="kw-name">sorted()</span>
+          <span class="kw-desc">Ordena listas (com <code>reverse=True</code>!)</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐛</span>
+          <span class="kw-name">BugZilla</span>
+          <span class="kw-desc">() esquecidos, : faltando, escopo de variável</span>
+        </div>
+      </div>
+
+      <div class="repeat-relief" style="margin-top:24px;text-align:center">
+        <h4 style="font-family:'Caveat',cursive;font-size:1.8rem;color:var(--accent7);margin-bottom:6px">
+          "Agora você não copia código — você cria função."
+        </h4>
+        <p style="color:var(--text-dim);font-size:0.95rem">
+          Esse é o jeito de programador profissional pensar 🚀
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(247,183,49,0.06),rgba(255,107,107,0.04));border-color:rgba(247,183,49,0.20)">
+      <h3 style="color:var(--accent5);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 06 — Desafios Integradores.</strong>
+        Cinco mini-sistemas pra você consolidar TUDO: variáveis, condicionais, loops, listas e funções.
+        Já tá pronto pra encarar?
+      </p>
+      <a href="../06-desafios/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent5),var(--accent2));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
+        🏆 Ir para Capítulo 06 →
+      </a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+<script>
+/* Animação de "reaproveitamento" — destaca uma chamada por vez em loop */
+(function(){
+  const grid = document.getElementById('reuseGrid');
+  if(!grid) return;
+  const rows = grid.querySelectorAll('.reuse-row');
+  if(!rows.length) return;
+  let i = 0;
+  function tick(){
+    rows.forEach(r => r.classList.remove('active'));
+    rows[i].classList.add('active');
+    i = (i + 1) % rows.length;
+  }
+  tick();
+  setInterval(tick, 1400);
+})();
+</script>
+</body>
+</html>

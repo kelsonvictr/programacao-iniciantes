@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 09 — TinyDB | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* extras locais ao capítulo 09 — TinyDB */
+
+/* db-table — visualizador de banco em formato tabela */
+.db-table{
+  background:var(--surface2);
+  border:1px solid rgba(247,183,49,0.20);
+  border-radius:14px;overflow:hidden;
+  margin:20px 0;
+}
+.db-table-header{
+  background:linear-gradient(90deg,rgba(247,183,49,0.10),rgba(78,205,196,0.06));
+  padding:10px 18px;
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  color:var(--accent5);font-weight:800;letter-spacing:1px;
+  border-bottom:1px solid rgba(247,183,49,0.15);
+}
+.db-table table{
+  width:100%;border-collapse:collapse;
+  font-family:'JetBrains Mono',monospace;font-size:0.86rem;
+}
+.db-table th, .db-table td{
+  padding:10px 14px;text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+}
+.db-table th{
+  background:rgba(255,255,255,0.03);
+  color:var(--text-dim);font-weight:800;font-size:0.74rem;
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+.db-table td{color:var(--text)}
+.db-table tr:last-child td{border-bottom:none}
+.db-table tr.row-new td{
+  background:rgba(78,205,196,0.07);
+  animation:rowAppear 0.6s ease;
+}
+.db-table tr.row-edit td{background:rgba(247,183,49,0.08)}
+.db-table tr.row-del  td{background:rgba(255,107,107,0.06);text-decoration:line-through;opacity:0.55}
+@keyframes rowAppear{
+  from{transform:translateY(-6px);opacity:0}
+  to  {transform:translateY(0);opacity:1}
+}
+
+/* CRUD badges */
+.crud-badge{
+  display:inline-block;font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;font-weight:900;letter-spacing:1.5px;
+  padding:3px 9px;border-radius:6px;
+}
+.crud-badge.create{background:rgba(6,214,160,0.15);color:var(--accent7)}
+.crud-badge.read  {background:rgba(69,183,209,0.15);color:var(--accent4)}
+.crud-badge.update{background:rgba(247,183,49,0.15);color:var(--accent5)}
+.crud-badge.delete{background:rgba(255,107,107,0.15);color:var(--accent2)}
+
+/* layered "stack" — RAM vs disco */
+.layer-stack{
+  display:flex;flex-direction:column;align-items:stretch;
+  gap:0;margin:20px 0;
+}
+.layer-item{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px 20px;
+  font-weight:800;text-align:center;
+  transition:all 0.3s;
+}
+.layer-item .layer-sub{
+  font-size:0.78rem;color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace;font-weight:600;
+  margin-top:4px;
+}
+.layer-python{background:rgba(55,118,171,0.10);border-color:rgba(55,118,171,0.25);color:var(--python-y)}
+.layer-tinydb{background:rgba(247,183,49,0.10);border-color:rgba(247,183,49,0.30);color:var(--accent5)}
+.layer-file  {background:rgba(78,205,196,0.08);border-color:rgba(78,205,196,0.25);color:var(--accent3)}
+.layer-ram   {background:rgba(255,107,107,0.08);border-color:rgba(255,107,107,0.25);color:var(--accent2)}
+.layer-arrow{
+  text-align:center;color:var(--text-dim);
+  font-family:'Caveat',cursive;font-size:1.05rem;
+  padding:6px 0;
+}
+
+/* CTA / próximo capítulo */
+.next-chapter{
+  text-align:center;
+  background:linear-gradient(135deg,rgba(255,75,75,0.07),rgba(247,183,49,0.05));
+  border:1px solid rgba(255,75,75,0.20);
+  border-radius:18px;padding:30px;margin-top:30px;
+}
+.next-chapter h3{color:var(--streamlit);margin-bottom:8px;font-size:1.3rem}
+.btn-next{
+  display:inline-block;padding:12px 28px;
+  background:linear-gradient(135deg,var(--streamlit),var(--accent5));
+  color:var(--bg);text-decoration:none;font-weight:900;
+  border-radius:50px;letter-spacing:1px;margin-top:12px;
+}
+
+/* JSON token colors locais */
+.json-key{color:#82aaff}
+.json-val{color:#c3e88d}
+.json-num{color:#f78c6c}
+
+/* checklist resumo */
+.summary-list{display:grid;gap:10px;margin:14px 0}
+.summary-list .item{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:10px;padding:12px 16px;font-size:0.95rem;color:var(--text-dim);
+}
+.summary-list .item strong{color:var(--text)}
+.summary-list .check{color:var(--accent3);font-weight:900}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>💾 Capítulo 09</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('ponte')"><span class="dot" style="background:var(--accent5)"></span>Do JSON pro TinyDB</a>
+    <a class="sidebar-link" onclick="goTo('o-problema')"><span class="dot" style="background:var(--accent2)"></span>O problema</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e')"><span class="dot" style="background:var(--tinydb)"></span>O que é TinyDB?</a>
+    <a class="sidebar-link" onclick="goTo('instalacao')"><span class="dot" style="background:var(--accent3)"></span>Instalação</a>
+    <a class="sidebar-link" onclick="goTo('insert')"><span class="dot" style="background:var(--accent7)"></span>Salvando dados</a>
+    <a class="sidebar-link" onclick="goTo('read')"><span class="dot" style="background:var(--accent4)"></span>Lendo dados</a>
+    <a class="sidebar-link" onclick="goTo('search')"><span class="dot" style="background:var(--accent6)"></span>Buscando dados</a>
+    <a class="sidebar-link" onclick="goTo('update')"><span class="dot" style="background:var(--accent5)"></span>Atualizando</a>
+    <a class="sidebar-link" onclick="goTo('remove')"><span class="dot" style="background:var(--accent2)"></span>Removendo</a>
+    <a class="sidebar-link" onclick="goTo('crud')"><span class="dot" style="background:var(--accent)"></span>Resumo CRUD</a>
+    <a class="sidebar-link" onclick="goTo('tabelas')"><span class="dot" style="background:var(--accent5)"></span>Tabelas</a>
+    <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--accent3)"></span>Demo Interativa</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio Prático</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">💾 🐍 ✨</div>
+  <span class="hero-badge">Capítulo 09 · Bootcamp Programa AI</span>
+  <h1 class="grad-tinydb" style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-image:linear-gradient(135deg,var(--tinydb),var(--accent3))">TinyDB — Banco de dados pra iniciante</h1>
+  <p class="subtitle">
+    JSON foi um SUPER passo, mas começa a complicar quando os dados crescem.
+    Vem aí o <strong>TinyDB</strong> — um banco de verdade dentro de um arquivinho.
+    Hoje você vai fazer <strong>CRUD completo</strong> em Python, sem SQL, sem servidor, sem stress.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip tinydb">💾 TinyDB</span>
+    <span class="stack-chip">🔍 Query</span>
+    <span class="stack-chip">📂 CRUD</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. PONTE — DO JSON PRO TINYDB
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="ponte">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🌉</div>
+      <div>
+        <div class="step-title">Do JSON pro TinyDB</div>
+        <div class="step-sub">A ponte do capítulo passado pra esse</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        No <strong>Capítulo 08</strong> você aprendeu a salvar dados em <code>.json</code> com
+        <code>json.dump()</code> e <code>json.load()</code>. Foi um marco — a partir dali seus dados
+        <strong>sobrevivem</strong> ao programa fechar.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🤔 Mas… e se eu quisesse mais?</div>
+        <p>
+          Pensa só: hoje, pra atualizar UM aluno no JSON, você precisa
+          <strong>ler o arquivo inteiro</strong>, <strong>modificar a lista</strong> e
+          <strong>regravar tudo</strong>. Pra <em>buscar</em> alguém, é um <code>for</code> na mão.
+          Funciona? Funciona. Mas dá pra fazer melhor.
+        </p>
+        <p>
+          E se a gente pudesse falar com o arquivo assim:
+          <em>"me dá quem se chama Ana"</em> ou
+          <em>"atualiza só a idade do João, deixa o resto em paz"</em>?
+          Esse é o trabalho de um <strong style="color:var(--accent5)">banco de dados</strong>.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Pensa numa caixa de fichas</div>
+        <p>
+          Com JSON, é como se você tivesse uma <strong>caixa fechada com elástico</strong>.
+          Pra mexer numa ficha, abre a caixa, tira tudo, mexe, guarda tudo de novo.
+        </p>
+        <p>
+          Com o TinyDB é como ter uma <strong>caixa com divisórias e etiquetas</strong>.
+          Você fala: "puxa a ficha da Ana" e ela vem. "Troca a idade dela", e só ela muda.
+          O resto fica intocado. 📂
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. O PROBLEMA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="o-problema">
+    <div class="step-header">
+      <div class="step-number sn-red">🤔</div>
+      <div>
+        <div class="step-title">O problema (real) com JSON na unha</div>
+        <div class="step-sub">Quando os dados crescem, a coisa complica</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Lembra do <code>sistema_cadastro_json.py</code> do capítulo passado? Ele fazia mais ou menos isso
+        toda vez que você atualizava ou removia alguém:
+      </p>
+
+      <div class="layer-stack">
+        <div class="layer-item layer-python">🐍 Programa Python<div class="layer-sub">precisa atualizar 1 aluno</div></div>
+        <div class="layer-arrow">↓ abre o arquivo todo ↓</div>
+        <div class="layer-item layer-ram">🧠 Carrega <strong>tudo</strong> na memória<div class="layer-sub">json.load(...)</div></div>
+        <div class="layer-arrow">↓ percorre a lista no for ↓</div>
+        <div class="layer-item layer-ram">🔄 Mexe na lista, junta de novo<div class="layer-sub">muito código pra pouca coisa</div></div>
+        <div class="layer-arrow">↓ regrava o arquivo TODO ↓</div>
+        <div class="layer-item layer-file">📄 alunos.json<div class="layer-sub">reescrito do zero pra mudar 1 idade 😬</div></div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Reparou?</strong> Pra mudar UMA idade, a gente reescreve o arquivo INTEIRO.
+          Se o arquivo tem 1.000 alunos, todos os 1.000 viram bytes novos no disco.
+          Funciona com 10, com 100… mas começa a ficar feio.
+        </div>
+      </div>
+
+      <p style="text-align:center;color:var(--accent5);font-family:'Caveat',cursive;font-size:1.4rem;margin-top:16px">
+        "É aí que entra um banco de dados de verdade. 🪄"
+      </p>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. O QUE É TINYDB?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="o-que-e">
+    <div class="step-header">
+      <div class="step-number sn-yellow">📦</div>
+      <div>
+        <div class="step-title">O que é TinyDB?</div>
+        <div class="step-sub">Um banco de dados que cabe num arquivinho</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="concept">
+        <div class="concept-title">💾 Tiny + Database = "banco minúsculo"</div>
+        <p>
+          O <strong>TinyDB</strong> é uma <strong>biblioteca Python</strong> (a gente instala com
+          <code>pip</code>) que oferece um banco de dados <strong>completo</strong> guardado num único
+          arquivo <code>.json</code>. Sem SQL, sem servidor, sem senha, sem porta.
+        </p>
+        <p>
+          O melhor: ele trabalha com o que você <strong>já sabe</strong> —
+          <strong>dicionários</strong> (cap 07) e <strong>listas</strong> (cap 04).
+          A API é praticamente <em>"escreve em português"</em>:
+          <code>db.insert(...)</code>, <code>db.all()</code>, <code>db.search(...)</code>.
+        </p>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Do caderno à gaveta com etiquetas</div>
+        <p>
+          A lista de dicionários do cap 07 era um <strong>caderno que rasgava</strong> ao fechar o programa.
+        </p>
+        <p>
+          O JSON do cap 08 é um <strong>caderno guardado na gaveta</strong> — mas pra mexer numa ficha,
+          tem que tirar tudo da gaveta, mexer e guardar tudo de novo.
+        </p>
+        <p>
+          O TinyDB é a <strong>gaveta com fichas etiquetadas</strong>. Você fala "fichas da turma de Python",
+          ele te entrega só essas. Você pede "atualiza idade da Ana", ele atualiza só ela. 📂
+        </p>
+      </div>
+
+      <div class="layer-stack">
+        <div class="layer-item layer-python">🐍 Seu programa Python<div class="layer-sub">db.insert({"nome": "Ana", "idade": 22})</div></div>
+        <div class="layer-arrow">↕️ TinyDB cuida de tudo</div>
+        <div class="layer-item layer-tinydb">💾 TinyDB<div class="layer-sub">salva, busca, atualiza, remove</div></div>
+        <div class="layer-arrow">↕️ por baixo dos panos: arquivo JSON</div>
+        <div class="layer-item layer-file">📄 alunos.json<div class="layer-sub">persistente — sobrevive ao programa fechar ✅</div></div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> O TinyDB é melhor que JSON puro porque…</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Ele usa SQL avançado</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, true)">B) Permite buscar/atualizar/remover registros sem reescrever o arquivo todo na mão</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) É um servidor de banco como o MySQL</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Não precisa instalar nada</button>
+        </div>
+        <div class="quiz-feedback" data-explain="por baixo ele ainda usa JSON, mas oferece uma API que faz CRUD por você. E sim — precisa instalar com pip!"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. INSTALAÇÃO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="instalacao">
+    <div class="step-header">
+      <div class="step-number sn-green">📦</div>
+      <div>
+        <div class="step-title">Instalação</div>
+        <div class="step-sub">Um comando e pronto</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        O TinyDB <strong>não vem com o Python</strong> — é uma biblioteca da comunidade.
+        Pra instalar, abra o <strong>Terminal</strong> do PyCharm e rode:
+      </p>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Terminal · pip install</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">$</span>
+          <span class="typed" data-text="pip install tinydb"></span><span class="cursor"></span><br>
+          <span class="out">Collecting tinydb...</span><br>
+          <span class="out">Successfully installed tinydb-4.8.0 ✅</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          O <code>pip</code> é o "loja de apps" do Python. Você pede uma biblioteca, ele baixa e
+          deixa pronta pra usar com <code>import</code>. <strong>Roda só uma vez por projeto</strong> —
+          depois o TinyDB já fica disponível.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🧪</span>
+        <div class="warning-content">
+          <strong>Confere se deu certo:</strong> abra um arquivo Python e digite
+          <code>from tinydb import TinyDB</code>. Se rodar sem erro, tá tudo certo.
+          Se aparecer <code>ModuleNotFoundError</code>, o pip não encontrou — instala de novo!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — HORA DE CRUD
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">📂</span>
+    <span class="chapter-number">Hora do CRUD</span>
+    <h2 class="grad-tinydb">As 4 operações que todo banco faz</h2>
+    <p class="chapter-subtitle">
+      <strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete.
+      Bora ver cada uma — uma linha por vez. Os 4 primeiros a gente faz junto.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. SALVANDO DADOS — INSERT (Bora Codar guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="insert">
+    <div class="step-header">
+      <div class="step-number sn-green">5️⃣</div>
+      <div>
+        <div class="step-title">Salvando dados — <code>db.insert()</code></div>
+        <div class="step-sub">CREATE · primeiro contato com o banco</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — primeiro_tinydb.py</div>
+          <div class="exercise-sub">Vamos fazer juntos · CREATE</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Crie o arquivo <code>primeiro_tinydb.py</code>, escreva esse código e rode:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">primeiro_tinydb.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+
+db.<span class="fn">insert</span>({<span class="st">"nome"</span>: <span class="st">"Ana"</span>,  <span class="st">"idade"</span>: <span class="num">22</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>})
+db.<span class="fn">insert</span>({<span class="st">"nome"</span>: <span class="st">"João"</span>, <span class="st">"idade"</span>: <span class="num">25</span>, <span class="st">"curso"</span>: <span class="st">"Java"</span>})
+
+<span class="bi">print</span>(<span class="st">"✅ Dados salvos com sucesso!"</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🤯</span>
+        <div class="tip-content">
+          <strong>Só isso!</strong> Sem <code>open()</code>, sem <code>json.dump()</code>, sem <code>with</code>.
+          Cada <code>db.insert()</code> recebe um <strong>dicionário</strong> — exatamente o que você já sabe usar.
+          O TinyDB salva no disco automaticamente.
+        </div>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · primeiro_tinydb.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python primeiro_tinydb.py</span><br>
+          <span class="typed" data-text="✅ Dados salvos com sucesso!"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🔍 O que aconteceu no arquivo? (clique pra ver)</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:10px">
+            O TinyDB criou automaticamente o arquivo <code>alunos.json</code> na mesma pasta do script.
+            Se você abrir, vai ver isso aqui:
+          </p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">alunos.json</span>
+              <span class="lang-badge json">JSON</span>
+            </div>
+<pre>{
+  <span class="json-key">"_default"</span>: {
+    <span class="json-key">"1"</span>: {<span class="json-key">"nome"</span>: <span class="json-val">"Ana"</span>,  <span class="json-key">"idade"</span>: <span class="json-num">22</span>, <span class="json-key">"curso"</span>: <span class="json-val">"Python"</span>},
+    <span class="json-key">"2"</span>: {<span class="json-key">"nome"</span>: <span class="json-val">"João"</span>, <span class="json-key">"idade"</span>: <span class="json-num">25</span>, <span class="json-key">"curso"</span>: <span class="json-val">"Java"</span>}
+  }
+}</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">📁</span>
+            <div class="tip-content">
+              <strong>Por baixo dos panos é JSON mesmo.</strong> Cada registro recebe um
+              <strong>id automático</strong> ("1", "2", …). A chave <code>"_default"</code> é o nome
+              da <strong>tabela padrão</strong> — a gente fala de tabelas mais pra frente!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. LENDO DADOS — db.all() (guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="read">
+    <div class="step-header">
+      <div class="step-number sn-blue">6️⃣</div>
+      <div>
+        <div class="step-title">Lendo dados — <code>db.all()</code></div>
+        <div class="step-sub">READ · trazer tudo do banco pra memória</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — ler_tinydb.py</div>
+          <div class="exercise-sub">Vamos fazer juntos · READ</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📂 .all() devolve uma lista de dicionários</div>
+        <p>
+          O <code>db.all()</code> traz <strong>todos os registros</strong> do banco —
+          já no formato que você conhece: uma <strong>lista</strong> em que cada item é um
+          <strong>dicionário</strong>. Dá pra percorrer com <code>for</code>, contar com <code>len()</code>,
+          tudo do que já vimos!
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">ler_tinydb.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+dados = db.<span class="fn">all</span>()
+
+<span class="bi">print</span>(<span class="st">"📂 Dados carregados:"</span>)
+<span class="kw">for</span> aluno <span class="kw">in</span> dados:
+    <span class="bi">print</span>(aluno)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · ler_tinydb.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python ler_tinydb.py</span><br>
+          <span class="typed" data-text="📂 Dados carregados:"></span><br>
+          <span class="out">{'nome': 'Ana', 'idade': 22, 'curso': 'Python'}</span><br>
+          <span class="out">{'nome': 'João', 'idade': 25, 'curso': 'Java'}</span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🧪 Teste o WOW da persistência!</div>
+        <p>
+          Rode <code>primeiro_tinydb.py</code> uma vez. Depois <strong>feche o terminal</strong>,
+          abra de novo, rode <code>ler_tinydb.py</code> — os dados <strong>continuam lá</strong>! 🎉
+          É essa a mágica de um banco de verdade.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. BUSCANDO — search() + Query (guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="search">
+    <div class="step-header">
+      <div class="step-number sn-purple">7️⃣</div>
+      <div>
+        <div class="step-title">Buscando dados — <code>db.search()</code> + <code>Query</code></div>
+        <div class="step-sub">READ filtrado · achar o que importa</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — buscar_tinydb.py</div>
+          <div class="exercise-sub">Vamos fazer juntos · SEARCH</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Pra buscar, importa também o <code>Query</code> — ele é o "interrogador" do banco.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">buscar_tinydb.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+resultado = db.<span class="fn">search</span>(q.nome == <span class="st">"Ana"</span>)
+<span class="bi">print</span>(resultado)
+<span class="cm"># [{'nome': 'Ana', 'idade': 22, 'curso': 'Python'}]</span></pre>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🔍 Lendo isso em português</div>
+        <p>
+          <code>q.nome == "Ana"</code> quer dizer:
+          <em>"o campo <strong>nome</strong> é igual a <strong>'Ana'</strong>"</em>.
+          E <code>db.search(...)</code> traz <strong>todos os registros</strong> que batem com essa condição,
+          numa lista. Se ninguém bater, vem uma lista vazia <code>[]</code>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Dá pra combinar condições:</strong> <code>(q.curso == "Python") &amp; (q.idade &gt;= 18)</code>
+          (use <code>&amp;</code> e <code>|</code>, não <code>and</code>/<code>or</code>, é uma pegadinha do TinyDB!).
+          Vamos brincar disso no desafio.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">📌</span>
+        <div class="warning-content">
+          <strong>Existe um atalho:</strong> <code>from tinydb import where</code> e
+          <code>db.search(where("nome") == "Ana")</code>. Faz o mesmo. Mas <code>Query()</code>
+          é o jeito moderno e flexível — vamos seguir com ele.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. ATUALIZANDO — update (guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="update">
+    <div class="step-header">
+      <div class="step-number sn-yellow">8️⃣</div>
+      <div>
+        <div class="step-title">Atualizando — <code>db.update()</code></div>
+        <div class="step-sub">UPDATE · mudar campos sem reescrever o resto</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — atualizar_tinydb.py</div>
+          <div class="exercise-sub">Vamos fazer juntos · UPDATE</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">atualizar_tinydb.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+db.<span class="fn">update</span>({<span class="st">"idade"</span>: <span class="num">23</span>}, q.nome == <span class="st">"Ana"</span>)
+<span class="bi">print</span>(<span class="st">"✅ Idade atualizada!"</span>)</pre>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Lendo em português</div>
+        <p>
+          <em>"No registro <strong>onde</strong> o nome é Ana,
+          <strong>muda</strong> a idade pra 23."</em>
+        </p>
+        <p>
+          Repara na ordem: <strong>primeiro</strong> o que mudar (dicionário com os campos novos),
+          <strong>depois</strong> onde mudar (a query). Os outros campos da Ana ficam intocados,
+          e os outros alunos não são afetados.
+        </p>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · atualizar_tinydb.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python atualizar_tinydb.py</span><br>
+          <span class="typed" data-text="✅ Idade atualizada!"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧪</span>
+        <div class="tip-content">
+          <strong>Quer comprovar?</strong> Roda em seguida o <code>ler_tinydb.py</code>. A Ana agora aparece com
+          idade 23, e o João continua com 25. Sem você ter mexido em mais nada!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. REMOVENDO — remove (guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="remove">
+    <div class="step-header">
+      <div class="step-number sn-red">9️⃣</div>
+      <div>
+        <div class="step-title">Removendo — <code>db.remove()</code></div>
+        <div class="step-sub">DELETE · com cuidado, viu?</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — remover_tinydb.py</div>
+          <div class="exercise-sub">Vamos fazer juntos · DELETE</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">remover_tinydb.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+db.<span class="fn">remove</span>(q.nome == <span class="st">"João"</span>)
+<span class="bi">print</span>(<span class="st">"✅ João removido do banco."</span>)</pre>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Cuidado!</strong> O <code>remove()</code> apaga <strong>permanentemente</strong> do disco.
+          Diferente de uma lista que volta sozinha quando você reinicia o programa,
+          aqui o dado <strong>foi mesmo</strong>. Se chamar <code>db.remove(q.curso == "Python")</code>,
+          some <strong>todo mundo</strong> que faz Python.
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🛡️</span>
+        <div class="tip-content">
+          <strong>Boa prática:</strong> antes de remover, faça um <code>db.search(...)</code> com a mesma query
+          pra <em>ver</em> o que vai ser apagado. Confere, e só então remove.
+          Em sistemas reais, sempre tem uma confirmação antes do delete!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. RESUMO CRUD
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="crud">
+    <div class="step-header">
+      <div class="step-number" style="background:var(--accent)">📋</div>
+      <div>
+        <div class="step-title">Resumo CRUD</div>
+        <div class="step-sub">As 4 operações fundamentais — todas numa página</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="concept">
+        <div class="concept-title">🧠 CRUD = Create / Read / Update / Delete</div>
+        <p>
+          É a sigla mágica de <strong>todo banco de dados do mundo</strong> — do TinyDB ao MySQL,
+          do MongoDB ao PostgreSQL. Quatro operações básicas. No TinyDB cada uma é uma linha:
+        </p>
+      </div>
+
+      <div class="db-table">
+        <div class="db-table-header">🐍 CRUD com TinyDB · cheat sheet</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Operação</th>
+              <th>Código TinyDB</th>
+              <th>O que faz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="crud-badge create">CREATE</span></td>
+              <td><code>db.insert({"nome": "Ana"})</code></td>
+              <td>Adiciona um novo registro</td>
+            </tr>
+            <tr>
+              <td><span class="crud-badge read">READ</span></td>
+              <td><code>db.all()</code> · <code>db.search(q.nome == "Ana")</code></td>
+              <td>Lista tudo ou filtra</td>
+            </tr>
+            <tr>
+              <td><span class="crud-badge update">UPDATE</span></td>
+              <td><code>db.update({"idade": 23}, q.nome == "Ana")</code></td>
+              <td>Altera campos de quem bate na query</td>
+            </tr>
+            <tr>
+              <td><span class="crud-badge delete">DELETE</span></td>
+              <td><code>db.remove(q.nome == "João")</code></td>
+              <td>Apaga quem bate na query</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="keyword-grid" style="margin-top:18px">
+        <div class="keyword-chip">
+          <span class="emoji">➕</span>
+          <span class="kw-name">insert</span>
+          <span class="kw-desc">cria um novo registro a partir de um dicionário</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📂</span>
+          <span class="kw-name">all / search</span>
+          <span class="kw-desc">lê tudo ou filtra com Query</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✏️</span>
+          <span class="kw-name">update</span>
+          <span class="kw-desc">muda campos sem mexer no resto</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗑️</span>
+          <span class="kw-name">remove</span>
+          <span class="kw-desc">apaga registros do disco</span>
+        </div>
+      </div>
+
+      <p style="text-align:center;color:var(--accent5);font-family:'Caveat',cursive;font-size:1.5rem;margin-top:20px">
+        "Quatro operações. Quatro linhas. Sem SQL. Tudo Python." 🐍
+      </p>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> Qual é a ordem dos argumentos em <code>db.update()</code>?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Primeiro a query, depois o dicionário</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, true)">B) Primeiro o dicionário com os novos valores, depois a query</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) Só passa a query, ele atualiza tudo</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Tem que passar o id manualmente</button>
+        </div>
+        <div class="quiz-feedback" data-explain="ordem é: O QUE muda → ONDE muda. db.update({campo: novo_valor}, q.algo == valor)."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. TABELAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="tabelas">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🗄️</div>
+      <div>
+        <div class="step-title">Tabelas — <code>db.table(...)</code></div>
+        <div class="step-sub">Várias gavetas dentro do mesmo armário</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Até agora, todos os <code>insert()</code> caíram na "tabela padrão" (lembra do
+        <code>"_default"</code> no JSON?). Mas e se a gente quiser separar
+        <strong>alunos</strong> e <strong>professores</strong> no <em>mesmo</em> arquivo, sem misturar?
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">tabelas_tinydb.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB
+
+db = <span class="fn">TinyDB</span>(<span class="st">"escola.json"</span>)
+alunos      = db.<span class="fn">table</span>(<span class="st">"alunos"</span>)
+professores = db.<span class="fn">table</span>(<span class="st">"professores"</span>)
+
+alunos.<span class="fn">insert</span>({<span class="st">"nome"</span>: <span class="st">"Ana"</span>, <span class="st">"idade"</span>: <span class="num">22</span>})
+professores.<span class="fn">insert</span>({<span class="st">"nome"</span>: <span class="st">"Kelson"</span>, <span class="st">"disciplina"</span>: <span class="st">"Python"</span>})</pre>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">Gavetas no mesmo armário</div>
+        <p>
+          O arquivo <code>escola.json</code> é o <strong>armário</strong>. Cada
+          <code>db.table("...")</code> é uma <strong>gaveta</strong>. A gaveta de alunos não se mistura
+          com a de professores. Os dois moram no mesmo arquivo, mas em "andares" diferentes. 🗄️
+        </p>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🔍 Como fica o arquivo escola.json? (clique pra ver)</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">escola.json</span>
+              <span class="lang-badge json">JSON</span>
+            </div>
+<pre>{
+  <span class="json-key">"alunos"</span>: {
+    <span class="json-key">"1"</span>: {<span class="json-key">"nome"</span>: <span class="json-val">"Ana"</span>, <span class="json-key">"idade"</span>: <span class="json-num">22</span>}
+  },
+  <span class="json-key">"professores"</span>: {
+    <span class="json-key">"1"</span>: {<span class="json-key">"nome"</span>: <span class="json-val">"Kelson"</span>, <span class="json-key">"disciplina"</span>: <span class="json-val">"Python"</span>}
+  }
+}</pre>
+          </div>
+          <p style="color:var(--text-dim);font-size:0.86rem;margin-top:8px">
+            Cada tabela é uma "seção" no JSON. Tudo organizado, sem mistura.
+          </p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Cada tabela tem o CRUD completo.</strong>
+          <code>alunos.search(...)</code>, <code>professores.update(...)</code> — todos os métodos que
+          a gente já viu funcionam direitinho em cada tabela individualmente.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. DEMO INTERATIVA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="demo">
+    <div class="step-header">
+      <div class="step-number sn-green">🧪</div>
+      <div>
+        <div class="step-title">Demo interativa — TinyDB ao vivo</div>
+        <div class="step-sub">Visualize o banco mudando enquanto o "código" roda</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Aqui é como se o seu script Python tivesse rodado e você estivesse olhando o banco.
+        Repare como o estado da tabela muda a cada operação, igualzinho aconteceria no
+        <code>alunos.json</code> de verdade:
+      </p>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Python REPL · TinyDB</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">&gt;&gt;&gt;</span> <span class="typed" data-text="db.insert({'nome': 'Ana', 'idade': 22, 'curso': 'Python'})"></span><br>
+          <span class="out">1</span><br>
+          <span class="prompt">&gt;&gt;&gt;</span> <span class="typed" data-text="db.insert({'nome': 'João', 'idade': 25, 'curso': 'Java'})"></span><br>
+          <span class="out">2</span><br>
+          <span class="prompt">&gt;&gt;&gt;</span> <span class="typed" data-text="db.search(q.curso == 'Python')"></span><br>
+          <span class="out">[{'nome': 'Ana', 'idade': 22, 'curso': 'Python'}]</span><br>
+          <span class="prompt">&gt;&gt;&gt;</span> <span class="typed" data-text="db.update({'idade': 23}, q.nome == 'Ana')"></span><br>
+          <span class="out">[1]</span><br>
+          <span class="prompt">&gt;&gt;&gt;</span> <span class="typed" data-text="db.remove(q.nome == 'João')"></span><br>
+          <span class="out">[2]</span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <h4 style="margin:24px 0 6px;color:var(--accent4)">💾 Estado final do banco</h4>
+      <p style="color:var(--text-dim);font-size:0.9rem;margin-bottom:8px">
+        Depois de inserir 2, atualizar a Ana e remover o João:
+      </p>
+
+      <div class="db-table">
+        <div class="db-table-header">📄 alunos.json — tabela _default</div>
+        <table>
+          <thead>
+            <tr><th>id</th><th>nome</th><th>idade</th><th>curso</th></tr>
+          </thead>
+          <tbody>
+            <tr class="row-edit">
+              <td>1</td><td>Ana</td><td>23 ✏️</td><td>Python</td>
+            </tr>
+            <tr class="row-del">
+              <td>2</td><td>João</td><td>25</td><td>Java</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">👀</span>
+        <div class="tip-content">
+          A linha do João aparece <em>riscada</em> só pra você visualizar — no arquivo de verdade,
+          ele <strong>já sumiu</strong>. Bora ver isso no PyCharm rodando o código!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. BUGZILLA — erros comuns de TinyDB
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu (de novo)!</div>
+        <div class="step-sub">Os pega-ratos clássicos do TinyDB</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">BugZilla: "ah, esses bugs de Query… meu favorito!"</div>
+          <div class="bugzilla-sub">Três tropeços que TODO MUNDO comete na primeira semana de TinyDB</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p>
+          Não se assusta se você cair em um desses — é praticamente um <em>rito de passagem</em>.
+          Vamos olhar os três bugs mais comuns, e como o BugZilla foge:
+        </p>
+      </div>
+    </div>
+
+    <!-- Bug #1: Query() não instanciada -->
+    <div class="card">
+      <h3>🐞 Bug #1 — Esquecer de "construir" o Query()</h3>
+      <p style="color:var(--text-dim);margin-bottom:6px">Olha esse código:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">bug_query.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+
+<span class="cm"># ❌ ERRADO: faltou o ()</span>
+db.<span class="fn">search</span>(Query.nome == <span class="st">"Ana"</span>)
+<span class="cm"># AttributeError: type object 'Query' has no attribute 'nome'</span></pre>
+      </div>
+
+      <div class="bug-box">
+        <span class="bug-icon">🐛</span>
+        <div class="bug-content">
+          <strong>Por que?</strong> <code>Query</code> é uma <strong>classe</strong>. Pra usar você precisa
+          <strong>instanciar</strong> — chamar com parênteses, criando um "objeto de busca".
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✅</span>
+        <div class="tip-content">
+          <strong>Certo:</strong> <code>q = Query()</code> e depois <code>db.search(q.nome == "Ana")</code>.
+          O parêntese é a parte importante — é ele que cria seu interrogador.
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug #2: ordem do update -->
+    <div class="card">
+      <h3>🐞 Bug #2 — Inverter a ordem do <code>update</code></h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">bug_update.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+<pre><span class="cm"># ❌ ERRADO: query primeiro, dicionário depois</span>
+db.<span class="fn">update</span>(q.nome == <span class="st">"Ana"</span>, {<span class="st">"idade"</span>: <span class="num">23</span>})
+
+<span class="cm"># ✅ CERTO: dicionário primeiro, query depois</span>
+db.<span class="fn">update</span>({<span class="st">"idade"</span>: <span class="num">23</span>}, q.nome == <span class="st">"Ana"</span>)</pre>
+      </div>
+
+      <div class="bug-box">
+        <span class="bug-icon">🐛</span>
+        <div class="bug-content">
+          A regra de ouro: <strong>O QUE muda</strong> vem antes, <strong>ONDE muda</strong> vem depois.
+          Trocou a ordem? O TinyDB se confunde e dá erro estranho — ou pior, atualiza nada e você nem percebe.
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug #3: and/or em vez de & | -->
+    <div class="card">
+      <h3>🐞 Bug #3 — Usar <code>and</code>/<code>or</code> em vez de <code>&amp;</code>/<code>|</code></h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">bug_and.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+<pre><span class="cm"># ❌ ERRADO: usar and/or em queries</span>
+db.<span class="fn">search</span>(q.curso == <span class="st">"Python"</span> <span class="kw">and</span> q.idade &gt;= <span class="num">18</span>)
+
+<span class="cm"># ✅ CERTO: use & e | (com parênteses!)</span>
+db.<span class="fn">search</span>((q.curso == <span class="st">"Python"</span>) &amp; (q.idade &gt;= <span class="num">18</span>))
+db.<span class="fn">search</span>((q.curso == <span class="st">"Python"</span>) | (q.curso == <span class="st">"Java"</span>))</pre>
+      </div>
+
+      <div class="bug-box">
+        <span class="bug-icon">🐛</span>
+        <div class="bug-content">
+          <strong>Pegadinha do TinyDB:</strong> <code>and</code> e <code>or</code> são do Python "puro" e não
+          conseguem combinar duas queries. Use <code>&amp;</code> (E) e <code>|</code> (OU) — e
+          <strong>SEMPRE com parênteses em volta de cada condição</strong>. É chato, mas é assim.
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">📖</span>
+      <div class="tip-content">
+        <strong>Hábito de ouro (de novo):</strong> quando der erro, leia a mensagem.
+        90% dos erros de TinyDB começam com <code>AttributeError</code> (esqueceu o <code>()</code> do Query)
+        ou <code>TypeError</code> (combinou queries com <code>and</code>). Já sabe onde olhar!
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       14. DESAFIO PRÁTICO — SOLO COM OLHINHO 👀
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Desafio Prático — sistema_cadastro_tinydb.py</div>
+        <div class="step-sub">Sistema completo, persistência real, agora é com você</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · sistema_cadastro_tinydb.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Lembra do <code>sistema_cadastro_json.py</code> do <strong>Capítulo 08</strong>? Aquele com menu
+          (1- adicionar, 2- listar, 3- buscar, 0- sair)? <strong>Reescreva ele</strong> usando TinyDB.
+        </p>
+        <p>
+          Crie <code>sistema_cadastro_tinydb.py</code> com:
+        </p>
+        <p>
+          1️⃣ <code>from tinydb import TinyDB, Query</code> e <code>db = TinyDB("alunos.json")</code><br>
+          2️⃣ Uma função <code>adicionar_aluno()</code> que pede nome, idade (com <code>int()</code>)
+          e curso, e usa <code>db.insert(...)</code>.<br>
+          3️⃣ Uma função <code>listar_alunos()</code> que percorre <code>db.all()</code> e imprime tudo
+          bonitinho.<br>
+          4️⃣ Uma função <code>buscar_por_nome()</code> que pede o nome e usa
+          <code>db.search(q.nome == nome)</code>.<br>
+          5️⃣ Um menu em <code>while True:</code> com <code>if/elif</code> chamando cada função.
+          Saída quando <code>op == "0"</code>.
+        </p>
+        <p>
+          🧪 <strong>O grande teste:</strong> quando terminar, rode o programa, cadastre 2 alunos,
+          saia, feche o terminal, abra de novo e rode tudo de novo — os alunos <strong>continuam lá</strong>!
+          É a primeira vez que seu programa tem memória de verdade. 🧠
+        </p>
+        <p>
+          Você já fez praticamente esse código no <strong>cap 07 e cap 08</strong>. A diferença agora é só:
+          a <code>lista</code> virou <code>db</code>, e o <code>append</code> virou <code>insert</code>.
+          Você consegue!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o desafio que <strong>amarra
+          todo o bootcamp</strong> — funções (cap 5), listas (cap 4), dicionários (cap 7), JSON (cap 8) e
+          agora TinyDB. Errar é parte do processo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">sistema_cadastro_tinydb.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+<span class="kw">def</span> <span class="fn">mostrar_menu</span>():
+    <span class="bi">print</span>(<span class="st">"\n=== Sistema de Alunos ==="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - Adicionar aluno"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - Listar alunos"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - Buscar por nome"</span>)
+    <span class="bi">print</span>(<span class="st">"0 - Sair"</span>)
+
+<span class="kw">def</span> <span class="fn">adicionar_aluno</span>():
+    nome  = <span class="bi">input</span>(<span class="st">"Nome: "</span>)
+    idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+    curso = <span class="bi">input</span>(<span class="st">"Curso: "</span>)
+    db.<span class="fn">insert</span>({<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: idade, <span class="st">"curso"</span>: curso})
+    <span class="bi">print</span>(<span class="st">"✅ Aluno cadastrado!"</span>)
+
+<span class="kw">def</span> <span class="fn">listar_alunos</span>():
+    alunos = db.<span class="fn">all</span>()
+    <span class="kw">if</span> <span class="bi">len</span>(alunos) == <span class="num">0</span>:
+        <span class="bi">print</span>(<span class="st">"Nenhum aluno cadastrado."</span>)
+        <span class="kw">return</span>
+    <span class="kw">for</span> aluno <span class="kw">in</span> alunos:
+        <span class="bi">print</span>(<span class="st">f"- {aluno['nome']}, {aluno['idade']} anos, {aluno['curso']}"</span>)
+    <span class="bi">print</span>(<span class="st">f"Total: {len(alunos)} aluno(s)"</span>)
+
+<span class="kw">def</span> <span class="fn">buscar_por_nome</span>():
+    nome      = <span class="bi">input</span>(<span class="st">"Nome para buscar: "</span>)
+    resultado = db.<span class="fn">search</span>(q.nome == nome)
+    <span class="kw">if</span> <span class="bi">len</span>(resultado) == <span class="num">0</span>:
+        <span class="bi">print</span>(<span class="st">"Nenhum aluno encontrado."</span>)
+    <span class="kw">else</span>:
+        <span class="kw">for</span> aluno <span class="kw">in</span> resultado:
+            <span class="bi">print</span>(<span class="st">f"- {aluno['nome']}, {aluno['idade']} anos, {aluno['curso']}"</span>)
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="fn">mostrar_menu</span>()
+    op = <span class="bi">input</span>(<span class="st">"Escolha: "</span>)
+    <span class="kw">if</span>   op == <span class="st">"1"</span>: <span class="fn">adicionar_aluno</span>()
+    <span class="kw">elif</span> op == <span class="st">"2"</span>: <span class="fn">listar_alunos</span>()
+    <span class="kw">elif</span> op == <span class="st">"3"</span>: <span class="fn">buscar_por_nome</span>()
+    <span class="kw">elif</span> op == <span class="st">"0"</span>:
+        <span class="bi">print</span>(<span class="st">f"Total no banco: {len(db.all())} 👋"</span>)
+        <span class="kw">break</span></pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> Comparado ao <code>sistema_cadastro_json.py</code> do cap 08,
+              esse código é <strong>menor</strong>. Sumiram o <code>json.dump</code>, o <code>json.load</code>,
+              o <code>open()</code> com <code>with</code>… O TinyDB cuida de tudo.
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:10px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Quer turbinar?</strong> Adiciona uma opção <strong>4 - atualizar curso</strong>
+              (com <code>db.update</code>) e uma <strong>5 - remover aluno</strong>
+              (com <code>db.remove</code>). Agora você tem CRUD COMPLETO!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       15. RESUMO + CTA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 09</div>
+        <div class="step-sub">Você acabou de virar usuário de banco de dados de verdade</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="summary-list">
+        <div class="item"><span class="check">✅</span><div><strong>TinyDB</strong> — banco de dados num arquivinho <code>.json</code>, sem SQL, sem servidor.</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>pip install tinydb</strong> — uma vez por projeto, e tá pronto.</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>db.insert(...)</strong> — Create. Recebe um dicionário, salva direto no disco.</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>db.all() / db.search(q.campo == valor)</strong> — Read. Tudo ou filtrado.</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>db.update({...}, q.campo == valor)</strong> — Update. Só os campos que você passar.</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>db.remove(q.campo == valor)</strong> — Delete. Permanente, com cuidado!</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>db.table("nome")</strong> — várias gavetas no mesmo armário.</div></div>
+        <div class="item"><span class="check">✅</span><div><strong>BugZilla:</strong> esquecer <code>Query()</code>, inverter ordem do update, usar <code>and</code>/<code>or</code> em vez de <code>&amp;</code>/<code>|</code>.</div></div>
+      </div>
+
+      <div class="keyword-grid" style="margin-top:18px">
+        <div class="keyword-chip">
+          <span class="emoji">💾</span>
+          <span class="kw-name">TinyDB</span>
+          <span class="kw-desc">banco de dados pequeno, todo em Python</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔍</span>
+          <span class="kw-name">Query()</span>
+          <span class="kw-desc">o "interrogador" do banco</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📂</span>
+          <span class="kw-name">CRUD</span>
+          <span class="kw-desc">create / read / update / delete</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗄️</span>
+          <span class="kw-name">table()</span>
+          <span class="kw-desc">organizar em "gavetas"</span>
+        </div>
+      </div>
+
+      <p style="text-align:center;color:var(--accent5);font-family:'Caveat',cursive;font-size:1.6rem;margin-top:24px">
+        "Agora seus programas têm memória DE VERDADE. <br>
+        Os dados sobrevivem mesmo depois de fechar o terminal." 🧠💾
+      </p>
+    </div>
+
+    <!-- CTA pro próximo capítulo -->
+    <div class="next-chapter">
+      <h3>Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:6px">
+        <strong style="color:var(--text)">Capítulo 10 — Streamlit.</strong>
+        Agora que você salva dados num banco, vamos dar uma <strong>cara bonita</strong> pra isso!
+        Botões, formulários, tabelas no navegador — sem HTML, sem CSS. Só Python. 🎨
+      </p>
+      <a href="../10-streamlit/" class="btn-next">🎨 Ir para Capítulo 10 →</a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

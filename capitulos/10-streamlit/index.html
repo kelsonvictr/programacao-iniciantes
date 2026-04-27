@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 10 — Streamlit | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ───── Extras locais do capítulo 10 ───── */
+
+/* Browser mockup — simula o Streamlit no navegador */
+.browser-mockup{
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  margin:18px 0;
+  box-shadow:0 12px 40px rgba(0,0,0,0.45),0 0 0 1px rgba(255,75,75,0.18);
+  font-family:'Nunito',sans-serif;
+}
+.browser-bar{
+  background:#dfe1e6;
+  padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid #b9bcc4;
+}
+.browser-bar .dots{display:flex;gap:6px}
+.browser-bar .dot{width:11px;height:11px;border-radius:50%}
+.browser-bar .dot.r{background:#ff5f57}
+.browser-bar .dot.y{background:#febc2e}
+.browser-bar .dot.g{background:#28c840}
+.browser-bar .url{
+  flex:1;background:#fff;border-radius:6px;
+  padding:5px 12px;font-size:0.78rem;color:#3b3f4a;
+  font-family:'JetBrains Mono',monospace;
+  border:1px solid #c8ccd4;
+  display:flex;align-items:center;gap:6px;
+}
+.browser-bar .url::before{content:'🔒';font-size:0.78rem}
+.browser-body{
+  background:#fafafa;
+  color:#262730;
+  padding:24px 32px;
+  min-height:60px;
+  font-size:0.95rem;
+}
+.browser-body h1.st-title{
+  font-size:1.7rem;font-weight:800;color:#0e1117;
+  margin:0 0 14px;line-height:1.2;
+}
+.browser-body h2.st-header{
+  font-size:1.25rem;font-weight:800;color:#0e1117;
+  margin:14px 0 8px;
+}
+.browser-body p.st-write{
+  font-size:0.95rem;color:#262730;margin:6px 0;line-height:1.55;
+}
+.browser-body .st-input-label{
+  font-size:0.85rem;font-weight:700;color:#262730;
+  margin:10px 0 4px;
+}
+.browser-body input.st-input{
+  width:100%;background:#fff;border:1px solid #d6d8de;
+  border-radius:6px;padding:8px 12px;
+  font-size:0.92rem;color:#262730;
+  font-family:'Nunito',sans-serif;
+  margin-bottom:6px;
+}
+.browser-body input.st-input:focus{
+  outline:none;border-color:#ff4b4b;box-shadow:0 0 0 3px rgba(255,75,75,0.15);
+}
+.browser-body .st-button{
+  background:#fff;color:#262730;
+  border:1px solid #d6d8de;border-radius:6px;
+  padding:6px 16px;font-weight:600;font-size:0.9rem;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  transition:all 0.15s;
+  margin:6px 0;
+}
+.browser-body .st-button.primary{
+  background:#ff4b4b;color:#fff;border-color:#ff4b4b;
+}
+.browser-body .st-button:hover{transform:translateY(-1px)}
+.browser-body .st-success,
+.browser-body .st-error,
+.browser-body .st-info,
+.browser-body .st-warning{
+  border-radius:6px;padding:10px 14px;margin:10px 0;
+  font-size:0.9rem;font-weight:600;
+}
+.browser-body .st-success{background:#e6f9f0;color:#0a7942;border-left:4px solid #14a266}
+.browser-body .st-error  {background:#fde8e8;color:#9b1c1c;border-left:4px solid #e02424}
+.browser-body .st-info   {background:#e3f0ff;color:#1c4587;border-left:4px solid #2563eb}
+.browser-body .st-warning{background:#fff7e6;color:#8a5a00;border-left:4px solid #f5a623}
+.browser-body table.st-table{
+  width:100%;border-collapse:collapse;margin:10px 0;
+  font-size:0.88rem;
+}
+.browser-body table.st-table th,
+.browser-body table.st-table td{
+  padding:8px 12px;text-align:left;
+  border-bottom:1px solid #e6e8ee;
+}
+.browser-body table.st-table th{
+  background:#f0f2f6;color:#262730;font-weight:700;
+}
+.browser-body table.st-table tr:nth-child(even) td{background:#f8f9fb}
+.browser-body .st-tabs{
+  display:flex;gap:0;border-bottom:1px solid #d6d8de;
+  margin-bottom:14px;
+}
+.browser-body .st-tab{
+  padding:8px 16px;font-size:0.88rem;font-weight:700;
+  cursor:pointer;color:#5b6068;border-bottom:2px solid transparent;
+}
+.browser-body .st-tab.active{color:#ff4b4b;border-bottom-color:#ff4b4b}
+.browser-body .st-metric{
+  background:#fff;border:1px solid #e6e8ee;border-radius:8px;
+  padding:14px 18px;margin:6px 0;
+  display:inline-block;min-width:160px;
+}
+.browser-body .st-metric .label{
+  font-size:0.78rem;color:#5b6068;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.browser-body .st-metric .value{
+  font-size:1.6rem;font-weight:800;color:#0e1117;margin-top:4px;
+}
+.browser-body .st-cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0;
+}
+.browser-body .st-select{
+  width:100%;background:#fff;border:1px solid #d6d8de;
+  border-radius:6px;padding:8px 12px;font-size:0.92rem;
+  color:#262730;font-family:'Nunito',sans-serif;
+  appearance:menulist;margin-bottom:6px;
+}
+.browser-body .st-checkbox{
+  display:flex;align-items:center;gap:8px;margin:8px 0;
+  font-size:0.92rem;color:#262730;
+}
+.browser-body .st-checkbox input{accent-color:#ff4b4b;width:16px;height:16px}
+.browser-body .st-slider{
+  width:100%;accent-color:#ff4b4b;margin:8px 0;
+}
+.browser-body hr{border:0;border-top:1px solid #e6e8ee;margin:14px 0}
+
+/* "From → To" comparison */
+.from-to-row{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:18px;
+  align-items:stretch;margin:18px 0;
+}
+@media(max-width:720px){.from-to-row{grid-template-columns:1fr;gap:8px}}
+.from-to-side{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:18px;
+}
+.from-to-side h4{margin-bottom:10px;font-size:0.95rem}
+.from-to-side.term h4{color:var(--text-dim)}
+.from-to-side.streamlit h4{color:var(--streamlit)}
+.from-to-arrow{
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Caveat',cursive;font-size:1.8rem;color:var(--accent5);
+}
+@media(max-width:720px){.from-to-arrow{padding:6px;transform:rotate(90deg)}}
+
+/* Equivalence table */
+.equiv-table{
+  width:100%;border-collapse:collapse;margin:14px 0;
+  background:var(--surface2);border-radius:12px;overflow:hidden;
+  font-size:0.92rem;
+}
+.equiv-table th,.equiv-table td{
+  padding:12px 14px;text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.equiv-table th{
+  background:rgba(255,75,75,0.08);color:var(--streamlit);
+  font-weight:800;font-size:0.85rem;letter-spacing:0.5px;
+}
+.equiv-table td code{
+  background:var(--code-bg);padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  color:var(--accent5);
+}
+.equiv-table tr:last-child td{border-bottom:none}
+
+/* Final celebration */
+.finale{
+  background:
+    radial-gradient(circle at 20% 30%,rgba(255,75,75,0.10),transparent 50%),
+    radial-gradient(circle at 80% 70%,rgba(108,99,255,0.10),transparent 50%),
+    linear-gradient(135deg,rgba(255,75,75,0.08),rgba(247,183,49,0.05));
+  border:2px solid rgba(255,75,75,0.25);
+  border-radius:28px;
+  padding:48px 32px;margin:24px 0;
+  text-align:center;position:relative;overflow:hidden;
+}
+.finale::before{
+  content:'🎉';position:absolute;top:-30px;left:-20px;
+  font-size:7rem;opacity:0.07;line-height:1;transform:rotate(-15deg);
+}
+.finale::after{
+  content:'🚀';position:absolute;bottom:-20px;right:-20px;
+  font-size:7rem;opacity:0.07;line-height:1;transform:rotate(15deg);
+}
+.finale .big-emoji{
+  font-size:4.5rem;line-height:1;display:inline-block;
+  animation:bounce 2.4s ease-in-out infinite;margin-bottom:8px;
+}
+.finale h2{
+  font-size:2.4rem;font-weight:900;margin:8px 0 14px;
+  background:linear-gradient(135deg,var(--streamlit),var(--accent5),var(--accent7));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1.1;
+}
+.finale .caveat{
+  font-family:'Caveat',cursive;font-size:1.8rem;
+  color:var(--accent6);line-height:1.3;margin:18px 0;
+}
+
+.bootcamp-checklist{
+  display:grid;gap:8px;margin:22px auto;max-width:520px;text-align:left;
+}
+.bootcamp-checklist .item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.05);
+  border-left:4px solid var(--accent7);
+  border-radius:12px;padding:12px 16px;
+  font-size:0.96rem;font-weight:700;
+}
+.bootcamp-checklist .check{
+  font-size:1.2rem;color:var(--accent7);flex-shrink:0;
+}
+.bootcamp-checklist .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.78rem;color:var(--text-dim);font-weight:800;
+  background:rgba(255,255,255,0.04);
+  padding:3px 8px;border-radius:6px;
+  flex-shrink:0;
+}
+.bootcamp-checklist .what{flex:1;color:var(--text)}
+.bootcamp-checklist .what .sub{
+  display:block;font-weight:500;font-size:0.78rem;
+  color:var(--text-dim);margin-top:2px;
+}
+
+.thanks-card{
+  background:var(--surface);
+  border:1px solid rgba(108,99,255,0.18);
+  border-radius:18px;padding:28px;margin:24px 0;
+  text-align:center;
+}
+.thanks-card h3{font-size:1.2rem;color:var(--accent5);margin-bottom:10px}
+.thanks-card p{color:var(--text-dim);font-size:0.95rem;line-height:1.6}
+
+/* "Hora de codar — exercícios em sequência" divider lighter */
+.section-light{
+  text-align:center;font-family:'Caveat',cursive;font-size:1.5rem;
+  color:var(--accent5);margin:18px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🎨 Capítulo 10</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('ponte')"><span class="dot" style="background:var(--streamlit)"></span>Da TinyDB pro Streamlit</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e')"><span class="dot" style="background:var(--accent5)"></span>O que é Streamlit?</a>
+    <a class="sidebar-link" onclick="goTo('instalar')"><span class="dot" style="background:var(--accent3)"></span>Instalando e rodando</a>
+    <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('texto')"><span class="dot" style="background:var(--accent4)"></span>Textos: title, header, write</a>
+    <a class="sidebar-link" onclick="goTo('input')"><span class="dot" style="background:var(--accent4)"></span>Inputs: text_input, number_input</a>
+    <a class="sidebar-link" onclick="goTo('button')"><span class="dot" style="background:var(--accent6)"></span>Botões: st.button</a>
+    <a class="sidebar-link" onclick="goTo('mensagens')"><span class="dot" style="background:var(--accent7)"></span>Mensagens coloridas</a>
+    <a class="sidebar-link" onclick="goTo('select')"><span class="dot" style="background:var(--streamlit)"></span>Selectbox e checkbox</a>
+    <a class="sidebar-link" onclick="goTo('tabela')"><span class="dot" style="background:var(--accent5)"></span>Tabelas e métricas</a>
+    <a class="sidebar-link" onclick="goTo('layout')"><span class="dot" style="background:var(--accent6)"></span>Layout: tabs, columns, sidebar</a>
+    <a class="sidebar-link" onclick="goTo('terminal-streamlit')"><span class="dot" style="background:var(--accent3)"></span>Terminal → Streamlit</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz final</a>
+    <a class="sidebar-link" onclick="goTo('desafio-final')"><span class="dot" style="background:var(--accent6)"></span>Desafio FINAL · Loja</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo do bootcamp</a>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--streamlit)"></span>FIM 🎉</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🎨 ✨ 🚀</div>
+  <span class="hero-badge streamlit">Capítulo 10 · Bootcamp Programa AI · GRAND FINALE</span>
+  <h1 class="grad-streamlit">Streamlit — Seu Python virou App!</h1>
+  <p class="subtitle">
+    Você chegou no <strong>último capítulo</strong>. Hoje seu programa sai do
+    <strong>terminal preto</strong> e ganha <strong>uma telinha bonita</strong> no navegador —
+    sem HTML, sem CSS, sem JavaScript. <strong>100% Python.</strong> Bora encerrar o bootcamp em grande estilo? 🎉
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip streamlit">🎨 Streamlit</span>
+    <span class="stack-chip tinydb">💾 TinyDB</span>
+    <span class="stack-chip python">🐍 Python</span>
+    <span class="stack-chip">🌐 Navegador</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. PONTE DO TINYDB PRO STREAMLIT
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="ponte">
+    <div class="step-header">
+      <div class="step-number sn-red">10.1</div>
+      <div>
+        <div class="step-title">Da TinyDB pro Streamlit</div>
+        <div class="step-sub">Você já salva dados. Agora vai mostrar pra alguém usar!</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="concept">
+        <div class="concept-title">🤔 O que tá faltando?</div>
+        <p>
+          No capítulo passado você aprendeu a <strong>guardar dados</strong> com o TinyDB —
+          eles ficam salvos mesmo quando o programa fecha. Show. Mas tem um detalhe…
+        </p>
+        <p>
+          Tudo isso ainda <strong>roda no terminal preto</strong>. Quem vai usar seu sistema?
+          Sua mãe? Seu chefe? Um cliente? Eles abririam um <em>terminal</em> e digitariam comandos? <strong>Provavelmente não.</strong>
+        </p>
+        <p>
+          E se a gente pudesse ter <strong>UMA TELINHA BONITA</strong> no navegador — com botões, campos,
+          tabelas — <strong>sem precisar aprender HTML, CSS ou JavaScript</strong>?
+          <strong style="color:var(--streamlit)">É exatamente o que o Streamlit faz</strong>, em poucas linhas. ✨
+        </p>
+      </div>
+
+      <div class="from-to-row">
+        <div class="from-to-side term">
+          <h4>⬛ O que você já tem (Cap. 09)</h4>
+          <p style="color:var(--text-dim);font-size:0.9rem;margin-bottom:10px">
+            Sistema de cadastro no terminal, salvando no TinyDB.
+          </p>
+          <div class="terminal" data-typewriter style="margin:0">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">terminal</span>
+            </div>
+            <div class="terminal-body" style="font-size:0.78rem;line-height:1.6">
+              <span class="prompt">$</span>
+              <span class="typed" data-text="python sistema.py"></span><span class="cursor"></span><br>
+              <span class="out">1) Cadastrar  2) Listar  3) Sair</span><br>
+              <span class="input-mark">&gt;</span> <span class="typed" data-text="1"></span><br>
+              <span class="out">Nome: </span><span class="typed" data-text="Ana"></span><br>
+              <span class="out">✓ Cadastrado!</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="from-to-arrow">vira ✨</div>
+
+        <div class="from-to-side streamlit">
+          <h4>🎨 O que você vai ter (HOJE!)</h4>
+          <p style="color:var(--text-dim);font-size:0.9rem;margin-bottom:10px">
+            Mesmo sistema, agora com <strong>interface bonita no navegador</strong>.
+          </p>
+          <div class="browser-mockup" style="margin:0">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body" style="padding:16px 20px">
+              <h1 class="st-title" style="font-size:1.1rem">🏪 Cadastro</h1>
+              <div class="st-input-label">Nome:</div>
+              <input class="st-input" value="Ana" readonly style="font-size:0.82rem;padding:6px 10px">
+              <button class="st-button primary" style="font-size:0.78rem;padding:5px 12px">Cadastrar</button>
+              <div class="st-success" style="font-size:0.78rem;padding:6px 10px">✅ Cadastrado!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🚀</span>
+        <div class="tip-content">
+          <strong>Promessa do capítulo:</strong> em <strong>poucas linhas de Python</strong>,
+          você vai criar seu primeiro app web. Sem mentira, sem mágica complicada — é só Python que vira tela.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. O QUE É STREAMLIT
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="o-que-e">
+    <div class="step-header">
+      <div class="step-number sn-yellow">10.2</div>
+      <div>
+        <div class="step-title">O que é Streamlit?</div>
+        <div class="step-sub">Python vira página web magicamente</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Streamlit = tradutor mágico 🧙‍♂️</div>
+        <p>
+          Pensa num <strong>tradutor mágico</strong>: você fala em Python, e ele entrega
+          uma <strong>página web bonita</strong> do outro lado. Sem você precisar saber HTML,
+          CSS ou JavaScript — só Python. <strong style="color:var(--streamlit)">É isso. Literalmente.</strong>
+        </p>
+        <p>
+          Cada <strong>função do Streamlit</strong> (tipo <code>st.title</code>, <code>st.button</code>)
+          aparece como um <strong>elemento visual</strong> no navegador. Você empilha funções, ele empilha
+          elementos. Pronto — você fez um app.
+        </p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0">
+        <div class="keyword-chip">
+          <span class="emoji">🐍</span>
+          <span class="kw-name">100% Python</span>
+          <span class="kw-desc">Sem HTML, sem CSS, sem JavaScript</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⚡</span>
+          <span class="kw-name">Poucas linhas</span>
+          <span class="kw-desc">Um app que cabe na tela</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌐</span>
+          <span class="kw-name">Roda no navegador</span>
+          <span class="kw-desc">Compartilha o link, qualquer um usa</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔄</span>
+          <span class="kw-name">Auto-reload</span>
+          <span class="kw-desc">Salvou o arquivo? Página atualiza sozinha</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          O Streamlit foi criado em <strong>2018</strong> exatamente pra resolver o problema
+          de <em>"eu sei Python mas não quero aprender front-end pra mostrar meu projeto"</em>.
+          Hoje é usado por <strong>cientistas de dados, devs e até em empresas grandes</strong>
+          (Netflix, Uber, Airbnb…). <strong>E você vai usar em 5 minutos.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. INSTALAÇÃO E COMO RODAR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="instalar">
+    <div class="step-header">
+      <div class="step-number sn-green">10.3</div>
+      <div>
+        <div class="step-title">Instalando e rodando</div>
+        <div class="step-sub">Dois comandos. É só isso.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Pra usar o Streamlit, precisa instalar uma vez (igual a gente fez com o <code>tinydb</code>).
+        Depois é só rodar com <code>streamlit run</code>.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">terminal</span>
+          <span class="lang-badge terminal">terminal</span>
+        </div>
+<pre><span class="cm"># 1) Instalar (você só faz isso UMA vez)</span>
+pip install streamlit
+
+<span class="cm"># 2) Rodar o app (sempre que quiser usar)</span>
+streamlit run app.py</pre>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🔥</span>
+        <div class="warning-content">
+          <strong>Atenção mega importante:</strong> não é <code>python app.py</code>!
+          É <strong style="color:var(--streamlit)"><code>streamlit run app.py</code></strong>.
+          Se você rodar com <code>python</code>, o Streamlit não abre o navegador
+          e parece que nada aconteceu. (BugZilla adora esse erro 🐛)
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🌐</span>
+        <div class="tip-content">
+          Quando você roda <code>streamlit run app.py</code>:
+          <ul style="margin-top:6px;margin-left:18px">
+            <li>O navegador <strong>abre sozinho</strong> em <code>localhost:8501</code></li>
+            <li>Toda vez que você <strong>salvar o arquivo</strong>, a página atualiza automaticamente</li>
+            <li>Pra parar, é <code>Ctrl + C</code> no terminal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. QUIZ DE AQUECIMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-aquecimento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz de Aquecimento</div>
+        <div class="step-sub">Antes de codar, dá uma marcada</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> Streamlit é:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Uma nova linguagem de programação</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) Uma biblioteca Python pra fazer apps web</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) Um banco de dados</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Um navegador novo</button>
+        </div>
+        <div class="quiz-feedback" data-explain="Streamlit é uma BIBLIOTECA — você instala com pip e usa o mesmo Python de sempre."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> Pra rodar um app Streamlit, o comando é:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) <code>python app.py</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">B) <code>run streamlit app.py</code></button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">C) <code>streamlit run app.py</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) <code>npm start</code></button>
+        </div>
+        <div class="quiz-feedback" data-explain="É streamlit run app.py. Esquece — anota — decora! Esse erro pega TODO MUNDO no início."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — COMPONENTES
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🧩</span>
+    <span class="chapter-number">Componentes do Streamlit</span>
+    <h2 class="grad-streamlit">Cada função vira um pedaço de tela</h2>
+    <p class="chapter-subtitle">
+      Vamos passar pelos componentes principais. Cada um a gente vê o código + uma simulação de como
+      fica no navegador. <strong>Olha que mágica!</strong>
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. TEXTO — title, header, write
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="texto">
+    <div class="step-header">
+      <div class="step-number sn-blue">10.4</div>
+      <div>
+        <div class="step-title">Textos na tela</div>
+        <div class="step-sub">st.title · st.header · st.write</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — app_texto.py</div>
+          <div class="exercise-sub">Vamos fazer juntos · seu primeiro app</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Cria um arquivo <code>app_texto.py</code> e digita o código abaixo. Depois roda
+        com <code>streamlit run app_texto.py</code> e olha o navegador. 🎉
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_texto.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"🏪 Meu Primeiro App!"</span>)
+st.<span class="fn">header</span>(<span class="st">"Sobre mim"</span>)
+st.<span class="fn">write</span>(<span class="st">"Olá, mundo! Agora com interface gráfica! 🎨"</span>)</pre>
+      </div>
+
+      <div class="section-light">↓ no navegador, vai aparecer assim ↓</div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <h1 class="st-title">🏪 Meu Primeiro App!</h1>
+          <h2 class="st-header">Sobre mim</h2>
+          <p class="st-write">Olá, mundo! Agora com interface gráfica! 🎨</p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📝</span>
+        <div class="tip-content">
+          <strong>3 jeitos de mostrar texto:</strong>
+          <code>st.title()</code> = título grande,
+          <code>st.header()</code> = subtítulo,
+          <code>st.write()</code> = texto normal (igual <code>print</code>, mas bonito).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. INPUTS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="input">
+    <div class="step-header">
+      <div class="step-number sn-blue">10.5</div>
+      <div>
+        <div class="step-title">Campos de entrada</div>
+        <div class="step-sub">st.text_input · st.number_input</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — app_input.py</div>
+          <div class="exercise-sub">Pegando dados do usuário com cara de site</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🔗 Lembra do <code>input()</code>?</div>
+        <p>
+          O <code>st.text_input()</code> é a <strong>mesma ideia</strong> do <code>input()</code> que você
+          já usou — só que aparece como uma <strong>caixinha bonita no navegador</strong>.
+          E o <code>st.number_input()</code> já <strong>cuida da conversão</strong> pra número
+          (você não precisa de <code>int()</code>).
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_input.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"📋 Cadastro"</span>)
+
+nome  = st.<span class="fn">text_input</span>(<span class="st">"Qual seu nome?"</span>)
+idade = st.<span class="fn">number_input</span>(<span class="st">"Sua idade:"</span>, min_value=<span class="num">0</span>)
+
+st.<span class="fn">write</span>(<span class="st">f"Olá {nome}, você tem {</span><span class="bi">int</span><span class="st">(idade)} anos!"</span>)</pre>
+      </div>
+
+      <div class="section-light">↓ olha como fica no navegador ↓</div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <h1 class="st-title">📋 Cadastro</h1>
+          <div class="st-input-label">Qual seu nome?</div>
+          <input class="st-input" value="Kelson" readonly>
+          <div class="st-input-label">Sua idade:</div>
+          <input class="st-input" type="number" value="33" readonly>
+          <p class="st-write" style="margin-top:14px">Olá Kelson, você tem 33 anos!</p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚡</span>
+        <div class="tip-content">
+          <strong>Reatividade automática:</strong> toda vez que o usuário digita,
+          o app <strong>recalcula tudo</strong> e a mensagem atualiza sozinha. Sem precisar de botão.
+          Mágico, né? 🪄
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. BOTÕES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="button">
+    <div class="step-header">
+      <div class="step-number sn-purple">10.6</div>
+      <div>
+        <div class="step-title">Botões</div>
+        <div class="step-sub">st.button — ação com um clique</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — app_botao.py</div>
+          <div class="exercise-sub">É o if que você já conhece, com roupa nova</div>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">É só um if disfarçado!</div>
+        <p>
+          O <code>st.button("Clique")</code> retorna <code>True</code> quando o usuário clica
+          e <code>False</code> quando não. <strong>É o mesmo <code>if</code> que você já conhece</strong>
+          — só que a "condição" agora é um botão visual.
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_botao.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"Botão Mágico"</span>)
+
+<span class="kw">if</span> st.<span class="fn">button</span>(<span class="st">"Clique aqui!"</span>):
+    st.<span class="fn">write</span>(<span class="st">"Você clicou! 🎉"</span>)</pre>
+      </div>
+
+      <div class="section-light">↓ no navegador ↓</div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <h1 class="st-title">Botão Mágico</h1>
+          <button class="st-button">Clique aqui!</button>
+          <p class="st-write" style="color:#5b6068;font-style:italic;margin-top:8px">
+            (depois do clique, aparece: "Você clicou! 🎉")
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. MENSAGENS COLORIDAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="mensagens">
+    <div class="step-header">
+      <div class="step-number sn-mint">10.7</div>
+      <div>
+        <div class="step-title">Mensagens coloridas</div>
+        <div class="step-sub">st.success · st.error · st.info · st.warning</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Em vez de só usar <code>st.write</code>, você pode dar <strong>cor e ênfase</strong>
+        às mensagens — feedback visual instantâneo:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_mensagens.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">success</span>(<span class="st">"✅ Deu certo!"</span>)
+st.<span class="fn">error</span>(<span class="st">"❌ Algo deu errado!"</span>)
+st.<span class="fn">info</span>(<span class="st">"ℹ️ Só uma informação."</span>)
+st.<span class="fn">warning</span>(<span class="st">"⚠️ Cuidado!"</span>)</pre>
+      </div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <div class="st-success">✅ Deu certo!</div>
+          <div class="st-error">❌ Algo deu errado!</div>
+          <div class="st-info">ℹ️ Só uma informação.</div>
+          <div class="st-warning">⚠️ Cuidado!</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎨</span>
+        <div class="tip-content">
+          Cada uma tem uma <strong>cor padrão</strong>: verde (success), vermelho (error),
+          azul (info), amarelo (warning). É <code>print</code> com superpoderes —
+          o usuário entende o que aconteceu <strong>só pela cor</strong>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. SELECTBOX e CHECKBOX
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="select">
+    <div class="step-header">
+      <div class="step-number sn-red">10.8</div>
+      <div>
+        <div class="step-title">Selectbox, checkbox e slider</div>
+        <div class="step-sub">Escolhas visuais — adeus menu de números</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="concept">
+        <div class="concept-title">💡 Lembra do menu com <code>if/elif</code>?</div>
+        <p>
+          No terminal a gente fazia menu numérico:
+          <em>"1) Cadastrar  2) Listar  3) Sair"</em> e o usuário digitava o número.
+          Com Streamlit, isso vira <strong>um dropdown clicável</strong>. Bem mais bonito!
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_select.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+fruta = st.<span class="fn">selectbox</span>(<span class="st">"Escolha uma fruta:"</span>, [<span class="st">"Maçã"</span>, <span class="st">"Banana"</span>, <span class="st">"Uva"</span>])
+gosta = st.<span class="fn">checkbox</span>(<span class="st">"Gosto muito!"</span>)
+nota  = st.<span class="fn">slider</span>(<span class="st">"De 0 a 10, quanto?"</span>, <span class="num">0</span>, <span class="num">10</span>, <span class="num">5</span>)
+
+st.<span class="fn">write</span>(<span class="st">f"Fruta: {fruta}"</span>)
+st.<span class="fn">write</span>(<span class="st">f"Gosta? {gosta}"</span>)
+st.<span class="fn">write</span>(<span class="st">f"Nota: {nota}"</span>)</pre>
+      </div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <div class="st-input-label">Escolha uma fruta:</div>
+          <select class="st-select">
+            <option>Maçã</option><option>Banana</option><option>Uva</option>
+          </select>
+          <label class="st-checkbox"><input type="checkbox" checked> Gosto muito!</label>
+          <div class="st-input-label">De 0 a 10, quanto?</div>
+          <input type="range" min="0" max="10" value="8" class="st-slider">
+          <p class="st-write">Fruta: Maçã</p>
+          <p class="st-write">Gosta? True</p>
+          <p class="st-write">Nota: 8</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. TABELA E MÉTRICAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="tabela">
+    <div class="step-header">
+      <div class="step-number sn-yellow">10.9</div>
+      <div>
+        <div class="step-title">Tabelas e métricas</div>
+        <div class="step-sub">st.table · st.dataframe · st.metric</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — app_tabela.py</div>
+          <div class="exercise-sub">Lista de dicionários vira tabela bonita</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Lembra do <strong>for + print</strong> que a gente fazia pra listar uma <em>lista de dicionários</em>?
+        Com Streamlit é <strong>uma linha</strong>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_tabela.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"👥 Minha Turma"</span>)
+
+turma = [
+    {<span class="st">"nome"</span>: <span class="st">"Ana"</span>,    <span class="st">"idade"</span>: <span class="num">22</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>},
+    {<span class="st">"nome"</span>: <span class="st">"João"</span>,   <span class="st">"idade"</span>: <span class="num">25</span>, <span class="st">"curso"</span>: <span class="st">"Java"</span>},
+    {<span class="st">"nome"</span>: <span class="st">"Maria"</span>,  <span class="st">"idade"</span>: <span class="num">20</span>, <span class="st">"curso"</span>: <span class="st">"JS"</span>},
+]
+st.<span class="fn">table</span>(turma)
+st.<span class="fn">metric</span>(<span class="st">"Total de alunos"</span>, <span class="bi">len</span>(turma))</pre>
+      </div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <h1 class="st-title">👥 Minha Turma</h1>
+          <table class="st-table">
+            <thead>
+              <tr><th>nome</th><th>idade</th><th>curso</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ana</td><td>22</td><td>Python</td></tr>
+              <tr><td>João</td><td>25</td><td>Java</td></tr>
+              <tr><td>Maria</td><td>20</td><td>JS</td></tr>
+            </tbody>
+          </table>
+          <div class="st-metric">
+            <div class="label">Total de alunos</div>
+            <div class="value">3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📊</span>
+        <div class="tip-content">
+          <strong><code>st.metric</code></strong> mostra um número em destaque — perfeito pra
+          dashboards (faturamento, total de vendas, etc). E <code>st.dataframe</code> é parecido
+          com <code>st.table</code>, mas <strong>permite ordenação e filtro</strong> direto pelo usuário.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. LAYOUT — TABS, COLUMNS, SIDEBAR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="layout">
+    <div class="step-header">
+      <div class="step-number sn-purple">10.10</div>
+      <div>
+        <div class="step-title">Layout</div>
+        <div class="step-sub">st.tabs · st.columns · st.sidebar</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora Codar! — app_layout.py</div>
+          <div class="exercise-sub">Organizando o app em abas e colunas</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Quando o app cresce, você precisa <strong>organizar</strong>. As ferramentas:
+      </p>
+
+      <ul style="color:var(--text-dim);font-size:0.92rem;margin:0 0 14px 18px;line-height:1.8">
+        <li><code>st.tabs([...])</code> — divide em <strong>abas clicáveis</strong> (igual abas do navegador)</li>
+        <li><code>st.columns(N)</code> — divide a tela em <strong>N colunas lado a lado</strong></li>
+        <li><code>st.sidebar</code> — gera uma <strong>barra lateral</strong> (menu, filtros, etc)</li>
+      </ul>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">app_layout.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"Dashboard de Vendas"</span>)
+
+aba1, aba2 = st.<span class="fn">tabs</span>([<span class="st">"📦 Produtos"</span>, <span class="st">"📊 Vendas"</span>])
+
+<span class="kw">with</span> aba1:
+    st.<span class="fn">write</span>(<span class="st">"Conteúdo dos produtos…"</span>)
+
+<span class="kw">with</span> aba2:
+    col1, col2 = st.<span class="fn">columns</span>(<span class="num">2</span>)
+    col1.<span class="fn">metric</span>(<span class="st">"Vendas"</span>, <span class="num">42</span>)
+    col2.<span class="fn">metric</span>(<span class="st">"Faturamento"</span>, <span class="st">"R$ 1.250"</span>)</pre>
+      </div>
+
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <div class="url">localhost:8501</div>
+        </div>
+        <div class="browser-body">
+          <h1 class="st-title">Dashboard de Vendas</h1>
+          <div class="st-tabs">
+            <div class="st-tab">📦 Produtos</div>
+            <div class="st-tab active">📊 Vendas</div>
+          </div>
+          <div class="st-cols">
+            <div class="st-metric"><div class="label">Vendas</div><div class="value">42</div></div>
+            <div class="st-metric"><div class="label">Faturamento</div><div class="value">R$ 1.250</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🗂️</span>
+        <div class="tip-content">
+          O bloco <code>with aba1:</code> diz: <em>"tudo o que estiver indentado aqui dentro vai pra aba 1"</em>.
+          Mesmo padrão do <code>with</code> que você viu pra abrir arquivos no Cap. 08! 😉
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. TERMINAL → STREAMLIT (DE/PARA)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="terminal-streamlit">
+    <div class="step-header">
+      <div class="step-number sn-green">10.11</div>
+      <div>
+        <div class="step-title">De/Para — Terminal → Streamlit</div>
+        <div class="step-sub">Tudo que você já sabe, com roupa nova</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Streamlit <strong>não é uma linguagem nova</strong>. É o <strong>mesmo Python</strong> que você
+        já conhece, com funções extras que geram interface. Olha o <strong>de/para</strong>:
+      </p>
+
+      <table class="equiv-table">
+        <thead>
+          <tr><th>No terminal você fazia…</th><th>No Streamlit é…</th><th>O que faz</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>print("Olá!")</code></td><td><code>st.write("Olá!")</code></td><td>Mostra texto</td></tr>
+          <tr><td><code>print("=== TÍTULO ===")</code></td><td><code>st.title("TÍTULO")</code></td><td>Título grande</td></tr>
+          <tr><td><code>nome = input("Nome: ")</code></td><td><code>nome = st.text_input("Nome:")</code></td><td>Pega texto</td></tr>
+          <tr><td><code>idade = int(input("Idade: "))</code></td><td><code>idade = st.number_input("Idade:")</code></td><td>Pega número</td></tr>
+          <tr><td><code>if input("ok? ") == "s":</code></td><td><code>if st.button("OK"):</code></td><td>Decisão por clique</td></tr>
+          <tr><td><code>print("✅ ok")</code></td><td><code>st.success("✅ ok")</code></td><td>Mensagem verde</td></tr>
+          <tr><td><code>for x in lista: print(x)</code></td><td><code>st.table(lista)</code></td><td>Tabela formatada</td></tr>
+          <tr><td>menu numérico com <code>if/elif</code></td><td><code>st.selectbox("...", [...])</code></td><td>Dropdown</td></tr>
+          <tr><td>"separe em seções no código"</td><td><code>st.tabs([...])</code></td><td>Abas visuais</td></tr>
+        </tbody>
+      </table>
+
+      <div class="analogy">
+        <div class="analogy-title">Sabe usar print, input e if? Sabe Streamlit!</div>
+        <p>
+          <strong>Sério.</strong> Tudo que você aprendeu nos 9 capítulos anteriores
+          continua valendo. O Streamlit só troca a "roupa" da saída e da entrada —
+          a <strong>lógica</strong> é a mesma de sempre. 🐍
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. BUGZILLA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu (de novo!)</div>
+        <div class="step-sub">Os 3 erros clássicos de Streamlit</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">BugZilla apareceu pela última vez!</div>
+          <div class="bugzilla-sub">Esses 3 erros pegam TODO MUNDO no início. Aprende a reconhecer</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p>
+          Tá quase no fim do bootcamp, mas o BugZilla ainda dá uma última aparecida 😅.
+          Bora ver os erros mais clássicos com Streamlit — pra você não cair neles:
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:grid;gap:14px">
+
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            <strong>1. Rodar com <code>python</code> em vez de <code>streamlit run</code></strong><br>
+            <code>python app.py</code> ❌ &nbsp;→ não abre nada, parece que travou.<br>
+            <code>streamlit run app.py</code> ✅ &nbsp;→ jeito certo, abre o navegador.
+          </div>
+        </div>
+
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            <strong>2. Esquecer de <em>chamar</em> a função (faltou os parênteses!)</strong><br>
+            <code>st.title</code> ❌ &nbsp;→ não mostra nada, é só uma referência.<br>
+            <code>st.title("Meu App")</code> ✅ &nbsp;→ chama de verdade.
+          </div>
+        </div>
+
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            <strong>3. Vários inputs com o mesmo nome ou sem <code>key</code> único</strong><br>
+            Quando você tem dois <code>st.text_input("Nome")</code> em abas diferentes,
+            o Streamlit reclama. <strong>Solução:</strong> dá um <code>key</code> diferente pra cada um —
+            tipo <code>st.text_input("Nome", key="cad_nome")</code>.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tip" style="margin-top:18px">
+        <span class="tip-icon">📖</span>
+        <div class="tip-content">
+          <strong>Quando der erro:</strong> o Streamlit mostra a mensagem direto no <strong>navegador</strong>,
+          numa caixa vermelha bonitinha. Lê com calma — geralmente diz a linha exata e o que tá faltando.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       14. QUIZ FINAL
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-final">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz Final do Capítulo</div>
+        <div class="step-sub">Última verificação antes do desafio</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Pra mostrar uma <strong>lista de dicionários</strong> como tabela no Streamlit:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) <code>for x in lista: print(x)</code></button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) <code>st.table(lista)</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) <code>print(lista)</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Não dá, precisa de HTML</button>
+        </div>
+        <div class="quiz-feedback" data-explain="st.table() recebe a lista direto e monta a tabela formatada. Adeus, for + print!"></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">4️⃣</span> Sobre <code>st.button("Salvar")</code>:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Só funciona com texto</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) Retorna True quando clicado, False quando não — dá pra usar dentro de if</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) Precisa de JavaScript pra funcionar</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Sempre retorna None</button>
+        </div>
+        <div class="quiz-feedback" data-explain="É o IF de sempre — só que a condição agora é o usuário clicar no botão visual."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">5️⃣</span> Streamlit + TinyDB juntos servem pra…</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Fazer só interface, sem dados</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">B) Fazer só banco, sem interface</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">C) Construir um sistema completo: interface bonita + dados que persistem</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Não dá pra usar os dois juntos</button>
+        </div>
+        <div class="quiz-feedback" data-explain="É a combinação MÁGICA — Streamlit pra interface, TinyDB pra guardar. É o que você vai fazer no desafio final!"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — DESAFIO FINAL
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🏆</span>
+    <span class="chapter-number">Desafio FINAL · Projeto Integrador</span>
+    <h2 class="grad-streamlit">Sistema de Loja completo</h2>
+    <p class="chapter-subtitle">
+      Streamlit pra interface + TinyDB pra dados. <strong>É O CLIMAX DO BOOTCAPM!</strong>
+      Você junta TUDO que aprendeu num só projeto.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       15. DESAFIO FINAL (SOLO COM OLHINHO)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-final">
+    <div class="step-header">
+      <div class="step-number sn-purple">10.12</div>
+      <div>
+        <div class="step-title">Desafio Individual — app_loja.py</div>
+        <div class="step-sub">O projeto que coroa o bootcamp 🏆</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual — Sistema de Loja</div>
+          <div class="exercise-sub">Faça sozinho · Streamlit + TinyDB · O FINALE!</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>app_loja.py</code>. O sistema vai ter <strong>4 abas</strong>:
+        </p>
+        <ul style="margin:8px 0 8px 18px;color:var(--text-dim);font-size:0.92rem;line-height:1.7">
+          <li><strong>📦 Estoque</strong> — listar todos os produtos com <code>st.table()</code></li>
+          <li><strong>➕ Cadastrar</strong> — formulário com <code>text_input</code> + <code>number_input</code> + <code>button</code> que faz <code>estoque.insert(...)</code></li>
+          <li><strong>🛒 Vender</strong> — <code>selectbox</code> com produtos, calcula total, faz <code>vendas.insert(...)</code> e <code>estoque.update(...)</code></li>
+          <li><strong>📊 Vendas</strong> — tabela do histórico + <code>st.metric()</code> com faturamento total</li>
+        </ul>
+        <p>
+          Use <strong>duas tabelas</strong> do TinyDB: <code>estoque</code> e <code>vendas</code>
+          (igual capítulo 09 — <code>db.table("nome")</code>). Não esqueça de dar <strong>key únicos</strong>
+          pra cada input pra não confundir entre as abas. Validação básica:
+          mostrar <code>st.error()</code> se o nome estiver vazio.
+        </p>
+        <p>
+          <strong>Bônus mago:</strong> chama <code>st.balloons()</code> quando registrar uma venda — solta balões na tela. 🎈
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é O DESAFIO. É grande, é o FINALE,
+          mas você passou por TUDO que precisa. Tabelas TinyDB? Cap 09. Listas e dicts? Caps 04 e 07.
+          Funções, condições, loops? Caps 02-05. <strong>Você consegue. Vai com calma e quebra em pedaços.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">app_loja.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58<br>59<br>60<br>61<br>62<br>63<br>64<br>65<br>66<br>67<br>68<br>69<br>70<br>71<br>72<br>73<br>74<br>75</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, where
+<span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+db = <span class="fn">TinyDB</span>(<span class="st">"loja.json"</span>)
+estoque = db.<span class="fn">table</span>(<span class="st">"estoque"</span>)
+vendas  = db.<span class="fn">table</span>(<span class="st">"vendas"</span>)
+
+st.<span class="fn">set_page_config</span>(page_title=<span class="st">"Sistema Loja"</span>, page_icon=<span class="st">"🏪"</span>)
+st.<span class="fn">title</span>(<span class="st">"🏪 Sistema de Loja"</span>)
+
+aba_est, aba_cad, aba_ven, aba_hist = st.<span class="fn">tabs</span>(
+    [<span class="st">"📦 Estoque"</span>, <span class="st">"➕ Cadastrar"</span>, <span class="st">"🛒 Vender"</span>, <span class="st">"📊 Vendas"</span>]
+)
+
+<span class="cm"># ════ ESTOQUE ════</span>
+<span class="kw">with</span> aba_est:
+    st.<span class="fn">header</span>(<span class="st">"Estoque atual"</span>)
+    produtos = estoque.<span class="fn">all</span>()
+    <span class="kw">if</span> <span class="bi">len</span>(produtos) == <span class="num">0</span>:
+        st.<span class="fn">info</span>(<span class="st">"Estoque vazio. Cadastre um produto na aba ao lado!"</span>)
+    <span class="kw">else</span>:
+        st.<span class="fn">table</span>(produtos)
+        st.<span class="fn">metric</span>(<span class="st">"Total de produtos"</span>, <span class="bi">len</span>(produtos))
+
+<span class="cm"># ════ CADASTRAR ════</span>
+<span class="kw">with</span> aba_cad:
+    st.<span class="fn">header</span>(<span class="st">"Cadastrar produto"</span>)
+    nome  = st.<span class="fn">text_input</span>(<span class="st">"Nome"</span>, key=<span class="st">"cad_nome"</span>)
+    preco = st.<span class="fn">number_input</span>(<span class="st">"Preço (R$)"</span>, min_value=<span class="num">0.0</span>, step=<span class="num">0.5</span>, key=<span class="st">"cad_preco"</span>)
+    qtd   = st.<span class="fn">number_input</span>(<span class="st">"Quantidade"</span>, min_value=<span class="num">0</span>, step=<span class="num">1</span>, key=<span class="st">"cad_qtd"</span>)
+
+    <span class="kw">if</span> st.<span class="fn">button</span>(<span class="st">"Cadastrar"</span>, type=<span class="st">"primary"</span>):
+        <span class="kw">if</span> nome.<span class="fn">strip</span>() == <span class="st">""</span>:
+            st.<span class="fn">error</span>(<span class="st">"Digite o nome!"</span>)
+        <span class="kw">else</span>:
+            estoque.<span class="fn">insert</span>({
+                <span class="st">"nome"</span>: nome, <span class="st">"preco"</span>: <span class="bi">float</span>(preco), <span class="st">"qtd"</span>: <span class="bi">int</span>(qtd)
+            })
+            st.<span class="fn">success</span>(<span class="st">f"✅ '{nome}' cadastrado!"</span>)
+            st.<span class="fn">rerun</span>()
+
+<span class="cm"># ════ VENDER ════</span>
+<span class="kw">with</span> aba_ven:
+    st.<span class="fn">header</span>(<span class="st">"Registrar venda"</span>)
+    produtos = estoque.<span class="fn">all</span>()
+    <span class="kw">if</span> <span class="bi">len</span>(produtos) == <span class="num">0</span>:
+        st.<span class="fn">info</span>(<span class="st">"Sem produtos pra vender."</span>)
+    <span class="kw">else</span>:
+        nomes = [p[<span class="st">"nome"</span>] <span class="kw">for</span> p <span class="kw">in</span> produtos <span class="kw">if</span> p[<span class="st">"qtd"</span>] &gt; <span class="num">0</span>]
+        <span class="kw">if</span> <span class="bi">len</span>(nomes) == <span class="num">0</span>:
+            st.<span class="fn">warning</span>(<span class="st">"Tudo zerado!"</span>)
+        <span class="kw">else</span>:
+            escolhido = st.<span class="fn">selectbox</span>(<span class="st">"Produto"</span>, nomes, key=<span class="st">"v_prod"</span>)
+            qtd_v     = st.<span class="fn">number_input</span>(<span class="st">"Qtd"</span>, min_value=<span class="num">1</span>, step=<span class="num">1</span>, key=<span class="st">"v_qtd"</span>)
+            cliente   = st.<span class="fn">text_input</span>(<span class="st">"Cliente"</span>, key=<span class="st">"v_cli"</span>)
+
+            produto = estoque.<span class="fn">get</span>(<span class="fn">where</span>(<span class="st">"nome"</span>) == escolhido)
+            total   = produto[<span class="st">"preco"</span>] * qtd_v
+            st.<span class="fn">info</span>(<span class="st">f"💰 Total: R$ {total:.2f}"</span>)
+
+            <span class="kw">if</span> st.<span class="fn">button</span>(<span class="st">"Confirmar venda"</span>, type=<span class="st">"primary"</span>):
+                vendas.<span class="fn">insert</span>({
+                    <span class="st">"produto"</span>: escolhido, <span class="st">"qtd"</span>: <span class="bi">int</span>(qtd_v),
+                    <span class="st">"total"</span>: total, <span class="st">"cliente"</span>: cliente
+                })
+                estoque.<span class="fn">update</span>(
+                    {<span class="st">"qtd"</span>: produto[<span class="st">"qtd"</span>] - <span class="bi">int</span>(qtd_v)},
+                    <span class="fn">where</span>(<span class="st">"nome"</span>) == escolhido
+                )
+                st.<span class="fn">success</span>(<span class="st">"✅ Venda registrada!"</span>)
+                st.<span class="fn">balloons</span>()
+                st.<span class="fn">rerun</span>()
+
+<span class="cm"># ════ HISTÓRICO ════</span>
+<span class="kw">with</span> aba_hist:
+    st.<span class="fn">header</span>(<span class="st">"Histórico de vendas"</span>)
+    lista = vendas.<span class="fn">all</span>()
+    <span class="kw">if</span> <span class="bi">len</span>(lista) == <span class="num">0</span>:
+        st.<span class="fn">info</span>(<span class="st">"Sem vendas ainda."</span>)
+    <span class="kw">else</span>:
+        st.<span class="fn">table</span>(lista)
+        soma = <span class="bi">sum</span>(v[<span class="st">"total"</span>] <span class="kw">for</span> v <span class="kw">in</span> lista)
+        col1, col2 = st.<span class="fn">columns</span>(<span class="num">2</span>)
+        col1.<span class="fn">metric</span>(<span class="st">"Total de vendas"</span>, <span class="bi">len</span>(lista))
+        col2.<span class="fn">metric</span>(<span class="st">"Faturamento"</span>, <span class="st">f"R$ {soma:.2f}"</span>)</pre>
+          </div>
+
+          <div class="section-light">↓ olha o que você acabou de construir ↓</div>
+
+          <div class="browser-mockup">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body">
+              <h1 class="st-title">🏪 Sistema de Loja</h1>
+              <div class="st-tabs">
+                <div class="st-tab">📦 Estoque</div>
+                <div class="st-tab">➕ Cadastrar</div>
+                <div class="st-tab active">🛒 Vender</div>
+                <div class="st-tab">📊 Vendas</div>
+              </div>
+              <h2 class="st-header">Registrar venda</h2>
+              <div class="st-input-label">Produto</div>
+              <select class="st-select"><option>Caderno</option><option>Caneta</option></select>
+              <div class="st-input-label">Qtd</div>
+              <input class="st-input" type="number" value="2" readonly>
+              <div class="st-input-label">Cliente</div>
+              <input class="st-input" value="Ana" readonly>
+              <div class="st-info">💰 Total: R$ 17.50</div>
+              <button class="st-button primary">Confirmar venda</button>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Pra rodar:</strong> <code>pip install streamlit tinydb</code> (uma vez só) e
+              depois <code>streamlit run app_loja.py</code>. Cadastra produtos, vende, fecha o terminal,
+              abre de novo — <strong>os dados continuam lá</strong>! É TinyDB salvando no <code>loja.json</code>. 🎉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       16. RESUMO DO BOOTCAMP INTEIRO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Bootcamp INTEIRO</div>
+        <div class="step-sub">Olha tudo que você atravessou 🏔️</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="color:var(--text-dim);margin-bottom:18px;text-align:center;font-size:1.05rem">
+        Para de tudo um segundo. <strong>Olha o que você aprendeu nesses 10 capítulos:</strong>
+      </p>
+
+      <div class="bootcamp-checklist">
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">01</span>
+          <span class="what">Boas-vindas e Fundamentos
+            <span class="sub"><code>print</code> · <code>input</code> · primeiras linhas em Python</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">02</span>
+          <span class="what">Variáveis e Tipos
+            <span class="sub">caixinhas · str/int/float/bool · f-strings</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">03</span>
+          <span class="what">Condicionais
+            <span class="sub"><code>if</code> · <code>elif</code> · <code>else</code> · operadores</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">04</span>
+          <span class="what">Loops e Listas
+            <span class="sub"><code>while</code> · <code>for</code> · <code>range</code> · listas</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">05</span>
+          <span class="what">Funções
+            <span class="sub"><code>def</code> · parâmetros · retorno · reutilização</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">06</span>
+          <span class="what">5 Desafios Integradores
+            <span class="sub">Votação, Lanchonete, Cinema, Arcade, Academia</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">07</span>
+          <span class="what">Dicionários
+            <span class="sub">chave:valor · lista de dicts · sistema de cadastro</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">08</span>
+          <span class="what">JSON
+            <span class="sub"><code>json.dump</code> · <code>json.load</code> · primeiro "save"</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">09</span>
+          <span class="what">TinyDB
+            <span class="sub">CRUD · insert · search · update · remove · tabelas</span>
+          </span>
+        </div>
+        <div class="item">
+          <span class="check">✅</span>
+          <span class="num">10</span>
+          <span class="what">Streamlit
+            <span class="sub">interface web · formulários · tabelas · sistema completo</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="thanks-card" style="margin-top:24px">
+        <h3>🎯 Você sabe agora:</h3>
+        <p>
+          Pegar uma <strong>ideia</strong> → quebrar em <strong>passos</strong> → traduzir pra <strong>Python</strong>
+          → <strong>guardar dados</strong> num arquivo → mostrar tudo numa <strong>interface bonita</strong>
+          que qualquer um consegue usar.
+        </p>
+        <p style="margin-top:10px">
+          <strong style="color:var(--accent5)">Isso é programação completa.</strong>
+          Não é "só fundamentos". É um ciclo inteiro de software.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       17. ENCERRAMENTO ÉPICO — FIM DO BOOTCAMP!
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="encerramento">
+    <div class="finale">
+      <span class="big-emoji">🎉</span>
+      <h2>FIM DO BOOTCAMP!</h2>
+      <p style="color:var(--text-dim);font-size:1.1rem;max-width:580px;margin:0 auto;line-height:1.6">
+        Você começou com um <strong style="color:var(--text)">"Olá, mundo!"</strong> e terminou com um
+        <strong style="color:var(--streamlit)">sistema completo</strong> com banco de dados e interface gráfica.
+        <strong style="color:var(--text)">Você conseguiu.</strong>
+      </p>
+
+      <p class="caveat">
+        "Você é um(a) dev iniciante de verdade agora." 🐍✨
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:24px 0">
+        <span class="stack-chip python">🐍 Python</span>
+        <span class="stack-chip">📦 Lógica</span>
+        <span class="stack-chip">🔁 Loops</span>
+        <span class="stack-chip">🧩 Funções</span>
+        <span class="stack-chip">📚 Dicionários</span>
+        <span class="stack-chip">💾 JSON</span>
+        <span class="stack-chip tinydb">🗄️ TinyDB</span>
+        <span class="stack-chip streamlit">🎨 Streamlit</span>
+      </div>
+
+      <div style="margin:30px auto 0;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="../../index.html" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,var(--streamlit),var(--accent5));color:#fff;text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px;box-shadow:0 8px 24px rgba(255,75,75,0.30)">
+          🏠 Voltar ao hub do bootcamp
+        </a>
+        <a href="../09-tinydb/" style="display:inline-block;padding:14px 28px;background:var(--surface2);color:var(--text);text-decoration:none;font-weight:700;border-radius:50px;letter-spacing:0.5px;border:1px solid rgba(255,255,255,0.08)">
+          ← Cap 09 · TinyDB
+        </a>
+      </div>
+    </div>
+
+    <div class="thanks-card" style="margin-top:24px">
+      <h3>💜 Um agradecimento</h3>
+      <p>
+        Obrigado por chegar até aqui. Iniciar não é fácil — terminar também não.
+        Você fez os dois. <strong style="color:var(--text)">Continua.</strong>
+        Refaz os exercícios, quebra eles, conserta. Cria <em>seus</em> projetos a partir desses.
+        O bootcamp acaba aqui — sua jornada como dev tá só começando. 🚀
+      </p>
+      <p style="margin-top:14px;font-family:'Caveat',cursive;font-size:1.4rem;color:var(--accent6)">
+        — prof. Kelson Almeida 🐍
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer" style="padding:30px 20px;text-align:center;background:linear-gradient(180deg,transparent,rgba(255,75,75,0.04))">
+  <p style="font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:8px">
+    🎉 Fim do bootcamp · Parabéns! 🎉
+  </p>
+  <p style="color:var(--text-dim);font-size:0.9rem;margin-bottom:6px">
+    Feito com <span class="heart">💜</span> por <strong style="color:var(--text)">prof. Kelson Almeida</strong> ·
+    <strong style="color:var(--streamlit)">Programa AI</strong> · João Pessoa, PB
+  </p>
+  <p style="color:var(--text-dim);font-size:0.82rem">
+    <a href="../../index.html" style="color:var(--accent4);text-decoration:none">🏠 Hub do bootcamp</a> ·
+    <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener" style="color:var(--accent4);text-decoration:none">github.com/kelsonvictr</a>
+  </p>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 04 — Loops e Listas | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ==== extras locais ao capítulo 04 ==== */
+
+/* Banner roxo de boas-vindas do capítulo */
+.loops-banner{
+  background:linear-gradient(135deg,rgba(167,139,250,0.10),rgba(108,99,255,0.06));
+  border:2px solid rgba(167,139,250,0.20);
+  border-radius:24px;padding:36px 28px;text-align:center;
+  margin:18px 0;position:relative;overflow:hidden;
+}
+.loops-banner::after{
+  content:'🔁';font-size:8rem;position:absolute;
+  top:-30px;right:-30px;opacity:0.06;line-height:1;
+  transform:rotate(-12deg);
+}
+.loops-banner h3{font-size:1.6rem;margin-bottom:8px;color:var(--accent6)}
+
+/* Loop while animado — bolinhas pulando uma a uma */
+.loop-anim{justify-content:center}
+.loop-anim .list-cell{
+  animation:loopBounce 4s ease-in-out infinite;
+}
+.loop-anim .list-cell:nth-child(1){animation-delay:0s}
+.loop-anim .list-cell:nth-child(2){animation-delay:0.5s}
+.loop-anim .list-cell:nth-child(3){animation-delay:1s}
+.loop-anim .list-cell:nth-child(4){animation-delay:1.5s}
+.loop-anim .list-cell:nth-child(5){animation-delay:2s}
+
+/* Régua do range — uma célula "fora" no final */
+.range-ruler .list-cell.out{
+  border-style:dashed;
+  opacity:0.45;
+  position:relative;
+}
+.range-ruler .list-cell.out::after{
+  content:'✕';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:1.6rem;color:var(--bug);font-weight:900;
+}
+.range-ruler .list-cell.out .list-cell-val{
+  text-decoration:line-through;color:var(--text-dim);
+}
+.range-caption{
+  text-align:center;color:var(--text-dim);font-size:0.88rem;
+  margin-top:-6px;font-family:'JetBrains Mono',monospace;
+}
+.range-caption strong{color:var(--accent5)}
+
+/* Lista visual com índices acima */
+.named-list .list-cell{min-width:96px}
+.named-list .list-cell .list-cell-val{font-size:0.95rem}
+
+/* Cartão de dois lados (while x for) */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+@media(max-width:640px){.duo{grid-template-columns:1fr}}
+.duo-side{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:18px;
+}
+.duo-side h4{margin-bottom:8px;font-size:1.05rem}
+.duo-side.while h4{color:var(--accent6)}
+.duo-side.for   h4{color:var(--accent3)}
+.duo-side ul{margin-left:18px;color:var(--text-dim);font-size:0.92rem}
+.duo-side li{margin-bottom:6px}
+
+/* Counter visual ao lado do loop */
+.loop-counter{
+  display:flex;justify-content:center;gap:14px;
+  margin:14px 0 6px;font-family:'JetBrains Mono',monospace;
+  color:var(--text-dim);font-size:0.92rem;
+}
+.loop-counter .pill{
+  background:var(--surface2);border:1px solid rgba(167,139,250,0.30);
+  border-radius:8px;padding:6px 12px;color:var(--accent6);font-weight:800;
+}
+
+/* Card especial pro desafio externo */
+.external-challenge{
+  background:linear-gradient(135deg,rgba(108,99,255,0.10),rgba(78,205,196,0.06));
+  border:2px solid rgba(108,99,255,0.30);
+  border-radius:18px;padding:24px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  margin:24px 0;
+}
+.external-challenge .ic{font-size:3rem;line-height:1}
+.external-challenge .info{flex:1;min-width:240px}
+.external-challenge h4{color:var(--accent3);font-size:1.15rem;margin-bottom:6px}
+.external-challenge p{color:var(--text-dim);font-size:0.9rem;margin-bottom:0}
+.external-challenge a.btn{
+  display:inline-block;padding:10px 22px;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  color:white;font-weight:900;text-decoration:none;
+  border-radius:50px;font-size:0.9rem;letter-spacing:0.5px;
+  white-space:nowrap;
+}
+
+/* Mini split for "passo a passo" while */
+.recipe-steps{counter-reset:rec;display:grid;gap:10px;margin:18px 0}
+.recipe-step{
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 18px;font-weight:700;
+}
+.recipe-step::before{
+  counter-increment:rec;content:counter(rec);
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent6),var(--accent));
+  color:white;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.92rem;flex-shrink:0;
+}
+.recipe-step .emoji{font-size:1.4rem;margin-left:auto}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🔁 Capítulo 04</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('while')"><span class="dot" style="background:var(--accent6)"></span>while</a>
+    <a class="sidebar-link" onclick="goTo('contagem')"><span class="dot" style="background:var(--accent4)"></span>Contagem animada</a>
+    <a class="sidebar-link" onclick="goTo('contagem-regressiva')"><span class="dot" style="background:var(--accent6)"></span>Contagem regressiva</a>
+    <a class="sidebar-link" onclick="goTo('for')"><span class="dot" style="background:var(--accent3)"></span>for</a>
+    <a class="sidebar-link" onclick="goTo('range')"><span class="dot" style="background:var(--accent5)"></span>range()</a>
+    <a class="sidebar-link" onclick="goTo('mini-quiz-range')"><span class="dot" style="background:var(--accent5)"></span>Mini quiz range</a>
+    <a class="sidebar-link" onclick="goTo('tabuada')"><span class="dot" style="background:var(--accent4)"></span>Tabuada</a>
+    <a class="sidebar-link" onclick="goTo('tabuada-intervalo')"><span class="dot" style="background:var(--accent6)"></span>Tabuada com intervalo</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('listas')"><span class="dot" style="background:var(--accent)"></span>Listas</a>
+    <a class="sidebar-link" onclick="goTo('lista-alunos')"><span class="dot" style="background:var(--accent6)"></span>Lista de alunos</a>
+    <a class="sidebar-link" onclick="goTo('lista-interativa')"><span class="dot" style="background:var(--accent6)"></span>Lista interativa</a>
+    <a class="sidebar-link" onclick="goTo('quiz-listas')"><span class="dot" style="background:var(--accent5)"></span>Quiz de listas</a>
+    <a class="sidebar-link" onclick="goTo('desafio-externo')"><span class="dot" style="background:var(--accent3)"></span>Desafio extra</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🔁 📋 ✨</div>
+  <span class="hero-badge">Capítulo 04 · Bootcamp Programa AI</span>
+  <h1 class="grad-loops" style="background:linear-gradient(135deg,var(--accent6),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+    Loops e Listas
+  </h1>
+  <p class="subtitle">
+    Hoje a gente ensina o computador a <strong>repetir tarefas sozinho</strong> e a
+    <strong>guardar várias coisas em uma única caixinha</strong>. É a parte que faz a programação
+    parecer mágica — você escreve 4 linhas e o programa faz <em>milhares</em> de operações. Bora?
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">🔁 while</span>
+    <span class="stack-chip">➡️ for</span>
+    <span class="stack-chip">📏 range()</span>
+    <span class="stack-chip">📋 listas</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. AQUECIMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="aquecimento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Aquecimento</div>
+        <div class="step-sub">Antes de codar, dois quizzes pra esquentar a cabeça</div>
+      </div>
+    </div>
+
+    <div class="loops-banner">
+      <h3>E se a gente quisesse mostrar de 1 a 1000 na tela?</h3>
+      <p style="font-size:1.02rem;color:var(--text-dim);max-width:600px;margin:0 auto">
+        Copiar e colar <code>print()</code> mil vezes? Nem pensar. <strong>Pra isso existem os loops</strong> —
+        estruturas que repetem comandos por você.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> Pra que serve uma estrutura de repetição (loop)?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Para guardar valores em variáveis</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) Para repetir um bloco de código várias vezes</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) Para tomar decisões (sim/não)</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Para imprimir uma única linha</button>
+        </div>
+        <div class="quiz-feedback" data-explain="loops servem pra repetir. Decisão é if/else (cap 03), guardar é variável (cap 02)."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> O <code>while</code> executa o bloco enquanto:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Sempre, infinitamente</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) A condição for verdadeira (True)</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) A condição for falsa (False)</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Só uma vez</button>
+        </div>
+        <div class="quiz-feedback" data-explain="while = 'enquanto'. Roda enquanto a condição der True. Quando vira False, ele para."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. WHILE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="while">
+    <div class="step-header">
+      <div class="step-number sn-purple">🔁</div>
+      <div>
+        <div class="step-title">while — fica fazendo enquanto…</div>
+        <div class="step-sub">A primeira estrutura de repetição</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Pensa numa torneira pingando</div>
+        <p>
+          <strong>Enquanto</strong> a torneira estiver aberta, ela pinga.
+          Você fecha → para de pingar. <strong>Enquanto</strong> seu celular tem bateria, ele liga.
+          Bateria acabou → desliga. <strong>Esse "enquanto"</strong> é literalmente o <code>while</code> em Python.
+        </p>
+      </div>
+
+      <p style="margin:14px 0">A estrutura é assim:</p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">exemplo_while.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="kw">while</span> <span class="bi">condicao</span>:
+    <span class="cm"># comandos que vão repetir</span>
+    <span class="cm"># enquanto a condição for True</span>
+    ...</pre>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🎬 Ele em ação — contagem de 1 a 5</div>
+        <p>O contador começa em 1, e a cada volta a gente <strong>incrementa</strong> (soma 1). Quando passa de 5, o while para.</p>
+      </div>
+
+      <div class="loop-counter">
+        <span class="pill">contador = 1</span>
+        <span class="pill">condição: contador &lt;= 5</span>
+      </div>
+
+      <div class="loop-anim list-viz">
+        <div class="list-cell"><div class="list-cell-val">1</div></div>
+        <div class="list-cell"><div class="list-cell-val">2</div></div>
+        <div class="list-cell"><div class="list-cell-val">3</div></div>
+        <div class="list-cell"><div class="list-cell-val">4</div></div>
+        <div class="list-cell"><div class="list-cell-val">5</div></div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">contagem_simples.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>contador = <span class="num">1</span>
+<span class="kw">while</span> contador &lt;= <span class="num">5</span>:
+    <span class="bi">print</span>(contador)
+    contador = contador + <span class="num">1</span>   <span class="cm"># 👈 não esquecer!</span></pre>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Cuidado supremo do while:</strong> se você esquecer de <strong>aumentar o contador</strong>
+          (a famosa linha <code>contador = contador + 1</code>), a condição NUNCA vira False —
+          e o programa <strong>roda pra sempre</strong>. O famoso <em>loop infinito</em> 🌀.
+          O BugZilla AMA isso. Cuidado.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. BORA CODAR — CONTAGEM ANIMADA (guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="contagem">
+    <div class="step-header">
+      <div class="step-number sn-blue">4.0</div>
+      <div>
+        <div class="step-title">Bora Codar! — Contagem animada</div>
+        <div class="step-sub">Vamos fazer juntos · contagem.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">Seu primeiro while na prática</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">Passo a passo:</p>
+      <div class="recipe-steps">
+        <div class="recipe-step"><div>Crie o arquivo <code>contagem.py</code></div><span class="emoji">📄</span></div>
+        <div class="recipe-step"><div>Crie a variável <code>contador = 1</code></div><span class="emoji">🔢</span></div>
+        <div class="recipe-step"><div>Use <code>while contador &lt;= 10:</code></div><span class="emoji">🔁</span></div>
+        <div class="recipe-step"><div>Dentro: <code>print(contador)</code> e <code>contador += 1</code></div><span class="emoji">⬆️</span></div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">contagem.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># conta de 1 a 10</span>
+contador = <span class="num">1</span>
+<span class="kw">while</span> contador &lt;= <span class="num">10</span>:
+    <span class="bi">print</span>(<span class="st">f"Número: {contador}"</span>)
+    contador += <span class="num">1</span></pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · contagem.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python contagem.py</span><br>
+          <span class="typed" data-text="Número: 1
+Número: 2
+Número: 3
+Número: 4
+Número: 5
+Número: 6
+Número: 7
+Número: 8
+Número: 9
+Número: 10"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:14px">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          <strong>Atalho útil:</strong> <code>contador += 1</code> é a mesma coisa que
+          <code>contador = contador + 1</code>. Mais curto, mesma coisa.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. DESAFIO — CONTAGEM REGRESSIVA (solo)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="contagem-regressiva">
+    <div class="step-header">
+      <div class="step-number sn-purple">4.1</div>
+      <div>
+        <div class="step-title">Desafio Individual — contagem_regressiva.py</div>
+        <div class="step-sub">3… 2… 1… 🚀</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · contagem_regressiva.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>contagem_regressiva.py</code>. Faça uma contagem <strong>de 10 até 1</strong>
+          (de cabeça pra baixo!) usando <code>while</code>. No final, imprima
+          <em>"🚀 Decolar!"</em>.
+        </p>
+        <p>
+          🤔 <strong>Pensa:</strong> se antes você somava 1, agora você precisa <strong>subtrair 1</strong>.
+          A condição também muda — <code>while contador &gt;= 1</code>. Lembra do exercício anterior!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Erre, ajuste, teste de novo —
+          é assim que se aprende. <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">contagem_regressiva.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="cm"># conta de 10 até 1</span>
+contador = <span class="num">10</span>
+<span class="kw">while</span> contador &gt;= <span class="num">1</span>:
+    <span class="bi">print</span>(contador)
+    contador -= <span class="num">1</span>
+<span class="bi">print</span>(<span class="st">"🚀 Decolar!"</span>)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> A linha do "Decolar" fica <strong>fora</strong> do while —
+              ela só aparece <em>depois</em> que o loop termina. Indentação importa!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. FOR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="for">
+    <div class="step-header">
+      <div class="step-number sn-green">➡️</div>
+      <div>
+        <div class="step-title">for — passa em cada um da fila</div>
+        <div class="step-sub">Quando você sabe quantas vezes vai repetir</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Pensa num professor fazendo chamada</div>
+        <p>
+          Ele tem uma <strong>lista de alunos</strong> e vai <strong>um por um</strong>: "Ana?", "João?", "Davi?"…
+          Não precisa contar nada — ele só percorre a fila.
+          <strong>É isso que o <code>for</code> faz:</strong> percorre uma sequência, item por item.
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">exemplo_for.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2</div>
+<pre><span class="kw">for</span> item <span class="kw">in</span> sequencia:
+    <span class="bi">print</span>(item)</pre>
+      </div>
+
+      <div class="duo">
+        <div class="duo-side while">
+          <h4>🔁 while</h4>
+          <ul>
+            <li>"Enquanto algo for verdade…"</li>
+            <li>Você controla o contador na mão</li>
+            <li>Pode rodar 0 ou ∞ vezes</li>
+            <li>Cuidado com loop infinito 🌀</li>
+          </ul>
+        </div>
+        <div class="duo-side for">
+          <h4>➡️ for</h4>
+          <ul>
+            <li>"Pra cada item da sequência…"</li>
+            <li>O Python controla pra você</li>
+            <li>Roda exatamente N vezes (tamanho da sequência)</li>
+            <li>Mais seguro e mais comum no dia a dia</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Regra prática:</strong> se você <em>sabe quantas vezes</em> vai repetir, use <code>for</code>.
+          Se depende de uma condição que muda (tipo "enquanto o usuário não digitar sair"), use <code>while</code>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. RANGE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="range">
+    <div class="step-header">
+      <div class="step-number sn-yellow">📏</div>
+      <div>
+        <div class="step-title">range() — uma régua de números</div>
+        <div class="step-sub">O parceiro favorito do for</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Pensa numa régua de escola</div>
+        <p>
+          A régua tem números marcadinhos: 1, 2, 3, 4, 5… O <code>range(1, 6)</code> é
+          <strong>literalmente isso</strong> — uma régua que vai de <strong>1 até 5</strong>.
+          Sim, <strong>até 5</strong>, não até 6!
+        </p>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>O detalhe que pega todo mundo:</strong> em <code>range(start, stop)</code>,
+          o número <code>stop</code> <strong>NÃO entra</strong> na sequência.
+          Ele é o "limite" — chegou nele, para.
+        </div>
+      </div>
+
+      <p style="margin:14px 0;text-align:center;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">
+        <strong style="color:var(--accent5)">range(1, 6)</strong> gera:
+      </p>
+
+      <div class="range-ruler list-viz">
+        <div class="list-cell"><div class="list-cell-val">1</div></div>
+        <div class="list-cell"><div class="list-cell-val">2</div></div>
+        <div class="list-cell"><div class="list-cell-val">3</div></div>
+        <div class="list-cell"><div class="list-cell-val">4</div></div>
+        <div class="list-cell"><div class="list-cell-val">5</div></div>
+        <div class="list-cell out"><div class="list-cell-val">6</div></div>
+      </div>
+      <div class="range-caption">
+        ✅ entram: <strong>1, 2, 3, 4, 5</strong> &nbsp;·&nbsp; ❌ NÃO entra: 6 (é o limite!)
+      </div>
+
+      <div class="code-block with-lines" style="margin-top:24px">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">exemplo_range.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="cm"># for + range = combo perfeito</span>
+<span class="kw">for</span> numero <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="bi">print</span>(numero)
+<span class="cm"># imprime: 1, 2, 3, 4, 5</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎯</span>
+        <div class="tip-content">
+          <strong>Atalho:</strong> <code>range(5)</code> (só com um número) também funciona —
+          ele vai de <strong>0 até 4</strong> (sempre começa em 0 quando você não diz o início).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6.5. MINI QUIZ DO RANGE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="mini-quiz-range">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Mini quiz — você pegou o range?</div>
+        <div class="step-sub">Pergunta rapidinha de 10 segundos</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Quantos números <code>range(1, 11)</code> gera?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) 11 números (1 a 11)</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) 10 números (1 a 10)</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) 9 números (2 a 10)</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Infinito</button>
+        </div>
+        <div class="quiz-feedback" data-explain="o stop NÃO entra. Vai de 1 até 10. São 10 números no total."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. BORA CODAR — TABUADA (guiado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="tabuada">
+    <div class="step-header">
+      <div class="step-number sn-blue">4.2</div>
+      <div>
+        <div class="step-title">Bora Codar! — Tabuada</div>
+        <div class="step-sub">Vamos fazer juntos · tabuada.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">A tabuada do 3 — em 4 linhas!</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Lembra de quando a gente decorava tabuada na escola? <strong>Agora o computador faz por você.</strong>
+        Vamos imprimir <code>3 x 1 = 3</code>, <code>3 x 2 = 6</code>, … até <code>3 x 10 = 30</code>.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">tabuada.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="cm"># tabuada do 3</span>
+numero = <span class="num">3</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="bi">print</span>(<span class="st">f"{numero} x {i} = {numero * i}"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · tabuada.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python tabuada.py</span><br>
+          <span class="typed" data-text="3 x 1 = 3
+3 x 2 = 6
+3 x 3 = 9
+3 x 4 = 12
+3 x 5 = 15
+3 x 6 = 18
+3 x 7 = 21
+3 x 8 = 24
+3 x 9 = 27
+3 x 10 = 30"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:14px">
+        <span class="tip-icon">🤯</span>
+        <div class="tip-content">
+          <strong>Olha que poder:</strong> 4 linhas de código fizeram o trabalho que demoraria
+          10 <code>print()</code>. E se a gente quisesse de 1 a 100? Trocar o <code>11</code> por <code>101</code>.
+          Pronto. <strong>Isso é programar.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. DESAFIO — TABUADA INTERVALO (solo)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="tabuada-intervalo">
+    <div class="step-header">
+      <div class="step-number sn-purple">4.3</div>
+      <div>
+        <div class="step-title">Desafio Individual — tabuada_intervalo.py</div>
+        <div class="step-sub">Tabuada com intervalo personalizado</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · tabuada_intervalo.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>tabuada_intervalo.py</code>. Pergunte ao usuário <strong>3 coisas</strong>:
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Qual número quer ver a tabuada (ex: 7)</li>
+          <li>Início do intervalo (ex: 5)</li>
+          <li>Fim do intervalo (ex: 10)</li>
+        </ol>
+        <p>
+          Depois imprima a tabuada do número escolhido <strong>de início até fim</strong>.
+          ⚠️ <strong>Atenção:</strong> <code>input()</code> retorna texto — converta com <code>int()</code>!
+          E lembra que o <code>range(start, stop)</code> não inclui o <code>stop</code>?
+          Soma <strong>+1</strong> no fim pra incluir.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Junte input + int + for + range —
+          é tudo o que você já sabe. <strong>Tenta antes de espiar!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">tabuada_intervalo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>numero = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Qual a tabuada? "</span>))
+inicio = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Início do intervalo: "</span>))
+fim    = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Fim do intervalo: "</span>))
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(inicio, fim + <span class="num">1</span>):
+    <span class="cm"># o "+1" garante que o "fim" entra</span>
+    <span class="bi">print</span>(<span class="st">f"{numero} x {i} = {numero * i}"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · tabuada_intervalo.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Qual a tabuada? </span><span class="typed" data-text="7"></span><br>
+              <span class="out">Início do intervalo: </span><span class="typed" data-text="5"></span><br>
+              <span class="out">Fim do intervalo: </span><span class="typed" data-text="8"></span><br>
+              <span class="typed" data-text="7 x 5 = 35
+7 x 6 = 42
+7 x 7 = 49
+7 x 8 = 56"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🧠</span>
+            <div class="tip-content">
+              <strong>Por que <code>fim + 1</code>?</strong> Porque o range corta no <code>stop</code>.
+              Se eu quero que o 8 apareça, tenho que pedir <code>range(5, 9)</code> — que é
+              <code>range(inicio, fim + 1)</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. BUGZILLA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu de novo!</div>
+        <div class="step-sub">Os erros clássicos de loop</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">Dois pesadelos do iniciante com loops</div>
+          <div class="bugzilla-sub">A gente sofre — depois aprende. Todo mundo passa por aqui.</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p style="margin-bottom:14px">
+          <strong>Erro 1: esquecer os dois pontos</strong> <code>:</code> no fim do <code>while</code> ou <code>for</code>.
+        </p>
+
+        <div class="code-block" style="margin-bottom:14px">
+          <div class="code-header">
+            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <span class="filename">errado.py</span>
+            <span class="lang-badge terminal">erro</span>
+          </div>
+<pre><span class="kw">while</span> contador &lt;= <span class="num">5</span>   <span class="cm"># ❌ faltou os : no final</span>
+    <span class="bi">print</span>(contador)
+    contador += <span class="num">1</span></pre>
+        </div>
+
+        <p style="margin-bottom:14px">
+          O Python reclama com algo tipo: <code style="color:var(--bug)">SyntaxError: expected ':'</code>.
+          Bom, é exatamente isso — <strong>esqueceu os dois pontinhos</strong>.
+        </p>
+
+        <p style="margin-bottom:14px">
+          <strong>Erro 2: loop infinito</strong> 🌀 — o famoso "esqueci de incrementar".
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <span class="filename">infinito.py</span>
+            <span class="lang-badge terminal">perigo</span>
+          </div>
+<pre>contador = <span class="num">1</span>
+<span class="kw">while</span> contador &lt;= <span class="num">5</span>:
+    <span class="bi">print</span>(contador)
+    <span class="cm"># 😱 esqueceu de fazer contador += 1</span>
+    <span class="cm"># resultado: imprime "1" pra sempre 🌀🌀🌀</span></pre>
+        </div>
+
+        <p style="margin-top:14px">
+          Se isso acontecer com você no PyCharm, aperta o botão <strong>Stop ⏹</strong>
+          (quadradinho vermelho) pra matar o programa. Fica tranquilo, computador não explode 😄.
+        </p>
+      </div>
+    </div>
+
+    <div class="toggler" style="margin-top:18px">
+      <div class="toggler-header" onclick="toggleSection(this)">
+        <span>👀 Como CORRIGIR cada um — clique pra ver</span>
+        <span class="toggler-arrow">▼</span>
+      </div>
+      <div class="toggler-body">
+        <div class="code-block with-lines">
+          <div class="code-header">
+            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <span class="filename">corrigido.py</span>
+            <span class="lang-badge python">Python</span>
+          </div>
+          <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>contador = <span class="num">1</span>
+<span class="kw">while</span> contador &lt;= <span class="num">5</span>:    <span class="cm"># ✅ tem os dois pontos</span>
+    <span class="bi">print</span>(contador)
+    contador += <span class="num">1</span>             <span class="cm"># ✅ incrementa, sempre</span></pre>
+        </div>
+
+        <div class="tip" style="margin-top:14px">
+          <span class="tip-icon">📖</span>
+          <div class="tip-content">
+            <strong>Hábito de ouro:</strong> sempre que escrever <code>while</code>, <strong>já escreva o incremento na hora</strong>.
+            Tipo um casamento — não deixe para depois.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">📋</span>
+    <span class="chapter-number">Parte 2 — Listas</span>
+    <h2 class="grad-loops">Guardando várias coisas em uma caixinha só</h2>
+    <p class="chapter-subtitle">
+      Até agora cada variável guardava <em>uma coisa</em>. E se você quiser guardar
+      <strong>todos os alunos da turma</strong>? Bora conhecer as <strong>listas</strong>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. LISTAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="listas">
+    <div class="step-header">
+      <div class="step-number sn-main" style="background:var(--accent)">📋</div>
+      <div>
+        <div class="step-title">Listas — uma prateleira numerada</div>
+        <div class="step-sub">Vários valores, uma só variável</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Pensa numa prateleira numerada</div>
+        <p>
+          Cada <strong>posição</strong> da prateleira tem um <strong>número fixo</strong>:
+          0, 1, 2, 3… (sim, começa em <strong>zero</strong>, programador é assim 😅).
+          Em cada posição você guarda uma coisa. Pra pegar uma coisa específica,
+          você <strong>aponta para o número da posição</strong>.
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">primeira_lista.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># minha primeira lista</span>
+alunos = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>, <span class="st">"Maria"</span>, <span class="st">"Lia"</span>]
+
+<span class="bi">print</span>(alunos[<span class="num">0</span>])   <span class="cm"># Ana   — primeira posição</span>
+<span class="bi">print</span>(alunos[<span class="num">2</span>])   <span class="cm"># Davi  — terceira posição</span></pre>
+      </div>
+
+      <p style="margin:14px 0;text-align:center;color:var(--text-dim)">
+        Visualmente:
+      </p>
+
+      <div class="named-list list-viz">
+        <div class="list-cell">
+          <span class="list-cell-idx">0</span>
+          <div class="list-cell-val">"Ana"</div>
+        </div>
+        <div class="list-cell">
+          <span class="list-cell-idx">1</span>
+          <div class="list-cell-val">"João"</div>
+        </div>
+        <div class="list-cell">
+          <span class="list-cell-idx">2</span>
+          <div class="list-cell-val">"Davi"</div>
+        </div>
+        <div class="list-cell">
+          <span class="list-cell-idx">3</span>
+          <div class="list-cell-val">"Maria"</div>
+        </div>
+        <div class="list-cell">
+          <span class="list-cell-idx">4</span>
+          <div class="list-cell-val">"Lia"</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Cuidado:</strong> índice <strong>começa em 0</strong>! O "primeiro" da lista é
+          <code>alunos[0]</code>, não <code>alunos[1]</code>. É contraintuitivo, mas é assim em
+          quase toda linguagem de programação.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🛠 Funções essenciais de lista</div>
+        <p style="margin-bottom:8px">Duas que você vai usar TODA HORA:</p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">funcoes_lista.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>alunos = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>]
+
+<span class="bi">print</span>(<span class="bi">len</span>(alunos))      <span class="cm"># 3 — tamanho da lista</span>
+
+alunos.append(<span class="st">"Pedro"</span>)  <span class="cm"># adiciona no FIM</span>
+<span class="bi">print</span>(alunos)
+<span class="cm"># ['Ana', 'João', 'Davi', 'Pedro']</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🔁</span>
+        <div class="tip-content">
+          <strong>Combo perfeito:</strong> <code>for nome in alunos:</code> percorre a lista inteirinha,
+          <strong>uma posição de cada vez</strong>. Sem precisar mexer com índices!
+        </div>
+      </div>
+
+      <div class="code-block with-lines" style="margin-top:14px">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">for_lista.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>alunos = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>]
+
+<span class="kw">for</span> nome <span class="kw">in</span> alunos:
+    <span class="bi">print</span>(<span class="st">f"Olá, {nome}!"</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. DESAFIO — LISTA DE ALUNOS (solo)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="lista-alunos">
+    <div class="step-header">
+      <div class="step-number sn-purple">4.4</div>
+      <div>
+        <div class="step-title">Desafio Individual — lista_alunos.py</div>
+        <div class="step-sub">Sua primeira lista na prática</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · lista_alunos.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>lista_alunos.py</code>. Comece com uma lista de <strong>5 nomes</strong>
+          (à sua escolha — pode ser dos seus colegas reais 😄).
+        </p>
+        <p>
+          Depois faça <strong>3 coisas</strong>:
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Imprima quantos alunos têm na lista (use <code>len()</code>).</li>
+          <li>Imprima o <strong>primeiro</strong> e o <strong>último</strong> da lista (dica: <code>lista[0]</code> e <code>lista[-1]</code>).</li>
+          <li>Use <code>for</code> pra mostrar todos os nomes, um por linha, com a frase <em>"Aluno: [nome]"</em>.</li>
+        </ol>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É a primeira vez que você junta
+          <code>for</code> + lista. Vai por etapas — testa cada parte separada se precisar.
+          <strong>Você consegue!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">lista_alunos.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>alunos = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>, <span class="st">"Maria"</span>, <span class="st">"Lia"</span>]
+
+<span class="bi">print</span>(<span class="st">f"Total de alunos: {<span class="bi">len</span>(alunos)}"</span>)
+<span class="bi">print</span>(<span class="st">f"Primeiro: {alunos[<span class="num">0</span>]}"</span>)
+<span class="bi">print</span>(<span class="st">f"Último: {alunos[-<span class="num">1</span>]}"</span>)
+
+<span class="kw">for</span> nome <span class="kw">in</span> alunos:
+    <span class="bi">print</span>(<span class="st">f"Aluno: {nome}"</span>)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🤓</span>
+            <div class="tip-content">
+              <strong>Bônus:</strong> <code>alunos[-1]</code> pega o <strong>último</strong> sem você precisar
+              saber o tamanho. <code>alunos[-2]</code> pega o penúltimo, e assim por diante. Ó, presente do Python!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. DESAFIO — LISTA INTERATIVA (solo) — climax!
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="lista-interativa">
+    <div class="step-header">
+      <div class="step-number sn-purple">4.5</div>
+      <div>
+        <div class="step-title">Desafio Final — lista_interativa.py</div>
+        <div class="step-sub">while + lista + input no mesmo programa 🔥</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🏆</span>
+        <div>
+          <div class="exercise-title">Desafio Individual — Climax do capítulo</div>
+          <div class="exercise-sub">Faça sozinho · lista_interativa.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>lista_interativa.py</code>. Esse é o exercício <strong>cumulativo</strong> do capítulo —
+          você vai juntar <strong>tudo</strong>: while, input, lista, append, for. 🤯
+        </p>
+        <p>Comportamento esperado:</p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Comece com uma lista <strong>vazia</strong>: <code>nomes = []</code>.</li>
+          <li>Use <code>while True:</code> pra repetir até o usuário digitar <code>"sair"</code>.</li>
+          <li>A cada volta, peça um nome com <code>input()</code>.</li>
+          <li>Se o nome for <code>"sair"</code>, use <code>break</code> pra parar o loop.</li>
+          <li>Senão, <code>append</code> o nome na lista.</li>
+          <li>Quando sair do loop, mostre a lista final com um <code>for</code>.</li>
+        </ol>
+        <p>
+          🆕 <strong>Conceito novo:</strong> <code>break</code> faz o loop parar imediatamente,
+          mesmo que a condição ainda fosse True.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse é o desafio mais legal do capítulo.</strong>
+          Tenta de verdade — pode dar erro, pode ficar 10 minutos quebrando a cabeça,
+          <strong>e tá ótimo</strong>. É aí que o cérebro aprende. 💪
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">lista_interativa.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre><span class="cm"># lista vazia pra começar</span>
+nomes = []
+
+<span class="kw">while</span> <span class="bi">True</span>:
+    nome = <span class="bi">input</span>(<span class="st">"Digite um nome (ou 'sair' pra terminar): "</span>)
+    <span class="kw">if</span> nome == <span class="st">"sair"</span>:
+        <span class="kw">break</span>             <span class="cm"># 👋 sai do while</span>
+    nomes.append(nome)
+
+<span class="bi">print</span>(<span class="st">"\n--- Lista final ---"</span>)
+<span class="kw">for</span> n <span class="kw">in</span> nomes:
+    <span class="bi">print</span>(<span class="st">f"• {n}"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · lista_interativa.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Digite um nome (ou 'sair' pra terminar): </span><span class="typed" data-text="Ana"></span><br>
+              <span class="out">Digite um nome (ou 'sair' pra terminar): </span><span class="typed" data-text="João"></span><br>
+              <span class="out">Digite um nome (ou 'sair' pra terminar): </span><span class="typed" data-text="Davi"></span><br>
+              <span class="out">Digite um nome (ou 'sair' pra terminar): </span><span class="typed" data-text="sair"></span><br>
+              <span class="typed" data-text="--- Lista final ---
+• Ana
+• João
+• Davi"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎯</span>
+            <div class="tip-content">
+              <strong>Sacou o poder?</strong> Esse padrão (<code>while True</code> + <code>break</code> + lista) é
+              a base de <em>quase todo</em> sistema de cadastro do mundo — desde um app de receitas
+              até o Instagram. <strong>Você acabou de aprender algo profissional.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. QUIZ DE LISTAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-listas">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz — fixando listas</div>
+        <div class="step-sub">Duas perguntas pra ver se grudou</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q">
+          <span class="q-emoji">4️⃣</span> Dada a lista
+          <code>frutas = ["maçã", "banana", "uva"]</code>, qual comando imprime <strong>"banana"</strong>?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) <code>print(frutas[1])</code> — não, esse é o terceiro</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) <code>print(frutas[1])</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) <code>print(frutas[2])</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) <code>print(frutas["banana"])</code></button>
+        </div>
+        <div class="quiz-feedback" data-explain="índice começa em 0! Então maçã=0, banana=1, uva=2. O segundo item é frutas[1]."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q">
+          <span class="q-emoji">5️⃣</span> O que <code>len(["a", "b", "c", "d"])</code> retorna?
+        </div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) 3 (porque começa em 0)</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) 4</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) 5</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) "abcd"</button>
+        </div>
+        <div class="quiz-feedback" data-explain="len() retorna a QUANTIDADE de itens. Tem 4 itens, então é 4. Não confunde com o último ÍNDICE (que seria 3)."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       14. DESAFIO EXTERNO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-externo">
+    <div class="step-header">
+      <div class="step-number sn-green">🌟</div>
+      <div>
+        <div class="step-title">Desafio extra — pra quem quer mais</div>
+        <div class="step-sub">Sistema completo prático lá fora</div>
+      </div>
+    </div>
+
+    <div class="external-challenge">
+      <span class="ic">🚀</span>
+      <div class="info">
+        <h4>Mini-projeto extra — Desafio 01</h4>
+        <p>
+          Sistema completo pra você praticar <strong>tudo</strong> que viu até aqui (variáveis, condicionais, loops, listas).
+          Acessa, lê o enunciado e tenta resolver. É opcional, mas <strong>quem faz, decola</strong>. 🚀
+        </p>
+      </div>
+      <a class="btn" href="https://desafio-01-programacao-iniciantes-p.vercel.app/" target="_blank" rel="noopener">
+        Abrir desafio →
+      </a>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       15. RESUMO + PRÓXIMO CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 04</div>
+        <div class="step-sub">Tudo que você acabou de dominar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🔁</span>
+          <span class="kw-name">while</span>
+          <span class="kw-desc">Repete enquanto a condição for True (cuidado com o incremento!)</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">➡️</span>
+          <span class="kw-name">for</span>
+          <span class="kw-desc">Percorre cada item de uma sequência</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📏</span>
+          <span class="kw-name">range(start, stop)</span>
+          <span class="kw-desc">Gera números de start até stop−1 (stop NÃO entra)</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📋</span>
+          <span class="kw-name">listas</span>
+          <span class="kw-desc"><code>[1, 2, 3]</code> — vários valores em uma só variável</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">0️⃣</span>
+          <span class="kw-name">índices</span>
+          <span class="kw-desc">Começam em 0! <code>lista[0]</code> é o primeiro</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📐</span>
+          <span class="kw-name">len()</span>
+          <span class="kw-desc">Quantos itens tem a lista</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">➕</span>
+          <span class="kw-name">append()</span>
+          <span class="kw-desc">Adiciona um item no fim da lista</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⛔</span>
+          <span class="kw-name">break</span>
+          <span class="kw-desc">Sai de um loop antes da hora</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐛</span>
+          <span class="kw-name">BugZilla</span>
+          <span class="kw-desc">Esquecer <code>:</code> e loop infinito — clássicos</span>
+        </div>
+      </div>
+
+      <div class="loops-banner" style="margin-top:24px">
+        <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--accent6)">
+          "Você ensinou o computador a repetir e a guardar coisas. <br>
+          Agora ele faz mil tarefas pra você sem cansar — bem-vindo ao mundo real do código!" 🚀
+        </h3>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(6,214,160,0.06),rgba(78,205,196,0.04));border-color:rgba(6,214,160,0.20)">
+      <h3 style="color:var(--accent7);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 05 — Funções.</strong>
+        Você já consegue <em>repetir</em> código com loops. Mas e quando o mesmo código aparece
+        em <strong>vários lugares</strong> do programa? Funções resolvem isso — você escreve UMA vez,
+        usa MUITAS. Bora?
+      </p>
+      <a href="../05-funcoes/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent7),var(--accent3));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
+        🛠 Ir para Capítulo 05 →
+      </a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

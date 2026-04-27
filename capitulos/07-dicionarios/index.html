@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 07 — Dicionários | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* extras locais ao capítulo 07 */
+.dict-shelf{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;margin:24px 0;
+}
+.dict-shelf .dict-viz{margin:0;max-width:none}
+.dict-viz.shelf-card{
+  position:relative;
+  border-color:rgba(167,139,250,0.30);
+  background:linear-gradient(160deg,rgba(167,139,250,0.06),rgba(108,99,255,0.04));
+}
+.dict-viz.shelf-card::before{
+  content:'📋';position:absolute;top:-14px;left:14px;
+  font-size:1.2rem;background:var(--bg);padding:0 6px;
+}
+.dict-viz .dict-name{
+  font-family:'Caveat',cursive;color:var(--accent6);
+  font-size:1.3rem;text-align:center;line-height:1;
+  margin:-4px 0 10px;
+}
+
+.versus-row{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;
+  margin:24px 0;
+}
+@media(max-width:720px){
+  .versus-row{grid-template-columns:1fr;gap:12px}
+  .versus-vs{justify-self:center}
+}
+.versus-side{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:20px;
+}
+.versus-side h4{
+  margin-bottom:10px;font-family:'Caveat',cursive;
+  font-size:1.5rem;line-height:1;
+}
+.versus-side.list h4 {color:var(--accent4)}
+.versus-side.dict h4 {color:var(--accent6)}
+.versus-side code{
+  display:block;background:var(--code-bg);
+  padding:8px 12px;border-radius:8px;
+  font-family:'JetBrains Mono',monospace;font-size:0.86rem;
+  color:var(--accent5);margin:6px 0;
+}
+.versus-vs{
+  font-family:'Caveat',cursive;font-size:2rem;
+  color:var(--accent5);text-align:center;line-height:1;
+  background:var(--surface);border:2px solid rgba(247,183,49,0.30);
+  border-radius:50%;width:60px;height:60px;
+  display:flex;align-items:center;justify-content:center;
+  justify-self:center;
+}
+
+.menu-mock{
+  background:#0d0d18;border:1px solid rgba(108,99,255,0.20);
+  border-radius:14px;padding:20px 24px;margin:18px 0;
+  font-family:'JetBrains Mono',monospace;font-size:0.9rem;
+  color:#c9d1d9;line-height:1.85;
+}
+.menu-mock .mm-title{color:var(--accent6);font-weight:700;margin-bottom:6px}
+.menu-mock .mm-num{color:var(--accent5);font-weight:700}
+.menu-mock .mm-q  {color:var(--accent7);margin-top:6px}
+
+.celebrate-banner{
+  background:linear-gradient(135deg,rgba(108,99,255,0.10),rgba(167,139,250,0.06));
+  border:2px solid rgba(167,139,250,0.30);
+  border-radius:24px;padding:32px 28px;text-align:center;
+  margin:18px 0;position:relative;overflow:hidden;
+}
+.celebrate-banner::after{
+  content:'🎉';font-size:8rem;position:absolute;
+  top:-30px;right:-20px;opacity:0.06;line-height:1;
+  transform:rotate(12deg);
+}
+.celebrate-banner h3{font-size:1.6rem;margin-bottom:8px;color:var(--accent6)}
+
+.bridge-card{
+  background:linear-gradient(135deg,rgba(247,183,49,0.06),rgba(78,205,196,0.06));
+  border:2px dashed rgba(247,183,49,0.30);
+  border-radius:18px;padding:24px;margin:18px 0;
+  display:flex;gap:16px;align-items:center;
+}
+.bridge-card .ic{font-size:2.4rem;flex-shrink:0}
+.bridge-card .text{font-size:0.96rem;color:var(--text-dim)}
+.bridge-card strong{color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📒 Capítulo 07</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('quiz-relembrando')"><span class="dot" style="background:var(--accent5)"></span>Quiz relembrando</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e-dict')"><span class="dot" style="background:var(--accent6)"></span>O que é dicionário?</a>
+    <a class="sidebar-link" onclick="goTo('cadastro-dict')"><span class="dot" style="background:var(--accent4)"></span>cadastro_dicionario.py</a>
+    <a class="sidebar-link" onclick="goTo('acessar')"><span class="dot" style="background:var(--accent6)"></span>Acessar valores</a>
+    <a class="sidebar-link" onclick="goTo('atualizar')"><span class="dot" style="background:var(--accent)"></span>Atualizar / Adicionar</a>
+    <a class="sidebar-link" onclick="goTo('atualizar-aluno')"><span class="dot" style="background:var(--accent6)"></span>atualizar_dados_aluno.py</a>
+    <a class="sidebar-link" onclick="goTo('lista-de-dicts')"><span class="dot" style="background:var(--accent6)"></span>Lista de dicionários</a>
+    <a class="sidebar-link" onclick="goTo('lista-vs-dict')"><span class="dot" style="background:var(--accent5)"></span>Lista vs Dicionário</a>
+    <a class="sidebar-link" onclick="goTo('cadastro-pet')"><span class="dot" style="background:var(--accent6)"></span>cadastro_pet.py</a>
+    <a class="sidebar-link" onclick="goTo('quiz-dicts')"><span class="dot" style="background:var(--accent5)"></span>Quiz dicionários</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('sistema-cadastro')"><span class="dot" style="background:var(--accent6)"></span>Sistema de Cadastro 🏆</a>
+    <a class="sidebar-link" onclick="goTo('sistema-pet')"><span class="dot" style="background:var(--accent5)"></span>Sistema Pet (casa)</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">📒 🔑 📇</div>
+  <span class="hero-badge" style="background:linear-gradient(135deg,var(--accent),var(--accent6));color:var(--bg)">Capítulo 07 · Bootcamp Programa AI</span>
+  <h1 class="grad-dicts" style="background:linear-gradient(135deg,var(--accent),var(--accent6));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Dicionários</h1>
+  <p class="subtitle">
+    Hoje você sai de "guardar uma lista de coisas" e entra em <strong>"organizar dados de verdade"</strong>.
+    Vamos aprender <strong>chave: valor</strong>, listas de dicionários e construir um
+    <strong>Sistema de Cadastro</strong> completo. Bora! 🚀
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip" style="background:rgba(108,99,255,0.10);color:var(--accent6)">📒 dict</span>
+    <span class="stack-chip">🔑 chave: valor</span>
+    <span class="stack-chip">📋 lista de dicts</span>
+    <span class="stack-chip">🏆 sistema_cadastro</span>
+    <span class="stack-chip bug">🐛 KeyError</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. QUIZ RELEMBRANDO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-relembrando">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz relembrando — for &amp; lista</div>
+        <div class="step-sub">Antes de avançar, vamos checar o capítulo passado</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="margin-bottom:14px">
+        Antes da gente conhecer dicionário, bora dar uma <strong>relembrada</strong> rápida do que
+        já sabemos sobre <code>for</code> e <code>lista</code>. Se errar, sem stress — clica de novo. 😉
+      </p>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> Em uma lista <code>nomes = ["Ana", "Bia", "Caio"]</code>, qual o índice do "Bia"?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) 0</button>
+          <button class="quiz-opt" data-correct="true"   onclick="checkQuiz(this, true)">B) 1</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) 2</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) 3</button>
+        </div>
+        <div class="quiz-feedback" data-explain="lista começa em 0! Então Ana=0, Bia=1, Caio=2."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> O que o <code>for nome in nomes:</code> faz?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) Repete pra sempre</button>
+          <button class="quiz-opt" data-correct="true"   onclick="checkQuiz(this, true)">B) Passa item por item da lista</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) Conta de 1 até 10</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) Pula a lista</button>
+        </div>
+        <div class="quiz-feedback" data-explain="o for percorre cada item, na ordem, do começo até o fim."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Como adicionar "Davi" na lista <code>nomes</code>?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) <code>nomes + "Davi"</code></button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">B) <code>nomes = "Davi"</code></button>
+          <button class="quiz-opt" data-correct="true"   onclick="checkQuiz(this, true)">C) <code>nomes.append("Davi")</code></button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) <code>nomes.add("Davi")</code></button>
+        </div>
+        <div class="quiz-feedback" data-explain="o método .append() adiciona um item no final da lista."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. O QUE É DICIONÁRIO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="o-que-e-dict">
+    <div class="step-header">
+      <div class="step-number sn-purple">📒</div>
+      <div>
+        <div class="step-title">Dicionários — chave: valor</div>
+        <div class="step-sub">Quando lista não basta, dicionário resolve</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Pensa na agenda do seu celular 📱</div>
+        <p>
+          Quando você quer ligar pra <strong>Mãe</strong>, você não procura "o terceiro número da lista".
+          Você procura pelo <strong>nome "Mãe"</strong> — e o celular te entrega o <strong>número</strong>.
+        </p>
+        <p>
+          É isso que um <strong>dicionário</strong> faz em Python: você guarda
+          <strong style="color:var(--accent5)">uma chave</strong> (tipo "Mãe") e ela aponta
+          pra <strong style="color:var(--text)">um valor</strong> (o número).
+        </p>
+      </div>
+
+      <p style="margin:18px 0 6px">Em Python a sintaxe usa <strong>chaves</strong> <code>{ }</code> e dois pontos:</p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">aluno.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># um dicionário: ficha de um aluno</span>
+aluno = {
+    <span class="st">"nome"</span>:  <span class="st">"Kelson"</span>,
+    <span class="st">"idade"</span>: <span class="num">33</span>,
+    <span class="st">"curso"</span>: <span class="st">"Python"</span>,
+}</pre>
+      </div>
+
+      <p style="margin:18px 0 6px;color:var(--text-dim)">
+        Visualmente o <code>aluno</code> é tipo uma <strong>ficha cadastral</strong>:
+      </p>
+
+      <div class="reveal-stagger" style="display:flex;justify-content:center">
+        <div class="dict-viz shelf-card" style="margin:18px auto">
+          <div class="dict-name">aluno</div>
+          <div class="dict-row">
+            <span class="dict-key">"nome"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">"Kelson"</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-key">"idade"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">33</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-key">"curso"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">"Python"</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🧠 Sacou a ideia?</div>
+        <p>
+          A <strong>chave</strong> (à esquerda) é como a "etiqueta" da gaveta.
+          O <strong>valor</strong> (à direita) é o que tá guardado lá dentro.
+          E você acessa pela chave, sem se preocupar com posição/índice.
+        </p>
+      </div>
+
+      <p style="margin:14px 0 6px;color:var(--text-dim)">Outras analogias do mundo real:</p>
+      <div class="reveal-stagger" style="display:grid;gap:10px">
+        <div class="tip">
+          <span class="tip-icon">📇</span>
+          <div class="tip-content"><strong>Carteira de identidade:</strong> "Nome → João", "RG → 123…", "Nascimento → 1990".</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📱</span>
+          <div class="tip-content"><strong>Agenda telefônica:</strong> "Mãe → 9999-1234", "Pai → 9999-5678".</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🎫</span>
+          <div class="tip-content"><strong>Carteirinha de aluno:</strong> "Curso → Python", "Turma → A", "Matrícula → 042".</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. CADASTRO_DICIONARIO.PY (GUIDED)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="cadastro-dict">
+    <div class="step-header">
+      <div class="step-number sn-blue">7.0</div>
+      <div>
+        <div class="step-title">Bora Codar! — cadastro_dicionario.py</div>
+        <div class="step-sub">Vamos criar nosso primeiro dicionário juntos</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">Vamos fazer juntos · cadastro_dicionario.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        A gente vai pedir 3 coisas pro usuário e <strong>guardar tudo num único dicionário</strong>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cadastro_dicionario.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="cm"># pede os dados</span>
+nome  = <span class="bi">input</span>(<span class="st">"Nome do aluno: "</span>)
+idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+curso = <span class="bi">input</span>(<span class="st">"Curso: "</span>)
+
+<span class="cm"># monta o dicionário</span>
+aluno = {<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: idade, <span class="st">"curso"</span>: curso}
+
+<span class="cm"># mostra a ficha</span>
+<span class="bi">print</span>(<span class="st">"Cadastro:"</span>, aluno)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · cadastro_dicionario.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Nome do aluno: </span><span class="typed" data-text="Kelson"></span><br>
+          <span class="out">Idade: </span><span class="typed" data-text="33"></span><br>
+          <span class="out">Curso: </span><span class="typed" data-text="Python"></span><br>
+          <span class="typed" data-text="Cadastro: {'nome': 'Kelson', 'idade': 33, 'curso': 'Python'}"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:14px">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          <strong>Repare:</strong> em vez de 3 variáveis soltas (<code>nome</code>, <code>idade</code>, <code>curso</code>),
+          a gente tem <strong>UM dicionário só</strong> que junta tudo.
+          Isso vira nossa <em>"ficha do aluno"</em> — agora o cadastro tá <strong>todo num lugar só</strong>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. ACESSAR VALORES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="acessar">
+    <div class="step-header">
+      <div class="step-number sn-purple">🔑</div>
+      <div>
+        <div class="step-title">Acessar valores</div>
+        <div class="step-sub">aluno["chave"] — pegar pelo nome da gaveta</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Pra pegar um valor, você usa <strong>colchetes</strong> com a <strong>chave entre aspas</strong>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">acesso.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>aluno = {<span class="st">"nome"</span>: <span class="st">"Kelson"</span>, <span class="st">"idade"</span>: <span class="num">33</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>}
+
+<span class="bi">print</span>(aluno[<span class="st">"nome"</span>])    <span class="cm"># Kelson</span>
+<span class="bi">print</span>(aluno[<span class="st">"idade"</span>])   <span class="cm"># 33</span>
+<span class="bi">print</span>(<span class="st">f"{aluno['nome']} faz {aluno['curso']}!"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · acesso.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Kelson"></span><br>
+          <span class="typed" data-text="33"></span><br>
+          <span class="typed" data-text="Kelson faz Python!"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📌 Lembra como era na lista?</div>
+        <p>
+          Em <strong>lista</strong> você acessava por <em>número</em>: <code>nomes[0]</code>.
+          Em <strong>dicionário</strong> você acessa por <em>nome da chave</em>: <code>aluno["nome"]</code>.
+          Mais legível, mais "humano". 👍
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. ATUALIZAR / ADICIONAR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="atualizar">
+    <div class="step-header">
+      <div class="step-number sn-purple">✏️</div>
+      <div>
+        <div class="step-title">Atualizar e Adicionar valores</div>
+        <div class="step-sub">aluno["idade"] = 34 — mesma sintaxe pra editar e pra criar novo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Aqui tem uma sacada legal: a sintaxe pra <strong>atualizar</strong> um valor e pra
+        <strong>adicionar</strong> uma chave nova é <strong>a mesma</strong>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">atualizar.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre>aluno = {<span class="st">"nome"</span>: <span class="st">"Kelson"</span>, <span class="st">"idade"</span>: <span class="num">33</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>}
+
+<span class="cm"># ATUALIZAR — a chave 'idade' já existe, então só sobrescreve</span>
+aluno[<span class="st">"idade"</span>] = <span class="num">34</span>
+
+<span class="cm"># ADICIONAR — a chave 'telefone' não existia, agora existe!</span>
+aluno[<span class="st">"telefone"</span>] = <span class="st">"99999-1234"</span>
+
+<span class="bi">print</span>(aluno)</pre>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · atualizar.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">{'nome': 'Kelson', 'idade': 34, 'curso': 'Python', 'telefone': '99999-1234'}</span>
+        </div>
+      </div>
+
+      <p style="margin:14px 0 6px;color:var(--text-dim)">Visualmente, o dicionário cresce:</p>
+
+      <div class="reveal-stagger" style="display:flex;justify-content:center">
+        <div class="dict-viz shelf-card" style="margin:18px auto">
+          <div class="dict-name">aluno (depois)</div>
+          <div class="dict-row">
+            <span class="dict-key">"nome"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">"Kelson"</span>
+          </div>
+          <div class="dict-row" style="background:rgba(247,183,49,0.08)">
+            <span class="dict-key">"idade"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">34 ✏️</span>
+          </div>
+          <div class="dict-row">
+            <span class="dict-key">"curso"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">"Python"</span>
+          </div>
+          <div class="dict-row" style="background:rgba(6,214,160,0.08)">
+            <span class="dict-key">"telefone"</span>
+            <span class="dict-arrow">→</span>
+            <span class="dict-value">"99999-1234" ✨</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Regra simples:</strong> se a chave já existir, o Python <em>atualiza</em>.
+          Se não existir, ele <em>cria</em>. Sem stress, sem método especial.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. DESAFIO atualizar_dados_aluno.py (SOLO)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="atualizar-aluno">
+    <div class="step-header">
+      <div class="step-number sn-purple">7.1</div>
+      <div>
+        <div class="step-title">Desafio Individual — atualizar_dados_aluno.py</div>
+        <div class="step-sub">Agora é com você</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · atualizar_dados_aluno.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>atualizar_dados_aluno.py</code>. Comece com um dicionário
+          <code>aluno</code> já preenchido (nome, idade, curso).
+        </p>
+        <p>
+          Mostre o aluno <strong>antes</strong> da mudança. Depois pergunte ao usuário a
+          <strong>nova idade</strong> com <code>input()</code> (lembra de <code>int()</code>!) e
+          atualize <code>aluno["idade"]</code>.
+        </p>
+        <p>
+          No final, mostre o aluno <strong>depois</strong>. Bônus: adicione uma chave nova
+          <code>"telefone"</code> também — você sabe como!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Faz o esforço — você tem TUDO
+          que precisa pra resolver. <strong>Errar é parte do processo!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">atualizar_dados_aluno.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre><span class="cm"># dicionário inicial</span>
+aluno = {<span class="st">"nome"</span>: <span class="st">"Kelson"</span>, <span class="st">"idade"</span>: <span class="num">33</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>}
+
+<span class="bi">print</span>(<span class="st">"Antes:"</span>, aluno)
+
+<span class="cm"># pega nova idade e atualiza</span>
+nova_idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Nova idade do aluno: "</span>))
+aluno[<span class="st">"idade"</span>] = nova_idade
+
+<span class="cm"># adiciona um campo novo</span>
+aluno[<span class="st">"telefone"</span>] = <span class="bi">input</span>(<span class="st">"Telefone: "</span>)
+
+<span class="bi">print</span>(<span class="st">"Depois:"</span>, aluno)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> A linha que <em>atualiza</em> a idade e a linha que
+              <em>adiciona</em> o telefone são <strong>idênticas em forma</strong>:
+              <code>dicionário[chave] = valor</code>. O Python decide se cria ou atualiza
+              olhando se a chave já existia.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. LISTA DE DICIONÁRIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="lista-de-dicts">
+    <div class="step-header">
+      <div class="step-number sn-purple">📋</div>
+      <div>
+        <div class="step-title">Lista de Dicionários</div>
+        <div class="step-sub">Vários cadastros, todos juntinhos numa "prateleira"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Um <code>aluno</code> é legal. Mas e se a gente tiver <strong>uma turma inteira</strong>?
+        A gente coloca <em>vários dicionários dentro de uma lista</em>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">turma.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre>alunos = []   <span class="cm"># lista vazia, vai guardar dicts</span>
+
+alunos.append({<span class="st">"nome"</span>: <span class="st">"Ana"</span>,    <span class="st">"idade"</span>: <span class="num">22</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>})
+alunos.append({<span class="st">"nome"</span>: <span class="st">"Bia"</span>,    <span class="st">"idade"</span>: <span class="num">25</span>, <span class="st">"curso"</span>: <span class="st">"Web"</span>})
+alunos.append({<span class="st">"nome"</span>: <span class="st">"Caio"</span>,   <span class="st">"idade"</span>: <span class="num">30</span>, <span class="st">"curso"</span>: <span class="st">"Dados"</span>})
+
+<span class="cm"># percorrer com for: cada item da lista é um dicionário</span>
+<span class="kw">for</span> a <span class="kw">in</span> alunos:
+    <span class="bi">print</span>(<span class="st">f"{a['nome']} ({a['idade']}) — {a['curso']}"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · turma.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Ana (22) — Python"></span><br>
+          <span class="typed" data-text="Bia (25) — Web"></span><br>
+          <span class="typed" data-text="Caio (30) — Dados"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <p style="margin:18px 0 6px;color:var(--text-dim)">Visualmente é uma <strong>prateleira de fichas</strong>:</p>
+
+      <div class="reveal-stagger dict-shelf">
+        <div class="dict-viz shelf-card">
+          <div class="dict-name">alunos[0]</div>
+          <div class="dict-row"><span class="dict-key">"nome"</span><span class="dict-arrow">→</span><span class="dict-value">"Ana"</span></div>
+          <div class="dict-row"><span class="dict-key">"idade"</span><span class="dict-arrow">→</span><span class="dict-value">22</span></div>
+          <div class="dict-row"><span class="dict-key">"curso"</span><span class="dict-arrow">→</span><span class="dict-value">"Python"</span></div>
+        </div>
+        <div class="dict-viz shelf-card">
+          <div class="dict-name">alunos[1]</div>
+          <div class="dict-row"><span class="dict-key">"nome"</span><span class="dict-arrow">→</span><span class="dict-value">"Bia"</span></div>
+          <div class="dict-row"><span class="dict-key">"idade"</span><span class="dict-arrow">→</span><span class="dict-value">25</span></div>
+          <div class="dict-row"><span class="dict-key">"curso"</span><span class="dict-arrow">→</span><span class="dict-value">"Web"</span></div>
+        </div>
+        <div class="dict-viz shelf-card">
+          <div class="dict-name">alunos[2]</div>
+          <div class="dict-row"><span class="dict-key">"nome"</span><span class="dict-arrow">→</span><span class="dict-value">"Caio"</span></div>
+          <div class="dict-row"><span class="dict-key">"idade"</span><span class="dict-arrow">→</span><span class="dict-value">30</span></div>
+          <div class="dict-row"><span class="dict-key">"curso"</span><span class="dict-arrow">→</span><span class="dict-value">"Dados"</span></div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🎯 Combinando dois mundos</div>
+        <p>
+          Lista <strong>+</strong> dicionário é a estrutura mais usada do Python na vida real.
+          Cada <strong>item da lista</strong> é uma "ficha completa" (dicionário). Você usa o
+          <code>for</code> pra percorrer e <code>["chave"]</code> pra ler cada campo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. LISTA VS DICIONÁRIO (VERSUS VISUAL)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="lista-vs-dict">
+    <div class="step-header">
+      <div class="step-number sn-yellow">⚔️</div>
+      <div>
+        <div class="step-title">Lista vs Dicionário</div>
+        <div class="step-sub">Quando usar cada um</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="versus-row">
+        <div class="versus-side list">
+          <h4>📋 Lista — acesso por posição</h4>
+          <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:8px">
+            Pense em uma <strong>fila ordenada</strong>. Você pega pela <em>posição</em>:
+          </p>
+          <code>nomes = ["Ana", "Bia", "Caio"]</code>
+          <code>nomes[0]   # "Ana"</code>
+          <code>nomes[2]   # "Caio"</code>
+          <p style="color:var(--text-dim);font-size:0.86rem;margin-top:8px">
+            ✅ Boa quando a <strong>ordem</strong> importa.
+          </p>
+        </div>
+
+        <div class="versus-vs">vs</div>
+
+        <div class="versus-side dict">
+          <h4>📒 Dicionário — acesso por chave</h4>
+          <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:8px">
+            Pense em uma <strong>ficha</strong>. Você pega pelo <em>nome do campo</em>:
+          </p>
+          <code>aluno = {"nome": "Ana", "idade": 22}</code>
+          <code>aluno["nome"]   # "Ana"</code>
+          <code>aluno["idade"]  # 22</code>
+          <p style="color:var(--text-dim);font-size:0.86rem;margin-top:8px">
+            ✅ Boa quando o <strong>significado</strong> importa.
+          </p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🤝</span>
+        <div class="tip-content">
+          <strong>Plot twist:</strong> os dois juntos são imbatíveis.
+          <code>alunos = [aluno1, aluno2, aluno3]</code> — lista ordenada de fichas.
+          É exatamente o que a gente vai usar no Sistema de Cadastro!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. DESAFIO cadastro_pet.py (SOLO)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="cadastro-pet">
+    <div class="step-header">
+      <div class="step-number sn-purple">7.2</div>
+      <div>
+        <div class="step-title">Desafio Individual — cadastro_pet.py</div>
+        <div class="step-sub">Mesma ideia, agora pros bichinhos</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · cadastro_pet.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>cadastro_pet.py</code>. Pergunte ao usuário 3 coisas
+          usando <code>input()</code>: <strong>nome do pet</strong>, <strong>espécie</strong>
+          (cachorro, gato, peixe…) e <strong>idade</strong> (lembra que tem que <code>int()</code>!).
+        </p>
+        <p>
+          Monte um dicionário <code>pet</code> com as chaves <code>"nome"</code>,
+          <code>"especie"</code> e <code>"idade"</code>. Depois mostre uma frase
+          tipo: <em>"Rex é um(a) cachorro de 5 anos."</em> usando f-string.
+        </p>
+        <p>
+          Bem parecido com o <strong>cadastro_dicionario.py</strong> que a gente fez
+          juntos — só muda o tema. Você consegue!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Cria o arquivo, escreve linha por linha.
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">cadastro_pet.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="cm"># pede os dados do pet</span>
+nome    = <span class="bi">input</span>(<span class="st">"Nome do pet: "</span>)
+especie = <span class="bi">input</span>(<span class="st">"Espécie (cachorro, gato, peixe...): "</span>)
+idade   = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+
+<span class="cm"># monta o dicionário</span>
+pet = {<span class="st">"nome"</span>: nome, <span class="st">"especie"</span>: especie, <span class="st">"idade"</span>: idade}
+
+<span class="bi">print</span>(<span class="st">f"{pet['nome']} é um(a) {pet['especie']} de {pet['idade']} anos."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · cadastro_pet.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Nome do pet: </span><span class="typed" data-text="Rex"></span><br>
+              <span class="out">Espécie (cachorro, gato, peixe...): </span><span class="typed" data-text="cachorro"></span><br>
+              <span class="out">Idade: </span><span class="typed" data-text="5"></span><br>
+              <span class="typed" data-text="Rex é um(a) cachorro de 5 anos."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🐾</span>
+            <div class="tip-content">
+              <strong>Notou?</strong> Foi a mesmíssima estrutura do cadastro de aluno.
+              Quando você entender que <em>"é só dado mudando, a estrutura é igual"</em>,
+              você passou de iniciante pra <strong>quase intermediário</strong>. 😉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. QUIZ DICIONÁRIOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-dicts">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz Dicionários</div>
+        <div class="step-sub">Bora testar o que você aprendeu</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> Em <code>aluno = {"nome": "Ana"}</code>, como pegar o valor "Ana"?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) <code>aluno[0]</code></button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">B) <code>aluno.nome</code></button>
+          <button class="quiz-opt" data-correct="true"   onclick="checkQuiz(this, true)">C) <code>aluno["nome"]</code></button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) <code>aluno{"nome"}</code></button>
+        </div>
+        <div class="quiz-feedback" data-explain="dicionário acessa por chave entre colchetes — e a chave é uma string, então com aspas."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> Qual o jeito certo de criar um dicionário?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) <code>aluno = ["nome", "Ana"]</code></button>
+          <button class="quiz-opt" data-correct="true"   onclick="checkQuiz(this, true)">B) <code>aluno = {"nome": "Ana"}</code></button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) <code>aluno = ("nome", "Ana")</code></button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) <code>aluno = &lt;"nome": "Ana"&gt;</code></button>
+        </div>
+        <div class="quiz-feedback" data-explain="dicionário usa CHAVES { } com pares chave: valor."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> O que faz <code>aluno["idade"] = 34</code> se a chave "idade" já existe?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) Dá erro</button>
+          <button class="quiz-opt" data-correct="true"   onclick="checkQuiz(this, true)">B) Atualiza o valor pra 34</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) Cria uma chave nova "idade2"</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) Apaga a chave</button>
+        </div>
+        <div class="quiz-feedback" data-explain="se a chave já existe, o Python só sobrescreve. Mesma sintaxe pra criar e pra atualizar."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. BUGZILLA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu de novo!</div>
+        <div class="step-sub">Erros clássicos de quem tá começando com dict</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">BugZilla detectou: KeyError</div>
+          <div class="bugzilla-sub">Quando você pede uma chave que não existe</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p style="margin-bottom:10px">
+          Pediu <code>aluno["telefon"]</code> em vez de <code>aluno["telefone"]</code>?
+          O Python <strong>não advinha</strong>. Ele lança um <code>KeyError</code> e dá tchau.
+        </p>
+
+        <div class="code-block with-lines" style="margin-top:14px">
+          <div class="code-header">
+            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <span class="filename">erro_keyerror.py</span>
+            <span class="lang-badge python">Python</span>
+          </div>
+          <div class="line-numbers">1<br>2<br>3</div>
+<pre>aluno = {<span class="st">"nome"</span>: <span class="st">"Kelson"</span>, <span class="st">"idade"</span>: <span class="num">33</span>}
+
+<span class="bi">print</span>(aluno[<span class="st">"telefone"</span>])    <span class="cm"># 💥 KeyError: 'telefone'</span></pre>
+        </div>
+
+        <p style="margin-top:14px">
+          E tem outro clássico: confundir <code>{ }</code> (dict) com <code>[ ]</code> (lista).
+          Olha o BugZilla brincando:
+        </p>
+
+        <div class="code-block with-lines" style="margin-top:14px">
+          <div class="code-header">
+            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <span class="filename">erro_chaves.py</span>
+            <span class="lang-badge python">Python</span>
+          </div>
+          <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># ❌ ERRADO: usa [ ] querendo dicionário</span>
+aluno = [<span class="st">"nome"</span>: <span class="st">"Ana"</span>]    <span class="cm"># SyntaxError!</span>
+
+<span class="cm"># ✅ CERTO: dict usa { }</span>
+aluno = {<span class="st">"nome"</span>: <span class="st">"Ana"</span>}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🛡️ Como se proteger</h3>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin-top:14px">
+        <div class="tip">
+          <span class="tip-icon">🔍</span>
+          <div class="tip-content">
+            <strong>Confira a grafia</strong> da chave. <code>"nome"</code> ≠ <code>"Nome"</code> ≠ <code>"nome "</code>.
+            Python é <em>literal</em>: maiúscula, minúscula e espaço importam.
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🛟</span>
+          <div class="tip-content">
+            <strong>Use <code>.get()</code></strong> quando você não sabe se a chave existe:
+            <code>aluno.get("telefone", "não cadastrado")</code> — devolve o valor se existir,
+            ou o segundo argumento se não existir. <strong>Sem erro!</strong>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📒</span>
+          <div class="tip-content">
+            <strong>Decora a forma:</strong> <code>{ }</code> é DICT, <code>[ ]</code> é LISTA.
+            Vê os colchetes? São primos, mas brigam.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — CLÍMAX
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🏆</span>
+    <span class="chapter-number">Desafio Master</span>
+    <h2 class="grad-dicts">Sistema de Cadastro Completo</h2>
+    <p class="chapter-subtitle">
+      Chegou a hora. Você vai juntar <strong>tudo</strong> que aprendeu até aqui:
+      <code>while</code>, <code>if</code>, <code>for</code>, <code>list</code>, <code>dict</code>,
+      <code>input</code>… num programa que faz sentido na vida real.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. SISTEMA DE CADASTRO (SOLO MASTER)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="sistema-cadastro">
+    <div class="step-header">
+      <div class="step-number sn-purple">7.3</div>
+      <div>
+        <div class="step-title">Desafio MASTER — sistema_cadastro.py</div>
+        <div class="step-sub">O climax do capítulo · combina TUDO</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🏆</span>
+        <div>
+          <div class="exercise-title">Desafio Individual MASTER</div>
+          <div class="exercise-sub">Faça sozinho · sistema_cadastro.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Você vai construir um <strong>menu interativo</strong> que cadastra alunos,
+        guarda numa lista de dicionários, lista todos, busca por nome e mostra um
+        total ao sair. Olha como vai ficar:
+      </p>
+
+      <div class="menu-mock">
+        <div class="mm-title">==== SISTEMA DE CADASTRO ====</div>
+        <div><span class="mm-num">[1]</span> Adicionar aluno</div>
+        <div><span class="mm-num">[2]</span> Listar alunos</div>
+        <div><span class="mm-num">[3]</span> Buscar por nome</div>
+        <div><span class="mm-num">[0]</span> Sair</div>
+        <div class="mm-q">Escolha uma opção: _</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>sistema_cadastro.py</code>. Sua "caixa de ferramentas":
+        </p>
+        <ol style="color:var(--text-dim);margin:10px 0 10px 22px;line-height:1.8">
+          <li>Comece com uma lista vazia <code>alunos = []</code>.</li>
+          <li>Use um <code>while True:</code> pra ficar mostrando o menu até o usuário
+            escolher sair (opção 0).</li>
+          <li>Dentro do loop, mostre o menu com <code>print()</code> e leia a opção com <code>input()</code>.</li>
+          <li>Use <code>if/elif/else</code> pra cada opção:
+            <ul style="margin-left:18px">
+              <li><strong>1:</strong> peça nome, idade (com <code>int()</code>) e curso, monte um dict e use
+                <code>alunos.append({...})</code>.</li>
+              <li><strong>2:</strong> use <code>for a in alunos</code> e mostre <code>a["nome"]</code>,
+                <code>a["idade"]</code>, <code>a["curso"]</code>.</li>
+              <li><strong>3:</strong> peça um nome, dê outro <code>for</code> e compare
+                com <code>a["nome"] == nome_busca</code>.</li>
+              <li><strong>0:</strong> mostre o total (<code>len(alunos)</code>) e use <code>break</code> pra sair.</li>
+            </ul>
+          </li>
+          <li>Não esqueça do <code>else</code> pra "opção inválida".</li>
+        </ol>
+        <p>
+          <strong>É grandinho, mas você já sabe TUDO que precisa.</strong> Vai por partes:
+          primeiro faz o menu rodando. Depois adiciona uma opção por vez.
+          <em>Pequenas vitórias 🏆</em>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse aqui é o boss fight do capítulo.</strong> Tenta MESMO antes de espiar.
+          Vai dar bug? Vai. Vai precisar reler? Talvez. Mas quando <strong>VOCÊ</strong> conseguir,
+          você vai sair desse capítulo com gás de programador de verdade. Bora!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">sistema_cadastro.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43</div>
+<pre><span class="cm"># lista que vai guardar todos os cadastros</span>
+alunos = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="bi">print</span>(<span class="st">"\n==== SISTEMA DE CADASTRO ===="</span>)
+    <span class="bi">print</span>(<span class="st">"[1] Adicionar aluno"</span>)
+    <span class="bi">print</span>(<span class="st">"[2] Listar alunos"</span>)
+    <span class="bi">print</span>(<span class="st">"[3] Buscar por nome"</span>)
+    <span class="bi">print</span>(<span class="st">"[0] Sair"</span>)
+    opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
+
+    <span class="kw">if</span> opcao == <span class="st">"1"</span>:
+        nome  = <span class="bi">input</span>(<span class="st">"Nome: "</span>)
+        idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+        curso = <span class="bi">input</span>(<span class="st">"Curso: "</span>)
+        alunos.append({<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: idade, <span class="st">"curso"</span>: curso})
+        <span class="bi">print</span>(<span class="st">f"✅ {nome} cadastrado(a) com sucesso!"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"2"</span>:
+        <span class="kw">if</span> <span class="bi">len</span>(alunos) == <span class="num">0</span>:
+            <span class="bi">print</span>(<span class="st">"Nenhum aluno cadastrado ainda."</span>)
+        <span class="kw">else</span>:
+            <span class="bi">print</span>(<span class="st">"\n— Lista de alunos —"</span>)
+            <span class="kw">for</span> a <span class="kw">in</span> alunos:
+                <span class="bi">print</span>(<span class="st">f"• {a['nome']} ({a['idade']}) — {a['curso']}"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"3"</span>:
+        nome_busca = <span class="bi">input</span>(<span class="st">"Nome a buscar: "</span>)
+        encontrou = <span class="bool">False</span>
+        <span class="kw">for</span> a <span class="kw">in</span> alunos:
+            <span class="kw">if</span> a[<span class="st">"nome"</span>] == nome_busca:
+                <span class="bi">print</span>(<span class="st">f"✅ {a['nome']} — {a['idade']} anos — {a['curso']}"</span>)
+                encontrou = <span class="bool">True</span>
+        <span class="kw">if</span> <span class="kw">not</span> encontrou:
+            <span class="bi">print</span>(<span class="st">f"❌ Nenhum aluno chamado {nome_busca}."</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"0"</span>:
+        <span class="bi">print</span>(<span class="st">f"\n👋 Saindo... Total cadastrado: {len(alunos)} aluno(s)."</span>)
+        <span class="kw">break</span>
+
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida. Tenta de novo!"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · sistema_cadastro.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">==== SISTEMA DE CADASTRO ====</span><br>
+              <span class="out">[1] Adicionar aluno  [2] Listar  [3] Buscar  [0] Sair</span><br>
+              <span class="out">Escolha uma opção: </span><span class="typed" data-text="1"></span><br>
+              <span class="out">Nome: </span><span class="typed" data-text="Ana"></span><br>
+              <span class="out">Idade: </span><span class="typed" data-text="22"></span><br>
+              <span class="out">Curso: </span><span class="typed" data-text="Python"></span><br>
+              <span class="typed" data-text="✅ Ana cadastrado(a) com sucesso!"></span><br>
+              <span class="out">Escolha uma opção: </span><span class="typed" data-text="0"></span><br>
+              <span class="typed" data-text="👋 Saindo... Total cadastrado: 1 aluno(s)."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="celebrate-banner" style="margin-top:18px">
+            <h3 style="font-family:'Caveat',cursive;font-size:2.2rem;color:var(--accent6)">
+              🎉 OLHA O QUE VOCÊ ACABOU DE CONSTRUIR! 🎉
+            </h3>
+            <p style="color:var(--text-dim);font-size:1rem;max-width:560px;margin:8px auto 0">
+              Um <strong style="color:var(--text)">programa interativo de verdade</strong>.
+              Tem menu, tem cadastro, tem busca. Junta <strong>while + if + for + list + dict + input</strong>.
+              Você passou de "imprimi olá mundo" pra <strong>"escrevi um sistema"</strong>.
+              Pode comemorar. 🏆
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. SISTEMA PET (PARA CASA)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="sistema-pet">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🏠</div>
+      <div>
+        <div class="step-title">Desafio para Casa — sistema_cadastro_pet.py</div>
+        <div class="step-sub">Versão pet · pra fixar em casa</div>
+      </div>
+    </div>
+
+    <div class="exercise home">
+      <div class="exercise-header">
+        <span class="exercise-icon">🏠</span>
+        <div>
+          <div class="exercise-title">Desafio para Casa</div>
+          <div class="exercise-sub">Faça em casa · sistema_cadastro_pet.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho (em casa)</div>
+        <p>
+          Pega o <code>sistema_cadastro.py</code> que você (espero!) acabou de fazer e
+          <strong>adapta pra pets</strong>. As chaves agora são
+          <code>"nome"</code>, <code>"especie"</code> e <code>"idade"</code>.
+          A lista vira <code>pets = []</code>.
+        </p>
+        <p>
+          Mantém o mesmo menu (adicionar, listar, buscar, sair).
+          Capricha nos textos — pode pôr emoji de pet 🐶🐱🐠.
+        </p>
+        <p>
+          <strong>Por que esse exercício?</strong> Porque praticar a <em>mesma estrutura</em>
+          mudando só os dados é o que <strong>fixa</strong> de verdade. Quando você sentir
+          que tá quase no automático, é sinal que aprendeu.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho em casa.</strong> Sem pressa. Pega água, fecha a aba do
+          spoiler, e vai. Quando voltar pra próxima aula, traz o código rodando — vai dar
+          uma sensação ÓTIMA. <strong>Você consegue!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar em casa — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">sistema_cadastro_pet.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43</div>
+<pre><span class="cm"># lista que vai guardar os pets cadastrados 🐾</span>
+pets = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="bi">print</span>(<span class="st">"\n==== CADASTRO DE PETS 🐾 ===="</span>)
+    <span class="bi">print</span>(<span class="st">"[1] Adicionar pet"</span>)
+    <span class="bi">print</span>(<span class="st">"[2] Listar pets"</span>)
+    <span class="bi">print</span>(<span class="st">"[3] Buscar por nome"</span>)
+    <span class="bi">print</span>(<span class="st">"[0] Sair"</span>)
+    opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
+
+    <span class="kw">if</span> opcao == <span class="st">"1"</span>:
+        nome    = <span class="bi">input</span>(<span class="st">"Nome do pet: "</span>)
+        especie = <span class="bi">input</span>(<span class="st">"Espécie: "</span>)
+        idade   = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+        pets.append({<span class="st">"nome"</span>: nome, <span class="st">"especie"</span>: especie, <span class="st">"idade"</span>: idade})
+        <span class="bi">print</span>(<span class="st">f"✅ {nome} cadastrado(a)! 🐶"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"2"</span>:
+        <span class="kw">if</span> <span class="bi">len</span>(pets) == <span class="num">0</span>:
+            <span class="bi">print</span>(<span class="st">"Nenhum pet cadastrado ainda."</span>)
+        <span class="kw">else</span>:
+            <span class="bi">print</span>(<span class="st">"\n— Lista de pets —"</span>)
+            <span class="kw">for</span> p <span class="kw">in</span> pets:
+                <span class="bi">print</span>(<span class="st">f"• {p['nome']} ({p['especie']}, {p['idade']} anos)"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"3"</span>:
+        nome_busca = <span class="bi">input</span>(<span class="st">"Nome a buscar: "</span>)
+        encontrou = <span class="bool">False</span>
+        <span class="kw">for</span> p <span class="kw">in</span> pets:
+            <span class="kw">if</span> p[<span class="st">"nome"</span>] == nome_busca:
+                <span class="bi">print</span>(<span class="st">f"✅ {p['nome']} — {p['especie']} — {p['idade']} anos"</span>)
+                encontrou = <span class="bool">True</span>
+        <span class="kw">if</span> <span class="kw">not</span> encontrou:
+            <span class="bi">print</span>(<span class="st">f"❌ Nenhum pet chamado {nome_busca}."</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"0"</span>:
+        <span class="bi">print</span>(<span class="st">f"\n👋 Saindo... Total: {len(pets)} pet(s)."</span>)
+        <span class="kw">break</span>
+
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🐾</span>
+            <div class="tip-content">
+              <strong>Comparou com o sistema_cadastro.py?</strong> A <em>estrutura é idêntica</em>.
+              Só mudaram nomes de variáveis e textos. Isso é programação real:
+              <strong>reaproveitar a forma, mudar o conteúdo</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       14. RESUMO + PONTE PRO CAP 08
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 07</div>
+        <div class="step-sub">O que você acabou de dominar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📒</span>
+          <span class="kw-name">dict</span>
+          <span class="kw-desc">Estrutura chave: valor — <code>{"nome": "Ana"}</code></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔑</span>
+          <span class="kw-name">Acessar</span>
+          <span class="kw-desc"><code>aluno["nome"]</code> — colchetes + chave em aspas</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✏️</span>
+          <span class="kw-name">Atualizar / Adicionar</span>
+          <span class="kw-desc"><code>aluno["idade"] = 34</code> — mesma sintaxe</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📋</span>
+          <span class="kw-name">Lista de dicts</span>
+          <span class="kw-desc">Vários cadastros numa lista — <code>alunos.append({...})</code></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛟</span>
+          <span class="kw-name">.get()</span>
+          <span class="kw-desc">Acesso seguro com valor padrão se a chave não existir</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐛</span>
+          <span class="kw-name">KeyError</span>
+          <span class="kw-desc">Quando você pede chave que não existe — confere a grafia!</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🏆</span>
+          <span class="kw-name">Sistema de Cadastro</span>
+          <span class="kw-desc">while + if + for + list + dict — <strong>VOCÊ FEZ</strong>!</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🤝</span>
+          <span class="kw-name">Lista vs Dict</span>
+          <span class="kw-desc">Lista = ordem importa · Dict = significado importa</span>
+        </div>
+      </div>
+
+      <div class="celebrate-banner" style="margin-top:24px">
+        <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--accent6)">
+          "Você não tá mais brincando de Python — <br>
+          tá <strong>organizando dados de verdade</strong>." 📒✨
+        </h3>
+      </div>
+    </div>
+
+    <!-- BRIDGE PRO CAP 08 -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(247,183,49,0.06),rgba(78,205,196,0.04));border-color:rgba(247,183,49,0.20)">
+      <h3 style="color:var(--accent5);margin-bottom:8px">🤔 Mas peraí…</h3>
+
+      <div class="bridge-card">
+        <span class="ic">😱</span>
+        <div class="text">
+          <strong>Você fez o sistema_cadastro.py.</strong> Cadastrou 5 alunos. Tá orgulhoso(a).
+          Aí você <em>fecha o programa</em>… e <strong>cadê os dados?</strong>
+          Sumiram! 💨 Tudo guardado só na memória — quando o Python desliga, vai junto.
+        </div>
+      </div>
+
+      <div class="bridge-card" style="border-color:rgba(78,205,196,0.30);background:linear-gradient(135deg,rgba(78,205,196,0.06),rgba(247,183,49,0.04))">
+        <span class="ic">💾</span>
+        <div class="text">
+          <strong>É aí que entra o JSON.</strong> Um jeitinho simples de
+          <em>salvar seus dicionários num arquivo</em> que sobrevive a fechar o programa.
+          E adivinha? <strong>JSON é praticamente um dicionário em texto.</strong>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:18px">
+        <a href="../08-json/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent5),var(--accent3));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
+          💾 Ir para Capítulo 08 — JSON →
+        </a>
+        <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+          ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

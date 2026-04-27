@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 06 — Desafios Integradores | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ═════════ extras locais ao Capítulo 06 ═════════ */
+
+/* Banner top de cada desafio — coral + dourado */
+.challenge-banner{
+  position:relative;overflow:hidden;
+  border-radius:22px;padding:28px 28px;margin:18px 0 22px;
+  background:linear-gradient(135deg,rgba(255,107,107,0.10),rgba(247,183,49,0.06));
+  border:2px solid rgba(255,107,107,0.22);
+  display:flex;gap:18px;align-items:center;
+}
+.challenge-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 90% 10%,rgba(247,183,49,0.18),transparent 50%);
+  pointer-events:none;
+}
+.challenge-banner .cb-emoji{
+  font-size:3.2rem;line-height:1;flex-shrink:0;
+  filter:drop-shadow(0 6px 18px rgba(255,107,107,0.4));
+}
+.challenge-banner .cb-text{position:relative;z-index:1}
+.challenge-banner .cb-num{
+  display:inline-block;font-family:'JetBrains Mono',monospace;
+  font-weight:800;font-size:0.78rem;letter-spacing:2px;
+  color:var(--accent2);text-transform:uppercase;margin-bottom:4px;
+}
+.challenge-banner .cb-title{
+  font-size:1.55rem;font-weight:900;line-height:1.2;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:6px;
+}
+.challenge-banner .cb-sub{color:var(--text-dim);font-size:0.96rem}
+
+/* Variantes coloridas — cada desafio com seu vibe */
+.challenge-banner.cb-cinema{
+  background:linear-gradient(135deg,rgba(108,99,255,0.10),rgba(247,183,49,0.06));
+  border-color:rgba(108,99,255,0.30);
+}
+.challenge-banner.cb-cinema::before{
+  background:radial-gradient(circle at 90% 10%,rgba(247,183,49,0.18),transparent 50%);
+}
+.challenge-banner.cb-cinema .cb-num{color:var(--accent6)}
+.challenge-banner.cb-cinema .cb-title{
+  background:linear-gradient(135deg,var(--accent6),var(--accent5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.challenge-banner.cb-arcade{
+  background:linear-gradient(135deg,rgba(78,205,196,0.10),rgba(108,99,255,0.06));
+  border-color:rgba(78,205,196,0.30);
+}
+.challenge-banner.cb-arcade::before{
+  background:radial-gradient(circle at 90% 10%,rgba(108,99,255,0.18),transparent 50%);
+}
+.challenge-banner.cb-arcade .cb-num{color:var(--accent3)}
+.challenge-banner.cb-arcade .cb-title{
+  background:linear-gradient(135deg,var(--accent3),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.challenge-banner.cb-fitness{
+  background:linear-gradient(135deg,rgba(6,214,160,0.10),rgba(247,183,49,0.06));
+  border-color:rgba(6,214,160,0.30);
+}
+.challenge-banner.cb-fitness::before{
+  background:radial-gradient(circle at 90% 10%,rgba(247,183,49,0.18),transparent 50%);
+}
+.challenge-banner.cb-fitness .cb-num{color:var(--accent7)}
+.challenge-banner.cb-fitness .cb-title{
+  background:linear-gradient(135deg,var(--accent7),var(--accent5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.challenge-banner.cb-burger{
+  background:linear-gradient(135deg,rgba(247,183,49,0.10),rgba(255,107,107,0.06));
+  border-color:rgba(247,183,49,0.30);
+}
+.challenge-banner.cb-burger::before{
+  background:radial-gradient(circle at 90% 10%,rgba(255,107,107,0.18),transparent 50%);
+}
+.challenge-banner.cb-burger .cb-num{color:var(--accent5)}
+.challenge-banner.cb-burger .cb-title{
+  background:linear-gradient(135deg,var(--accent5),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* Lista de regras numeradas — variação do recipe-step */
+.rules-list{counter-reset:rule;display:grid;gap:10px;margin:16px 0}
+.rule-item{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 16px 12px 14px;
+  font-size:0.95rem;line-height:1.5;
+}
+.rule-item::before{
+  counter-increment:rule;content:counter(rule);
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5));
+  color:var(--bg);display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.88rem;flex-shrink:0;margin-top:2px;
+}
+.rule-item .ri-emoji{margin-left:auto;font-size:1.2rem;align-self:center}
+.rules-list.purple .rule-item::before{background:linear-gradient(135deg,var(--accent6),var(--accent))}
+.rules-list.teal   .rule-item::before{background:linear-gradient(135deg,var(--accent3),var(--accent))}
+.rules-list.green  .rule-item::before{background:linear-gradient(135deg,var(--accent7),var(--accent5))}
+.rules-list.gold   .rule-item::before{background:linear-gradient(135deg,var(--accent5),var(--accent2))}
+
+/* External link button — onde o aluno joga a versão deployada */
+.external-link{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 22px;border-radius:50px;text-decoration:none;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5));
+  color:var(--bg);font-weight:900;letter-spacing:0.4px;
+  box-shadow:0 8px 20px rgba(255,107,107,0.25);
+  transition:transform .2s ease, box-shadow .2s ease;
+  margin-top:14px;
+}
+.external-link:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,107,107,0.35)}
+.external-link .el-emoji{font-size:1.2rem}
+
+/* Confetti banner do encerramento */
+.confetti-banner{
+  position:relative;overflow:hidden;border-radius:24px;
+  padding:42px 28px;text-align:center;margin:18px 0;
+  background:linear-gradient(135deg,rgba(255,107,107,0.12),rgba(247,183,49,0.10),rgba(6,214,160,0.08));
+  border:2px solid rgba(247,183,49,0.30);
+}
+.confetti-banner::before,
+.confetti-banner::after{
+  content:'🎉';font-size:6rem;position:absolute;
+  opacity:0.10;line-height:1;
+}
+.confetti-banner::before{top:-20px;left:-10px;transform:rotate(-15deg)}
+.confetti-banner::after{bottom:-20px;right:-10px;transform:rotate(20deg)}
+.confetti-banner h3{
+  font-size:1.7rem;margin-bottom:8px;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5),var(--accent7));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.confetti-banner p{color:var(--text-dim);max-width:580px;margin:0 auto;font-size:1rem}
+
+/* Stats cards do encerramento */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr}}
+.stat-card{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:18px;text-align:center;
+}
+.stat-card .stat-num{
+  display:block;font-size:2.2rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:6px;
+}
+.stat-card .stat-label{color:var(--text-dim);font-size:0.85rem;font-weight:600}
+
+/* CTA card do próximo capítulo */
+.next-chapter-card{
+  text-align:center;
+  background:linear-gradient(135deg,rgba(108,99,255,0.08),rgba(167,139,250,0.05));
+  border-color:rgba(108,99,255,0.25);
+}
+.cta-btn{
+  display:inline-block;padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent),var(--accent6));
+  color:#fff;text-decoration:none;font-weight:900;
+  border-radius:50px;letter-spacing:1px;
+  box-shadow:0 8px 22px rgba(108,99,255,0.30);
+  transition:transform .2s ease;
+}
+.cta-btn:hover{transform:translateY(-2px)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🏆 Capítulo 06</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('intro')"><span class="dot" style="background:var(--accent5)"></span>Hora de juntar TUDO</a>
+    <a class="sidebar-link" onclick="goTo('desafio-1')"><span class="dot" style="background:var(--accent2)"></span>1 · Votação de Filmes 🎬</a>
+    <a class="sidebar-link" onclick="goTo('desafio-2')"><span class="dot" style="background:var(--accent5)"></span>2 · Lanchonete AI Burgers 🍔</a>
+    <a class="sidebar-link" onclick="goTo('desafio-3')"><span class="dot" style="background:var(--accent6)"></span>3 · Cinema AI 🎟</a>
+    <a class="sidebar-link" onclick="goTo('desafio-4')"><span class="dot" style="background:var(--accent3)"></span>4 · AI Arcade 🎮</a>
+    <a class="sidebar-link" onclick="goTo('desafio-5')"><span class="dot" style="background:var(--accent7)"></span>5 · Academia AI Fitness 🏋️</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--accent5)"></span>Você é dev iniciante 🚀</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🎬 🍔 🎟 🎮 🏋️</div>
+  <span class="hero-badge">Capítulo 06 · Bootcamp Programa AI</span>
+  <h1 class="grad-desafios" style="background:linear-gradient(135deg,var(--accent2),var(--accent5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+    Desafios Integradores
+  </h1>
+  <p class="subtitle">
+    Cinco mini-sistemas pra <strong>juntar tudo</strong> que você aprendeu até aqui:
+    variáveis, condicionais, loops, listas e funções. Sem material novo —
+    só <strong>você + Python + um cenário pra resolver</strong>.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">📦 variáveis</span>
+    <span class="stack-chip">🔀 if/elif</span>
+    <span class="stack-chip">🔁 while</span>
+    <span class="stack-chip">📋 listas</span>
+    <span class="stack-chip">🧩 funções</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTRO — HORA DE JUNTAR TUDO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="intro">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🚀</div>
+      <div>
+        <div class="step-title">Hora de juntar TUDO!</div>
+        <div class="step-sub">Bem-vindo(a) ao capítulo de consolidação</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Até aqui a gente foi por partes: primeiro <strong>variáveis</strong>,
+        depois <strong>condicionais</strong>, aí <strong>loops + listas</strong>,
+        e fechando com <strong>funções</strong>. Cada conceito veio com seu
+        exerciciozinho — bonitinho, isolado, focado.
+      </p>
+      <p>
+        <strong style="color:var(--accent5)">Mas a vida real não é assim.</strong>
+        Quando você vai construir um sistema de verdade — uma lanchonete, um
+        cinema, um app de academia — você precisa juntar tudo no <em>mesmo</em>
+        programa. E é EXATAMENTE isso que vamos fazer agora.
+      </p>
+
+      <div class="analogy">
+        <div class="analogy-title">É como sair da musculação isolada e ir pro CrossFit 💪</div>
+        <p>
+          Antes você treinava bíceps em UM aparelho, perna em OUTRO. Agora vem
+          o "WOD do dia": <em>10 burpees + 15 agachamentos + 20 polichinelos</em>,
+          tudo junto, em ordem, com tempo. Cansativo? Sim. Mas é aí que o
+          condicionamento aparece de verdade.
+        </p>
+        <p>
+          Cada desafio aqui é um WOD de programação. <strong>Você JÁ TEM
+          tudo que precisa.</strong> O que falta é só… juntar.
+        </p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🧰 Sua caixa de ferramentas</div>
+        <p>Antes de começar, dá uma respirada e relembra o que você sabe fazer:</p>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📥</span>
+          <span class="kw-name">input() + int()</span>
+          <span class="kw-desc">pegar dados do usuário e converter pra número</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔀</span>
+          <span class="kw-name">if / elif / else</span>
+          <span class="kw-desc">decidir caminhos baseados no que o usuário escolheu</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔁</span>
+          <span class="kw-name">while True</span>
+          <span class="kw-desc">repetir o menu até o usuário pedir pra sair</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📋</span>
+          <span class="kw-name">lista.append()</span>
+          <span class="kw-desc">guardar cada coisa que o usuário escolhe</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧮</span>
+          <span class="kw-name">sum() / len() / count()</span>
+          <span class="kw-desc">calcular total, contar quantidade, contar repetições</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧩</span>
+          <span class="kw-name">def funcao()</span>
+          <span class="kw-desc">organizar o código em pedaços com nome</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✨</span>
+          <span class="kw-name">f-string</span>
+          <span class="kw-desc"><code>f"Total: R${total}"</code> — montar mensagens bonitas</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🚪</span>
+          <span class="kw-name">break</span>
+          <span class="kw-desc">sair do loop quando o usuário escolher 0</span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:18px">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Estrutura padrão dos 5 desafios:</strong>
+          <code>menu</code> → <code>while True</code> → <code>input()</code>
+          → <code>if/elif/else</code> → <code>lista.append()</code> →
+          <code>break</code> quando 0 → <strong>resumo final</strong>.
+          Decora esse esqueleto. Os 5 problemas são variações do mesmo tema.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⏱️</span>
+        <div class="warning-content">
+          <strong>Tempo sugerido:</strong> 20-30 min por desafio. Se travar, respira,
+          relê o enunciado, escreve no papel o que precisa acontecer e SÓ depois
+          vai pro código. <strong>Pensar antes &gt; digitar antes.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — COMEÇOU O JOGO
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🏆</span>
+    <span class="chapter-number">5 desafios · 1 promessa</span>
+    <h2 class="grad-desafios">Sai do "fiz exercício" e vira dev de verdade.</h2>
+    <p class="chapter-subtitle">
+      Cada desafio tem cenário, menu mockado, regras, dica e olhinho 👀.
+      Tenta sozinho ANTES de espiar — é aí que a mágica acontece.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 1 — SISTEMA DE VOTAÇÃO DE FILMES 🎬
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-1">
+    <div class="step-header">
+      <div class="step-number sn-red">1</div>
+      <div>
+        <div class="step-title">Sistema de Votação de Filmes 🎬</div>
+        <div class="step-sub">Eleição relâmpago no clube do cinema</div>
+      </div>
+    </div>
+
+    <div class="challenge-banner">
+      <div class="cb-emoji">🎬</div>
+      <div class="cb-text">
+        <div class="cb-num">Desafio 01</div>
+        <div class="cb-title">Sistema de Votação de Filmes</div>
+        <div class="cb-sub">Mostra o menu, coleta votos numa lista e anuncia o filme campeão.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Sua turma quer escolher um filme pra assistir junto na sexta. Em vez
+        de discutir no grupo do WhatsApp por 2h, você decide automatizar:
+        cada pessoa digita o número do filme preferido, e no final o programa
+        mostra <strong>quem ganhou e por quantos votos</strong>.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🎬 Mockup do menu (é assim que vai aparecer no terminal)</div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · votacao_filmes.py</span>
+        </div>
+        <div class="terminal-body">
+<span class="out">🎬 ===== VOTAÇÃO DE FILMES =====
+1 - Interestelar
+2 - Vingadores: Ultimato
+3 - O Senhor dos Anéis
+0 - Encerrar votação
+
+Digite o número do filme: </span><span class="input-mark">1</span>
+<span class="out">✅ Voto registrado!
+
+Digite o número do filme: </span><span class="input-mark">3</span>
+<span class="out">✅ Voto registrado!
+
+Digite o número do filme: </span><span class="input-mark">1</span>
+<span class="out">✅ Voto registrado!
+
+Digite o número do filme: </span><span class="input-mark">0</span>
+<span class="out">
+🏆 ===== RESULTADO =====
+Filme vencedor: Interestelar
+Votos: 2
+Total de votos válidos: 3</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📋 Regras do desafio</div>
+      </div>
+      <div class="rules-list">
+        <div class="rule-item">Mostre o menu com os <strong>3 filmes</strong> e a opção <code>0 - Encerrar votação</code>. <span class="ri-emoji">📜</span></div>
+        <div class="rule-item">Use <code>while True</code> pra repetir o menu enquanto o usuário não digitar <code>0</code>. <span class="ri-emoji">🔁</span></div>
+        <div class="rule-item">A cada voto, guarde o <strong>nome do filme escolhido</strong> numa lista (use <code>append</code>). <span class="ri-emoji">📋</span></div>
+        <div class="rule-item">Quando o usuário digitar <code>0</code>, saia do loop com <code>break</code>. <span class="ri-emoji">🚪</span></div>
+        <div class="rule-item">Use <code>lista.count("nome")</code> pra contar votos de cada filme. <span class="ri-emoji">🔢</span></div>
+        <div class="rule-item">Mostre o filme vencedor, quantos votos teve e o total de votos. <span class="ri-emoji">🏆</span></div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">💪</span>
+          <div>
+            <div class="exercise-title">Desafio 1 · Faça sozinho</div>
+            <div class="exercise-sub">Arquivo: votacao_filmes.py</div>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">💡 Dica para fazer sozinho</div>
+          <p>
+            Crie <code>votacao_filmes.py</code>. Antes de qualquer loop, monte
+            uma <strong>função <code>mostrar_menu()</code></strong> que faz
+            <code>print</code> dos filmes e do <code>0 - Encerrar</code>.
+          </p>
+          <p>
+            Crie uma lista vazia: <code>votos = []</code>. Depois abre um
+            <code>while True</code> que: chama <code>mostrar_menu()</code>,
+            pede <code>int(input(...))</code>, e usa <code>if/elif/else</code>
+            pra decidir o que fazer.
+          </p>
+          <p>
+            Se for <code>1</code>, faz <code>votos.append("Interestelar")</code>.
+            Se for <code>0</code>, <code>break</code>. Se for outra coisa,
+            mostra "opção inválida" (lembra do capítulo 03? mesmo padrão).
+          </p>
+          <p>
+            Depois do loop, descobre o vencedor. Você pode usar
+            <code>max(votos, key=votos.count)</code> ou comparar manualmente
+            os 3 <code>count</code>. Mostre com f-string.
+          </p>
+        </div>
+
+        <div class="try-first">
+          <div class="try-first-icon">🚨</div>
+          <div class="try-first-content">
+            <strong>PARE! Tenta sozinho primeiro.</strong> Você JÁ TEM tudo que
+            precisa: menu (cap 03), while (cap 04), lista (cap 04), funções (cap 05).
+            <strong>Errar é parte do processo — quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block with-lines">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">votacao_filmes.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+              <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43</div>
+<pre><span class="cm"># 🎬 Sistema de Votação de Filmes</span>
+
+<span class="kw">def</span> <span class="fn">mostrar_menu</span>():
+    <span class="bi">print</span>(<span class="st">"\n🎬 ===== VOTAÇÃO DE FILMES ====="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - Interestelar"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - Vingadores: Ultimato"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - O Senhor dos Anéis"</span>)
+    <span class="bi">print</span>(<span class="st">"0 - Encerrar votação"</span>)
+
+<span class="cm"># lista que vai guardar cada voto (como string)</span>
+votos = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    mostrar_menu()
+    opcao = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"\nDigite o número do filme: "</span>))
+
+    <span class="kw">if</span> opcao == <span class="num">1</span>:
+        votos.append(<span class="st">"Interestelar"</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Voto registrado!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">2</span>:
+        votos.append(<span class="st">"Vingadores: Ultimato"</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Voto registrado!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">3</span>:
+        votos.append(<span class="st">"O Senhor dos Anéis"</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Voto registrado!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">0</span>:
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida, tenta de novo."</span>)
+
+<span class="cm"># --- resultado final ---</span>
+<span class="kw">if</span> <span class="bi">len</span>(votos) == <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"\n🤷 Ninguém votou. Encerrando."</span>)
+<span class="kw">else</span>:
+    <span class="cm"># max() com key=votos.count devolve o item que mais aparece</span>
+    vencedor = <span class="bi">max</span>(votos, key=votos.count)
+    qtd      = votos.count(vencedor)
+
+    <span class="bi">print</span>(<span class="st">"\n🏆 ===== RESULTADO ====="</span>)
+    <span class="bi">print</span>(<span class="st">f"Filme vencedor: {vencedor}"</span>)
+    <span class="bi">print</span>(<span class="st">f"Votos: {qtd}"</span>)
+    <span class="bi">print</span>(<span class="st">f"Total de votos válidos: {<span class="bi">len</span>(votos)}"</span>)</pre>
+            </div>
+
+            <div class="tip" style="margin-top:14px">
+              <span class="tip-icon">✨</span>
+              <div class="tip-content">
+                <strong>Sacou o pulo do gato?</strong> Em vez de criar 3 contadores
+                (<code>votos_filme1</code>, <code>votos_filme2</code>...), a gente guarda
+                <em>todos os votos numa lista só</em> e usa <code>count()</code> pra
+                descobrir quantos cada filme tem. Menos código, mais Python.
+              </div>
+            </div>
+
+            <div class="warning" style="margin-top:14px">
+              <span class="warning-icon">⚠️</span>
+              <div class="warning-content">
+                <strong>Cuidado com <code>int(input())</code>:</strong> se o usuário
+                digitar <em>"abc"</em> em vez de número, o programa quebra. Pra esse
+                desafio tá ok — mas em sistemas reais a gente trataria com
+                <code>try / except</code> (vamos ver lá no fim do bootcamp).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:18px">
+        <a class="external-link" href="https://programa-ai-desafio-sistema-de-vota.vercel.app/" target="_blank" rel="noopener">
+          <span class="el-emoji">🚀</span> Ver versão deployada do desafio
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 2 — LANCHONETE AI BURGERS 🍔
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-2">
+    <div class="step-header">
+      <div class="step-number sn-yellow">2</div>
+      <div>
+        <div class="step-title">Lanchonete AI Burgers 🍔</div>
+        <div class="step-sub">Sistema de pedido com cálculo de total</div>
+      </div>
+    </div>
+
+    <div class="challenge-banner cb-burger">
+      <div class="cb-emoji">🍔</div>
+      <div class="cb-text">
+        <div class="cb-num">Desafio 02</div>
+        <div class="cb-title">Lanchonete AI Burgers</div>
+        <div class="cb-sub">Cliente monta o pedido item por item, e no final mostramos a notinha.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Você foi contratado pra automatizar o atendimento de uma lanchonete que
+        ainda anota pedido em papel. O dono quer um terminal simples: o cliente
+        escolhe os itens um por um, e no final o programa mostra
+        <strong>quantos itens foram pedidos e o valor total</strong>.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🍔 Mockup do menu</div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · lanchonete_ai.py</span>
+        </div>
+        <div class="terminal-body">
+<span class="out">🍔 ===== AI BURGERS =====
+1 - X-Burger ........ R$15
+2 - X-Salada ........ R$18
+3 - Batata Frita .... R$10
+4 - Refrigerante .... R$ 7
+0 - Finalizar Pedido
+
+O que você quer? </span><span class="input-mark">1</span>
+<span class="out">✅ X-Burger adicionado ao pedido!
+
+O que você quer? </span><span class="input-mark">3</span>
+<span class="out">✅ Batata Frita adicionada ao pedido!
+
+O que você quer? </span><span class="input-mark">4</span>
+<span class="out">✅ Refrigerante adicionado ao pedido!
+
+O que você quer? </span><span class="input-mark">0</span>
+<span class="out">
+🧾 Total de 3 item(s) - Valor total: R$32</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📋 Regras do desafio</div>
+      </div>
+      <div class="rules-list gold">
+        <div class="rule-item">Menu com 4 itens (com preços) e <code>0 - Finalizar Pedido</code>. <span class="ri-emoji">📜</span></div>
+        <div class="rule-item">Loop <code>while True</code> repete enquanto o cliente não digitar 0. <span class="ri-emoji">🔁</span></div>
+        <div class="rule-item">A cada item escolhido, guarde o <strong>preço</strong> numa lista. <span class="ri-emoji">💰</span></div>
+        <div class="rule-item">Use <code>sum(lista)</code> pra somar o total e <code>len(lista)</code> pra contar os itens. <span class="ri-emoji">🧮</span></div>
+        <div class="rule-item">No final, mostre: <em>"🧾 Total de N item(s) - Valor total: R$XX"</em>. <span class="ri-emoji">🧾</span></div>
+        <div class="rule-item">Trate opção inválida com mensagem amigável. <span class="ri-emoji">🛡️</span></div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">💪</span>
+          <div>
+            <div class="exercise-title">Desafio 2 · Faça sozinho</div>
+            <div class="exercise-sub">Arquivo: lanchonete_ai.py</div>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">💡 Dica para fazer sozinho</div>
+          <p>
+            Crie <code>lanchonete_ai.py</code>. Função <code>mostrar_menu()</code>
+            primeiro (é o mesmo padrão do desafio 1!).
+          </p>
+          <p>
+            Duas listas paralelas vão ser sua amiga: uma com os <strong>nomes</strong>
+            dos itens pedidos e outra com os <strong>preços</strong>. Ou só uma de
+            preços, se você quiser simplificar — vai dos dois jeitos.
+          </p>
+          <p>
+            No <code>if/elif</code>, cada opção <code>append</code>-a o preço
+            correspondente: opção 1 → <code>15</code>, opção 2 → <code>18</code>, etc.
+          </p>
+          <p>
+            No final, <code>sum(precos)</code> te dá o total e <code>len(precos)</code>
+            te dá quantos itens. Monta a frase com f-string e pronto.
+          </p>
+        </div>
+
+        <div class="try-first">
+          <div class="try-first-icon">🚨</div>
+          <div class="try-first-content">
+            <strong>Tenta sozinho! Você JÁ TEM tudo que precisa!</strong>
+            Estrutura é IDÊNTICA ao desafio 1 — só muda o que vai dentro da lista
+            (preço em vez de nome). Confia.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block with-lines">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">lanchonete_ai.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+              <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45</div>
+<pre><span class="cm"># 🍔 Lanchonete AI Burgers</span>
+
+<span class="kw">def</span> <span class="fn">mostrar_menu</span>():
+    <span class="bi">print</span>(<span class="st">"\n🍔 ===== AI BURGERS ====="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - X-Burger ........ R$15"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - X-Salada ........ R$18"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - Batata Frita .... R$10"</span>)
+    <span class="bi">print</span>(<span class="st">"4 - Refrigerante .... R$ 7"</span>)
+    <span class="bi">print</span>(<span class="st">"0 - Finalizar Pedido"</span>)
+
+<span class="cm"># duas listas em paralelo: nome do item e preço</span>
+itens  = []
+precos = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    mostrar_menu()
+    opcao = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"\nO que você quer? "</span>))
+
+    <span class="kw">if</span> opcao == <span class="num">1</span>:
+        itens.append(<span class="st">"X-Burger"</span>);   precos.append(<span class="num">15</span>)
+        <span class="bi">print</span>(<span class="st">"✅ X-Burger adicionado ao pedido!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">2</span>:
+        itens.append(<span class="st">"X-Salada"</span>);   precos.append(<span class="num">18</span>)
+        <span class="bi">print</span>(<span class="st">"✅ X-Salada adicionada ao pedido!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">3</span>:
+        itens.append(<span class="st">"Batata Frita"</span>); precos.append(<span class="num">10</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Batata Frita adicionada ao pedido!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">4</span>:
+        itens.append(<span class="st">"Refrigerante"</span>); precos.append(<span class="num">7</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Refrigerante adicionado ao pedido!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">0</span>:
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida, escolhe um número do menu."</span>)
+
+<span class="cm"># --- nota fiscal ---</span>
+total      = <span class="bi">sum</span>(precos)
+quantidade = <span class="bi">len</span>(itens)
+
+<span class="bi">print</span>(<span class="st">f"\n🧾 Total de {quantidade} item(s) - Valor total: R${total}"</span>)</pre>
+            </div>
+
+            <div class="tip" style="margin-top:14px">
+              <span class="tip-icon">✨</span>
+              <div class="tip-content">
+                <strong>Por que duas listas?</strong> Pra ficar fácil de evoluir depois:
+                imagina que amanhã o dono quer imprimir CADA item do pedido na nota.
+                Com a lista <code>itens</code>, é só fazer um <code>for nome in itens</code>.
+                <strong>Programador bom é programador preguiçoso (no bom sentido)</strong> —
+                escreve hoje pensando em não sofrer amanhã.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:18px">
+        <a class="external-link" href="https://programa-ai-desafio-lanchonete-ai.vercel.app/" target="_blank" rel="noopener">
+          <span class="el-emoji">🚀</span> Ver versão deployada do desafio
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 3 — CINEMA AI 🎟
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-3">
+    <div class="step-header">
+      <div class="step-number sn-purple">3</div>
+      <div>
+        <div class="step-title">Cinema AI 🎟</div>
+        <div class="step-sub">Bilheteria com cálculo de ingressos</div>
+      </div>
+    </div>
+
+    <div class="challenge-banner cb-cinema">
+      <div class="cb-emoji">🎟</div>
+      <div class="cb-text">
+        <div class="cb-num">Desafio 03</div>
+        <div class="cb-title">Cinema AI</div>
+        <div class="cb-sub">Cliente compra vários ingressos e o sistema fecha a venda com o total.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        O Cinema AI quer um caixa automático: o cliente fica em frente à
+        máquina, escolhe quantos ingressos quiser (de qualquer filme), e no
+        final o sistema mostra o <strong>total de ingressos comprados</strong>
+        e o <strong>valor total</strong>.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🎟 Mockup do menu</div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · cinema_ai.py</span>
+        </div>
+        <div class="terminal-body">
+<span class="out">🎟 ===== CINEMA AI =====
+1 - Duna 2 .................. R$25
+2 - Oppenheimer ............. R$30
+3 - Barbie .................. R$20
+0 - Finalizar Compra
+
+Qual ingresso? </span><span class="input-mark">2</span>
+<span class="out">✅ Ingresso de Oppenheimer comprado!
+
+Qual ingresso? </span><span class="input-mark">2</span>
+<span class="out">✅ Ingresso de Oppenheimer comprado!
+
+Qual ingresso? </span><span class="input-mark">3</span>
+<span class="out">✅ Ingresso de Barbie comprado!
+
+Qual ingresso? </span><span class="input-mark">0</span>
+<span class="out">
+🧾 Total de ingressos: 3
+💰 Valor total: R$80
+🎉 Obrigado por escolher o Cinema AI!</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📋 Regras do desafio</div>
+      </div>
+      <div class="rules-list purple">
+        <div class="rule-item">Menu com 3 filmes (cada um com seu preço) e <code>0</code> pra finalizar. <span class="ri-emoji">🎬</span></div>
+        <div class="rule-item">Loop <code>while True</code> repete a compra. <span class="ri-emoji">🔁</span></div>
+        <div class="rule-item">Use uma lista pra guardar os <strong>preços</strong> dos ingressos comprados. <span class="ri-emoji">📋</span></div>
+        <div class="rule-item">No final mostre 3 linhas: <em>total de ingressos</em>, <em>valor total</em>, <em>mensagem de agradecimento</em>. <span class="ri-emoji">🧾</span></div>
+        <div class="rule-item">Use uma <strong>função</strong> pra mostrar o menu (mantém o código limpo). <span class="ri-emoji">🧩</span></div>
+        <div class="rule-item">Trate opção inválida sem quebrar o programa. <span class="ri-emoji">🛡️</span></div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">💪</span>
+          <div>
+            <div class="exercise-title">Desafio 3 · Faça sozinho</div>
+            <div class="exercise-sub">Arquivo: cinema_ai.py</div>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">💡 Dica para fazer sozinho</div>
+          <p>
+            Crie <code>cinema_ai.py</code>. Esse desafio é <em>quase idêntico</em>
+            ao da Lanchonete — só muda o cenário e a mensagem final. Aproveita o
+            código mental que você já tem.
+          </p>
+          <p>
+            Função <code>mostrar_menu()</code> com os 3 filmes. Lista
+            <code>ingressos_precos = []</code>. <code>while True</code> com
+            <code>if/elif</code>: opção 1 = <code>append(25)</code>,
+            opção 2 = <code>append(30)</code>, opção 3 = <code>append(20)</code>.
+          </p>
+          <p>
+            No final, três <code>print</code>: quantidade (<code>len</code>),
+            valor (<code>sum</code>) e a mensagem de agradecimento. Capricha
+            nos emojis 🧾 💰 🎉.
+          </p>
+        </div>
+
+        <div class="try-first">
+          <div class="try-first-icon">🚨</div>
+          <div class="try-first-content">
+            <strong>Tá ficando fácil, né?</strong> Esse padrão "menu + while + lista + total"
+            é a <em>espinha dorsal</em> de quase todo CLI básico. Fixa esse esqueleto
+            na cabeça — vai te servir pra MUITA coisa.
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block with-lines">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">cinema_ai.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+              <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38</div>
+<pre><span class="cm"># 🎟 Cinema AI</span>
+
+<span class="kw">def</span> <span class="fn">mostrar_menu</span>():
+    <span class="bi">print</span>(<span class="st">"\n🎟 ===== CINEMA AI ====="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - Duna 2 .................. R$25"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - Oppenheimer ............. R$30"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - Barbie .................. R$20"</span>)
+    <span class="bi">print</span>(<span class="st">"0 - Finalizar Compra"</span>)
+
+ingressos_filmes = []   <span class="cm"># nome do filme de cada ingresso</span>
+ingressos_precos = []   <span class="cm"># preço de cada ingresso</span>
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    mostrar_menu()
+    opcao = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"\nQual ingresso? "</span>))
+
+    <span class="kw">if</span> opcao == <span class="num">1</span>:
+        ingressos_filmes.append(<span class="st">"Duna 2"</span>);     ingressos_precos.append(<span class="num">25</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Ingresso de Duna 2 comprado!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">2</span>:
+        ingressos_filmes.append(<span class="st">"Oppenheimer"</span>); ingressos_precos.append(<span class="num">30</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Ingresso de Oppenheimer comprado!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">3</span>:
+        ingressos_filmes.append(<span class="st">"Barbie"</span>);     ingressos_precos.append(<span class="num">20</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Ingresso de Barbie comprado!"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">0</span>:
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)
+
+<span class="cm"># --- nota final ---</span>
+total_ingressos = <span class="bi">len</span>(ingressos_precos)
+valor_total     = <span class="bi">sum</span>(ingressos_precos)
+
+<span class="bi">print</span>(<span class="st">f"\n🧾 Total de ingressos: {total_ingressos}"</span>)
+<span class="bi">print</span>(<span class="st">f"💰 Valor total: R${valor_total}"</span>)
+<span class="bi">print</span>(<span class="st">"🎉 Obrigado por escolher o Cinema AI!"</span>)</pre>
+            </div>
+
+            <div class="tip" style="margin-top:14px">
+              <span class="tip-icon">🎬</span>
+              <div class="tip-content">
+                <strong>Bonus de chefe:</strong> tenta listar quantos ingressos de
+                CADA filme foram vendidos antes do total. Dica:
+                <code>ingressos_filmes.count("Duna 2")</code> conta as ocorrências.
+                Aí você imprime tipo: <em>"🎬 Duna 2: 2 ingressos"</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 4 — AI ARCADE 🎮
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-4">
+    <div class="step-header">
+      <div class="step-number sn-green">4</div>
+      <div>
+        <div class="step-title">AI Arcade 🎮</div>
+        <div class="step-sub">Sistema de partidas + ranking pessoal</div>
+      </div>
+    </div>
+
+    <div class="challenge-banner cb-arcade">
+      <div class="cb-emoji">🎮</div>
+      <div class="cb-text">
+        <div class="cb-num">Desafio 04</div>
+        <div class="cb-title">AI Arcade</div>
+        <div class="cb-sub">A cada partida, o jogador informa a pontuação. No final, somamos tudo.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Bem-vindo(a) ao fliperama do futuro. Aqui você escolhe um jogo, simula
+        a partida (informa quanto fez), repete quantas vezes quiser e no final
+        o sistema te dá um <strong>resumo total</strong> com a pontuação somada.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🎮 Mockup do menu</div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · ai_arcade.py</span>
+        </div>
+        <div class="terminal-body">
+<span class="out">🎮 ===== AI ARCADE =====
+1 - Corrida Espacial 🚀
+2 - Caça aos Pixels 🕹
+3 - Batalha de Códigos ⚔
+0 - Encerrar
+
+Qual jogo? </span><span class="input-mark">1</span>
+<span class="out">🚀 Sua pontuação em Corrida Espacial: </span><span class="input-mark">1500</span>
+<span class="out">✅ Partida registrada!
+
+Qual jogo? </span><span class="input-mark">3</span>
+<span class="out">⚔ Sua pontuação em Batalha de Códigos: </span><span class="input-mark">2200</span>
+<span class="out">✅ Partida registrada!
+
+Qual jogo? </span><span class="input-mark">0</span>
+<span class="out">
+🎮 Partidas jogadas: 2
+🔢 Pontuação total: 3700
+🏆 Parabéns, dev gamer!</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📋 Regras do desafio</div>
+      </div>
+      <div class="rules-list teal">
+        <div class="rule-item">Menu com 3 jogos e <code>0 - Encerrar</code>. <span class="ri-emoji">🎮</span></div>
+        <div class="rule-item">Quando o jogador escolhe um jogo, peça a <strong>pontuação</strong> (input + int). <span class="ri-emoji">🔢</span></div>
+        <div class="rule-item">Guarde cada pontuação numa lista. <span class="ri-emoji">📋</span></div>
+        <div class="rule-item">Quando digitar 0, mostre: total de partidas, pontuação somada e mensagem de parabéns. <span class="ri-emoji">🏆</span></div>
+        <div class="rule-item">Use uma função pra mostrar o menu. <span class="ri-emoji">🧩</span></div>
+        <div class="rule-item"><strong>Bonus:</strong> mostre também a maior pontuação (use <code>max</code>). <span class="ri-emoji">🥇</span></div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">💪</span>
+          <div>
+            <div class="exercise-title">Desafio 4 · Faça sozinho</div>
+            <div class="exercise-sub">Arquivo: ai_arcade.py</div>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">💡 Dica para fazer sozinho</div>
+          <p>
+            Crie <code>ai_arcade.py</code>. A diferença pros desafios anteriores é
+            que <strong>cada partida pede DOIS inputs</strong>: primeiro o jogo,
+            depois a pontuação.
+          </p>
+          <p>
+            Estrutura: <code>mostrar_menu()</code>, <code>opcao = int(input(...))</code>,
+            e DENTRO de cada <code>elif</code> você faz outro input pra pegar a
+            pontuação. Tipo:
+          </p>
+          <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--text-dim);background:var(--surface2);padding:10px 14px;border-radius:8px">
+            <em># pseudo-código:</em><br>
+            elif opcao == 1:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;pontos = int(input("..."))<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;pontuacoes.append(pontos)
+          </p>
+          <p>
+            No fim: <code>len(pontuacoes)</code> = partidas jogadas,
+            <code>sum(pontuacoes)</code> = pontuação total.
+          </p>
+        </div>
+
+        <div class="try-first">
+          <div class="try-first-icon">🚨</div>
+          <div class="try-first-content">
+            <strong>Tenta sozinho!</strong> Você JÁ TEM tudo: input dentro de if,
+            lista, while, função. Só é juntar as peças.
+            <strong>O segredo: separa as etapas no papel antes de codar.</strong>
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block with-lines">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">ai_arcade.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+              <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44</div>
+<pre><span class="cm"># 🎮 AI Arcade — sistema de partidas</span>
+
+<span class="kw">def</span> <span class="fn">mostrar_menu</span>():
+    <span class="bi">print</span>(<span class="st">"\n🎮 ===== AI ARCADE ====="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - Corrida Espacial 🚀"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - Caça aos Pixels 🕹"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - Batalha de Códigos ⚔"</span>)
+    <span class="bi">print</span>(<span class="st">"0 - Encerrar"</span>)
+
+<span class="kw">def</span> <span class="fn">registrar_partida</span>(jogo_nome, emoji):
+    <span class="cm"># pede a pontuação e devolve o número (já como int)</span>
+    pontos = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">f"{emoji} Sua pontuação em {jogo_nome}: "</span>))
+    <span class="bi">print</span>(<span class="st">"✅ Partida registrada!"</span>)
+    <span class="kw">return</span> pontos
+
+pontuacoes = []
+jogos      = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    mostrar_menu()
+    opcao = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"\nQual jogo? "</span>))
+
+    <span class="kw">if</span> opcao == <span class="num">1</span>:
+        pontuacoes.append(registrar_partida(<span class="st">"Corrida Espacial"</span>, <span class="st">"🚀"</span>))
+        jogos.append(<span class="st">"Corrida Espacial"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">2</span>:
+        pontuacoes.append(registrar_partida(<span class="st">"Caça aos Pixels"</span>, <span class="st">"🕹"</span>))
+        jogos.append(<span class="st">"Caça aos Pixels"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">3</span>:
+        pontuacoes.append(registrar_partida(<span class="st">"Batalha de Códigos"</span>, <span class="st">"⚔"</span>))
+        jogos.append(<span class="st">"Batalha de Códigos"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">0</span>:
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)
+
+<span class="cm"># --- resumo ---</span>
+<span class="kw">if</span> <span class="bi">len</span>(pontuacoes) == <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"\n🤷 Nenhuma partida jogada."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"\n🎮 Partidas jogadas: {<span class="bi">len</span>(pontuacoes)}"</span>)
+    <span class="bi">print</span>(<span class="st">f"🔢 Pontuação total: {<span class="bi">sum</span>(pontuacoes)}"</span>)
+    <span class="bi">print</span>(<span class="st">f"🥇 Maior pontuação: {<span class="bi">max</span>(pontuacoes)}"</span>)
+    <span class="bi">print</span>(<span class="st">"🏆 Parabéns, dev gamer!"</span>)</pre>
+            </div>
+
+            <div class="tip" style="margin-top:14px">
+              <span class="tip-icon">🧩</span>
+              <div class="tip-content">
+                <strong>Olha que sacada:</strong> a função <code>registrar_partida</code>
+                recebe o nome e o emoji do jogo, faz o input e <strong>devolve a pontuação</strong>.
+                Isso evita 3 cópias do mesmo <code>int(input(...))</code> + <code>print</code>.
+                <em>Cap 05 dando frutos! 🌱</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 5 — ACADEMIA AI FITNESS 🏋️
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-5">
+    <div class="step-header">
+      <div class="step-number sn-mint">5</div>
+      <div>
+        <div class="step-title">Academia AI Fitness 🏋️</div>
+        <div class="step-sub">Registro de treino com soma de minutos</div>
+      </div>
+    </div>
+
+    <div class="challenge-banner cb-fitness">
+      <div class="cb-emoji">🏋️</div>
+      <div class="cb-text">
+        <div class="cb-num">Desafio 05</div>
+        <div class="cb-title">Academia AI Fitness</div>
+        <div class="cb-sub">Aluno escolhe atividades, e o app soma os minutos do treino completo.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Última parada: a Academia AI. O aluno entra na recepção, escolhe quais
+        atividades vai fazer hoje (cada uma com tempo fixo) e ao final o app
+        soma <strong>quantas atividades</strong> e <strong>quantos minutos</strong>
+        de treino — pra ele saber quando ir embora 😅.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🏋️ Mockup do menu</div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · academia_ai.py</span>
+        </div>
+        <div class="terminal-body">
+<span class="out">🏋️ ===== ACADEMIA AI FITNESS =====
+1 - Corrida na esteira ....... 30 min
+2 - Bicicleta ergométrica .... 25 min
+3 - Musculação ............... 40 min
+4 - Alongamento .............. 15 min
+0 - Finalizar treino
+
+Qual atividade? </span><span class="input-mark">1</span>
+<span class="out">✅ Corrida na esteira adicionada (30 min)
+
+Qual atividade? </span><span class="input-mark">3</span>
+<span class="out">✅ Musculação adicionada (40 min)
+
+Qual atividade? </span><span class="input-mark">4</span>
+<span class="out">✅ Alongamento adicionado (15 min)
+
+Qual atividade? </span><span class="input-mark">0</span>
+<span class="out">
+🧾 3 atividades
+⏱  Tempo total: 85 minutos
+🔥 Parabéns pelo esforço!</span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📋 Regras do desafio</div>
+      </div>
+      <div class="rules-list green">
+        <div class="rule-item">Menu com 4 atividades (cada uma com tempo) e <code>0 - Finalizar treino</code>. <span class="ri-emoji">🏋️</span></div>
+        <div class="rule-item">Loop <code>while True</code> coleta as atividades. <span class="ri-emoji">🔁</span></div>
+        <div class="rule-item">A cada escolha, guarde o <strong>tempo</strong> em uma lista de minutos. <span class="ri-emoji">⏱</span></div>
+        <div class="rule-item">Confirme em tela: <em>"✅ X adicionado (N min)"</em>. <span class="ri-emoji">✅</span></div>
+        <div class="rule-item">No final: total de atividades, tempo total em minutos e mensagem motivacional. <span class="ri-emoji">🔥</span></div>
+        <div class="rule-item">Função <code>mostrar_menu()</code>, padrão dos outros desafios. <span class="ri-emoji">🧩</span></div>
+      </div>
+
+      <div class="exercise solo">
+        <div class="exercise-header">
+          <span class="exercise-icon">💪</span>
+          <div>
+            <div class="exercise-title">Desafio 5 · Faça sozinho</div>
+            <div class="exercise-sub">Arquivo: academia_ai.py</div>
+          </div>
+        </div>
+
+        <div class="concept">
+          <div class="concept-title">💡 Dica para fazer sozinho</div>
+          <p>
+            Crie <code>academia_ai.py</code>. Esse é o <strong>mais simples
+            de todos</strong> — é exatamente o esqueleto da Lanchonete (desafio 2),
+            só que com "minutos" em vez de "preço".
+          </p>
+          <p>
+            Função <code>mostrar_menu()</code> com as 4 atividades.
+            Lista <code>tempos = []</code>. <code>while True</code>: opção 1
+            <code>append(30)</code>, opção 2 <code>append(25)</code>,
+            opção 3 <code>append(40)</code>, opção 4 <code>append(15)</code>,
+            opção 0 <code>break</code>.
+          </p>
+          <p>
+            Final: <code>len(tempos)</code> = quantidade de atividades,
+            <code>sum(tempos)</code> = tempo total. Três <code>print</code>
+            com emoji e pronto!
+          </p>
+        </div>
+
+        <div class="try-first">
+          <div class="try-first-icon">🚨</div>
+          <div class="try-first-content">
+            <strong>Último desafio! Bota fé que tu faz sem espiar.</strong>
+            Esse aqui é a <em>vitória de honra</em> — se chegou aqui, é porque
+            já entendeu o padrão. Bora?
+          </div>
+        </div>
+
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block with-lines">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">academia_ai.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+              <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43</div>
+<pre><span class="cm"># 🏋️ Academia AI Fitness</span>
+
+<span class="kw">def</span> <span class="fn">mostrar_menu</span>():
+    <span class="bi">print</span>(<span class="st">"\n🏋️ ===== ACADEMIA AI FITNESS ====="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - Corrida na esteira ....... 30 min"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - Bicicleta ergométrica .... 25 min"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - Musculação ............... 40 min"</span>)
+    <span class="bi">print</span>(<span class="st">"4 - Alongamento .............. 15 min"</span>)
+    <span class="bi">print</span>(<span class="st">"0 - Finalizar treino"</span>)
+
+atividades = []
+tempos     = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    mostrar_menu()
+    opcao = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"\nQual atividade? "</span>))
+
+    <span class="kw">if</span> opcao == <span class="num">1</span>:
+        atividades.append(<span class="st">"Corrida na esteira"</span>);   tempos.append(<span class="num">30</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Corrida na esteira adicionada (30 min)"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">2</span>:
+        atividades.append(<span class="st">"Bicicleta ergométrica"</span>); tempos.append(<span class="num">25</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Bicicleta ergométrica adicionada (25 min)"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">3</span>:
+        atividades.append(<span class="st">"Musculação"</span>);           tempos.append(<span class="num">40</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Musculação adicionada (40 min)"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">4</span>:
+        atividades.append(<span class="st">"Alongamento"</span>);          tempos.append(<span class="num">15</span>)
+        <span class="bi">print</span>(<span class="st">"✅ Alongamento adicionado (15 min)"</span>)
+    <span class="kw">elif</span> opcao == <span class="num">0</span>:
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)
+
+<span class="cm"># --- resumo do treino ---</span>
+qtd_atividades = <span class="bi">len</span>(atividades)
+tempo_total    = <span class="bi">sum</span>(tempos)
+
+<span class="bi">print</span>(<span class="st">f"\n🧾 {qtd_atividades} atividades"</span>)
+<span class="bi">print</span>(<span class="st">f"⏱  Tempo total: {tempo_total} minutos"</span>)
+<span class="bi">print</span>(<span class="st">"🔥 Parabéns pelo esforço!"</span>)</pre>
+            </div>
+
+            <div class="tip" style="margin-top:14px">
+              <span class="tip-icon">🌟</span>
+              <div class="tip-content">
+                <strong>Reparou que os 5 desafios são o MESMO esqueleto?</strong>
+                <code>menu → while True → if/elif/break → resumo</code>. Mude o cenário
+                e os números, e você tem: caixa de mercado, controle de estoque,
+                kanban pessoal, app de hábitos, contador de calorias…
+                <em>Você acabou de aprender um padrão que vale por 100 programas.</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BUGZILLA — LOOP INFINITO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu (de novo!)</div>
+        <div class="step-sub">O loop que NUNCA termina — clássico recorrente</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">"Meu programa travou e não para mais!"</div>
+          <div class="bugzilla-sub">Erro nº 1 nesses 5 desafios — e o mais traumático</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p style="margin-bottom:10px">
+          Quase todo mundo já passou por isso: roda o código, escolhe a opção
+          <code>0</code>… e nada acontece. O menu volta. Você digita 0 de novo.
+          O menu volta. Você fica tentando matar o programa com <code>Ctrl+C</code>.
+          BugZilla feliz da vida.
+        </p>
+        <p>
+          A causa quase sempre é uma das três abaixo. Bora ver?
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🐛 Os 3 vilões do loop infinito</h3>
+
+      <div style="display:grid;gap:12px;margin-top:14px">
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            <strong>Esqueceu o <code>break</code> no <code>elif opcao == 0</code></strong> —
+            o menu fecha o ciclo, mas nada manda sair do <code>while</code>.
+            Resultado: roda pra sempre.
+          </div>
+        </div>
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            <strong>Esqueceu o <code>int()</code> no input</strong> e tá comparando
+            string com número: <code>opcao == 0</code> nunca é verdade quando
+            <code>opcao</code> é <code>"0"</code> (com aspas).
+            <em>"0" não é 0.</em>
+          </div>
+        </div>
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            <strong>Comparou com <code>=</code> em vez de <code>==</code></strong> —
+            <code>=</code> atribui valor, <code>==</code> compara. Em
+            <code>if</code>/<code>elif</code> você SEMPRE quer <code>==</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:18px">
+        <span class="tip-icon">🛟</span>
+        <div class="tip-content">
+          <strong>Como sair de um loop infinito no PyCharm:</strong>
+          aperta <kbd style="padding:2px 8px;background:var(--surface3);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem">Ctrl + F2</kbd>
+          (ou clica no quadradinho vermelho 🟥 ao lado do ▶). Aí você analisa,
+          conserta e roda de novo. <strong>Loop infinito não te machuca — é só corrigir.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ENCERRAMENTO — VOCÊ É DEV INICIANTE 🚀
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="encerramento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🎉</div>
+      <div>
+        <div class="step-title">Você completou os 5 desafios!</div>
+        <div class="step-sub">Não foi pouca coisa — vamos celebrar?</div>
+      </div>
+    </div>
+
+    <div class="confetti-banner">
+      <h3>🎉 Parabéns, você é oficialmente um(a) dev iniciante! 🚀</h3>
+      <p>
+        Cinco sistemas. Variáveis, condicionais, loops, listas E funções —
+        tudo trabalhando junto. Você não copiou de tutorial: você
+        <strong>pensou, errou, ajustou e fez funcionar</strong>.
+        Isso aí, meu amigo / minha amiga, é programar.
+      </p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-num">5</span>
+        <span class="stat-label">sistemas completos</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">~250</span>
+        <span class="stat-label">linhas de código</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">0</span>
+        <span class="stat-label">atalhos no caminho</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📦 Da caixinha de Capítulo 01 até a lanchonete: olha o tanto que você cresceu</h3>
+      <p>
+        Lembra do <code>print("Olá, mundo!")</code> do primeiro capítulo? De lá
+        pra cá foram só 5 capítulos — e você já constrói:
+      </p>
+
+      <div class="keyword-grid" style="margin-top:14px">
+        <div class="keyword-chip">
+          <span class="emoji">🎬</span>
+          <span class="kw-name">Sistema de votação</span>
+          <span class="kw-desc">com contagem por opção e vencedor automático</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🍔</span>
+          <span class="kw-name">Caixa de lanchonete</span>
+          <span class="kw-desc">com cálculo de total e nota fiscal</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🎟</span>
+          <span class="kw-name">Bilheteria de cinema</span>
+          <span class="kw-desc">multi-ingressos com somatório</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🎮</span>
+          <span class="kw-name">Sistema de partidas</span>
+          <span class="kw-desc">com pontuação somada e ranking</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🏋️</span>
+          <span class="kw-name">App de treino</span>
+          <span class="kw-desc">com tempo total e atividades registradas</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧠</span>
+          <span class="kw-name">Pensamento por padrão</span>
+          <span class="kw-desc">"menu + while + lista + resumo" no automático</span>
+        </div>
+      </div>
+
+      <div class="analogy" style="margin-top:18px">
+        <div class="analogy-title">Pensa nisso assim 🧗</div>
+        <p>
+          Você entrou nesse bootcamp sem saber o que era <code>print()</code>.
+          Hoje você roda 5 sistemas que recebem dados, decidem o que fazer,
+          repetem ações, guardam histórico e geram relatório.
+          <strong>É exatamente isso que um app de verdade faz</strong> — só que
+          com um pouquinho mais de polimento. O coração já tá batendo.
+        </p>
+      </div>
+
+      <div class="tip" style="margin-top:14px">
+        <span class="tip-icon">📌</span>
+        <div class="tip-content">
+          <strong>Um conselho para a vida:</strong> guarda esses 5 arquivos no GitHub.
+          Daqui a 6 meses, quando você for fazer um sistema "de verdade",
+          vai abrir esses códigos e rir do quanto pareciam difíceis hoje.
+          <em>Esse é o jeito que a gente sente o crescimento.</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="card next-chapter-card">
+      <h3 style="color:var(--accent6);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        Você dominou o básico. Mas reparou que toda hora a gente teve que usar
+        <strong>duas listas em paralelo</strong> (nome + preço, atividade + tempo)?
+        Tem um jeito MUITO mais elegante de fazer isso —
+        <strong style="color:var(--text)">com dicionários</strong>.
+      </p>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        Bora pro <strong style="color:var(--text)">Capítulo 07 — Dicionários</strong>?
+        Agora que você domina o básico, vamos aprender a organizar dados melhor.
+      </p>
+      <a href="../07-dicionarios/" class="cta-btn">
+        🗝 Ir para Capítulo 07 →
+      </a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

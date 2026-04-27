@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 02 — Variáveis e Tipos | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* extras locais ao capítulo 02 */
+.types-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;margin:18px 0;
+}
+.type-card{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:20px;
+  position:relative;overflow:hidden;
+  transition:transform 0.3s,border-color 0.3s;
+}
+.type-card:hover{transform:translateY(-4px)}
+.type-card.t-str   {border-left:5px solid var(--accent7)}
+.type-card.t-int   {border-left:5px solid var(--accent4)}
+.type-card.t-float {border-left:5px solid var(--accent5)}
+.type-card.t-bool  {border-left:5px solid var(--accent2)}
+.type-card .t-name{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:900;font-size:1.4rem;margin-bottom:4px;
+}
+.type-card.t-str   .t-name{color:var(--accent7)}
+.type-card.t-int   .t-name{color:var(--accent4)}
+.type-card.t-float .t-name{color:var(--accent5)}
+.type-card.t-bool  .t-name{color:var(--accent2)}
+.type-card .t-desc{font-size:0.86rem;color:var(--text-dim);margin-bottom:8px}
+.type-card .t-ex{
+  font-family:'JetBrains Mono',monospace;
+  background:var(--code-bg);padding:6px 10px;border-radius:8px;
+  font-size:0.82rem;color:#c9d1d9;
+}
+
+.box-banner{
+  background:linear-gradient(135deg,rgba(247,183,49,0.10),rgba(255,107,107,0.06));
+  border:2px solid rgba(247,183,49,0.22);
+  border-radius:24px;padding:36px 28px;text-align:center;
+  margin:18px 0;position:relative;overflow:hidden;
+}
+.box-banner::after{
+  content:'📦';font-size:8rem;position:absolute;
+  top:-30px;right:-30px;opacity:0.06;line-height:1;
+  transform:rotate(-12deg);
+}
+.box-banner h3{font-size:1.6rem;margin-bottom:8px;color:var(--accent5)}
+
+.compare-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;
+}
+@media(max-width:640px){.compare-row{grid-template-columns:1fr}}
+.compare-side{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:16px;
+}
+.compare-side.bad  { border-left:4px solid var(--accent2) }
+.compare-side.good { border-left:4px solid var(--accent7) }
+.compare-side h4{font-size:0.9rem;margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.compare-side.bad  h4{color:var(--accent2)}
+.compare-side.good h4{color:var(--accent7)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📦 Capítulo 02</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('caixinhas')"><span class="dot" style="background:var(--accent5)"></span>Variáveis = caixinhas</a>
+    <a class="sidebar-link" onclick="goTo('minhas-caixinhas')"><span class="dot" style="background:var(--accent6)"></span>Minhas Caixinhas</a>
+    <a class="sidebar-link" onclick="goTo('tipos')"><span class="dot" style="background:var(--accent4)"></span>Tipos de dados</a>
+    <a class="sidebar-link" onclick="goTo('tipagem-dinamica')"><span class="dot" style="background:var(--accent3)"></span>Tipagem dinâmica</a>
+    <a class="sidebar-link" onclick="goTo('input-revisita')"><span class="dot" style="background:var(--accent4)"></span>input() revisitado</a>
+    <a class="sidebar-link" onclick="goTo('conversao')"><span class="dot" style="background:var(--accent5)"></span>Conversão de tipos</a>
+    <a class="sidebar-link" onclick="goTo('print-avancado')"><span class="dot" style="background:var(--accent7)"></span>print() avançado</a>
+    <a class="sidebar-link" onclick="goTo('fstrings')"><span class="dot" style="background:var(--accent5)"></span>F-strings</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-20')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 2.0</a>
+    <a class="sidebar-link" onclick="goTo('desafio-apresentacao')"><span class="dot" style="background:var(--accent6)"></span>Desafio apresentacao.py</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">📦 🏷️ ✨</div>
+  <span class="hero-badge">Capítulo 02 · Bootcamp Programa AI</span>
+  <h1>Variáveis e Tipos</h1>
+  <p class="subtitle">
+    Hoje você descobre que toda informação de um programa mora numa <strong>caixinha com etiqueta</strong>.
+    Bora aprender <strong>str, int, float, bool</strong>, conversão de tipos e finalmente entender as
+    famosas <strong>f-strings</strong>!
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">📦 Variáveis</span>
+    <span class="stack-chip">🏷️ Tipos</span>
+    <span class="stack-chip">🔄 Conversão</span>
+    <span class="stack-chip">✨ f-strings</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. VARIÁVEIS = CAIXINHAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="caixinhas">
+    <div class="step-header">
+      <div class="step-number sn-yellow">📦</div>
+      <div>
+        <div class="step-title">Variáveis = caixinhas com etiqueta</div>
+        <div class="step-sub">A analogia que vai te salvar para sempre</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Imagina o seu armário…</div>
+        <p>
+          Você tem várias caixas lá dentro. Cada caixa tem uma <strong>etiqueta</strong>:
+          "meias", "camisas", "documentos". E cada caixa <strong>guarda uma coisa diferente</strong>.
+        </p>
+        <p>
+          Em Python é <strong>exatamente isso</strong>. Só que em vez de pano,
+          a caixa guarda <strong>dados</strong>: um nome, uma idade, um preço, um sim/não.
+        </p>
+      </div>
+
+      <p>Pra criar uma caixinha em Python, você só precisa de uma linha:</p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">primeira_variavel.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2</div>
+<pre>nome = <span class="st">"Kelson"</span>
+<span class="bi">print</span>(nome)</pre>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🪄 Lendo da direita pra esquerda</div>
+        <p>
+          O sinal de <code>=</code> é o <strong>"guarda dentro de"</strong>.
+          A linha <code>nome = "Kelson"</code> lê assim:
+          <em>"guarda <strong>'Kelson'</strong> dentro da caixinha chamada <strong>nome</strong>"</em>.
+        </p>
+        <p>
+          Pronto. Agora toda vez que você escrever <code>nome</code>, o Python vai lá na caixa,
+          olha o que tem dentro, e usa.
+        </p>
+      </div>
+
+      <p style="margin-top:18px">Visualmente, a coisa fica assim:</p>
+
+      <div class="var-row">
+        <div class="var-box">
+          <span class="var-tag">nome</span>
+          <div class="var-value">"Kelson"</div>
+          <div class="var-type">str</div>
+        </div>
+        <div class="var-box">
+          <span class="var-tag">idade</span>
+          <div class="var-value">33</div>
+          <div class="var-type">int</div>
+        </div>
+        <div class="var-box">
+          <span class="var-tag">cidade</span>
+          <div class="var-value">"João Pessoa"</div>
+          <div class="var-type">str</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Regra do nome da caixinha:</strong>
+          começa com letra ou <code>_</code>, sem espaços, sem acento, sem começar com número.
+          Use <code>snake_case</code>: <code>nome_completo</code>, <code>idade_aluno</code>.
+          Evite: <code>1nome</code> ❌, <code>nome completo</code> ❌, <code>endereço</code> ❌.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🔁</span>
+        <div class="warning-content">
+          <strong>Variável "varia" mesmo:</strong> você pode trocar o que tem dentro a qualquer hora.
+          Se eu fizer <code>nome = "Ana"</code> depois, a caixinha passa a guardar "Ana" — o "Kelson"
+          some. Por isso o nome é <em>variável</em> 😉.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. EXERCÍCIO RÁPIDO — MINHAS CAIXINHAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="minhas-caixinhas">
+    <div class="step-header">
+      <div class="step-number sn-purple">⚡</div>
+      <div>
+        <div class="step-title">Exercício rápido — Minhas Caixinhas</div>
+        <div class="step-sub">5 minutinhos pra fixar a ideia</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Bora criar 3 caixinhas suas</div>
+          <div class="exercise-sub">Junto com o professor · minhas_caixinhas.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:10px">
+        Cria um arquivo <code>minhas_caixinhas.py</code> e digita estas três linhas, mas
+        <strong>com os seus dados</strong>:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">minhas_caixinhas.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>nome   = <span class="st">"Ana"</span>
+idade  = <span class="num">22</span>
+cidade = <span class="st">"Recife"</span>
+
+<span class="bi">print</span>(nome)
+<span class="bi">print</span>(idade)
+<span class="bi">print</span>(cidade)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · minhas_caixinhas.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Ana"></span><br>
+          <span class="typed" data-text="22"></span><br>
+          <span class="typed" data-text="Recife"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">👀</span>
+        <div class="tip-content">
+          <strong>Reparou?</strong> O <code>"Ana"</code> tá entre aspas e o <code>22</code> não.
+          Isso não é à toa — é a primeira pista de <strong>tipos de dados</strong>.
+          Bora ver isso agora!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. TIPOS DE DADOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="tipos">
+    <div class="step-header">
+      <div class="step-number sn-blue">🏷️</div>
+      <div>
+        <div class="step-title">Tipos de dados</div>
+        <div class="step-sub">Toda caixinha tem uma etiqueta — texto, número, sim/não…</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Etiqueta colorida em cada caixa</div>
+        <p>
+          Imagina que cada caixa tem uma <strong>fitinha colorida</strong> indicando o que ela aceita guardar:
+          🟢 só texto, 🔵 só número inteiro, 🟡 número com vírgula, 🔴 sim/não. Em Python a fitinha
+          se chama <strong>tipo</strong>. Os 4 tipos básicos são:
+        </p>
+      </div>
+
+      <div class="types-grid">
+        <div class="type-card t-str">
+          <div class="t-name">str</div>
+          <div class="t-desc">Texto. <strong>Sempre entre aspas.</strong> Pode ter qualquer coisa: letra, número, emoji.</div>
+          <div class="t-ex">nome = "Kelson"</div>
+        </div>
+        <div class="type-card t-int">
+          <div class="t-name">int</div>
+          <div class="t-desc">Número inteiro. Sem aspas, sem vírgula. Positivo ou negativo.</div>
+          <div class="t-ex">idade = 33</div>
+        </div>
+        <div class="type-card t-float">
+          <div class="t-name">float</div>
+          <div class="t-desc">Número com casas decimais. Em Python a separação é <strong>ponto</strong>, não vírgula.</div>
+          <div class="t-ex">preco = 19.90</div>
+        </div>
+        <div class="type-card t-bool">
+          <div class="t-name">bool</div>
+          <div class="t-desc">Sim ou não. Só dois valores possíveis: <code>True</code> ou <code>False</code> (com inicial maiúscula!).</div>
+          <div class="t-ex">ativo = True</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Pegadinha clássica:</strong> <code>"33"</code> (com aspas) é <strong>str</strong>,
+          não <strong>int</strong>! Mesmo parecendo número, a presença das aspas faz o Python
+          tratar como texto. Você não consegue somar texto com texto como se fosse conta.
+        </div>
+      </div>
+
+      <!-- Quiz 1 -->
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> O valor <code>3.14</code> em Python é do tipo:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">A) int</button>
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">B) float</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">C) str</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">D) bool</button>
+        </div>
+        <div class="quiz-feedback" data-explain="todo número com ponto decimal é float — mesmo que seja 3.0. Sem ponto é int."></div>
+      </div>
+
+      <!-- Quiz 2 -->
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> A linha <code>nome = "Programa AI"</code> guarda:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">A) Texto (str)</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">B) Número inteiro (int)</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">C) Booleano (bool)</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">D) Nada — dá erro</button>
+        </div>
+        <div class="quiz-feedback" data-explain="está entre aspas, então é str — texto. As aspas são a 'fitinha verde' que indica o tipo string."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. TIPAGEM DINÂMICA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="tipagem-dinamica">
+    <div class="step-header">
+      <div class="step-number sn-green">🪄</div>
+      <div>
+        <div class="step-title">Tipagem dinâmica</div>
+        <div class="step-sub">Em Python, você não precisa avisar o tipo — ele descobre sozinho</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Em algumas linguagens você precisa dizer ANTES qual o tipo: <em>"essa caixa é só pra inteiro"</em>.
+        Em Python, <strong>não</strong>. Você só joga o valor lá dentro, e o Python <strong>olha</strong> e decide o tipo.
+        Isso se chama <strong>tipagem dinâmica</strong>.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">tipagem_dinamica.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>nome   = <span class="st">"Kelson"</span>
+idade  = <span class="num">33</span>
+preco  = <span class="num">19.90</span>
+ativo  = <span class="bool">True</span>
+
+<span class="bi">print</span>(<span class="bi">type</span>(nome))
+<span class="bi">print</span>(<span class="bi">type</span>(idade))
+<span class="bi">print</span>(<span class="bi">type</span>(preco))
+<span class="bi">print</span>(<span class="bi">type</span>(ativo))</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · tipagem_dinamica.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="<class 'str'>"></span><br>
+          <span class="typed" data-text="<class 'int'>"></span><br>
+          <span class="typed" data-text="<class 'float'>"></span><br>
+          <span class="typed" data-text="<class 'bool'>"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🔍 type() — o "raio-x" da variável</div>
+        <p>
+          A função <code>type(x)</code> diz qual o tipo da caixinha <code>x</code>. É um truque útil
+          quando você fica em dúvida: <em>"isso aqui é número ou texto?"</em> — pergunta pro Python.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🤯</span>
+        <div class="tip-content">
+          <strong>Mente blown:</strong> a mesma caixinha pode mudar de tipo!
+          <code>x = 10</code> (int) → <code>x = "oi"</code> (str) → <code>x = True</code> (bool).
+          O Python re-etiqueta. Mas use com moderação — costuma confundir o leitor do código.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. INPUT() REVISITADO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="input-revisita">
+    <div class="step-header">
+      <div class="step-number sn-blue">📥</div>
+      <div>
+        <div class="step-title">input() revisitado</div>
+        <div class="step-sub">A pegadinha que pega TODO mundo no começo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        No capítulo 1 a gente já usou <code>input()</code> pra perguntar o nome.
+        Agora bora prestar atenção numa <strong>verdade fundamental</strong>:
+      </p>
+
+      <div class="box-banner">
+        <h3>🚨 input() SEMPRE devolve string.</h3>
+        <p style="font-size:1.02rem;color:var(--text-dim);max-width:600px;margin:0 auto">
+          Não importa se o usuário digitou <code>"Maria"</code>, <code>"33"</code> ou <code>"3.14"</code>.
+          Pro Python, tudo que veio do <code>input()</code> é <strong style="color:var(--accent5)">texto</strong>.
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">input_e_tipo.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3</div>
+<pre>idade = <span class="bi">input</span>(<span class="st">"Sua idade: "</span>)
+<span class="bi">print</span>(idade)
+<span class="bi">print</span>(<span class="bi">type</span>(idade))   <span class="cm"># mesmo digitando 33, vem como str!</span></pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · input_e_tipo.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Sua idade: </span><span class="typed" data-text="33"></span><br>
+          <span class="typed" data-text="33"></span><br>
+          <span class="typed" data-text="<class 'str'>"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">😬</span>
+        <div class="warning-content">
+          <strong>Por isso</strong> aquele exercício do capítulo 1 (cálculo da idade) precisava do
+          <code>int()</code>. Sem ele, você tentaria fazer <code>"2002" - 2026</code> e o Python iria
+          chamar a polícia. Bora ver como converter no próximo bloco.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. CONVERSÃO DE TIPOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="conversao">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🔄</div>
+      <div>
+        <div class="step-title">Conversão de tipos</div>
+        <div class="step-sub">Trocando a etiqueta da caixinha</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Pra converter um valor de um tipo pra outro, use a função com o nome do tipo:
+        <code>int(...)</code>, <code>float(...)</code>, <code>str(...)</code>.
+      </p>
+
+      <div class="types-grid">
+        <div class="type-card t-int">
+          <div class="t-name">int(x)</div>
+          <div class="t-desc">Vira inteiro</div>
+          <div class="t-ex">int("33") → 33</div>
+        </div>
+        <div class="type-card t-float">
+          <div class="t-name">float(x)</div>
+          <div class="t-desc">Vira decimal</div>
+          <div class="t-ex">float("3.14") → 3.14</div>
+        </div>
+        <div class="type-card t-str">
+          <div class="t-name">str(x)</div>
+          <div class="t-desc">Vira texto</div>
+          <div class="t-ex">str(33) → "33"</div>
+        </div>
+      </div>
+
+      <p style="margin-top:18px">
+        O fluxo clássico é: <strong>pergunta → recebe texto → converte → faz conta → mostra</strong>:
+      </p>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-py">
+          <div class="label">Você</div>
+          <div>📥 input("Idade: ")</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">vem texto</span></div>
+
+        <div class="flow-box fb-input">
+          <div class="label">Python</div>
+          <div>📦 idade = "33" (str)</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">int(idade)</span></div>
+
+        <div class="flow-box fb-process">
+          <div class="label">Conversão</div>
+          <div>🔄 idade = 33 (int)</div>
+        </div>
+        <div class="flow-arrow"></div>
+
+        <div class="flow-box fb-output">
+          <div class="label">Conta</div>
+          <div>➕ idade + 1 = 34</div>
+        </div>
+        <div class="flow-arrow"></div>
+
+        <div class="flow-box fb-true">
+          <div class="label">Print</div>
+          <div>🎉 "Você tem 34 anos!"</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">conversao.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="cm"># pega já convertendo na hora</span>
+idade  = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+altura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua altura (m): "</span>))
+
+ano_que_vem = idade + <span class="num">1</span>
+<span class="bi">print</span>(<span class="st">f"Ano que vem você terá {ano_que_vem} anos."</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎯</span>
+        <div class="tip-content">
+          <strong>Truque do envolope:</strong> envolve o <code>input()</code> com <code>int(...)</code>
+          ou <code>float(...)</code> direto. Assim você já guarda a caixa com o tipo certo
+          e não precisa converter depois.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">💥</span>
+        <div class="warning-content">
+          <strong>Cuidado:</strong> <code>int("oi")</code> dá erro feio
+          (<code>ValueError</code>). Só dá pra converter texto que <em>parece</em> número.
+          E <code>int("3.14")</code> também dá erro — pra decimal use <code>float</code>.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. PRINT() AVANÇADO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="print-avancado">
+    <div class="step-header">
+      <div class="step-number sn-mint">💬</div>
+      <div>
+        <div class="step-title">print() avançado</div>
+        <div class="step-sub">Vários argumentos, sep e end</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        O <code>print()</code> aceita <strong>vários valores</strong> de uma vez,
+        separados por vírgula. Por padrão, ele junta com <strong>espaço</strong> e
+        <strong>quebra linha no fim</strong>.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">print_basico.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3</div>
+<pre>nome  = <span class="st">"Ana"</span>
+idade = <span class="num">22</span>
+<span class="bi">print</span>(<span class="st">"Olá,"</span>, nome, <span class="st">"você tem"</span>, idade, <span class="st">"anos"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · print_basico.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Olá, Ana você tem 22 anos"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🎛️ sep e end — controlando o "tempero"</div>
+        <p>
+          <code>sep</code> = o que <strong>separa</strong> os argumentos (padrão: espaço).<br>
+          <code>end</code> = o que vai no <strong>final</strong> (padrão: <code>\n</code>, ou seja, quebra de linha).
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">print_sep_end.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="bi">print</span>(<span class="st">"2026"</span>, <span class="st">"04"</span>, <span class="st">"27"</span>, sep=<span class="st">"-"</span>)
+<span class="bi">print</span>(<span class="st">"carregando"</span>, end=<span class="st">"..."</span>)
+<span class="bi">print</span>(<span class="st">"pronto!"</span>)
+<span class="cm"># saída:
+# 2026-04-27
+# carregando...pronto!</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🍕</span>
+        <div class="tip-content">
+          <strong>Quando usar?</strong> <code>sep="-"</code> é ótimo pra datas e códigos.
+          <code>end=""</code> é ótimo pra fazer "barra de progresso" na mesma linha. Mas no dia a dia
+          a gente quase sempre prefere <strong>f-string</strong> — bora ver agora.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. F-STRINGS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="fstrings">
+    <div class="step-header">
+      <div class="step-number sn-yellow">✨</div>
+      <div>
+        <div class="step-title">F-strings — o jeito moderno</div>
+        <div class="step-sub">Coloque variáveis DENTRO da string com naturalidade</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        F-string é uma string que começa com <code>f"..."</code>. Dentro dela, qualquer coisa
+        entre <code>{ }</code> é <strong>avaliado</strong> e substituído pelo valor.
+      </p>
+
+      <div class="compare-row">
+        <div class="compare-side bad">
+          <h4>❌ Antigamente (chato)</h4>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">old.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre><span class="bi">print</span>(<span class="st">"Olá, "</span> + nome + <span class="st">", você tem "</span> + <span class="bi">str</span>(idade) + <span class="st">" anos"</span>)</pre>
+          </div>
+        </div>
+        <div class="compare-side good">
+          <h4>✅ Hoje (lindo)</h4>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">new.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre><span class="bi">print</span>(<span class="st">f"Olá, {nome}, você tem {idade} anos"</span>)</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🎁 Bônus: formatação numérica</div>
+        <p>
+          Dá pra <strong>formatar</strong> um número direto no <code>{ }</code>. O mais comum:
+          <code>{var:.2f}</code> arredonda pra 2 casas decimais.
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">fstring_format.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>preco    = <span class="num">19.9</span>
+desconto = <span class="num">0.1</span>
+final    = preco * (<span class="num">1</span> - desconto)
+
+<span class="bi">print</span>(<span class="st">f"Preço final: R$ {final:.2f}"</span>)   <span class="cm"># Preço final: R$ 17.91</span></pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · fstring_format.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Preço final: R$ 17.91"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📐</span>
+        <div class="tip-content">
+          <strong>Cheat-sheet rápido:</strong>
+          <code>{n:.2f}</code> = 2 casas decimais ·
+          <code>{n:.0f}</code> = sem casas (arredonda) ·
+          <code>{n:5d}</code> = inteiro com 5 espaços ·
+          <code>{texto:&gt;10}</code> = alinhado à direita.
+          Não precisa decorar agora — só lembra que <strong>existe</strong>.
+        </div>
+      </div>
+
+      <!-- Mini quiz f-string -->
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Para mostrar o preço <code>9.5</code> com 2 casas decimais numa f-string, eu uso:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">A) <code>f"{preco}.2f"</code></button>
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">B) <code>f"{preco:.2f}"</code></button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">C) <code>f"{preco,2f}"</code></button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">D) <code>"preco:.2f"</code></button>
+        </div>
+        <div class="quiz-feedback" data-explain="dentro do { } da f-string, depois do nome da variável vem dois-pontos e o formato. .2f = 2 casas decimais."></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — HORA DE CODAR
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">💻</span>
+    <span class="chapter-number">Hora de Codar</span>
+    <h2 class="grad-vars">Bora juntar tudo num programa de verdade!</h2>
+    <p class="chapter-subtitle">
+      Um exercício guiado pra fixar variáveis + tipos + f-strings,
+      e depois um desafio individual com olhinho 👀.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. BORA CODAR 2.0 — Cadastro Simples
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-20">
+    <div class="step-header">
+      <div class="step-number sn-blue">2.0</div>
+      <div>
+        <div class="step-title">Bora Codar! — Cadastro simples</div>
+        <div class="step-sub">Junto com o professor · cadastro_simples.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Cadastro de aluno (nome, idade, cidade)</div>
+          <div class="exercise-sub">Variáveis + input + f-string juntinhos</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        A gente vai pedir três coisas pro usuário, guardar em variáveis e mostrar
+        uma frase bonita no final. <strong>Atenção:</strong> a idade vai virar <code>int</code>
+        porque a gente quer poder fazer conta com ela depois.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cadastro_simples.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="cm"># pega os dados do usuário</span>
+nome   = <span class="bi">input</span>(<span class="st">"Qual é o seu nome? "</span>)
+idade  = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantos anos você tem? "</span>))
+cidade = <span class="bi">input</span>(<span class="st">"Em qual cidade você mora? "</span>)
+
+<span class="cm"># mostra uma frase montada com f-string</span>
+<span class="bi">print</span>(<span class="st">f"Cadastro feito! {nome}, {idade} anos, mora em {cidade}."</span>)
+<span class="bi">print</span>(<span class="st">f"Ano que vem você terá {idade + 1} anos 🎂"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · cadastro_simples.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Qual é o seu nome? </span><span class="typed" data-text="Kelson"></span><br>
+          <span class="out">Quantos anos você tem? </span><span class="typed" data-text="33"></span><br>
+          <span class="out">Em qual cidade você mora? </span><span class="typed" data-text="João Pessoa"></span><br>
+          <span class="typed" data-text="Cadastro feito! Kelson, 33 anos, mora em João Pessoa."></span><br>
+          <span class="typed" data-text="Ano que vem você terá 34 anos 🎂"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="var-row">
+        <div class="var-box">
+          <span class="var-tag">nome</span>
+          <div class="var-value">"Kelson"</div>
+          <div class="var-type">str</div>
+        </div>
+        <div class="var-box">
+          <span class="var-tag">idade</span>
+          <div class="var-value">33</div>
+          <div class="var-type">int</div>
+        </div>
+        <div class="var-box">
+          <span class="var-tag">cidade</span>
+          <div class="var-value">"João Pessoa"</div>
+          <div class="var-type">str</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🔥</span>
+        <div class="tip-content">
+          <strong>Reparou?</strong> Dentro da f-string, <code>{idade + 1}</code> faz a conta na hora!
+          Pode ter expressão dentro do <code>{ }</code> — não precisa criar variável separada
+          só pra isso.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. DESAFIO INDIVIDUAL — apresentacao.py
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="desafio-apresentacao">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Desafio Individual — apresentacao.py</div>
+        <div class="step-sub">Agora é com você. Olhinho 👀 só DEPOIS de tentar!</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · apresentacao.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>apresentacao.py</code>. Dentro, peça <strong>três</strong> coisas
+          ao usuário com <code>input()</code>: o <strong>nome</strong>, a <strong>idade</strong> e o
+          <strong>hobby</strong> favorito.
+        </p>
+        <p>
+          No final, mostre uma frase usando <strong>f-string</strong> juntando os três, tipo:
+          <em>"Prazer, eu sou [nome], tenho [idade] anos e adoro [hobby]!"</em>
+        </p>
+        <p>
+          É bem parecido com o <strong>Cadastro Simples</strong> que a gente acabou de fazer.
+          Se você só vai mostrar a idade (sem fazer conta), pode até deixar como string —
+          mas convém treinar o <code>int()</code>!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Abra o PyCharm,
+          crie o arquivo e tente. Errar é parte do processo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">apresentacao.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="cm"># pega os dados do usuário</span>
+nome  = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)
+idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+hobby = <span class="bi">input</span>(<span class="st">"Seu hobby favorito: "</span>)
+
+<span class="bi">print</span>(<span class="st">f"Prazer, eu sou {nome}, tenho {idade} anos e adoro {hobby}!"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · apresentacao.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Seu nome: </span><span class="typed" data-text="Marina"></span><br>
+              <span class="out">Sua idade: </span><span class="typed" data-text="27"></span><br>
+              <span class="out">Seu hobby favorito: </span><span class="typed" data-text="ler quadrinhos"></span><br>
+              <span class="typed" data-text="Prazer, eu sou Marina, tenho 27 anos e adoro ler quadrinhos!"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Variação criativa:</strong> tente trocar a frase pra usar
+              <code>{idade + 1}</code> e mostrar quantos anos a pessoa terá ano que vem.
+              Ou some <code>idade + 10</code> e fala que daqui 10 anos ela vai estar uma fera no Python!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. BUGZILLA 🐛
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu de novo!</div>
+        <div class="step-sub">Os erros canônicos do capítulo 02</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">"Eu tô de volta!"</div>
+          <div class="bugzilla-sub">Trazendo dois erros que TODO iniciante comete com variáveis e tipos</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p>
+          Bora ver os clássicos. Quando você passar por eles na vida real,
+          já vai saber identificar e corrigir 💪.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bug 1: parênteses -->
+    <div class="card">
+      <h3>🐛 Bug #1 — Esqueci os parênteses do print</h3>
+      <p style="color:var(--text-dim)">Em Python 3, <code>print</code> é uma <strong>função</strong> — precisa dos parênteses.</p>
+
+      <div class="compare-row">
+        <div class="compare-side bad">
+          <h4>❌ Errado</h4>
+<pre style="padding:14px;font-size:0.82rem"><span class="bi">print</span> <span class="st">"Olá"</span></pre>
+          <p style="color:var(--text-dim);font-size:0.82rem;margin-top:6px">
+            <code>SyntaxError: Missing parentheses in call to 'print'</code>
+          </p>
+        </div>
+        <div class="compare-side good">
+          <h4>✅ Certo</h4>
+<pre style="padding:14px;font-size:0.82rem"><span class="bi">print</span>(<span class="st">"Olá"</span>)</pre>
+          <p style="color:var(--text-dim);font-size:0.82rem;margin-top:6px">
+            Funciona lindamente.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 2: somar string + int -->
+    <div class="card">
+      <h3>🐛 Bug #2 — Tentei somar texto com número</h3>
+      <p style="color:var(--text-dim)">
+        Lembra que <code>input()</code> sempre devolve string?
+        Se você esquecer de converter, o Python reclama.
+      </p>
+
+      <div class="compare-row">
+        <div class="compare-side bad">
+          <h4>❌ Errado</h4>
+<pre style="padding:14px;font-size:0.82rem">idade = <span class="bi">input</span>(<span class="st">"Idade: "</span>)
+<span class="bi">print</span>(idade + <span class="num">1</span>)</pre>
+          <p style="color:var(--text-dim);font-size:0.82rem;margin-top:6px">
+            <code>TypeError: can only concatenate str (not "int") to str</code>
+          </p>
+        </div>
+        <div class="compare-side good">
+          <h4>✅ Certo</h4>
+<pre style="padding:14px;font-size:0.82rem">idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+<span class="bi">print</span>(idade + <span class="num">1</span>)</pre>
+          <p style="color:var(--text-dim);font-size:0.82rem;margin-top:6px">
+            Convertendo com <code>int()</code>, agora dá pra somar.
+          </p>
+        </div>
+      </div>
+
+      <div class="bug-box">
+        <span class="bug-icon">🐛</span>
+        <div class="bug-content">
+          <strong>Variação cruel:</strong> <code>"Você tem " + idade</code> também explode
+          (não dá pra concatenar str com int). Solução: usa f-string,
+          <code>f"Você tem {idade}"</code>, ou converte: <code>"Você tem " + str(idade)</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 3: vírgula vs ponto -->
+    <div class="card">
+      <h3>🐛 Bug #3 — Decimal com vírgula no Python</h3>
+      <p style="color:var(--text-dim)">
+        Brasileiro adora vírgula nos decimais. Python <strong>NÃO</strong>. Tem que ser ponto.
+      </p>
+
+      <div class="compare-row">
+        <div class="compare-side bad">
+          <h4>❌ Errado</h4>
+<pre style="padding:14px;font-size:0.82rem">preco = <span class="num">19,90</span></pre>
+          <p style="color:var(--text-dim);font-size:0.82rem;margin-top:6px">
+            Python entende como uma <em>tupla</em> com dois números 🤯
+          </p>
+        </div>
+        <div class="compare-side good">
+          <h4>✅ Certo</h4>
+<pre style="padding:14px;font-size:0.82rem">preco = <span class="num">19.90</span></pre>
+          <p style="color:var(--text-dim);font-size:0.82rem;margin-top:6px">
+            Float lindo de morrer.
+          </p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📖</span>
+        <div class="tip-content">
+          <strong>Hábito de ouro:</strong> sempre que aparecer erro, leia a <strong>última linha</strong>.
+          <code>SyntaxError</code> = você escreveu errado. <code>TypeError</code> = misturou tipos.
+          <code>ValueError</code> = converteu algo que não dava pra converter. 90% dos erros do bootcamp
+          caem nesses três.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. RESUMO + PRÓXIMO CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 02</div>
+        <div class="step-sub">Checklist do que você acabou de aprender</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">📦</span>
+          <span class="kw-name">Variáveis</span>
+          <span class="kw-desc">Caixinhas com etiqueta que guardam dados</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🟢</span>
+          <span class="kw-name">str</span>
+          <span class="kw-desc">Texto, sempre entre aspas</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔵</span>
+          <span class="kw-name">int</span>
+          <span class="kw-desc">Número inteiro</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🟡</span>
+          <span class="kw-name">float</span>
+          <span class="kw-desc">Número decimal (com ponto, não vírgula!)</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔴</span>
+          <span class="kw-name">bool</span>
+          <span class="kw-desc">True ou False</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🪄</span>
+          <span class="kw-name">Tipagem dinâmica</span>
+          <span class="kw-desc">Python descobre o tipo sozinho — use <code>type()</code></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📥</span>
+          <span class="kw-name">input()</span>
+          <span class="kw-desc">Sempre devolve string!</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔄</span>
+          <span class="kw-name">int() float() str()</span>
+          <span class="kw-desc">Conversão entre tipos</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">💬</span>
+          <span class="kw-name">print()</span>
+          <span class="kw-desc">Vários args, com <code>sep</code> e <code>end</code></span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✨</span>
+          <span class="kw-name">f-string</span>
+          <span class="kw-desc"><code>f"{var:.2f}"</code> — moderna e elegante</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐛</span>
+          <span class="kw-name">BugZilla</span>
+          <span class="kw-desc">Parênteses, somar str + int, vírgula nos decimais</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">💪</span>
+          <span class="kw-name">apresentacao.py</span>
+          <span class="kw-desc">Você fez um programa que coleta e mostra dados!</span>
+        </div>
+      </div>
+
+      <div class="box-banner" style="margin-top:24px">
+        <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--accent5)">
+          "Toda informação tem uma caixinha. <br>E você agora sabe como guardar, etiquetar e usar!" 📦✨
+        </h3>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(69,183,209,0.06),rgba(78,205,196,0.04));border-color:rgba(69,183,209,0.20)">
+      <h3 style="color:var(--accent4);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 03 — Estruturas Condicionais.</strong>
+        Até agora seu programa só vai numa direção. Bora ensinar ele a <strong>tomar decisões</strong>:
+        "se a idade for maior que 18, pode entrar; senão, volta pra casa". Você vai amar 😎.
+      </p>
+      <a href="../03-condicionais/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent4),var(--accent3));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
+        🔀 Ir para Capítulo 03 →
+      </a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

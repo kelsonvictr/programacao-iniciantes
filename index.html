@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bootcamp: Programação para Iniciantes — v2 | Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/styles.css">
+<link rel="stylesheet" href="shared/components.css">
+<link rel="stylesheet" href="shared/animations.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-icons">🐍 💡 🚀</div>
+  <span class="hero-badge python">Bootcamp · Programa AI</span>
+  <h1>Programação para Iniciantes</h1>
+  <p class="subtitle">
+    Lógica de programação e algoritmos básicos com <strong style="color:var(--python-y)">Python</strong>.
+    Do primeiro <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">print("Olá!")</code>
+    a um sistema completo com banco de dados e interface gráfica.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip python">🐍 Python 3</span>
+    <span class="stack-chip">📦 PyCharm</span>
+    <span class="stack-chip tinydb">💾 TinyDB</span>
+    <span class="stack-chip streamlit">🎨 Streamlit</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       MENSAGEM DE BOAS-VINDAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section visible" id="boas-vindas-hub">
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(55,118,171,0.08),rgba(255,212,59,0.04));border-color:rgba(55,118,171,0.20)">
+      <h3 style="font-size:1.5rem;color:var(--python-y);margin-bottom:10px">Olá, futuro(a) dev! 👋</h3>
+      <p style="font-size:1.05rem;max-width:680px;margin:0 auto">
+        Esse é o material visual e interativo do bootcamp. Cada capítulo é uma página
+        cheia de <strong style="color:var(--text)">analogias, fluxos animados, exercícios
+        com olhinho 👀</strong> e o nosso vilão preferido: o
+        <strong style="color:var(--bug)">BugZilla 🐛</strong>.
+      </p>
+      <p class="text-dim" style="margin-top:14px;font-size:0.9rem">
+        Comece pelo <strong style="color:var(--accent5)">Capítulo 01</strong> e siga em ordem.
+        Cada um foi pensado pra te levar pelo caminho mais natural.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CARDS DOS CAPÍTULOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section visible">
+    <div class="step-header">
+      <div class="step-number sn-py">📚</div>
+      <div>
+        <div class="step-title">Os 10 capítulos do bootcamp</div>
+        <div class="step-sub">Da primeira linha ao seu primeiro app completo</div>
+      </div>
+    </div>
+
+    <div class="hub-grid reveal-stagger">
+
+      <a class="hub-card c01" href="capitulos/01-boas-vindas/">
+        <span class="num">CAP · 01</span>
+        <span class="ic">🐍</span>
+        <span class="title">Boas-vindas e Fundamentos</span>
+        <span class="desc">O que é programar, como o Python pensa, e seu primeiro <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">print("Olá!")</code>.</span>
+        <span class="pills">
+          <span class="pill">print</span>
+          <span class="pill">input</span>
+          <span class="pill">f-string</span>
+        </span>
+      </a>
+
+      <a class="hub-card c02" href="capitulos/02-variaveis-tipos/">
+        <span class="num">CAP · 02</span>
+        <span class="ic">📦</span>
+        <span class="title">Variáveis e Tipos</span>
+        <span class="desc">Caixinhas com nome guardando textos, números e booleanos. A base de tudo.</span>
+        <span class="pills">
+          <span class="pill">str</span>
+          <span class="pill">int</span>
+          <span class="pill">float</span>
+          <span class="pill">bool</span>
+        </span>
+      </a>
+
+      <a class="hub-card c03" href="capitulos/03-condicionais/">
+        <span class="num">CAP · 03</span>
+        <span class="ic">🤔</span>
+        <span class="title">Estruturas Condicionais</span>
+        <span class="desc">Python tomando decisões com <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">if</code>, <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">elif</code> e <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">else</code>.</span>
+        <span class="pills">
+          <span class="pill">if/else</span>
+          <span class="pill">==</span>
+          <span class="pill">and / or</span>
+        </span>
+      </a>
+
+      <a class="hub-card c04" href="capitulos/04-loops-listas/">
+        <span class="num">CAP · 04</span>
+        <span class="ic">🔁</span>
+        <span class="title">Loops e Listas</span>
+        <span class="desc"><code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">while</code>, <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">for</code>, <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">range</code>, e listas de várias coisinhas.</span>
+        <span class="pills">
+          <span class="pill">while</span>
+          <span class="pill">for</span>
+          <span class="pill">list</span>
+        </span>
+      </a>
+
+      <a class="hub-card c05" href="capitulos/05-funcoes/">
+        <span class="num">CAP · 05</span>
+        <span class="ic">⚙️</span>
+        <span class="title">Funções</span>
+        <span class="desc">Empacote pedaços de código pra usar várias vezes. Receitas reutilizáveis.</span>
+        <span class="pills">
+          <span class="pill">def</span>
+          <span class="pill">return</span>
+          <span class="pill">params</span>
+        </span>
+      </a>
+
+      <a class="hub-card c06" href="capitulos/06-desafios/">
+        <span class="num">CAP · 06</span>
+        <span class="ic">🏆</span>
+        <span class="title">Desafios Integradores</span>
+        <span class="desc">5 mini-sistemas pra consolidar tudo: votação, lanchonete, cinema, arcade, academia.</span>
+        <span class="pills">
+          <span class="pill">🎬 votação</span>
+          <span class="pill">🍔 lanche</span>
+          <span class="pill">🎟 cinema</span>
+        </span>
+      </a>
+
+      <a class="hub-card c07" href="capitulos/07-dicionarios/">
+        <span class="num">CAP · 07</span>
+        <span class="ic">🗂️</span>
+        <span class="title">Dicionários</span>
+        <span class="desc">Pares <strong>chave → valor</strong>. Cadastros que parecem fichas reais.</span>
+        <span class="pills">
+          <span class="pill">dict</span>
+          <span class="pill">key/value</span>
+          <span class="pill">CRUD</span>
+        </span>
+      </a>
+
+      <a class="hub-card c08" href="capitulos/08-json/">
+        <span class="num">CAP · 08</span>
+        <span class="ic">💾</span>
+        <span class="title">Persistência com JSON</span>
+        <span class="desc">"E se eu fechar o programa?" Salvando dados em arquivo <code style="background:var(--code-bg);color:var(--accent5);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.8rem">.json</code>.</span>
+        <span class="pills">
+          <span class="pill">json.dump</span>
+          <span class="pill">json.load</span>
+        </span>
+      </a>
+
+      <a class="hub-card c09" href="capitulos/09-tinydb/">
+        <span class="num">CAP · 09</span>
+        <span class="ic">📂</span>
+        <span class="title">TinyDB — banco de dados mini</span>
+        <span class="desc">Insert, read, update, delete. Tudo dentro de um arquivinho.</span>
+        <span class="pills">
+          <span class="pill">CRUD</span>
+          <span class="pill">Query</span>
+          <span class="pill">Tables</span>
+        </span>
+      </a>
+
+      <a class="hub-card c10" href="capitulos/10-streamlit/">
+        <span class="num">CAP · 10</span>
+        <span class="ic">🎨</span>
+        <span class="title">Streamlit — sua primeira UI</span>
+        <span class="desc">Transforme seu script em um app web bonito. Sem HTML, sem JS.</span>
+        <span class="pills">
+          <span class="pill">st.button</span>
+          <span class="pill">st.input</span>
+          <span class="pill">app web</span>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PROFESSOR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section visible">
+    <div class="step-header">
+      <div class="step-number sn-purple">👨‍🏫</div>
+      <div>
+        <div class="step-title">Quem te acompanha</div>
+        <div class="step-sub">Seu professor nessa jornada</div>
+      </div>
+    </div>
+
+    <div class="card" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+      <div style="font-size:4rem;line-height:1;flex-shrink:0">🧑‍💻</div>
+      <div style="flex:1;min-width:240px">
+        <h3 style="margin-bottom:6px">Prof. Kelson Almeida</h3>
+        <p style="color:var(--text-dim);font-size:0.95rem">
+          Mestre em Informática pela UFPB · Bacharel em Sistemas de Informação · Pesquisador na
+          University of New Brunswick (Canadá) · Desenvolvedor Sênior na NTT Data Europe & Latam @ Itaú.
+        </p>
+        <p style="margin-top:10px">
+          <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener" style="color:var(--accent4);text-decoration:none;font-weight:700">
+            github.com/kelsonvictr ↗
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       O QUE TORNA ESSE MATERIAL DIFERENTE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section visible">
+    <div class="step-header">
+      <div class="step-number sn-yellow">✨</div>
+      <div>
+        <div class="step-title">O que esse material tem de diferente</div>
+        <div class="step-sub">Pensado do zero pra quem está começando</div>
+      </div>
+    </div>
+
+    <div class="keyword-grid">
+      <div class="keyword-chip">
+        <span class="emoji">💡</span>
+        <span class="kw-name">Analogia primeiro</span>
+        <span class="kw-desc">Receita de bolo, caixinhas, garçom. Código vem só depois que você já entendeu.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">👀</span>
+        <span class="kw-name">Olhinho na resposta</span>
+        <span class="kw-desc">Cada exercício esconde a solução até você tentar. É onde o aprendizado mora.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🎬</span>
+        <span class="kw-name">Tudo animado</span>
+        <span class="kw-desc">Fluxos, loops e variáveis se movem na tela. Você vê o código <strong>acontecendo</strong>.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🐛</span>
+        <span class="kw-name">BugZilla amigável</span>
+        <span class="kw-desc">Erros são parte do jogo. Cada vilão vira uma lição.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🧩</span>
+        <span class="kw-name">Quizzes rápidos</span>
+        <span class="kw-desc">Pequenas pausas pra checar se o conceito grudou.</span>
+      </div>
+      <div class="keyword-chip">
+        <span class="emoji">🚀</span>
+        <span class="kw-name">Projeto real ao final</span>
+        <span class="kw-desc">Você termina com um app web que salva dados de verdade. Sério.</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  Bootcamp <strong style="color:var(--python-y)">Programação para Iniciantes</strong> v2 ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="shared/scripts.js" defer></script>
+</body>
+</html>

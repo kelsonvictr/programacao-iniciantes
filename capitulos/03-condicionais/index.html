@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 03 — Estruturas Condicionais | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* extras locais ao capítulo 03 */
+.hero h1.grad-cond{
+  background:linear-gradient(135deg,var(--accent4),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* tabela de operadores */
+.op-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;margin:18px 0;
+}
+.op-cell{
+  background:var(--surface2);
+  border:1px solid rgba(69,183,209,0.20);
+  border-left:4px solid var(--accent3);
+  border-radius:12px;padding:14px 18px;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+}
+.op-cell:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent3);
+  box-shadow:0 8px 24px rgba(69,183,209,0.18);
+}
+.op-cell .op-symbol{
+  font-family:'JetBrains Mono',monospace;font-weight:900;
+  color:var(--accent3);font-size:1.4rem;margin-bottom:4px;
+}
+.op-cell .op-name{font-weight:800;color:var(--text);font-size:0.95rem}
+.op-cell .op-ex{
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  color:var(--text-dim);margin-top:4px;
+}
+.op-cell .op-ex .yes{color:var(--accent7);font-weight:700}
+.op-cell .op-ex .no {color:var(--accent2);font-weight:700}
+
+/* lógicos — chips */
+.logic-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;margin:18px 0;
+}
+.logic-chip{
+  background:var(--surface2);
+  border:2px solid rgba(167,139,250,0.30);
+  border-radius:14px;padding:18px;text-align:center;
+  position:relative;
+}
+.logic-chip .logic-name{
+  font-family:'JetBrains Mono',monospace;font-weight:900;
+  color:var(--accent6);font-size:1.6rem;margin-bottom:6px;
+}
+.logic-chip .logic-desc{
+  color:var(--text-dim);font-size:0.88rem;line-height:1.5;
+}
+
+/* restaurante banner */
+.resto-banner{
+  background:linear-gradient(135deg,rgba(247,183,49,0.10),rgba(255,107,107,0.06));
+  border:2px solid rgba(247,183,49,0.25);
+  border-radius:20px;padding:28px;text-align:center;margin:18px 0;
+  position:relative;overflow:hidden;
+}
+.resto-banner::after{
+  content:'🍔';font-size:7rem;position:absolute;
+  top:-20px;right:-10px;opacity:0.10;line-height:1;
+  transform:rotate(-12deg);pointer-events:none;
+}
+.resto-banner h3{font-size:1.4rem;color:var(--accent5);margin-bottom:6px}
+.resto-banner p{color:var(--text-dim);font-size:0.95rem}
+
+/* semáforo visual */
+.semaforo{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  background:#1a1a2a;border-radius:18px;padding:18px;
+  width:90px;margin:18px auto;
+  border:2px solid rgba(255,255,255,0.06);
+}
+.sem-light{
+  width:54px;height:54px;border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  border:2px solid rgba(255,255,255,0.04);
+  transition:all 0.3s;
+}
+.sem-light.on.red    {background:#ff4757;box-shadow:0 0 30px #ff4757}
+.sem-light.on.yellow {background:#febc2e;box-shadow:0 0 30px #febc2e}
+.sem-light.on.green  {background:#28c840;box-shadow:0 0 30px #28c840}
+.sem-row{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:18px 0}
+.sem-card{
+  flex:1;min-width:180px;text-align:center;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:14px;
+}
+.sem-card .lbl{font-size:0.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:800;margin-top:4px}
+
+/* if/else side-by-side */
+.flow-grid-3{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  margin:18px 0;
+}
+@media(max-width:640px){.flow-grid-3{grid-template-columns:1fr}}
+.flow-grid-3 .flow-box{min-width:auto}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🚦 Capítulo 03</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('poder-decisoes')"><span class="dot" style="background:var(--accent4)"></span>O poder das decisões</a>
+    <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz V/F</a>
+    <a class="sidebar-link" onclick="goTo('comando-if')"><span class="dot" style="background:var(--accent4)"></span>O comando if</a>
+    <a class="sidebar-link" onclick="goTo('comando-else')"><span class="dot" style="background:var(--accent2)"></span>else — senão</a>
+    <a class="sidebar-link" onclick="goTo('exer-pode-votar')"><span class="dot" style="background:var(--accent6)"></span>Pode votar?</a>
+    <a class="sidebar-link" onclick="goTo('comando-elif')"><span class="dot" style="background:var(--accent3)"></span>elif — múltiplos caminhos</a>
+    <a class="sidebar-link" onclick="goTo('exer-evento')"><span class="dot" style="background:var(--accent6)"></span>entrada_evento.py 👀</a>
+    <a class="sidebar-link" onclick="goTo('operadores-comp')"><span class="dot" style="background:var(--accent5)"></span>Operadores de comparação</a>
+    <a class="sidebar-link" onclick="goTo('operadores-logic')"><span class="dot" style="background:var(--accent6)"></span>Operadores lógicos</a>
+    <a class="sidebar-link" onclick="goTo('exer-frete')"><span class="dot" style="background:var(--accent4)"></span>Entrega grátis</a>
+    <a class="sidebar-link" onclick="goTo('restaurante')"><span class="dot" style="background:var(--accent5)"></span>Restaurante Inteligente 🍔</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-30')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 3.0</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('exer-descontos')"><span class="dot" style="background:var(--accent6)"></span>descontos.py 👀</a>
+    <a class="sidebar-link" onclick="goTo('mini-sistema')"><span class="dot" style="background:var(--accent3)"></span>Mini Sistema</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🚦 🤔 🎯</div>
+  <span class="hero-badge">Capítulo 03 · Bootcamp Programa AI</span>
+  <h1 class="grad-cond">Estruturas Condicionais</h1>
+  <p class="subtitle">
+    Hoje o computador <strong>aprende a decidir</strong>. Você vai dominar
+    <strong>if, else, elif</strong> e os operadores de comparação e lógicos —
+    e fazer o seu primeiro programa que <strong>pensa</strong>. 🤯
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">🎯 if / else / elif</span>
+    <span class="stack-chip">⚖️ ==  !=  &gt;  &lt;</span>
+    <span class="stack-chip">🔗 and / or / not</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. O PODER DAS DECISÕES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="poder-decisoes">
+    <div class="step-header">
+      <div class="step-number sn-blue">🚦</div>
+      <div>
+        <div class="step-title">O poder das decisões</div>
+        <div class="step-sub">Hoje o seu programa começa a pensar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Até agora seus programas seguiam um caminho só, em linha reta:
+        pega o nome → mostra o nome. Mas <strong>a vida real não é assim</strong> —
+        a gente toma decisões o tempo todo:
+      </p>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">🚦</span>
+          <div class="tip-content"><strong>SE</strong> o sinal estiver verde, você atravessa. <strong>Senão</strong>, espera.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">☔</span>
+          <div class="tip-content"><strong>SE</strong> está chovendo, leva guarda-chuva. <strong>Senão</strong>, vai sem.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🍕</span>
+          <div class="tip-content"><strong>SE</strong> tem dinheiro, pede pizza. <strong>Senão</strong>, faz miojo. 😅</div>
+        </div>
+      </div>
+
+      <div class="analogy">
+        <div class="analogy-title">A grande virada de hoje</div>
+        <p>
+          Pela primeira vez, o seu programa vai <strong>olhar para um valor</strong>,
+          <strong>pensar</strong> e <strong>escolher um caminho</strong> de execução.
+          Ele deixa de ser uma esteira e vira um <strong>cruzamento</strong> 🛣️.
+        </p>
+        <p>
+          E olha que coisa linda: tudo isso com <strong>3 palavrinhas</strong> —
+          <code>if</code>, <code>else</code>, <code>elif</code>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. QUIZ DE AQUECIMENTO V/F
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-aquecimento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz de aquecimento — Verdadeiro ou Falso?</div>
+        <div class="step-sub">Marca a tua aposta antes de seguir</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> <strong>Todo</strong> bloco <code>if</code> sempre é executado.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="o if só executa quando a condição é verdadeira. Senão, ele é pulado."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> O <code>else</code> é <strong>opcional</strong>.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="você pode ter um if sozinho. O else só entra quando você quer um plano B."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Posso ter <strong>vários</strong> <code>elif</code> em sequência.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="elif é literalmente 'else if' — pode encadear quantos quiser pra cobrir várias possibilidades."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">4️⃣</span> Uso <code>if</code> para perguntar <strong>"quando?"</strong>.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="if pergunta 'SE' (uma condição é verdadeira agora), não 'quando' (que tem a ver com tempo/loop)."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. O COMANDO IF
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="comando-if">
+    <div class="step-header">
+      <div class="step-number sn-blue">🎯</div>
+      <div>
+        <div class="step-title">O comando <code>if</code></div>
+        <div class="step-sub">Se a condição for verdadeira, execute</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">O garçom verificando o pedido</div>
+        <p>
+          Imagina um garçom 🧑‍🍳 anotando seu pedido. Antes de mandar pra cozinha, ele pensa:
+          <em>"SE o cliente é maior de idade, posso colocar a cerveja no pedido."</em>
+        </p>
+        <p>
+          Ele <strong>verifica</strong>, e <strong>só executa</strong> se a condição bater. É exatamente isso que o <code>if</code> faz.
+        </p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">📐 Sintaxe do if</div>
+        <p>
+          <code>if</code> seguido da condição, <strong>dois pontos</strong> <code>:</code> e o bloco <strong>indentado</strong>:
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">controle_acesso.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3</div>
+<pre>idade = <span class="num">22</span>
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span>:
+    <span class="bi">print</span>(<span class="st">"Pode entrar! 🎉"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · controle_acesso.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="typed" data-text="Pode entrar! 🎉"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          Os <strong>dois pontos</strong> no fim do <code>if</code> são <strong>obrigatórios</strong>.
+          E o <code>print</code> debaixo precisa estar <strong>indentado</strong> (4 espaços).
+          Esse "andar pra dentro" é como o Python sabe o que pertence ao bloco do <code>if</code>.
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🛣️ E quando a idade é menor?</div>
+        <p>
+          Se mudarmos pra <code>idade = 15</code>, o <code>if</code> simplesmente é
+          <strong>pulado</strong>. Nada aparece na tela. Bora visualizar isso:
+        </p>
+      </div>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-input">
+          <div class="label">Entrada</div>
+          <div>idade = 15</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box fb-process">
+          <div class="label">Pergunta</div>
+          <div>idade &gt;= 18 ?</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">não</span></div>
+        <div class="flow-box fb-false">
+          <div class="label">Resultado</div>
+          <div>(if é pulado) 🤐</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. ELSE — SENÃO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="comando-else">
+    <div class="step-header">
+      <div class="step-number sn-red">🛣️</div>
+      <div>
+        <div class="step-title">O comando <code>else</code> — "senão"</div>
+        <div class="step-sub">O plano B do seu programa</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        E se a condição for <strong>falsa</strong>? A gente quer mostrar <em>outra coisa</em>.
+        Pra isso existe o <code>else</code> — em português, <strong>"senão"</strong>.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">controle_acesso.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span>:
+    <span class="bi">print</span>(<span class="st">"Pode entrar! 🎉"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"Volte com 18 anos. ⛔"</span>)</pre>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🌳 Visualizando a árvore de decisão</div>
+        <p>
+          O programa olha a <code>idade</code>, faz a pergunta e segue <strong>um e só um</strong> caminho.
+          Veja a animação abaixo (autoplay 🪄):
+        </p>
+      </div>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-input">
+          <div class="label">Entrada</div>
+          <div>idade = 22</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box fb-process">
+          <div class="label">Pergunta</div>
+          <div>idade &gt;= 18 ?</div>
+        </div>
+        <div class="flow-arrow"></div>
+
+        <div class="flow-branch">
+          <div class="flow-branch-side">
+            <div class="flow-branch-label true">verdadeiro ✓</div>
+            <div class="flow-box fb-true">
+              <div class="label">if</div>
+              <div>Pode entrar! 🎉</div>
+            </div>
+          </div>
+          <div class="flow-branch-side">
+            <div class="flow-branch-label false">falso ✗</div>
+            <div class="flow-box fb-false">
+              <div class="label">else</div>
+              <div>Volte com 18 anos ⛔</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🚦</span>
+        <div class="tip-content">
+          <strong>Analogia do semáforo:</strong> verde → atravessa.
+          Vermelho → para. <strong>Sempre</strong> um dos dois — nunca os dois ao mesmo tempo.
+          É essa exclusividade que o <code>if/else</code> garante.
+        </div>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · controle_acesso.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Sua idade: </span><span class="typed" data-text="15"></span><br>
+          <span class="typed" data-text="Volte com 18 anos. ⛔"></span><span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO GUIADO — PODE VOTAR?
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-pode-votar">
+    <div class="step-header">
+      <div class="step-number sn-blue">🎯</div>
+      <div>
+        <div class="step-title">Bora Codar! — pode_votar.py</div>
+        <div class="step-sub">Primeiro if/else juntos</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">Vamos fazer juntos · pode_votar.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Bora consolidar: peça a idade do usuário e diga <strong>se ela pode votar</strong> (idade ≥ 16).
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">pode_votar.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">16</span>:
+    <span class="bi">print</span>(<span class="st">"🗳️ Você pode votar!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"⏳ Ainda não pode votar."</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎉</span>
+        <div class="tip-content">
+          <strong>Você acabou de fazer o computador decidir.</strong>
+          Pode parecer pouco, mas <em>esse</em> é o coração de qualquer software do mundo —
+          do app do banco ao TikTok. É só if/else em cima de if/else.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. ELIF — MÚLTIPLOS CAMINHOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="comando-elif">
+    <div class="step-header">
+      <div class="step-number sn-green">🛤️</div>
+      <div>
+        <div class="step-title">O comando <code>elif</code> — múltiplos caminhos</div>
+        <div class="step-sub">"else if" — quando você tem mais de duas opções</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">O cardápio do restaurante 🍽️</div>
+        <p>
+          O garçom pergunta: <em>"O que vai querer?"</em> e você tem
+          <strong>várias opções</strong>: pizza, lasanha, salada, hambúrguer…
+          Não dá pra resolver com if/else — só dá conta de duas escolhas.
+          Aí entra o <code>elif</code>: "<strong>else if</strong>" — <em>se não for o anterior, será que é esse?</em>
+        </p>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🚦 O semáforo (analogia favorita)</div>
+        <p>Três cores, três comportamentos. Decisão clássica de elif:</p>
+      </div>
+
+      <div class="sem-row">
+        <div class="sem-card">
+          <div class="semaforo">
+            <div class="sem-light on red"></div>
+            <div class="sem-light"></div>
+            <div class="sem-light"></div>
+          </div>
+          <div class="lbl">cor == "vermelho" → pare</div>
+        </div>
+        <div class="sem-card">
+          <div class="semaforo">
+            <div class="sem-light"></div>
+            <div class="sem-light on yellow"></div>
+            <div class="sem-light"></div>
+          </div>
+          <div class="lbl">cor == "amarelo" → atenção</div>
+        </div>
+        <div class="sem-card">
+          <div class="semaforo">
+            <div class="sem-light"></div>
+            <div class="sem-light"></div>
+            <div class="sem-light on green"></div>
+          </div>
+          <div class="lbl">cor == "verde" → siga</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">semaforo.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>cor = <span class="bi">input</span>(<span class="st">"Cor do sinal: "</span>)
+
+<span class="kw">if</span> cor <span class="op">==</span> <span class="st">"verde"</span>:
+    <span class="bi">print</span>(<span class="st">"🟢 Pode seguir!"</span>)
+<span class="kw">elif</span> cor <span class="op">==</span> <span class="st">"amarelo"</span>:
+    <span class="bi">print</span>(<span class="st">"🟡 Atenção, vai fechar!"</span>)
+<span class="kw">elif</span> cor <span class="op">==</span> <span class="st">"vermelho"</span>:
+    <span class="bi">print</span>(<span class="st">"🔴 Pare!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🤔 Cor desconhecida..."</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🚶</span>
+        <div class="tip-content">
+          <strong>Bonequinho num cruzamento:</strong> ele chega, olha o sinal,
+          e segue <strong>UM</strong> caminho. O Python testa de cima pra baixo —
+          assim que uma condição der <strong>True</strong>, ele executa aquele bloco
+          e <strong>ignora todos os outros</strong>.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          Só pode existir <strong>um</strong> <code>if</code> e <strong>um</strong> <code>else</code>
+          numa mesma estrutura, mas <strong>quantos <code>elif</code> você quiser</strong> no meio.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO SOLO — entrada_evento.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-evento">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Desafio Criativo — entrada_evento.py</div>
+        <div class="step-sub">Sua vez de usar elif na vida real</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · entrada_evento.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Imagina que você é o segurança 🦺 de um evento e precisa decidir o que dizer
+          a cada pessoa que chega, dependendo da idade. Crie um arquivo
+          <code>entrada_evento.py</code> e:
+        </p>
+        <p>
+          <strong>1.</strong> Peça a <strong>idade</strong> do usuário com <code>input()</code>
+          e converta com <code>int()</code> (lembra do cap 02?).<br>
+          <strong>2.</strong> Use <code>if/elif/else</code> com 3 faixas:
+        </p>
+        <p style="margin-left:18px">
+          • <strong>idade &lt; 16</strong> → <em>"Entrada não permitida 🚫"</em><br>
+          • <strong>16 a 17</strong> → <em>"Entrada apenas com responsável 👨‍👧"</em><br>
+          • <strong>18 ou mais</strong> → <em>"Entrada liberada! 🎉"</em>
+        </p>
+        <p>
+          Lembra do <code>elif cor == "amarelo":</code>? Aqui é a mesma ideia, só que com
+          <strong>números</strong> (use <code>&lt;</code>, <code>&gt;=</code>).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Abra o PyCharm e tente.
+          Se der erro, leia a mensagem e tenta de novo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">entrada_evento.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="cm"># pega a idade e converte pra inteiro</span>
+idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+
+<span class="kw">if</span> idade <span class="op">&lt;</span> <span class="num">16</span>:
+    <span class="bi">print</span>(<span class="st">"🚫 Entrada não permitida."</span>)
+<span class="kw">elif</span> idade <span class="op">&lt;</span> <span class="num">18</span>:
+    <span class="bi">print</span>(<span class="st">"👨‍👧 Entrada apenas com responsável."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🎉 Entrada liberada!"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · entrada_evento.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Sua idade: </span><span class="typed" data-text="17"></span><br>
+              <span class="typed" data-text="👨‍👧 Entrada apenas com responsável."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou na ordem?</strong> Como o Python testa de cima pra baixo,
+              quando o <code>elif idade &lt; 18</code> roda, ele já <em>sabe</em> que
+              a idade <strong>não é</strong> menor que 16 (senão teria caído no <code>if</code>).
+              Por isso esse <code>elif</code> cobre exatamente a faixa <strong>16-17</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. OPERADORES DE COMPARAÇÃO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="operadores-comp">
+    <div class="step-header">
+      <div class="step-number sn-yellow">⚖️</div>
+      <div>
+        <div class="step-title">Operadores de comparação</div>
+        <div class="step-sub">Os símbolos que perguntam coisas</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Toda condição que você coloca dentro de um <code>if</code> usa um <strong>operador de comparação</strong>.
+        São 6 — e você já viu alguns. Bora oficializar:
+      </p>
+
+      <div class="op-grid">
+        <div class="op-cell">
+          <div class="op-symbol">==</div>
+          <div class="op-name">igual a</div>
+          <div class="op-ex"><code>3 == 3</code> → <span class="yes">True</span> &nbsp; <code>3 == 4</code> → <span class="no">False</span></div>
+        </div>
+        <div class="op-cell">
+          <div class="op-symbol">!=</div>
+          <div class="op-name">diferente de</div>
+          <div class="op-ex"><code>3 != 4</code> → <span class="yes">True</span> &nbsp; <code>3 != 3</code> → <span class="no">False</span></div>
+        </div>
+        <div class="op-cell">
+          <div class="op-symbol">&gt;</div>
+          <div class="op-name">maior que</div>
+          <div class="op-ex"><code>5 &gt; 3</code> → <span class="yes">True</span> &nbsp; <code>3 &gt; 5</code> → <span class="no">False</span></div>
+        </div>
+        <div class="op-cell">
+          <div class="op-symbol">&lt;</div>
+          <div class="op-name">menor que</div>
+          <div class="op-ex"><code>3 &lt; 5</code> → <span class="yes">True</span> &nbsp; <code>5 &lt; 3</code> → <span class="no">False</span></div>
+        </div>
+        <div class="op-cell">
+          <div class="op-symbol">&gt;=</div>
+          <div class="op-name">maior ou igual a</div>
+          <div class="op-ex"><code>3 &gt;= 3</code> → <span class="yes">True</span> &nbsp; <code>2 &gt;= 3</code> → <span class="no">False</span></div>
+        </div>
+        <div class="op-cell">
+          <div class="op-symbol">&lt;=</div>
+          <div class="op-name">menor ou igual a</div>
+          <div class="op-ex"><code>3 &lt;= 3</code> → <span class="yes">True</span> &nbsp; <code>4 &lt;= 3</code> → <span class="no">False</span></div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🤯</span>
+        <div class="warning-content">
+          <strong>Atenção máxima:</strong> <code>=</code> (uma igualdade) é
+          <strong>atribuição</strong> (eu coloco um valor numa variável).
+          <code>==</code> (duas) é <strong>comparação</strong> (eu pergunto se são iguais).
+          Esse erro é tão comum que o BugZilla vai aparecer em breve só por causa dele 🐛.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. OPERADORES LÓGICOS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="operadores-logic">
+    <div class="step-header">
+      <div class="step-number sn-purple">🔗</div>
+      <div>
+        <div class="step-title">Operadores lógicos: <code>and</code>, <code>or</code>, <code>not</code></div>
+        <div class="step-sub">Combinando condições</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        E se a condição for <strong>composta</strong>?
+        Ex.: <em>"se for sexta E der pra sair cedo, bora pra praia 🏖️"</em>.
+        A gente combina condições com 3 palavrinhas:
+      </p>
+
+      <div class="logic-row">
+        <div class="logic-chip">
+          <div class="logic-name">and</div>
+          <div class="logic-desc">
+            <strong>e</strong> — <em>os dois</em> precisam ser verdadeiros<br>
+            <code>idade &gt;= 18 and tem_ingresso</code>
+          </div>
+        </div>
+        <div class="logic-chip">
+          <div class="logic-name">or</div>
+          <div class="logic-desc">
+            <strong>ou</strong> — basta <em>um</em> ser verdadeiro<br>
+            <code>dia == "sab" or dia == "dom"</code>
+          </div>
+        </div>
+        <div class="logic-chip">
+          <div class="logic-name">not</div>
+          <div class="logic-desc">
+            <strong>negação</strong> — inverte verdadeiro/falso<br>
+            <code>not chovendo</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">acesso_clube.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>idade        = <span class="num">20</span>
+tem_convite  = <span class="bool">True</span>
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">and</span> tem_convite:
+    <span class="bi">print</span>(<span class="st">"Bem-vindo(a) ao clube! 🎉"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"Acesso negado 🚫"</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Dica de ouro:</strong> imagine o <code>and</code> como dois cadeados —
+          os dois precisam abrir. O <code>or</code> é uma porta com duas chaves —
+          qualquer uma serve. O <code>not</code> é o avesso (vira do lado contrário).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO GUIADO — ENTREGA GRÁTIS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-frete">
+    <div class="step-header">
+      <div class="step-number sn-blue">🚚</div>
+      <div>
+        <div class="step-title">Bora Codar! — entrega_gratis.py</div>
+        <div class="step-sub">Combinando condições no mundo real</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado — junto com o professor</div>
+          <div class="exercise-sub">entrega_gratis.py · regra: pedido &gt; R$100 ganha frete grátis</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Cenário: você tá montando o checkout de uma loja. Se o valor do pedido for
+        <strong>maior que R$100</strong>, o frete é grátis. Senão, frete custa <strong>R$15</strong>.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">entrega_gratis.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>valor_pedido = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor do pedido: R$ "</span>))
+
+<span class="kw">if</span> valor_pedido <span class="op">&gt;</span> <span class="num">100</span>:
+    <span class="bi">print</span>(<span class="st">"🚚 Frete GRÁTIS! Total: R$"</span>, valor_pedido)
+<span class="kw">else</span>:
+    frete = <span class="num">15</span>
+    <span class="bi">print</span>(<span class="st">f"Frete: R$ {frete}. Total: R$ {valor_pedido + frete:.2f}"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · entrega_gratis.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Valor do pedido: R$ </span><span class="typed" data-text="120"></span><br>
+          <span class="typed" data-text="🚚 Frete GRÁTIS! Total: R$ 120.0"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Notou o <code>float()</code>?</strong> Aqui usamos pra aceitar
+          valores com casas decimais (R$ 79,90 etc). Já o <code>int()</code> só pega inteiros.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. RESTAURANTE INTELIGENTE 🍔
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="restaurante">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🍔</div>
+      <div>
+        <div class="step-title">Cenário — Restaurante Inteligente</div>
+        <div class="step-sub">Tudo o que você aprendeu, junto</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="resto-banner">
+        <h3>🍔 Bem-vindo ao Programa AI Burgers!</h3>
+        <p>
+          Aqui o programa <strong>conhece</strong> o cliente e dá um mimo dependendo do dia da semana:
+        </p>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">📅</span>
+          <div class="tip-content"><strong>Segunda-feira</strong> → 10% de desconto pra animar a galera 🤑</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🍰</span>
+          <div class="tip-content"><strong>Sexta-feira</strong> → sobremesa <strong>grátis</strong> pra começar bem o fds</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🍽️</span>
+          <div class="tip-content"><strong>Outros dias</strong> → pedido normal, mas atendido com carinho 😉</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🌳 A árvore de decisão do restaurante</div>
+        <p>Animação rolando: o programa decide o que oferecer:</p>
+      </div>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-input">
+          <div class="label">Entrada</div>
+          <div>dia = "segunda"</div>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box fb-process">
+          <div class="label">Pergunta 1</div>
+          <div>dia == "segunda"?</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">sim</span></div>
+        <div class="flow-box fb-true">
+          <div class="label">Saída</div>
+          <div>🤑 10% de desconto!</div>
+        </div>
+      </div>
+
+      <div class="flow-grid-3" style="margin-top:24px">
+        <div class="flow-box fb-true">
+          <div class="label">Segunda</div>
+          <div>🤑 10% off</div>
+        </div>
+        <div class="flow-box fb-output">
+          <div class="label">Sexta</div>
+          <div>🍰 Sobremesa grátis</div>
+        </div>
+        <div class="flow-box fb-input">
+          <div class="label">Outros</div>
+          <div>🍽️ Pedido normal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. BORA CODAR 3.0 — Sistema de Promoções
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-30">
+    <div class="step-header">
+      <div class="step-number sn-blue">3.0</div>
+      <div>
+        <div class="step-title">Bora Codar! (3.0) — Sistema de Promoções</div>
+        <div class="step-sub">A gente codifica o restaurante juntos · promocoes.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">promocoes.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">Passo a passo:</p>
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:14px 0">
+        <div class="tip">
+          <span class="tip-icon">📥</span>
+          <div class="tip-content"><strong>1.</strong> Pega o dia da semana com <code>input()</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🌳</span>
+          <div class="tip-content"><strong>2.</strong> Usa <code>if/elif/else</code> pra decidir a promoção.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🎉</span>
+          <div class="tip-content"><strong>3.</strong> Mostra a mensagem certinha pro cliente.</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">promocoes.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>dia = <span class="bi">input</span>(<span class="st">"Que dia é hoje? "</span>).lower()
+
+<span class="kw">if</span> dia <span class="op">==</span> <span class="st">"segunda"</span>:
+    <span class="bi">print</span>(<span class="st">"🤑 Hoje tem 10% de desconto!"</span>)
+<span class="kw">elif</span> dia <span class="op">==</span> <span class="st">"sexta"</span>:
+    <span class="bi">print</span>(<span class="st">"🍰 Sobremesa grátis no seu pedido!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🍽️ Bom pedido! Sem promoção hoje."</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · promocoes.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Que dia é hoje? </span><span class="typed" data-text="sexta"></span><br>
+          <span class="typed" data-text="🍰 Sobremesa grátis no seu pedido!"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          <strong>Reparou no <code>.lower()</code>?</strong> Ele transforma o que o usuário digitou
+          em <em>minúsculo</em>. Assim, "Sexta", "SEXTA" ou "sexta" todos funcionam igual —
+          truque importante quando você compara strings!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. BUGZILLA 🐛
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla apareceu de novo!</div>
+        <div class="step-sub">Os erros clássicos do if/else</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">"Mas eu jurava que tava certo!"</div>
+          <div class="bugzilla-sub">Os tropeços mais comuns com condicionais</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p>
+          Tem 2 erros que <strong>todo mundo</strong> comete na primeira vez com if/else.
+          Bora desmistificar agora pra você não cair neles 😉.
+        </p>
+      </div>
+    </div>
+
+    <!-- Erro 1: = vs == -->
+    <div class="card">
+      <h3>🐞 Erro 1 — confundir <code>=</code> com <code>==</code></h3>
+      <p style="color:var(--text-dim)">
+        Esse é o clássico dos clássicos. <code>=</code> <strong>atribui</strong>,
+        <code>==</code> <strong>compara</strong>.
+      </p>
+
+      <div class="split-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0">
+        <div class="bug-box">
+          <span class="bug-icon">❌</span>
+          <div class="bug-content">
+            <strong>Errado:</strong>
+            <pre style="background:transparent;padding:6px 0;font-size:0.85rem">if idade = 18:
+    print("OK")</pre>
+            <em>SyntaxError</em> — Python reclama na hora.
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">✅</span>
+          <div class="tip-content">
+            <strong>Certo:</strong>
+            <pre style="background:transparent;padding:6px 0;font-size:0.85rem">if idade == 18:
+    print("OK")</pre>
+            <em>"é igual a 18?"</em> — perfeito.
+          </div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🧠</span>
+        <div class="warning-content">
+          <strong>Truque mnemônico:</strong> <em>"= é caixinha, == é pergunta"</em>.
+          Se você quer <strong>guardar</strong>, é <code>=</code>. Se você quer
+          <strong>perguntar</strong>, é <code>==</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Erro 2: esquecer : -->
+    <div class="card">
+      <h3>🐞 Erro 2 — esquecer os dois pontos <code>:</code></h3>
+      <p style="color:var(--text-dim)">
+        O <code>:</code> no fim do <code>if</code> / <code>elif</code> / <code>else</code>
+        é <strong>obrigatório</strong> — é como o Python sabe onde começa o bloco.
+      </p>
+
+      <div class="split-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0">
+        <div class="bug-box">
+          <span class="bug-icon">❌</span>
+          <div class="bug-content">
+            <strong>Errado:</strong>
+            <pre style="background:transparent;padding:6px 0;font-size:0.85rem">if idade &gt;= 18
+    print("OK")</pre>
+            <em>SyntaxError: expected ':'</em>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">✅</span>
+          <div class="tip-content">
+            <strong>Certo:</strong>
+            <pre style="background:transparent;padding:6px 0;font-size:0.85rem">if idade &gt;= 18:
+    print("OK")</pre>
+            <em>Os dois pontinhos no fim. Sempre.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📖</span>
+        <div class="tip-content">
+          <strong>Hábito de ouro:</strong> quando der erro de sintaxe num <code>if</code>,
+          a primeira coisa que você confere é se tem o <code>:</code> e se a próxima linha
+          está <strong>indentada</strong> (4 espaços).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. DESAFIO CASA — descontos.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-descontos">
+    <div class="step-header">
+      <div class="step-number sn-purple">🏠</div>
+      <div>
+        <div class="step-title">Desafio para Casa — descontos.py</div>
+        <div class="step-sub">Faixas de desconto por valor da compra</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🏠</span>
+        <div>
+          <div class="exercise-title">Desafio para Casa</div>
+          <div class="exercise-sub">Faça em casa · descontos.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>descontos.py</code>. O programa pergunta o valor da compra e
+          aplica desconto por <strong>faixa</strong>:
+        </p>
+        <p style="margin-left:18px">
+          • <strong>até R$ 50</strong> → sem desconto<br>
+          • <strong>R$ 51 a R$ 200</strong> → 5% de desconto<br>
+          • <strong>R$ 201 a R$ 500</strong> → 10% de desconto<br>
+          • <strong>acima de R$ 500</strong> → 15% de desconto
+        </p>
+        <p>
+          <strong>Passos:</strong>
+          1) leia com <code>float(input(...))</code>;
+          2) use <code>if/elif/else</code> pra escolher o desconto;
+          3) calcule o valor final e mostre uma f-string bonita com 2 casas decimais
+          (<code>f"{total:.2f}"</code>).
+        </p>
+        <p>
+          Lembra do <code>entrada_evento.py</code>? A estrutura do <code>elif</code> com
+          faixas de número é igualzinha — só muda a regra do negócio.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse aqui é pra fazer em casa
+          com calma, no seu ritmo. Errar é parte do processo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">descontos.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre><span class="cm"># pega o valor da compra (com casas decimais)</span>
+valor = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor da compra: R$ "</span>))
+
+<span class="kw">if</span> valor <span class="op">&lt;=</span> <span class="num">50</span>:
+    desconto = <span class="num">0</span>
+<span class="kw">elif</span> valor <span class="op">&lt;=</span> <span class="num">200</span>:
+    desconto = <span class="num">0.05</span>
+<span class="kw">elif</span> valor <span class="op">&lt;=</span> <span class="num">500</span>:
+    desconto = <span class="num">0.10</span>
+<span class="kw">else</span>:
+    desconto = <span class="num">0.15</span>
+
+total = valor <span class="op">*</span> (<span class="num">1</span> <span class="op">-</span> desconto)
+<span class="bi">print</span>(<span class="st">f"Desconto aplicado: {desconto*100:.0f}%"</span>)
+<span class="bi">print</span>(<span class="st">f"Total a pagar: R$ {total:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · descontos.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Valor da compra: R$ </span><span class="typed" data-text="350"></span><br>
+              <span class="typed" data-text="Desconto aplicado: 10%"></span><br>
+              <span class="typed" data-text="Total a pagar: R$ 315.00"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎯</span>
+            <div class="tip-content">
+              <strong>Olha como o elif fica natural:</strong> a gente vai descartando faixas
+              de baixo pra cima. Quando o programa chega no <code>elif valor &lt;= 500</code>,
+              ele já <em>sabe</em> que o valor é maior que 200 — então cobre exatamente a faixa 201-500.
+              <strong>Essa é a beleza do encadeamento.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. MINI SISTEMA — consolidação
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="mini-sistema">
+    <div class="step-header">
+      <div class="step-number sn-green">🧩</div>
+      <div>
+        <div class="step-title">Mini Sistema — Consolidação</div>
+        <div class="step-sub">Tudo o que você aprendeu, num só programa</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🚀</span>
+        <div>
+          <div class="exercise-title">Desafio Final do Capítulo</div>
+          <div class="exercise-sub">Faça sozinho · mini_sistema.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Junta tudo num <code>mini_sistema.py</code> de cadastro de cliente VIP:
+        </p>
+        <p style="margin-left:18px">
+          <strong>1.</strong> Pergunte <strong>nome</strong>, <strong>idade</strong> e
+          <strong>se é assinante</strong> (responde "sim"/"não").<br>
+          <strong>2.</strong> Use <code>and</code> pra descobrir se a pessoa é
+          <em>maior de 18</em> <strong>E</strong> <em>assinante</em> → "Cliente VIP! 🌟"<br>
+          <strong>3.</strong> Senão, mostre uma mensagem amigável usando o nome.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse exercício amarra os 3 conceitos:
+          <code>input</code>, <code>if/else</code> e o operador <code>and</code>. Você consegue!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">mini_sistema.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>nome       = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)
+idade      = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+assinante  = <span class="bi">input</span>(<span class="st">"É assinante? (sim/não): "</span>).lower()
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">and</span> assinante <span class="op">==</span> <span class="st">"sim"</span>:
+    <span class="bi">print</span>(<span class="st">f"🌟 {nome}, você é Cliente VIP!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"Olá {nome}! Bora virar VIP? 😉"</span>)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Você fez um sistema com 3 entradas e regra de negócio.</strong>
+              Isso é literalmente o que rola num back-end real — só com mais variáveis e mais ifs.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. RESUMO + PRÓXIMO CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 03</div>
+        <div class="step-sub">O que você acabou de dominar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🎯</span>
+          <span class="kw-name">if</span>
+          <span class="kw-desc">Executa um bloco SE a condição for verdadeira</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛣️</span>
+          <span class="kw-name">else</span>
+          <span class="kw-desc">O "senão" — entra quando o if falha</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🛤️</span>
+          <span class="kw-name">elif</span>
+          <span class="kw-desc">"else if" — múltiplos caminhos em sequência</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">⚖️</span>
+          <span class="kw-name">==  !=  &gt;  &lt;  &gt;=  &lt;=</span>
+          <span class="kw-desc">Operadores de comparação (perguntas)</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔗</span>
+          <span class="kw-name">and / or / not</span>
+          <span class="kw-desc">Operadores lógicos para combinar condições</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐛</span>
+          <span class="kw-name">= vs ==</span>
+          <span class="kw-desc">Atribuição vs comparação — o erro do BugZilla</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🍔</span>
+          <span class="kw-name">Promoções</span>
+          <span class="kw-desc">Decisões com base em entrada do usuário</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🌟</span>
+          <span class="kw-name">Mini Sistema</span>
+          <span class="kw-desc">Combinou tudo num programa real</span>
+        </div>
+      </div>
+
+      <div class="resto-banner" style="margin-top:24px">
+        <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--accent3)">
+          "Hoje seu programa começou a pensar 🧠.<br>
+          Bora ensinar ele a repetir?"
+        </h3>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(108,99,255,0.04));border-color:rgba(167,139,250,0.20)">
+      <h3 style="color:var(--accent6);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 04 — Loops e Listas.</strong>
+        Você aprendeu a <em>decidir</em>. Agora vai aprender a <em>repetir</em> —
+        <code>while</code>, <code>for</code> e listas. Bora?
+      </p>
+      <a href="../04-loops-listas/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent6),var(--accent));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
+        🔁 Ir para Capítulo 04 →
+      </a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

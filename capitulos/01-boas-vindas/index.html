@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 01 — Boas-vindas e Fundamentos | Bootcamp Programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* extras locais ao capítulo 01 */
+.recipe-steps{counter-reset:rec;display:grid;gap:10px;margin:18px 0}
+.recipe-step{
+  display:flex;align-items:center;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 18px;
+  font-weight:700;
+}
+.recipe-step::before{
+  counter-increment:rec;content:counter(rec);
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--python),var(--python-y));
+  color:var(--bg);display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.92rem;flex-shrink:0;
+}
+.recipe-step .emoji{font-size:1.4rem;margin-left:auto}
+.split-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+@media(max-width:640px){.split-row{grid-template-columns:1fr}}
+.split-side{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;padding:18px;
+}
+.split-side h4{margin-bottom:8px}
+.split-side.you  h4{color:var(--accent4)}
+.split-side.py   h4{color:var(--python-y)}
+.split-side ul{margin-left:18px;color:var(--text-dim);font-size:0.92rem}
+.split-side li{margin-bottom:6px}
+
+.welcome-banner{
+  background:linear-gradient(135deg,rgba(55,118,171,0.10),rgba(255,212,59,0.06));
+  border:2px solid rgba(255,212,59,0.20);
+  border-radius:24px;padding:36px 28px;text-align:center;
+  margin:18px 0;position:relative;overflow:hidden;
+}
+.welcome-banner::after{
+  content:'🐍';font-size:8rem;position:absolute;
+  top:-30px;right:-30px;opacity:0.06;line-height:1;
+  transform:rotate(-12deg);
+}
+.welcome-banner h3{font-size:1.6rem;margin-bottom:8px;color:var(--python-y)}
+
+.python-card{
+  display:flex;gap:16px;align-items:center;
+  background:linear-gradient(135deg,rgba(55,118,171,0.06),rgba(255,212,59,0.03));
+  border:1px solid rgba(55,118,171,0.20);border-radius:14px;
+  padding:14px 18px;margin:10px 0;
+}
+.python-card .ic{font-size:1.8rem;flex-shrink:0}
+.python-card .text{font-size:0.95rem;color:var(--text-dim)}
+.python-card .text strong{color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>📘 Capítulo 01</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🎯 Conteúdo</div>
+    <a class="sidebar-link" onclick="goTo('boas-vindas')"><span class="dot" style="background:var(--python-y)"></span>Boas-vindas</a>
+    <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e-programar')"><span class="dot" style="background:var(--accent4)"></span>O que é programar?</a>
+    <a class="sidebar-link" onclick="goTo('idioma-maquinas')"><span class="dot" style="background:var(--accent6)"></span>O idioma das máquinas</a>
+    <a class="sidebar-link" onclick="goTo('por-que-python')"><span class="dot" style="background:var(--python)"></span>Por que Python?</a>
+    <a class="sidebar-link" onclick="goTo('codigo-acao')"><span class="dot" style="background:var(--accent3)"></span>Do código à ação</a>
+    <a class="sidebar-link" onclick="goTo('pensar-programador')"><span class="dot" style="background:var(--accent5)"></span>Pensar como programador</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-10')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 1.0</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-11')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 1.1</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-12')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.2</a>
+    <a class="sidebar-link" onclick="goTo('bora-codar-13')"><span class="dot" style="background:var(--accent6)"></span>Desafio 1.3</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🐍 👋 ✨</div>
+  <span class="hero-badge python">Capítulo 01 · Bootcamp Programa AI</span>
+  <h1>Boas-vindas e Fundamentos</h1>
+  <p class="subtitle">
+    Bem-vindo(a) ao mundo da programação! Hoje você vai entender <strong>o que é programar de verdade</strong>,
+    conhecer o Python e escrever sua <strong>primeira linha de código</strong>. Bora?
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip python">🐍 Python</span>
+    <span class="stack-chip">📦 PyCharm</span>
+    <span class="stack-chip">💬 print / input</span>
+    <span class="stack-chip bug">🐛 BugZilla</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       1. BOAS-VINDAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="boas-vindas">
+    <div class="step-header">
+      <div class="step-number sn-py">🎯</div>
+      <div>
+        <div class="step-title">Boas-vindas ao mundo da Programação</div>
+        <div class="step-sub">A primeira coisa que você precisa saber</div>
+      </div>
+    </div>
+
+    <div class="welcome-banner">
+      <h3>Programar é ensinar o computador a resolver problemas.</h3>
+      <p style="font-size:1.02rem;color:var(--text-dim);max-width:560px;margin:0 auto">
+        Você escreve <strong style="color:var(--text)">instruções</strong>,
+        e ele executa <strong style="color:var(--text)">exatamente</strong> o que foi pedido.
+      </p>
+    </div>
+
+    <div class="warning">
+      <span class="warning-icon">⚠️</span>
+      <div class="warning-content">
+        <strong>Mas atenção:</strong> o computador não entende <em>intenções</em>.
+        Ele só entende <strong style="color:var(--accent5)">comandos claros e lógicos</strong>.
+        Se você for ambíguo, ele faz besteira (mas culpado é sempre o programador, não ele 😅).
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-title">Aprender a programar é como…</div>
+      <p>
+        …aprender um <strong>novo idioma</strong>. Só que em vez de falar com pessoas,
+        você fala com <strong>máquinas</strong>. E elas são bem mais literais que a gente —
+        nada de "cê me passa o sal aí?". Tem que ser na régua.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       2. QUIZ DE AQUECIMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-aquecimento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz de Aquecimento</div>
+        <div class="step-sub">Marca a tua aposta antes da gente seguir</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> Programar é:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">A) Ensinar o computador a resolver problemas</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">B) Falar com o computador em qualquer idioma</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) Fazer desenhos na tela</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) Apenas criar sites</button>
+        </div>
+        <div class="quiz-feedback" data-explain="o computador segue instruções claras e executa, ele não interpreta intenção."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> "Python" é:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) Um tipo de cobra 🐍</button>
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">B) Uma linguagem para falar com o computador</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) Um aplicativo de música</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) Um site de vídeos</button>
+        </div>
+        <div class="quiz-feedback" data-explain="é uma linguagem de programação. O nome vem do grupo Monty Python, não do bicho!"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       3. O QUE É PROGRAMAR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="o-que-e-programar">
+    <div class="step-header">
+      <div class="step-number sn-blue">🍰</div>
+      <div>
+        <div class="step-title">O que é programar?</div>
+        <div class="step-sub">A analogia da receita</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Pensa numa receita de bolo</div>
+        <p>
+          Você lê o passo a passo: bata os ovos, peneire a farinha, leve ao forno.
+          Cada passo é claro, em ordem, e tem um resultado esperado.
+        </p>
+        <p>
+          <strong>Programar é igualzinho.</strong> Você escreve o passo a passo,
+          o computador executa. Se você esquecer um ingrediente,
+          o bolo desanda 🍰 — e o programa também.
+        </p>
+      </div>
+
+      <div class="split-row">
+        <div class="split-side you">
+          <h4>🍰 Receita de bolo</h4>
+          <ul>
+            <li><strong>Ingredientes</strong> = farinha, ovos, leite…</li>
+            <li><strong>Passo a passo</strong> = bata, misture, asse</li>
+            <li><strong>Resultado</strong> = bolo pronto</li>
+          </ul>
+        </div>
+        <div class="split-side py">
+          <h4>💻 Programa Python</h4>
+          <ul>
+            <li><strong>Dados</strong> = nome, idade, números…</li>
+            <li><strong>Algoritmo</strong> = comandos em ordem</li>
+            <li><strong>Resultado</strong> = saída do programa</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Glossário rápido:</strong>
+          <code>Receita</code> = código,
+          <code>Ingredientes</code> = dados,
+          <code>Passo a passo</code> = algoritmo.
+          Bem simples, né?
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       4. O IDIOMA DAS MÁQUINAS
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="idioma-maquinas">
+    <div class="step-header">
+      <div class="step-number sn-purple">🗣️</div>
+      <div>
+        <div class="step-title">O idioma das máquinas</div>
+        <div class="step-sub">Por que existem várias linguagens?</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Assim como a gente usa <strong>português</strong> pra conversar entre pessoas,
+        usamos <strong>linguagens de programação</strong> pra conversar com computadores.
+      </p>
+      <p>
+        Existem várias (Java, JavaScript, C, Ruby…). A nossa escolhida é o
+        <strong style="color:var(--python-y)">Python</strong> — amigável, poderosa e moderna.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">🧠 Seu primeiro "Oi!" pro computador</div>
+        <p>É literalmente uma linha:</p>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Python REPL</span>
+        </div>
+        <div class="terminal-body">
+          <span class="prompt">&gt;&gt;&gt;</span>
+          <span class="typed" data-text='print("Olá, mundo!")'></span><span class="cursor"></span>
+          <br><span class="out">Olá, mundo!</span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🐍</span>
+        <div class="tip-content">
+          <strong>print</strong> é um comando que pede pro Python <em>imprimir</em> (mostrar) algo na tela.
+          Tudo que estiver entre <strong>parênteses e aspas</strong> é o que vai aparecer.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. POR QUE PYTHON
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="por-que-python">
+    <div class="step-header">
+      <div class="step-number sn-py">🐍</div>
+      <div>
+        <div class="step-title">Por que aprender Python?</div>
+        <div class="step-sub">Spoiler: é a melhor escolha pra começar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="python-card">
+        <span class="ic">📝</span>
+        <div class="text"><strong>Sintaxe simples</strong> — parece quase com inglês. Sem ponto e vírgula no fim, sem chaves apertando o código.</div>
+      </div>
+      <div class="python-card">
+        <span class="ic">🌐</span>
+        <div class="text"><strong>Usado em tudo</strong> — sites, inteligência artificial, ciência de dados, automação, jogos, scripts pessoais…</div>
+      </div>
+      <div class="python-card">
+        <span class="ic">🤝</span>
+        <div class="text"><strong>Comunidade enorme</strong> — qualquer dúvida que você tiver, alguém já perguntou no Stack Overflow.</div>
+      </div>
+      <div class="python-card">
+        <span class="ic">🚀</span>
+        <div class="text"><strong>Ideal pra começar</strong> — você aprende lógica de programação <em>limpa</em>, sem se distrair com burocracia da linguagem.</div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">🎬 Curiosidade</div>
+        <p>
+          O Python foi criado por <strong>Guido van Rossum</strong> em 1991. O nome
+          <strong>NÃO</strong> vem do bicho 🐍 — vem do grupo de comédia britânico
+          <strong>Monty Python</strong>, que o Guido era fã.
+          Por isso a comunidade Python é tão bem-humorada (e a documentação tem piadas escondidas 😄).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       6. DO CÓDIGO À AÇÃO (FLUXO ANIMADO)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="codigo-acao">
+    <div class="step-header">
+      <div class="step-number sn-green">⚡</div>
+      <div>
+        <div class="step-title">Do código à ação</div>
+        <div class="step-sub">O que acontece quando você clica em "Run"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Você escreve uma linha em Python e aperta <strong>"Run"</strong> no PyCharm.
+        Em milissegundos, isso aqui acontece:
+      </p>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-py">
+          <div class="label">Você</div>
+          <div>✍️ Escreve o código</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">aperta Run</span></div>
+
+        <div class="flow-box fb-input">
+          <div class="label">Python</div>
+          <div>📖 Lê seu texto</div>
+        </div>
+        <div class="flow-arrow"></div>
+
+        <div class="flow-box fb-process">
+          <div class="label">Tradução</div>
+          <div>🔄 Traduz pra "linguagem da máquina"</div>
+        </div>
+        <div class="flow-arrow"></div>
+
+        <div class="flow-box fb-output">
+          <div class="label">Computador</div>
+          <div>⚡ Executa passo a passo</div>
+        </div>
+        <div class="flow-arrow"></div>
+
+        <div class="flow-box fb-true">
+          <div class="label">Saída</div>
+          <div>🎉 Mostra o resultado!</div>
+        </div>
+      </div>
+
+      <div class="analogy" style="margin-top:24px">
+        <div class="analogy-title">Pensa num robô assistente</div>
+        <p>
+          Você dá a receita pra ele. Ele <strong>lê, entende e faz exatamente o que foi mandado</strong>.
+          Sem improviso. Se o passo 3 estiver errado, ele faz errado mesmo —
+          a culpa é sempre da receita, não do robô.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       7. PENSAR COMO PROGRAMADOR
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="pensar-programador">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧠</div>
+      <div>
+        <div class="step-title">Pensar como um programador</div>
+        <div class="step-sub">Antes do código, vem o pensamento</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>Antes de escrever <em>qualquer</em> linha de código, todo programador faz três coisas:</p>
+
+      <div class="reveal-stagger" style="display:grid;gap:12px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">🔨</span>
+          <div class="tip-content"><strong>1. Quebra o problema</strong> em partes menores. Um problema gigante vira vários probleminhas tratáveis.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📋</span>
+          <div class="tip-content"><strong>2. Cria passos claros e ordenados.</strong> Cada passo faz UMA coisa, e bem feita.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">✨</span>
+          <div class="tip-content"><strong>3. Combina lógica e criatividade.</strong> Tem mais de um caminho pra resolver — escolhe um.</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">☕ Exemplo: fazer café (em "código humano")</div>
+      </div>
+      <div class="recipe-steps">
+        <div class="recipe-step"><div>Pegar o filtro</div><span class="emoji">📦</span></div>
+        <div class="recipe-step"><div>Colocar o pó</div><span class="emoji">☕</span></div>
+        <div class="recipe-step"><div>Ferver a água</div><span class="emoji">💧</span></div>
+        <div class="recipe-step"><div>Passar o café</div><span class="emoji">⏳</span></div>
+        <div class="recipe-step"><div>Beber 😋</div><span class="emoji">🥤</span></div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🤔</span>
+        <div class="warning-content">
+          <strong>Reparou?</strong> Se a gente <em>pular</em> o passo "ferver a água",
+          o café fica frio. Se a gente <em>trocar</em> a ordem, fica errado.
+          <strong>Programar é exatamente isso, mas pro computador.</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — HORA DE CODAR
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">💻</span>
+    <span class="chapter-number">Hora de Codar</span>
+    <h2 class="grad-intro">Bora pôr a mão na massa!</h2>
+    <p class="chapter-subtitle">
+      Quatro exercícios curtinhos pra você falar com a máquina pela primeira vez.
+      Os dois primeiros a gente faz junto. Os outros dois… olhinho 👀.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. BORA CODAR 1.0 — Olá, mundo!
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-10">
+    <div class="step-header">
+      <div class="step-number sn-blue">1.0</div>
+      <div>
+        <div class="step-title">Bora Codar! — Olá, mundo!</div>
+        <div class="step-sub">Seu primeiro programa Python na vida</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">Vamos fazer juntos · ola_mundo.py</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">Passo a passo:</p>
+      <div class="recipe-steps">
+        <div class="recipe-step"><div>Abra o <strong>PyCharm</strong></div><span class="emoji">📦</span></div>
+        <div class="recipe-step"><div>Crie o arquivo <code>ola_mundo.py</code></div><span class="emoji">📄</span></div>
+        <div class="recipe-step"><div>Escreva: <code>print("Olá, mundo!")</code></div><span class="emoji">⌨️</span></div>
+        <div class="recipe-step"><div>Aperte <strong>Run ▶</strong> e veja o resultado</div><span class="emoji">🚀</span></div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">ola_mundo.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1</div>
+<pre><span class="bi">print</span>(<span class="st">"Olá, mundo!"</span>)</pre>
+      </div>
+
+      <p style="color:var(--text-dim);margin:14px 0">No terminal do PyCharm vai aparecer:</p>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · ola_mundo.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">$ python ola_mundo.py</span><br>
+          <span class="typed" data-text="Olá, mundo!"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:14px">
+        <span class="tip-icon">🎉</span>
+        <div class="tip-content">
+          <strong>Parabéns!</strong> Você acabou de conversar com o computador.
+          Pode parecer bobo, mas todo mundo que programa começou aqui — inclusive os engenheiros da NASA.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9. BORA CODAR 1.1 — Olá, [usuário]!
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-11">
+    <div class="step-header">
+      <div class="step-number sn-blue">1.1</div>
+      <div>
+        <div class="step-title">Bora Codar! — Olá, [seu nome]!</div>
+        <div class="step-sub">Agora a gente conversa com o usuário · ola_usuario.py</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Desafio guiado pelo professor</div>
+          <div class="exercise-sub">Conhecendo o input()</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:6px">
+        Até agora a gente só <em>mostrou</em> texto. Bora deixar o usuário
+        <strong>digitar</strong> o nome dele e cumprimentar ele.
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">📥 input() — pegando dados do usuário</div>
+        <p>
+          A função <code>input()</code> mostra uma pergunta na tela e <strong>espera</strong> o usuário digitar.
+          O que ele digitar volta como uma string (texto) que a gente pode guardar numa variável.
+        </p>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">ola_usuario.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3</div>
+<pre><span class="cm"># pergunta o nome e guarda na variável</span>
+nome = <span class="bi">input</span>(<span class="st">"Qual é o seu nome? "</span>)
+<span class="bi">print</span>(<span class="st">f"Olá, {nome}! Bem-vindo(a) ao Python 🐍"</span>)</pre>
+      </div>
+
+      <div class="terminal" data-typewriter>
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · ola_usuario.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">Qual é o seu nome? </span><span class="typed" data-text="Kelson"></span><br>
+          <span class="typed" data-text="Olá, Kelson! Bem-vindo(a) ao Python 🐍"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Aquele <code>f"…{nome}…"</code></strong> é uma <strong>f-string</strong> —
+          jeito moderno e bonito de juntar variáveis com texto. A gente vai estudar a fundo no próximo capítulo.
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🧪</span>
+        <div class="warning-content">
+          <strong>Teste:</strong> rode várias vezes mudando o nome. Funciona com qualquer um?
+          (Spoiler: sim 😉)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10. DESAFIO 1.2 — boas_vindas.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-12">
+    <div class="step-header">
+      <div class="step-number sn-purple">1.2</div>
+      <div>
+        <div class="step-title">Desafio Individual — boas_vindas.py</div>
+        <div class="step-sub">Agora é com você</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · boas_vindas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie um arquivo <code>boas_vindas.py</code>. Dentro, peça <strong>duas</strong> coisas
+          ao usuário usando <code>input()</code>: o <strong>nome</strong> e o <strong>curso</strong>.
+        </p>
+        <p>
+          Depois mostre uma frase de boas-vindas usando <strong>f-string</strong>:
+          <em>"Bem-vindo(a), [nome]! Você está no curso de [curso]."</em>
+        </p>
+        <p>
+          É bem parecido com o exercício <strong>1.1</strong> que a gente acabou de fazer —
+          só que agora com <strong>duas</strong> variáveis em vez de uma. Você consegue!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Abra o PyCharm,
+          crie o arquivo e tente. Errar é parte do processo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">boas_vindas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="cm"># pega os dados do usuário</span>
+nome  = <span class="bi">input</span>(<span class="st">"Qual é o seu nome? "</span>)
+curso = <span class="bi">input</span>(<span class="st">"Em qual curso você está? "</span>)
+
+<span class="bi">print</span>(<span class="st">f"Bem-vindo(a), {nome}! Você está no curso de {curso}."</span>)</pre>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> A gente usou DUAS variáveis na mesma f-string,
+              cada uma entre suas <code>{ }</code>. Pode usar quantas quiser!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       11. DESAFIO 1.3 — calculo_idade.py (com olhinho)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bora-codar-13">
+    <div class="step-header">
+      <div class="step-number sn-purple">1.3</div>
+      <div>
+        <div class="step-title">Desafio Individual — calculo_idade.py</div>
+        <div class="step-sub">Primeira conta com input!</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · calculo_idade.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>calculo_idade.py</code>. Peça <strong>duas</strong> coisas ao usuário:
+          o <strong>nome</strong> e o <strong>ano de nascimento</strong>.
+        </p>
+        <p>
+          Calcule a idade aproximada: <code>2026 - ano_nascimento</code>.
+          E mostre: <em>"[nome], você tem aproximadamente [idade] anos."</em>
+        </p>
+        <p>
+          ⚠️ <strong>Pega leve nessa parte:</strong> o <code>input()</code> sempre devolve
+          <strong>texto</strong>. Pra fazer conta com o ano, você precisa <strong>converter</strong>
+          pra número usando <code>int(...)</code>. Tipo: <code>int(input("Ano: "))</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Sem pressa — se der erro,
+          leia a mensagem com calma. O Python te ajuda quando você lê o que ele diz!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">calculo_idade.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="cm"># pega o nome (texto, fica como veio)</span>
+nome             = <span class="bi">input</span>(<span class="st">"Qual é o seu nome? "</span>)
+<span class="cm"># pega o ano e CONVERTE pra número inteiro</span>
+ano_nascimento   = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Em que ano você nasceu? "</span>))
+idade            = <span class="num">2026</span> - ano_nascimento
+
+<span class="bi">print</span>(<span class="st">f"{nome}, você tem aproximadamente {idade} anos."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · calculo_idade.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Qual é o seu nome? </span><span class="typed" data-text="Ana"></span><br>
+              <span class="out">Em que ano você nasceu? </span><span class="typed" data-text="2002"></span><br>
+              <span class="typed" data-text="Ana, você tem aproximadamente 24 anos."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🔢</span>
+            <div class="tip-content">
+              <strong>Por que <code>int()</code>?</strong> Porque <code>input()</code> sempre devolve
+              uma <em>string</em> (texto). E texto não dá pra subtrair! Tipo isso aqui dá erro:
+              <code>"2002" - 2026</code>. Convertendo com <code>int()</code>, você diz pro Python:
+              <em>"vai, vira número que eu preciso fazer conta"</em>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       12. BUGZILLA — APRESENTAÇÃO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">Conheça o BugZilla</div>
+        <div class="step-sub">Nosso vilão favorito — vai aparecer em todos os capítulos</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">BugZilla apareceu!</div>
+          <div class="bugzilla-sub">Vilão amigável que vai te ensinar a errar com elegância</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p style="margin-bottom:10px">
+          Todo programador erra. <strong>TODO MUNDO.</strong> Inclusive seniors com 20 anos de experiência.
+          Cada erro é uma oportunidade de aprender.
+        </p>
+        <p>
+          O Python é <strong>seu amigo</strong>: quando algo dá errado, ele mostra uma mensagem
+          tentando te ajudar. <strong>Leia com calma</strong>, mesmo que pareça intimidador.
+          A última linha geralmente diz exatamente o que aconteceu.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>👀 Erros clássicos que o BugZilla adora</h3>
+      <p style="color:var(--text-dim)">Você vai conhecer esses bem de perto. Não se preocupa — todo mundo passa por aqui:</p>
+
+      <div style="display:grid;gap:10px;margin-top:14px">
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            Esquecer os <strong>parênteses</strong>: <code>print"Olá"</code> ❌
+          </div>
+        </div>
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            Esquecer as <strong>aspas</strong>: <code>print(Olá)</code> ❌ — Python acha que <code>Olá</code> é uma variável que não existe
+          </div>
+        </div>
+        <div class="warning">
+          <span class="warning-icon">😬</span>
+          <div class="warning-content">
+            Esquecer de <strong>converter</strong> com <code>int()</code> e tentar fazer conta com texto
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:18px">
+        <span class="tip-icon">📖</span>
+        <div class="tip-content">
+          <strong>Hábito de ouro:</strong> quando der erro, leia a mensagem. Procure a palavra
+          <strong style="color:var(--accent2)">Error</strong> e a linha indicada.
+          90% das vezes a resposta tá ali.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13. RESUMO + PRÓXIMO CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="resumo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">Resumo do Capítulo 01</div>
+        <div class="step-sub">O que você acabou de aprender</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🎯</span>
+          <span class="kw-name">O que é programar</span>
+          <span class="kw-desc">Ensinar o computador a resolver problemas com instruções claras</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐍</span>
+          <span class="kw-name">Python</span>
+          <span class="kw-desc">Linguagem amigável, sintaxe simples, comunidade gigante</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">💬</span>
+          <span class="kw-name">print()</span>
+          <span class="kw-desc">Mostra texto na tela</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📥</span>
+          <span class="kw-name">input()</span>
+          <span class="kw-desc">Pega texto digitado pelo usuário</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔢</span>
+          <span class="kw-name">int()</span>
+          <span class="kw-desc">Converte texto em número inteiro</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✨</span>
+          <span class="kw-name">f-string</span>
+          <span class="kw-desc"><code>f"Olá, {nome}!"</code> — junta texto com variável</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🧠</span>
+          <span class="kw-name">Pensamento lógico</span>
+          <span class="kw-desc">Quebrar o problema em passos claros e ordenados</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🐛</span>
+          <span class="kw-name">BugZilla</span>
+          <span class="kw-desc">Errar é parte do jogo — leia a mensagem!</span>
+        </div>
+      </div>
+
+      <div class="welcome-banner" style="margin-top:24px">
+        <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--python-y)">
+          "Agora você fala o idioma das máquinas. <br>E esse foi só o primeiro 'Olá'!" 😉🐍
+        </h3>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,rgba(247,183,49,0.06),rgba(255,107,107,0.04));border-color:rgba(247,183,49,0.20)">
+      <h3 style="color:var(--accent5);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 02 — Variáveis e Tipos.</strong>
+        Você vai descobrir que tudo que a gente fez aqui já usava variáveis (lembra do <code>nome = ...</code>?).
+        Bora aprofundar?
+      </p>
+      <a href="../02-variaveis-tipos/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent5),var(--accent2));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
+        📦 Ir para Capítulo 02 →
+      </a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pelo <strong style="color:var(--text)">Programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>
