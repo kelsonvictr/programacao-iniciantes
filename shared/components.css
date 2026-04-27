@@ -1545,6 +1545,32 @@ pre{
 }
 .sources-list a:hover{color:var(--python-y)}
 
+/* MEMES — pra deixar a aula mais leve */
+.meme-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  margin:22px auto;max-width:480px;
+}
+.meme-wrap img{
+  width:100%;height:auto;
+  border-radius:14px;
+  box-shadow:0 14px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.05);
+  transform:rotate(-1.2deg);
+  transition:transform 0.4s cubic-bezier(.2,.9,.3,1.3), box-shadow 0.3s;
+}
+.meme-wrap:hover img{
+  transform:rotate(0deg) scale(1.03);
+  box-shadow:0 22px 48px rgba(0,0,0,0.55), 0 0 0 1px var(--accent6);
+}
+.meme-wrap.tilt-r img{transform:rotate(1.2deg)}
+.meme-wrap.tilt-r:hover img{transform:rotate(0deg) scale(1.03)}
+.meme-caption{
+  margin-top:8px;font-size:0.78rem;color:var(--text-dim);
+  font-style:italic;text-align:center;
+}
+@media (max-width:600px){
+  .meme-wrap{max-width:90%;margin:18px auto}
+}
+
 /* "Hora da verdade" — listas compactas */
 .truth-list{list-style:none;padding:0;margin:10px 0 0}
 .truth-list li{
