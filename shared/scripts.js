@@ -44,7 +44,7 @@ function initScrollReveal(){
         e.target.classList.add('visible');
       }
     }
-  },{threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+  },{threshold:0, rootMargin:'0px 0px -60px 0px'});
   sections.forEach(s => obs.observe(s));
 }
 
