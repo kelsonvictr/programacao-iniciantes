@@ -1141,3 +1141,320 @@ pre{
   .logo-marquee-item{height:42px;padding:6px 12px}
   .logo-marquee-item img{max-width:110px}
 }
+
+/* =========================================================
+   CAREER SECTION — "Por que programação?" (capítulo 01)
+   ========================================================= */
+.career-hero{
+  position:relative;
+  display:flex;align-items:center;gap:28px;
+  margin:6px 0 18px;padding:30px;
+  background:linear-gradient(135deg, rgba(108,99,255,0.20) 0%, rgba(247,183,49,0.10) 100%);
+  border:1.5px solid rgba(108,99,255,0.35);
+  border-radius:22px;
+  overflow:hidden;isolation:isolate;
+  box-shadow:0 14px 40px rgba(0,0,0,0.40);
+}
+.career-hero-shine{
+  position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(ellipse at top right, rgba(247,183,49,0.30) 0%, transparent 60%);
+}
+.career-hero-side{flex:1;min-width:0}
+.career-hero-tag{
+  display:inline-block;
+  font-size:0.7rem;font-weight:900;
+  text-transform:uppercase;letter-spacing:2px;
+  color:var(--accent5);
+  padding:5px 12px;
+  background:rgba(247,183,49,0.14);
+  border:1px solid rgba(247,183,49,0.30);
+  border-radius:50px;
+  margin-bottom:12px;
+}
+.career-hero-num{
+  font-family:'JetBrains Mono', monospace;
+  font-size:3.6rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg, var(--python-y), var(--accent5), var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:-2px;
+  filter:drop-shadow(0 4px 12px rgba(247,183,49,0.30));
+}
+.career-hero-label{font-size:1.08rem;color:var(--text);margin-top:8px;line-height:1.4}
+.career-hero-foot{margin-top:14px;font-size:0.78rem;color:var(--text-dim)}
+.career-hero-foot a{color:var(--accent5);text-decoration:none;border-bottom:1px dashed rgba(247,183,49,0.6)}
+.career-hero-foot a:hover{color:var(--python-y)}
+.career-hero-emoji{
+  font-size:5.5rem;opacity:0.95;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,0.45));
+  animation:bounce 3s ease-in-out infinite;
+}
+@media (max-width:640px){
+  .career-hero{flex-direction:column;gap:14px;padding:22px;text-align:center}
+  .career-hero-num{font-size:2.6rem}
+  .career-hero-emoji{font-size:3.6rem}
+}
+
+.career-h3{
+  font-size:1.3rem;font-weight:900;color:var(--text);
+  margin-bottom:10px;line-height:1.3;
+}
+
+/* SALÁRIOS */
+.salary-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+  gap:12px;margin-top:14px;
+}
+.salary-tile{
+  position:relative;padding:20px 16px;
+  background:linear-gradient(135deg, var(--surface2), var(--surface3));
+  border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  text-align:center;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.3), border-color .3s, box-shadow .3s;
+}
+.salary-tile:hover{
+  transform:translateY(-6px) scale(1.02);
+  border-color:var(--accent6);
+  box-shadow:0 14px 32px rgba(0,0,0,0.40);
+}
+.salary-tile .salary-flag{font-size:1.7rem;margin-bottom:4px}
+.salary-tile .salary-level{
+  font-size:0.7rem;font-weight:900;letter-spacing:2px;
+  color:var(--text-dim);margin-bottom:10px;
+}
+.salary-tile .salary-num{
+  font-family:'JetBrains Mono', monospace;
+  font-size:1.8rem;font-weight:900;line-height:1;
+  color:var(--accent7);
+}
+.salary-tile.pleno  .salary-num{color:var(--accent4)}
+.salary-tile.senior .salary-num,
+.salary-grid.exterior .salary-tile .salary-num{
+  background:linear-gradient(135deg, var(--accent5), var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.salary-grid.exterior .salary-tile{
+  border-color:rgba(247,183,49,0.30);
+  background:linear-gradient(135deg, rgba(247,183,49,0.08), var(--surface3));
+}
+.salary-tile .salary-when{
+  margin-top:10px;font-size:0.74rem;color:var(--text-dim);line-height:1.3;
+}
+
+/* MÉTRICAS PERCENTUAIS */
+.metric-row{
+  display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;margin-top:14px;
+}
+.metric-row.two{grid-template-columns:repeat(2, 1fr)}
+.metric-tile{
+  padding:22px 14px;text-align:center;
+  background:var(--surface2);
+  border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  transition:transform .3s, border-color .3s;
+}
+.metric-tile:hover{transform:translateY(-4px);border-color:var(--accent5)}
+.metric-tile.highlight{
+  background:linear-gradient(135deg, rgba(247,183,49,0.14), rgba(108,99,255,0.06));
+  border-color:rgba(247,183,49,0.45);
+}
+.metric-pct{
+  font-family:'JetBrains Mono', monospace;
+  font-size:3rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg, var(--accent5), var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.metric-pct .pct-sign{
+  font-size:1.7rem;vertical-align:top;margin-left:2px;
+  -webkit-text-fill-color:var(--accent5);color:var(--accent5);
+}
+.metric-label{margin-top:10px;font-size:0.85rem;color:var(--text-dim);line-height:1.4}
+.metric-label strong{color:var(--text)}
+@media (max-width:520px){
+  .metric-row{grid-template-columns:1fr;gap:10px}
+  .metric-pct{font-size:2.4rem}
+}
+
+/* RANKING DE LINGUAGENS */
+.lang-rank{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.lang-row{
+  display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:14px;
+  padding:14px 16px;
+  background:var(--surface2);border-radius:12px;
+  border:1px solid rgba(255,255,255,0.06);
+  transition:border-color .3s, transform .3s, box-shadow .3s;
+}
+.lang-row:hover{border-color:var(--accent5);transform:translateX(4px)}
+.lang-row.featured{
+  background:linear-gradient(90deg, rgba(55,118,171,0.22), rgba(255,212,59,0.14));
+  border:1.5px solid var(--python-y);
+  box-shadow:0 0 22px rgba(255,212,59,0.20);
+}
+.lang-rank-num{
+  font-family:'JetBrains Mono', monospace;font-weight:900;
+  color:var(--text-dim);font-size:1rem;
+}
+.lang-row.featured .lang-rank-num{color:var(--python-y)}
+.lang-name{font-weight:800;color:var(--text)}
+.lang-val{
+  font-family:'JetBrains Mono', monospace;font-weight:900;
+  color:var(--accent7);text-align:right;font-size:0.95rem;
+}
+.badge-now{
+  display:inline-block;margin-left:8px;
+  font-size:0.62rem;font-weight:900;
+  background:var(--python-y);color:var(--bg);
+  padding:3px 9px;border-radius:50px;letter-spacing:0.6px;
+  vertical-align:middle;
+}
+@media (max-width:560px){
+  .lang-row{grid-template-columns:34px 1fr auto;gap:8px;padding:10px 12px}
+  .lang-rank-num,.lang-name{font-size:0.86rem}
+  .lang-val{font-size:0.78rem}
+  .badge-now{font-size:0.55rem;padding:2px 6px;margin-left:4px}
+}
+
+/* BASES (Java, Cyber, Data, QA…) */
+.bases-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:12px;margin-top:14px;
+}
+.base-tile{
+  padding:16px 12px;text-align:center;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  transition:transform .3s, border-color .3s;
+}
+.base-tile:hover{transform:translateY(-4px);border-color:var(--accent6)}
+.base-emoji{font-size:1.9rem;margin-bottom:6px;line-height:1}
+.base-name{font-weight:900;font-size:0.92rem;color:var(--text)}
+.base-sub{margin-top:4px;font-size:0.74rem;color:var(--text-dim);line-height:1.3}
+
+/* LINKEDIN TIPS */
+.linkedin-tips{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+  gap:10px;margin-top:14px;
+}
+.lin-tip{
+  display:flex;flex-direction:column;gap:4px;padding:14px 16px;
+  background:linear-gradient(135deg, rgba(10,102,194,0.12), var(--surface2));
+  border:1px solid rgba(10,102,194,0.30);
+  border-radius:12px;
+  transition:transform .3s, border-color .3s;
+}
+.lin-tip:hover{transform:translateY(-3px);border-color:#4ea4ff}
+.lin-icon{font-size:1.4rem;line-height:1}
+.lin-tip strong{color:var(--text);font-size:0.95rem}
+.lin-tip .lin-sub{font-size:0.78rem;color:var(--text-dim);line-height:1.35}
+
+/* VAGAS */
+.vagas-grid{
+  display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:12px;margin-top:14px;
+}
+.vaga-card{
+  padding:16px 18px;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-left:4px solid var(--python);
+  border-radius:14px;
+  transition:transform .3s, box-shadow .3s, border-color .3s;
+}
+.vaga-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 28px rgba(0,0,0,0.40);
+}
+.vaga-card.intl{border-left-color:var(--accent5)}
+.vaga-card.jr  {border-left-color:var(--accent7)}
+.vaga-tag{
+  display:inline-block;font-size:0.68rem;font-weight:900;
+  background:rgba(55,118,171,0.20);color:var(--python-y);
+  padding:3px 10px;border-radius:50px;
+  margin-bottom:10px;letter-spacing:0.5px;
+}
+.vaga-card.intl .vaga-tag{background:rgba(247,183,49,0.20);color:var(--accent5)}
+.vaga-card.jr   .vaga-tag{background:rgba(6,214,160,0.20);color:var(--accent7)}
+.vaga-title{font-weight:900;font-size:1.02rem;color:var(--text);margin-bottom:4px;line-height:1.3}
+.vaga-comp{font-size:0.82rem;color:var(--text-dim);margin-bottom:12px;line-height:1.35}
+.vaga-meta{display:flex;flex-wrap:wrap;gap:8px}
+.vaga-money{
+  font-family:'JetBrains Mono', monospace;font-weight:900;
+  color:var(--accent7);font-size:0.86rem;
+  padding:5px 12px;background:rgba(6,214,160,0.12);
+  border-radius:50px;
+}
+.vaga-loc{
+  font-size:0.78rem;color:var(--text-dim);
+  padding:5px 12px;background:rgba(255,255,255,0.05);
+  border-radius:50px;
+}
+
+/* IA · "vale a pena ainda programar?" (cap 01) */
+.career-h4{font-size:1.05rem;font-weight:900;color:var(--text);margin-bottom:10px;line-height:1.3}
+
+.ia-stat{
+  display:flex;align-items:center;gap:20px;
+  padding:20px 24px;margin-top:16px;
+  background:linear-gradient(135deg, rgba(108,99,255,0.20), rgba(247,183,49,0.10));
+  border:1.5px solid rgba(108,99,255,0.40);
+  border-radius:16px;
+}
+.ia-stat-num{
+  font-family:'JetBrains Mono', monospace;
+  font-size:3.2rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg, var(--accent6), var(--python-y));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  letter-spacing:-1.5px;
+  filter:drop-shadow(0 4px 10px rgba(167,139,250,0.30));
+}
+.ia-stat-num .pct-sign{
+  font-size:1.7rem;vertical-align:top;margin-left:2px;
+  -webkit-text-fill-color:var(--python-y);color:var(--python-y);
+}
+.ia-stat-label{font-size:1rem;color:var(--text);line-height:1.4;flex:1;min-width:0}
+.ia-stat-label small{display:block;font-size:0.75rem;color:var(--text-dim);margin-top:4px}
+@media (max-width:560px){
+  .ia-stat{flex-direction:column;text-align:center;gap:8px}
+  .ia-stat-num{font-size:2.4rem}
+}
+
+.ia-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.ia-col{
+  padding:18px 20px;border-radius:14px;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+}
+.ia-col.yes{border-left:4px solid var(--accent7)}
+.ia-col.no {border-left:4px solid var(--accent2)}
+.ia-col-title{font-weight:900;color:var(--text);margin-bottom:10px;font-size:0.98rem}
+.ia-col ul{list-style:none;padding:0;margin:0}
+.ia-col li{
+  padding:5px 0 5px 22px;position:relative;
+  color:var(--text-dim);font-size:0.88rem;line-height:1.5;
+}
+.ia-col.yes li::before{content:'▸';position:absolute;left:6px;color:var(--accent7);font-weight:900}
+.ia-col.no  li::before{content:'▸';position:absolute;left:6px;color:var(--accent2);font-weight:900}
+@media (max-width:600px){.ia-compare{grid-template-columns:1fr}}
+
+.ia-amp{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.ia-amp-row{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:18px 20px;border-radius:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  transition:transform .3s, border-color .3s;
+}
+.ia-amp-row:hover{transform:translateX(4px)}
+.ia-amp-row.good{
+  background:linear-gradient(90deg, rgba(6,214,160,0.14), var(--surface2));
+  border-color:rgba(6,214,160,0.32);
+}
+.ia-amp-row.good:hover{border-color:var(--accent7)}
+.ia-amp-row.bad{
+  background:linear-gradient(90deg, rgba(255,71,87,0.12), var(--surface2));
+  border-color:rgba(255,71,87,0.32);
+}
+.ia-amp-row.bad:hover{border-color:var(--accent2)}
+.ia-amp-icon{font-size:2.2rem;line-height:1;flex-shrink:0}
+.ia-amp-row strong{color:var(--text);display:block;margin-bottom:4px;font-size:0.98rem}
+.ia-amp-row p{color:var(--text-dim);margin:0;font-size:0.9rem;line-height:1.45}
