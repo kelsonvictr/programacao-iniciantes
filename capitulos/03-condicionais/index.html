@@ -344,13 +344,17 @@
     <a class="sidebar-link" onclick="goTo('exer-pode-votar')"><span class="dot" style="background:var(--accent6)"></span>pode_votar.py 👀</a>
     <a class="sidebar-link" onclick="goTo('comando-elif')"><span class="dot" style="background:var(--accent3)"></span>elif — múltiplos caminhos</a>
     <a class="sidebar-link" onclick="goTo('exer-evento')"><span class="dot" style="background:var(--accent6)"></span>entrada_evento.py 👀</a>
+    <a class="sidebar-link" onclick="goTo('exer-nota')"><span class="dot" style="background:var(--accent6)"></span>nota_escolar.py 👀</a>
     <a class="sidebar-link" onclick="goTo('operadores-comp')"><span class="dot" style="background:var(--accent5)"></span>Operadores de comparação</a>
+    <a class="sidebar-link" onclick="goTo('exer-par-impar')"><span class="dot" style="background:var(--accent6)"></span>par_impar.py 👀</a>
     <a class="sidebar-link" onclick="goTo('operadores-logic')"><span class="dot" style="background:var(--accent6)"></span>Operadores lógicos</a>
+    <a class="sidebar-link" onclick="goTo('exer-fim-semana')"><span class="dot" style="background:var(--accent6)"></span>fim_semana.py 👀</a>
     <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz V/F</a>
     <a class="sidebar-link" onclick="goTo('exer-frete')"><span class="dot" style="background:var(--accent4)"></span>Entrega grátis</a>
     <a class="sidebar-link" onclick="goTo('restaurante')"><span class="dot" style="background:var(--accent5)"></span>Restaurante Inteligente 🍔</a>
     <a class="sidebar-link" onclick="goTo('bora-codar-30')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 3.0</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('exer-adivinhar')"><span class="dot" style="background:var(--accent6)"></span>adivinhar_numero.py 👀</a>
     <a class="sidebar-link" onclick="goTo('exer-descontos')"><span class="dot" style="background:var(--accent6)"></span>descontos.py 👀</a>
     <a class="sidebar-link" onclick="goTo('mini-sistema')"><span class="dot" style="background:var(--accent3)"></span>Mini Sistema</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
@@ -1042,6 +1046,103 @@ idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="s
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO OLHINHO — nota_escolar.py  (após elif)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-nota">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Exercício — nota_escolar.py</div>
+        <div class="step-sub">elif com faixas numéricas</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · nota_escolar.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>nota_escolar.py</code>. Leia a nota do aluno (0 a 10) e classifique:
+        </p>
+        <p style="margin-left:18px">
+          • <strong>nota &gt;= 9</strong> → <em>"⭐ Excelente!"</em><br>
+          • <strong>nota &gt;= 7</strong> → <em>"✅ Aprovado!"</em><br>
+          • <strong>nota &gt;= 5</strong> → <em>"⚠️ Recuperação."</em><br>
+          • <strong>abaixo de 5</strong> → <em>"❌ Reprovado."</em>
+        </p>
+        <p>
+          Mesma ideia do semáforo: o Python testa de cima pra baixo —
+          use <code>float(input(...))</code> pra aceitar notas com decimal (ex: 7.5).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Abra o PyCharm e escreva do zero.
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">nota_escolar.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre>nota = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua nota (0 a 10): "</span>))
+
+<span class="kw">if</span> nota <span class="op">&gt;=</span> <span class="num">9</span>:
+    <span class="bi">print</span>(<span class="st">"⭐ Excelente!"</span>)
+<span class="kw">elif</span> nota <span class="op">&gt;=</span> <span class="num">7</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Aprovado!"</span>)
+<span class="kw">elif</span> nota <span class="op">&gt;=</span> <span class="num">5</span>:
+    <span class="bi">print</span>(<span class="st">"⚠️ Recuperação."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"❌ Reprovado."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · nota_escolar.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Sua nota (0 a 10): </span><span class="typed" data-text="7.5"></span><br>
+              <span class="typed" data-text="✅ Aprovado!"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Percebeu a lógica das faixas?</strong> Quando o Python chega no
+              <code>elif nota &gt;= 7</code>, ele já sabe que a nota é <strong>menor que 9</strong>
+              (senão teria caído no primeiro <code>if</code>). Por isso cada
+              <code>elif</code> cobre exatamente uma faixa sem você precisar escrever
+              <code>nota &gt;= 7 and nota &lt; 9</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
@@ -1102,6 +1203,96 @@ idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="s
           <strong>atribuição</strong> (eu coloco um valor numa variável).
           <code>==</code> (duas) é <strong>comparação</strong> (eu pergunto se são iguais).
           Esse erro é tão comum que o BugZilla vai aparecer em breve só por causa dele 🐛.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO OLHINHO — par_impar.py  (após operadores de comparação)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-par-impar">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Exercício — par_impar.py</div>
+        <div class="step-sub">Operador == na prática</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · par_impar.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>par_impar.py</code>. Leia um número inteiro e diga se é par ou ímpar.
+        </p>
+        <p style="margin-left:18px">
+          • SE o resto da divisão por 2 for <strong>igual a 0</strong> (<code>numero % 2 == 0</code>) → <em>"🟢 Par"</em><br>
+          • Senão → <em>"🔴 Ímpar"</em>
+        </p>
+        <p>
+          O operador <code>%</code> calcula o <strong>resto da divisão</strong>:
+          <code>10 % 2 == 0</code> (par), <code>7 % 2 == 1</code> (ímpar).
+          Combine com o <code>==</code> que você acabou de aprender!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">par_impar.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>numero = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+
+<span class="kw">if</span> numero <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"🟢 Par"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🔴 Ímpar"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · par_impar.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Digite um número: </span><span class="typed" data-text="7"></span><br>
+              <span class="typed" data-text="🔴 Ímpar"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🧮</span>
+            <div class="tip-content">
+              <strong>O <code>%</code> é chamado de módulo.</strong> Ele devolve o <em>resto</em>
+              da divisão: <code>10 % 3 → 1</code>, <code>9 % 3 → 0</code>.
+              Juntando com <code>==</code> você consegue testar qualquer divisibilidade!
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1174,6 +1365,95 @@ tem_convite  = <span class="bool">True</span>
           <strong>Dica de ouro:</strong> imagine o <code>and</code> como dois cadeados —
           os dois precisam abrir. O <code>or</code> é uma porta com duas chaves —
           qualquer uma serve. O <code>not</code> é o avesso (vira do lado contrário).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO OLHINHO — fim_semana.py  (após operadores lógicos)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-fim-semana">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Exercício — fim_semana.py</div>
+        <div class="step-sub">Operador or combinando condições</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · fim_semana.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>fim_semana.py</code>. Pergunte o dia da semana e diga se é dia de descanso:
+        </p>
+        <p style="margin-left:18px">
+          • SE o dia for <strong>"sabado"</strong> OU <strong>"domingo"</strong> → <em>"🛋️ Dia de descanso!"</em><br>
+          • Senão → <em>"💼 Dia de trabalho."</em>
+        </p>
+        <p>
+          Use <code>or</code> para combinar as duas condições numa só.
+          Dica: aplique <code>.lower()</code> na entrada pra não ter problema com maiúsculas.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">fim_semana.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>dia = <span class="bi">input</span>(<span class="st">"Que dia é hoje? "</span>).lower()
+
+<span class="kw">if</span> dia <span class="op">==</span> <span class="st">"sabado"</span> <span class="kw">or</span> dia <span class="op">==</span> <span class="st">"domingo"</span>:
+    <span class="bi">print</span>(<span class="st">"🛋️ Dia de descanso!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"💼 Dia de trabalho."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · fim_semana.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Que dia é hoje? </span><span class="typed" data-text="Domingo"></span><br>
+              <span class="typed" data-text="🛋️ Dia de descanso!"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">💡</span>
+            <div class="tip-content">
+              <strong>O <code>or</code> funciona como uma porta com duas chaves:</strong>
+              qualquer uma que abrir já basta. Digitou "Domingo" ou "DOMINGO"? O
+              <code>.lower()</code> transforma em "domingo" e a condição bate!
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1571,6 +1851,99 @@ tem_convite  = <span class="bool">True</span>
           <strong>Hábito de ouro:</strong> quando der erro de sintaxe num <code>if</code>,
           a primeira coisa que você confere é se tem o <code>:</code> e se a próxima linha
           está <strong>indentada</strong> (4 espaços).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO OLHINHO — adivinhar_numero.py  (após BugZilla)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-adivinhar">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Exercício — adivinhar_numero.py</div>
+        <div class="step-sub">== e != juntos, e cuidado com o = de atribuição!</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · adivinhar_numero.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>adivinhar_numero.py</code>. O número secreto é <strong>42</strong>.
+          O programa lê o palpite do usuário e responde:
+        </p>
+        <p style="margin-left:18px">
+          • SE o palpite for <strong>igual a</strong> 42 (<code>==</code>) → <em>"🎉 Acertou! Você é incrível."</em><br>
+          • SE o palpite for <strong>menor que</strong> 42 → <em>"📉 Muito baixo. Tente mais alto!"</em><br>
+          • Senão (ou seja, maior que 42) → <em>"📈 Muito alto. Tente mais baixo!"</em>
+        </p>
+        <p>
+          Atenção especial: use <code>==</code> pra comparar, não <code>=</code>. Lembra do BugZilla? 🐛
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">adivinhar_numero.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>secreto = <span class="num">42</span>
+palpite = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Adivinhe o número (0 a 100): "</span>))
+
+<span class="kw">if</span> palpite <span class="op">==</span> secreto:
+    <span class="bi">print</span>(<span class="st">"🎉 Acertou! Você é incrível."</span>)
+<span class="kw">elif</span> palpite <span class="op">&lt;</span> secreto:
+    <span class="bi">print</span>(<span class="st">"📉 Muito baixo. Tente mais alto!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"📈 Muito alto. Tente mais baixo!"</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · adivinhar_numero.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Adivinhe o número (0 a 100): </span><span class="typed" data-text="60"></span><br>
+              <span class="typed" data-text="📈 Muito alto. Tente mais baixo!"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Curiosidade:</strong> esse jogo de adivinhar número é um clássico
+              de iniciantes em qualquer linguagem. No cap 04, quando você aprender
+              <code>while</code>, vai fazer o usuário continuar tentando até acertar 🔁.
+            </div>
+          </div>
         </div>
       </div>
     </div>

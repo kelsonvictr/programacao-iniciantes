@@ -359,6 +359,59 @@ Sua idade:
 ✨
 Reparou na ordem? Como o Python testa de cima pra baixo, quando o `elif idade < 18` roda, ele já sabe que a idade não é menor que 16 (senão teria caído no `if`). Por isso esse `elif` cobre exatamente a faixa 16-17.
 
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — nota_escolar.py (após elif) ═══════════════════════════════════════════════════════
+
+💪
+
+Exercício — nota_escolar.py
+
+elif com faixas numéricas
+
+💪
+
+Desafio Individual
+
+Faça sozinho · nota_escolar.py
+
+💡 O que fazer
+
+Crie `nota_escolar.py`. Leia a nota do aluno (0 a 10) e classifique:
+
+• nota >= 9 → "⭐ Excelente!"
+• nota >= 7 → "✅ Aprovado!"
+• nota >= 5 → "⚠️ Recuperação."
+• abaixo de 5 → "❌ Reprovado."
+
+Mesma ideia do semáforo: o Python testa de cima pra baixo — use `float(input(...))` pra aceitar notas com decimal (ex: 7.5).
+
+🚨
+
+PARE! Tente sozinho primeiro. Abra o PyCharm e escreva do zero. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+nota_escolar.py Python
+
+```
+nota = float(input("Sua nota (0 a 10): "))
+
+if nota >= 9:
+    print("⭐ Excelente!")
+elif nota >= 7:
+    print("✅ Aprovado!")
+elif nota >= 5:
+    print("⚠️ Recuperação.")
+else:
+    print("❌ Reprovado.")
+```
+
+Run · nota_escolar.py
+
+Sua nota (0 a 10):
+
+✨
+Percebeu a lógica das faixas? Quando o Python chega no `elif nota >= 7`, ele já sabe que a nota é menor que 9 (senão teria caído no primeiro `if`). Por isso cada `elif` cobre exatamente uma faixa sem você precisar escrever `nota >= 7 and nota < 9`.
+
 ═══════════════════════════════════════════════════════ 5. OPERADORES DE COMPARAÇÃO ═══════════════════════════════════════════════════════
 
 ⚖️
@@ -408,6 +461,53 @@ menor ou igual a
 🤯
 Atenção máxima: `=` (uma igualdade) é atribuição (eu coloco um valor numa variável). `==` (duas) é comparação (eu pergunto se são iguais). Esse erro é tão comum que o BugZilla vai aparecer em breve só por causa dele 🐛.
 
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — par_impar.py (após operadores de comparação) ═══════════════════════════════════════════════════════
+
+💪
+
+Exercício — par_impar.py
+
+Operador == na prática
+
+💪
+
+Desafio Individual
+
+Faça sozinho · par_impar.py
+
+💡 O que fazer
+
+Crie `par_impar.py`. Leia um número inteiro e diga se é par ou ímpar.
+
+• SE o resto da divisão por 2 for igual a 0 (`numero % 2 == 0`) → "🟢 Par"
+• Senão → "🔴 Ímpar"
+
+O operador `%` calcula o resto da divisão: `10 % 2 == 0` (par), `7 % 2 == 1` (ímpar). Combine com o `==` que você acabou de aprender!
+
+🚨
+
+PARE! Tente sozinho primeiro. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+par_impar.py Python
+
+```
+numero = int(input("Digite um número: "))
+
+if numero % 2 == 0:
+    print("🟢 Par")
+else:
+    print("🔴 Ímpar")
+```
+
+Run · par_impar.py
+
+Digite um número:
+
+🧮
+O `%` é chamado de módulo. Ele devolve o resto da divisão: `10 % 3 → 1`, `9 % 3 → 0`. Juntando com `==` você consegue testar qualquer divisibilidade!
+
 ═══════════════════════════════════════════════════════ 6. OPERADORES LÓGICOS ═══════════════════════════════════════════════════════
 
 🔗
@@ -447,6 +547,53 @@ else:
 
 💡
 Dica de ouro: imagine o `and` como dois cadeados — os dois precisam abrir. O `or` é uma porta com duas chaves — qualquer uma serve. O `not` é o avesso (vira do lado contrário).
+
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — fim_semana.py (após operadores lógicos) ═══════════════════════════════════════════════════════
+
+💪
+
+Exercício — fim_semana.py
+
+Operador or combinando condições
+
+💪
+
+Desafio Individual
+
+Faça sozinho · fim_semana.py
+
+💡 O que fazer
+
+Crie `fim_semana.py`. Pergunte o dia da semana e diga se é dia de descanso:
+
+• SE o dia for "sabado" OU "domingo" → "🛋️ Dia de descanso!"
+• Senão → "💼 Dia de trabalho."
+
+Use `or` para combinar as duas condições numa só. Dica: aplique `.lower()` na entrada pra não ter problema com maiúsculas.
+
+🚨
+
+PARE! Tente sozinho primeiro. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+fim_semana.py Python
+
+```
+dia = input("Que dia é hoje? ").lower()
+
+if dia == "sabado" or dia == "domingo":
+    print("🛋️ Dia de descanso!")
+else:
+    print("💼 Dia de trabalho.")
+```
+
+Run · fim_semana.py
+
+Que dia é hoje?
+
+💡
+O `or` funciona como uma porta com duas chaves: qualquer uma que abrir já basta. Digitou "Domingo" ou "DOMINGO"? O `.lower()` transforma em "domingo" e a condição bate!
 
 ═══════════════════════════════════════════════════════ 7. QUIZ DE AQUECIMENTO V/F (movido para cá) ═══════════════════════════════════════════════════════
 
@@ -684,6 +831,57 @@ Os dois pontinhos no fim. Sempre.
 
 📖
 Hábito de ouro: quando der erro de sintaxe num `if`, a primeira coisa que você confere é se tem o `:` e se a próxima linha está indentada (4 espaços).
+
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — adivinhar_numero.py (após BugZilla) ═══════════════════════════════════════════════════════
+
+💪
+
+Exercício — adivinhar_numero.py
+
+== e != juntos, e cuidado com o = de atribuição!
+
+💪
+
+Desafio Individual
+
+Faça sozinho · adivinhar_numero.py
+
+💡 O que fazer
+
+Crie `adivinhar_numero.py`. O número secreto é 42. O programa lê o palpite do usuário e responde:
+
+• SE o palpite for igual a 42 (`==`) → "🎉 Acertou! Você é incrível."
+• SE o palpite for menor que 42 → "📉 Muito baixo. Tente mais alto!"
+• Senão (ou seja, maior que 42) → "📈 Muito alto. Tente mais baixo!"
+
+Atenção especial: use `==` pra comparar, não `=`. Lembra do BugZilla? 🐛
+
+🚨
+
+PARE! Tente sozinho primeiro. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+adivinhar_numero.py Python
+
+```
+secreto = 42
+palpite = int(input("Adivinhe o número (0 a 100): "))
+
+if palpite == secreto:
+    print("🎉 Acertou! Você é incrível.")
+elif palpite < secreto:
+    print("📉 Muito baixo. Tente mais alto!")
+else:
+    print("📈 Muito alto. Tente mais baixo!")
+```
+
+Run · adivinhar_numero.py
+
+Adivinhe o número (0 a 100):
+
+🚀
+Curiosidade: esse jogo de adivinhar número é um clássico de iniciantes em qualquer linguagem. No cap 04, quando você aprender `while`, vai fazer o usuário continuar tentando até acertar 🔁.
 
 ═══════════════════════════════════════════════════════ 12. DESAFIO CASA — descontos.py (com olhinho) ═══════════════════════════════════════════════════════
 
