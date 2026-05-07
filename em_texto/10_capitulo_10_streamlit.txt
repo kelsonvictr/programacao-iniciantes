@@ -1,0 +1,737 @@
+# Capitulo 10 - Streamlit
+(fonte: capitulos/10-streamlit/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+🎨 ✨ 🚀
+Capítulo 10 · Bootcamp programa AI · GRAND FINALE
+
+# Streamlit — Seu Python virou App!
+
+Você chegou no último capítulo. Hoje seu programa sai do terminal preto e ganha uma telinha bonita no navegador — sem HTML, sem CSS, sem JavaScript. 100% Python. Bora encerrar o bootcamp em grande estilo? 🎉
+
+🎨 Streamlit 💾 TinyDB 🐍 Python 🌐 Navegador 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. PONTE DO TINYDB PRO STREAMLIT ═══════════════════════════════════════════════════════
+
+10.1
+
+Da TinyDB pro Streamlit
+
+Você já salva dados. Agora vai mostrar pra alguém usar!
+
+🤔 O que tá faltando?
+
+No capítulo passado você aprendeu a guardar dados com o TinyDB — eles ficam salvos mesmo quando o programa fecha. Show. Mas tem um detalhe…
+
+Tudo isso ainda roda no terminal preto. Quem vai usar seu sistema? Sua mãe? Seu chefe? Um cliente? Eles abririam um terminal e digitariam comandos? Provavelmente não.
+
+E se a gente pudesse ter UMA TELINHA BONITA no navegador — com botões, campos, tabelas — sem precisar aprender HTML, CSS ou JavaScript? É exatamente o que o Streamlit faz, em poucas linhas. ✨
+
+#### ⬛ O que você já tem (Cap. 09)
+
+Sistema de cadastro no terminal, salvando no TinyDB.
+
+terminal
+
+$
+1) Cadastrar 2) Listar 3) Sair
+>
+Nome:
+✓ Cadastrado!
+
+vira ✨
+
+#### 🎨 O que você vai ter (HOJE!)
+
+Mesmo sistema, agora com interface bonita no navegador.
+
+localhost:8501
+
+# 🏪 Cadastro
+
+Nome:
+Cadastrar
+✅ Cadastrado!
+
+🚀
+Promessa do capítulo: em poucas linhas de Python, você vai criar seu primeiro app web. Sem mentira, sem mágica complicada — é só Python que vira tela.
+
+═══════════════════════════════════════════════════════ 2. O QUE É STREAMLIT ═══════════════════════════════════════════════════════
+
+10.2
+
+O que é Streamlit?
+
+Python vira página web magicamente
+
+Streamlit = tradutor mágico 🧙‍♂️
+
+Pensa num tradutor mágico: você fala em Python, e ele entrega uma página web bonita do outro lado. Sem você precisar saber HTML, CSS ou JavaScript — só Python. É isso. Literalmente.
+
+Cada função do Streamlit (tipo `st.title`, `st.button`) aparece como um elemento visual no navegador. Você empilha funções, ele empilha elementos. Pronto — você fez um app.
+
+🐍 100% Python Sem HTML, sem CSS, sem JavaScript
+
+⚡ Poucas linhas Um app que cabe na tela
+
+🌐 Roda no navegador Compartilha o link, qualquer um usa
+
+🔄 Auto-reload Salvou o arquivo? Página atualiza sozinha
+
+💡
+O Streamlit foi criado em 2018 exatamente pra resolver o problema de "eu sei Python mas não quero aprender front-end pra mostrar meu projeto". Hoje é usado por cientistas de dados, devs e até em empresas grandes (Netflix, Uber, Airbnb…). E você vai usar em 5 minutos.
+
+═══════════════════════════════════════════════════════ 3. INSTALAÇÃO E COMO RODAR ═══════════════════════════════════════════════════════
+
+10.3
+
+Instalando e rodando
+
+Dois comandos. É só isso.
+
+Pra usar o Streamlit, precisa instalar uma vez (igual a gente fez com o `tinydb`). Depois é só rodar com `streamlit run`.
+
+terminal terminal
+
+```
+# 1) Instalar (você só faz isso UMA vez)
+pip install streamlit
+
+# 2) Rodar o app (sempre que quiser usar)
+streamlit run app.py
+```
+
+🔥
+Atenção mega importante: não é `python app.py`! É `streamlit run app.py`. Se você rodar com `python`, o Streamlit não abre o navegador e parece que nada aconteceu. (BugZilla adora esse erro 🐛)
+
+🌐
+Quando você roda `streamlit run app.py`:
+
+- O navegador abre sozinho em `localhost:8501`
+- Toda vez que você salvar o arquivo, a página atualiza automaticamente
+- Pra parar, é `Ctrl + C` no terminal
+
+═══════════════════════════════════════════════════════ 4. QUIZ DE AQUECIMENTO ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz de Aquecimento
+
+Antes de codar, dá uma marcada
+
+1️⃣ Streamlit é:
+
+A) Uma nova linguagem de programação B) Uma biblioteca Python pra fazer apps web C) Um banco de dados D) Um navegador novo
+
+2️⃣ Pra rodar um app Streamlit, o comando é:
+
+A) `python app.py` B) `run streamlit app.py` C) `streamlit run app.py` D) `npm start`
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — COMPONENTES ═══════════════════════════════════════════════════════
+🧩 Componentes do Streamlit
+
+## Cada função vira um pedaço de tela
+
+Vamos passar pelos componentes principais. Cada um a gente vê o código + uma simulação de como fica no navegador. Olha que mágica!
+
+═══════════════════════════════════════════════════════ 5. TEXTO — title, header, write ═══════════════════════════════════════════════════════
+
+10.4
+
+Textos na tela
+
+st.title · st.header · st.write
+
+🎯
+
+Bora Codar! — app_texto.py
+
+Vamos fazer juntos · seu primeiro app
+
+Cria um arquivo `app_texto.py` e digita o código abaixo. Depois roda com `streamlit run app_texto.py` e olha o navegador. 🎉
+
+app_texto.py Python
+
+```
+import streamlit as st
+
+st.title("🏪 Meu Primeiro App!")
+st.header("Sobre mim")
+st.write("Olá, mundo! Agora com interface gráfica! 🎨")
+```
+
+↓ no navegador, vai aparecer assim ↓
+
+localhost:8501
+
+# 🏪 Meu Primeiro App!
+
+## Sobre mim
+
+Olá, mundo! Agora com interface gráfica! 🎨
+
+📝
+3 jeitos de mostrar texto: `st.title()` = título grande, `st.header()` = subtítulo, `st.write()` = texto normal (igual `print`, mas bonito).
+
+═══════════════════════════════════════════════════════ 6. INPUTS ═══════════════════════════════════════════════════════
+
+10.5
+
+Campos de entrada
+
+st.text_input · st.number_input
+
+🎯
+
+Bora Codar! — app_input.py
+
+Pegando dados do usuário com cara de site
+
+🔗 Lembra do `input()`?
+
+O `st.text_input()` é a mesma ideia do `input()` que você já usou — só que aparece como uma caixinha bonita no navegador. E o `st.number_input()` já cuida da conversão pra número (você não precisa de `int()`).
+
+app_input.py Python
+
+```
+import streamlit as st
+
+st.title("📋 Cadastro")
+
+nome  = st.text_input("Qual seu nome?")
+idade = st.number_input("Sua idade:", min_value=0)
+
+st.write(f"Olá {nome}, você tem {int(idade)} anos!")
+```
+
+↓ olha como fica no navegador ↓
+
+localhost:8501
+
+# 📋 Cadastro
+
+Qual seu nome?
+
+Sua idade:
+
+Olá Kelson, você tem 33 anos!
+
+⚡
+Reatividade automática: toda vez que o usuário digita, o app recalcula tudo e a mensagem atualiza sozinha. Sem precisar de botão. Mágico, né? 🪄
+
+═══════════════════════════════════════════════════════ 7. BOTÕES ═══════════════════════════════════════════════════════
+
+10.6
+
+Botões
+
+st.button — ação com um clique
+
+🎯
+
+Bora Codar! — app_botao.py
+
+É o if que você já conhece, com roupa nova
+
+É só um if disfarçado!
+
+O `st.button("Clique")` retorna `True` quando o usuário clica e `False` quando não. É o mesmo `if` que você já conhece — só que a "condição" agora é um botão visual.
+
+app_botao.py Python
+
+```
+import streamlit as st
+
+st.title("Botão Mágico")
+
+if st.button("Clique aqui!"):
+    st.write("Você clicou! 🎉")
+```
+
+↓ no navegador ↓
+
+localhost:8501
+
+# Botão Mágico
+Clique aqui!
+(depois do clique, aparece: "Você clicou! 🎉")
+
+═══════════════════════════════════════════════════════ 8. MENSAGENS COLORIDAS ═══════════════════════════════════════════════════════
+
+10.7
+
+Mensagens coloridas
+
+st.success · st.error · st.info · st.warning
+
+Em vez de só usar `st.write`, você pode dar cor e ênfase às mensagens — feedback visual instantâneo:
+
+app_mensagens.py Python
+
+```
+import streamlit as st
+
+st.success("✅ Deu certo!")
+st.error("❌ Algo deu errado!")
+st.info("ℹ️ Só uma informação.")
+st.warning("⚠️ Cuidado!")
+```
+
+localhost:8501
+
+✅ Deu certo!
+
+❌ Algo deu errado!
+
+ℹ️ Só uma informação.
+
+⚠️ Cuidado!
+
+🎨
+Cada uma tem uma cor padrão: verde (success), vermelho (error), azul (info), amarelo (warning). É `print` com superpoderes — o usuário entende o que aconteceu só pela cor.
+
+═══════════════════════════════════════════════════════ 9. SELECTBOX e CHECKBOX ═══════════════════════════════════════════════════════
+
+10.8
+
+Selectbox, checkbox e slider
+
+Escolhas visuais — adeus menu de números
+
+💡 Lembra do menu com `if/elif`?
+
+No terminal a gente fazia menu numérico: "1) Cadastrar 2) Listar 3) Sair" e o usuário digitava o número. Com Streamlit, isso vira um dropdown clicável. Bem mais bonito!
+
+app_select.py Python
+
+```
+import streamlit as st
+
+fruta = st.selectbox("Escolha uma fruta:", ["Maçã", "Banana", "Uva"])
+gosta = st.checkbox("Gosto muito!")
+nota  = st.slider("De 0 a 10, quanto?", 0, 10, 5)
+
+st.write(f"Fruta: {fruta}")
+st.write(f"Gosta? {gosta}")
+st.write(f"Nota: {nota}")
+```
+
+localhost:8501
+
+Escolha uma fruta:
+MaçãBananaUva Gosto muito!
+De 0 a 10, quanto?
+
+Fruta: Maçã
+
+Gosta? True
+
+Nota: 8
+
+═══════════════════════════════════════════════════════ 10. TABELA E MÉTRICAS ═══════════════════════════════════════════════════════
+
+10.9
+
+Tabelas e métricas
+
+st.table · st.dataframe · st.metric
+
+🎯
+
+Bora Codar! — app_tabela.py
+
+Lista de dicionários vira tabela bonita
+
+Lembra do for + print que a gente fazia pra listar uma lista de dicionários? Com Streamlit é uma linha:
+
+app_tabela.py Python
+
+```
+import streamlit as st
+
+st.title("👥 Minha Turma")
+
+turma = [
+    {"nome": "Ana",    "idade": 22, "curso": "Python"},
+    {"nome": "João",   "idade": 25, "curso": "Java"},
+    {"nome": "Maria",  "idade": 20, "curso": "JS"},
+]
+st.table(turma)
+st.metric("Total de alunos", len(turma))
+```
+
+localhost:8501
+
+# 👥 Minha Turma
+
+nome | idade | curso
+
+Ana | 22 | Python
+João | 25 | Java
+Maria | 20 | JS
+
+Total de alunos
+
+3
+
+📊
+`st.metric` mostra um número em destaque — perfeito pra dashboards (faturamento, total de vendas, etc). E `st.dataframe` é parecido com `st.table`, mas permite ordenação e filtro direto pelo usuário.
+
+═══════════════════════════════════════════════════════ 11. LAYOUT — TABS, COLUMNS, SIDEBAR ═══════════════════════════════════════════════════════
+
+10.10
+
+Layout
+
+st.tabs · st.columns · st.sidebar
+
+🎯
+
+Bora Codar! — app_layout.py
+
+Organizando o app em abas e colunas
+
+Quando o app cresce, você precisa organizar. As ferramentas:
+
+- `st.tabs([...])` — divide em abas clicáveis (igual abas do navegador)
+- `st.columns(N)` — divide a tela em N colunas lado a lado
+- `st.sidebar` — gera uma barra lateral (menu, filtros, etc)
+
+app_layout.py Python
+
+```
+import streamlit as st
+
+st.title("Dashboard de Vendas")
+
+aba1, aba2 = st.tabs(["📦 Produtos", "📊 Vendas"])
+
+with aba1:
+    st.write("Conteúdo dos produtos…")
+
+with aba2:
+    col1, col2 = st.columns(2)
+    col1.metric("Vendas", 42)
+    col2.metric("Faturamento", "R$ 1.250")
+```
+
+localhost:8501
+
+# Dashboard de Vendas
+
+📦 Produtos
+
+📊 Vendas
+
+Vendas
+
+42
+
+Faturamento
+
+R$ 1.250
+
+🗂️
+O bloco `with aba1:` diz: "tudo o que estiver indentado aqui dentro vai pra aba 1". Mesmo padrão do `with` que você viu pra abrir arquivos no Cap. 08! 😉
+
+═══════════════════════════════════════════════════════ 12. TERMINAL → STREAMLIT (DE/PARA) ═══════════════════════════════════════════════════════
+
+10.11
+
+De/Para — Terminal → Streamlit
+
+Tudo que você já sabe, com roupa nova
+
+Streamlit não é uma linguagem nova. É o mesmo Python que você já conhece, com funções extras que geram interface. Olha o de/para:
+
+No terminal você fazia… | No Streamlit é… | O que faz
+
+`print("Olá!")` | `st.write("Olá!")` | Mostra texto
+`print("=== TÍTULO ===")` | `st.title("TÍTULO")` | Título grande
+`nome = input("Nome: ")` | `nome = st.text_input("Nome:")` | Pega texto
+`idade = int(input("Idade: "))` | `idade = st.number_input("Idade:")` | Pega número
+`if input("ok? ") == "s":` | `if st.button("OK"):` | Decisão por clique
+`print("✅ ok")` | `st.success("✅ ok")` | Mensagem verde
+`for x in lista: print(x)` | `st.table(lista)` | Tabela formatada
+menu numérico com `if/elif` | `st.selectbox("...", [...])` | Dropdown
+"separe em seções no código" | `st.tabs([...])` | Abas visuais
+
+Sabe usar print, input e if? Sabe Streamlit!
+
+Sério. Tudo que você aprendeu nos 9 capítulos anteriores continua valendo. O Streamlit só troca a "roupa" da saída e da entrada — a lógica é a mesma de sempre. 🐍
+
+═══════════════════════════════════════════════════════ 13. BUGZILLA ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu (de novo!)
+
+Os 3 erros clássicos de Streamlit
+
+🐛
+
+BugZilla apareceu pela última vez!
+
+Esses 3 erros pegam TODO MUNDO no início. Aprende a reconhecer
+
+Tá quase no fim do bootcamp, mas o BugZilla ainda dá uma última aparecida 😅. Bora ver os erros mais clássicos com Streamlit — pra você não cair neles:
+
+😬
+1. Rodar com `python` em vez de `streamlit run`
+`python app.py` ❌  → não abre nada, parece que travou.
+`streamlit run app.py` ✅  → jeito certo, abre o navegador.
+
+😬
+2. Esquecer de chamar a função (faltou os parênteses!)
+`st.title` ❌  → não mostra nada, é só uma referência.
+`st.title("Meu App")` ✅  → chama de verdade.
+
+😬
+3. Vários inputs com o mesmo nome ou sem `key` único
+Quando você tem dois `st.text_input("Nome")` em abas diferentes, o Streamlit reclama. Solução: dá um `key` diferente pra cada um — tipo `st.text_input("Nome", key="cad_nome")`.
+
+📖
+Quando der erro: o Streamlit mostra a mensagem direto no navegador, numa caixa vermelha bonitinha. Lê com calma — geralmente diz a linha exata e o que tá faltando.
+
+═══════════════════════════════════════════════════════ 14. QUIZ FINAL ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz Final do Capítulo
+
+Última verificação antes do desafio
+
+3️⃣ Pra mostrar uma lista de dicionários como tabela no Streamlit:
+
+A) `for x in lista: print(x)` B) `st.table(lista)` C) `print(lista)` D) Não dá, precisa de HTML
+
+4️⃣ Sobre `st.button("Salvar")`:
+
+A) Só funciona com texto B) Retorna True quando clicado, False quando não — dá pra usar dentro de if C) Precisa de JavaScript pra funcionar D) Sempre retorna None
+
+5️⃣ Streamlit + TinyDB juntos servem pra…
+
+A) Fazer só interface, sem dados B) Fazer só banco, sem interface C) Construir um sistema completo: interface bonita + dados que persistem D) Não dá pra usar os dois juntos
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — DESAFIO FINAL ═══════════════════════════════════════════════════════
+🏆 Desafio FINAL · Projeto Integrador
+
+## Sistema de Loja completo
+
+Streamlit pra interface + TinyDB pra dados. É O CLIMAX DO BOOTCAPM! Você junta TUDO que aprendeu num só projeto.
+
+═══════════════════════════════════════════════════════ 15. DESAFIO FINAL (SOLO COM OLHINHO) ═══════════════════════════════════════════════════════
+
+10.12
+
+Desafio Individual — app_loja.py
+
+O projeto que coroa o bootcamp 🏆
+
+💪
+
+Desafio Individual — Sistema de Loja
+
+Faça sozinho · Streamlit + TinyDB · O FINALE!
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `app_loja.py`. O sistema vai ter 4 abas:
+
+- 📦 Estoque — listar todos os produtos com `st.table()`
+- ➕ Cadastrar — formulário com `text_input` + `number_input` + `button` que faz `estoque.insert(...)`
+- 🛒 Vender — `selectbox` com produtos, calcula total, faz `vendas.insert(...)` e `estoque.update(...)`
+- 📊 Vendas — tabela do histórico + `st.metric()` com faturamento total
+
+Use duas tabelas do TinyDB: `estoque` e `vendas` (igual capítulo 09 — `db.table("nome")`). Não esqueça de dar key únicos pra cada input pra não confundir entre as abas. Validação básica: mostrar `st.error()` se o nome estiver vazio.
+
+Bônus mago: chama `st.balloons()` quando registrar uma venda — solta balões na tela. 🎈
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse é O DESAFIO. É grande, é o FINALE, mas você passou por TUDO que precisa. Tabelas TinyDB? Cap 09. Listas e dicts? Caps 04 e 07. Funções, condições, loops? Caps 02-05. Você consegue. Vai com calma e quebra em pedaços.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+app_loja.py Python
+
+```
+from tinydb import TinyDB, where
+import streamlit as st
+
+db = TinyDB("loja.json")
+estoque = db.table("estoque")
+vendas  = db.table("vendas")
+
+st.set_page_config(page_title="Sistema Loja", page_icon="🏪")
+st.title("🏪 Sistema de Loja")
+
+aba_est, aba_cad, aba_ven, aba_hist = st.tabs(
+    ["📦 Estoque", "➕ Cadastrar", "🛒 Vender", "📊 Vendas"]
+)
+
+# ════ ESTOQUE ════
+with aba_est:
+    st.header("Estoque atual")
+    produtos = estoque.all()
+    if len(produtos) == 0:
+        st.info("Estoque vazio. Cadastre um produto na aba ao lado!")
+    else:
+        st.table(produtos)
+        st.metric("Total de produtos", len(produtos))
+
+# ════ CADASTRAR ════
+with aba_cad:
+    st.header("Cadastrar produto")
+    nome  = st.text_input("Nome", key="cad_nome")
+    preco = st.number_input("Preço (R$)", min_value=0.0, step=0.5, key="cad_preco")
+    qtd   = st.number_input("Quantidade", min_value=0, step=1, key="cad_qtd")
+
+    if st.button("Cadastrar", type="primary"):
+        if nome.strip() == "":
+            st.error("Digite o nome!")
+        else:
+            estoque.insert({
+                "nome": nome, "preco": float(preco), "qtd": int(qtd)
+            })
+            st.success(f"✅ '{nome}' cadastrado!")
+            st.rerun()
+
+# ════ VENDER ════
+with aba_ven:
+    st.header("Registrar venda")
+    produtos = estoque.all()
+    if len(produtos) == 0:
+        st.info("Sem produtos pra vender.")
+    else:
+        nomes = [p["nome"] for p in produtos if p["qtd"] > 0]
+        if len(nomes) == 0:
+            st.warning("Tudo zerado!")
+        else:
+            escolhido = st.selectbox("Produto", nomes, key="v_prod")
+            qtd_v     = st.number_input("Qtd", min_value=1, step=1, key="v_qtd")
+            cliente   = st.text_input("Cliente", key="v_cli")
+
+            produto = estoque.get(where("nome") == escolhido)
+            total   = produto["preco"] * qtd_v
+            st.info(f"💰 Total: R$ {total:.2f}")
+
+            if st.button("Confirmar venda", type="primary"):
+                vendas.insert({
+                    "produto": escolhido, "qtd": int(qtd_v),
+                    "total": total, "cliente": cliente
+                })
+                estoque.update(
+                    {"qtd": produto["qtd"] - int(qtd_v)},
+                    where("nome") == escolhido
+                )
+                st.success("✅ Venda registrada!")
+                st.balloons()
+                st.rerun()
+
+# ════ HISTÓRICO ════
+with aba_hist:
+    st.header("Histórico de vendas")
+    lista = vendas.all()
+    if len(lista) == 0:
+        st.info("Sem vendas ainda.")
+    else:
+        st.table(lista)
+        soma = sum(v["total"] for v in lista)
+        col1, col2 = st.columns(2)
+        col1.metric("Total de vendas", len(lista))
+        col2.metric("Faturamento", f"R$ {soma:.2f}")
+```
+
+↓ olha o que você acabou de construir ↓
+
+localhost:8501
+
+# 🏪 Sistema de Loja
+
+📦 Estoque
+
+➕ Cadastrar
+
+🛒 Vender
+
+📊 Vendas
+
+## Registrar venda
+
+Produto
+CadernoCaneta
+Qtd
+
+Cliente
+
+💰 Total: R$ 17.50
+Confirmar venda
+
+🚀
+Pra rodar: `pip install streamlit tinydb` (uma vez só) e depois `streamlit run app_loja.py`. Cadastra produtos, vende, fecha o terminal, abre de novo — os dados continuam lá! É TinyDB salvando no `loja.json`. 🎉
+
+═══════════════════════════════════════════════════════ 16. RESUMO DO BOOTCAMP INTEIRO ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Bootcamp INTEIRO
+
+Olha tudo que você atravessou 🏔️
+
+Para de tudo um segundo. Olha o que você aprendeu nesses 10 capítulos:
+
+✅ 01 Boas-vindas e Fundamentos `print` · `input` · primeiras linhas em Python
+
+✅ 02 Variáveis e Tipos caixinhas · str/int/float/bool · f-strings
+
+✅ 03 Condicionais `if` · `elif` · `else` · operadores
+
+✅ 04 Loops e Listas `while` · `for` · `range` · listas
+
+✅ 05 Funções `def` · parâmetros · retorno · reutilização
+
+✅ 06 5 Desafios Integradores Votação, Lanchonete, Cinema, Arcade, Academia
+
+✅ 07 Dicionários chave:valor · lista de dicts · sistema de cadastro
+
+✅ 08 JSON `json.dump` · `json.load` · primeiro "save"
+
+✅ 09 TinyDB CRUD · insert · search · update · remove · tabelas
+
+✅ 10 Streamlit interface web · formulários · tabelas · sistema completo
+
+### 🎯 Você sabe agora:
+
+Pegar uma ideia → quebrar em passos → traduzir pra Python → guardar dados num arquivo → mostrar tudo numa interface bonita que qualquer um consegue usar.
+
+Isso é programação completa. Não é "só fundamentos". É um ciclo inteiro de software.
+
+═══════════════════════════════════════════════════════ 17. ENCERRAMENTO ÉPICO — FIM DO BOOTCAMP! ═══════════════════════════════════════════════════════
+
+🎉
+
+## FIM DO BOOTCAMP!
+
+Você começou com um "Olá, mundo!" e terminou com um sistema completo com banco de dados e interface gráfica. Você conseguiu.
+
+"Você é um(a) dev iniciante de verdade agora." 🐍✨
+
+🐍 Python 📦 Lógica 🔁 Loops 🧩 Funções 📚 Dicionários 💾 JSON 🗄️ TinyDB 🎨 Streamlit
+
+🏠 Voltar ao hub do bootcamp ← Cap 09 · TinyDB
+
+### 💜 Um agradecimento
+
+Obrigado por chegar até aqui. Iniciar não é fácil — terminar também não. Você fez os dois. Continua. Refaz os exercícios, quebra eles, conserta. Cria seus projetos a partir desses. O bootcamp acaba aqui — sua jornada como dev tá só começando. 🚀
+
+— prof. Kelson Almeida 🐍
+
+🎉 Fim do bootcamp · Parabéns! 🎉
+
+Feito com 💜 por prof. Kelson Almeida · programa AI · João Pessoa, PB
+
+🏠 Hub do bootcamp · github.com/kelsonvictr

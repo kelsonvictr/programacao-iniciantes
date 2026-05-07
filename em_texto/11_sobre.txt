@@ -1,0 +1,237 @@
+# Sobre
+(fonte: sobre/index.html)
+
+═══════════════ HERO ═══════════════
+
+👨‍💻 ✨ 🐍
+Sobre o professor
+
+# Quem sou eu? — prof Kelson 🙂
+
+Antes da gente entrar no código, vamos nos conhecer. Aqui você vê a minha trajetória, as tecnologias que toquei nessa carreira, e as casas que já tiveram a paciência de me aturar.
+
+← Voltar ao bootcamp in/kelson-almeida ↗ github.com/kelsonvictr ↗
+
+═══════════════════════════════════════════════════════ QUEM SOU EU — bio + avatar + meme ═══════════════════════════════════════════════════════
+
+🙋‍♂️
+
+Quem sou eu?
+
+Resumo executivo (com toques de humor)
+
+AVATAR ILUSTRADO EM DESTAQUE — clicável pra ampliar
+
+K
+
+Prof. Kelson Almeida
+
+🔍 clique na imagem pra ampliar
+
+"Explicar é minha superpoder!" · Mix perfeito: 40% professor · 35% programador · 15% curioso · 10% cafédependente ☕
+
+BIO EM TEXTO
+Olá! Sou o Kelson Almeida — apaixonado por ensinar e por construir software que resolve problemas reais. Faz tempo que ando nessa estrada, e cada turma me ensina algo novo. Aqui vai um sumarinho:
+
+-
+"Profissional" de TI desde de … sempre? Comecei essa jornada como "Dev" de páginas HTML no Dreamweaver, Frontpage, Bloco de Notas e PHP 🦣
+
+-
+Mestre em Informática pela Universidade Federal da Paraíba (UFPB)
+
+-
+Bacharel em Sistemas de Informação também pela UFPB
+
+-
+Participei de Projetos de Pesquisa na University of New Brunswick 🇨🇦 — Canadá
+
+-
+Atualmente Desenvolvedor Sênior na NTT Data Europe & Latam alocado no Itaú 🏦
+
+-
+Professor Universitário na UNIESP 🎓 — leciono em Ciência da Computação e Sistemas para Internet, além de turmas de pós-graduação. Ensinar é onde código vira propósito.
+
+-
+Empresário na programa AI 🚀 — cursos presenciais de programação e IA em João Pessoa, pra quem quer sair do zero e entrar de cabeça nessa nova era.
+
+💡
+Programar não é talento — é prática. Eu mesmo errei (e ainda erro) um caminhão de coisas. O que mudou foi continuar tentando. Esse bootcamp é o que eu queria ter tido quando comecei.
+
+❤️
+No final do dia: código é sobre pessoas. E pessoas transformam o mundo. Aprender > Ensinar > Inspirar.
+
+═══════════════════════════════════════════════════════ LOCAIS ONDE JÁ ME ATURARAM ═══════════════════════════════════════════════════════
+
+🏢
+
+As gigantes que confiaram em mim 🏆
+
+Bancos, governos, big techs e universidades — Brasil & Canadá
+
+Cada logo aqui foi um capítulo da minha carreira — código em produção, decisões de arquitetura, plantões, deploys históricos. Passa o mouse pra ver cada uma brilhar:
+═══════ STATS STRIP — social proof ═══════
+
+0+
+
+anos de teclado
+
+0+
+
+empresas, gov & universidades
+
+🇧🇷 🇨🇦
+
+Brasil & Canadá
+
+═══════ MARQUEE INFINITO — faixa de honra ═══════
+
+Set 1
+
+Set 2 (duplicado pra loop seamless)
+
+═══════ Mercado financeiro & consultorias ═══════
+
+🏦 Mercado financeiro & consultorias
+
+Atual
+Itaú
+
+Atual
+NTT Data
+
+DB1 Group
+
+Stefanini
+
+Creditas
+
+═══════ Indústria & serviços ═══════
+
+🏭 Indústria & serviços
+
+ABInBev
+
+Motorola
+
+BRK Ambiental
+
+Ducz
+
+snet
+
+Linx
+
+═══════ Governo & setor público ═══════
+
+🏛️ Governo & setor público
+
+Governo de SP
+
+STI · UFPB
+
+Prodesp
+
+═══════ Educação & pesquisa ═══════
+
+🎓 Educação & pesquisa
+
+UFPB
+
+Lavid · UFPB
+
+IF Paraíba
+
+UNIESP
+
+UNB · CIC 🇨🇦
+
+═══════ Marca pessoal ═══════
+
+✨ Marca pessoal
+
+programa AI
+
+profkelson.dev
+
+ClassContent
+
+😄
+Cada uma delas me ensinou algo. Itaú me ensinou escala. NTT a colaborar entre fusos. UFPB me deu fundamento. UNB Canadá me tirou do interior. Todo lugar é uma aula.
+
+═══════════════════════════════════════════════════════ TECNOLOGIAS QUE TRABALHO/TRABALHEI — parede de logos ═══════════════════════════════════════════════════════
+
+🛠️
+
+Tecnologias que trabalho / trabalhei
+
+A mochila acumulada em ~20 anos de teclado
+
+Esse bootcamp é em Python, mas a estrada passou por muito mais lugares. Cada uma dessas ferramentas resolveu um tipo de problema diferente — passa o mouse pra ver o nome:
+
+Python
+
+Spring
+
+Java
+
+Kotlin
+
+React
+
+Angular
+
+Node.js
+
+JavaScript
+
+HTML5
+
+CSS3
+
+PHP
+
+Flask
+
+JSF
+
+JSF
+
+μ
+
+Micronaut
+
+PostgreSQL
+
+MongoDB
+
+Docker
+
+Kubernetes
+
+Terraform
+
+AWS
+
+Azure
+
+Linux
+
+Git
+
+Android
+
+🎯
+Por que mostrar isso? Porque linguagens não são religião. Aprende uma bem (no nosso caso, Python), e as outras viram só "sotaques diferentes" do mesmo idioma.
+
+═══════════════════════════════════════════════════════ FRASE DE IMPACTO + CTA ═══════════════════════════════════════════════════════
+
+"Programar é o ato de ensinar o computador
+a resolver os problemas que VOCÊ escolher."
+
+Vamos juntos? Esse bootcamp é a porta de entrada — e eu vou estar do seu lado em cada capítulo.
+🐍 Começar o Capítulo 01 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr
+LIGHTBOX — clique na imagem do prof pra ampliar
+✕

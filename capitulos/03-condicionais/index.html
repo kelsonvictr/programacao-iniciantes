@@ -9,7 +9,13 @@
 <link rel="stylesheet" href="../../shared/components.css">
 <link rel="stylesheet" href="../../shared/animations.css">
 <style>
-/* extras locais ao capítulo 03 */
+/* ── desativa ligaduras no JetBrains Mono para operadores ficarem exatos ── */
+.code-block pre, pre, .op-symbol, code {
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
+/* hero gradient */
 .hero h1.grad-cond{
   background:linear-gradient(135deg,var(--accent4),var(--accent3));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -109,6 +115,206 @@
 }
 @media(max-width:640px){.flow-grid-3{grid-template-columns:1fr}}
 .flow-grid-3 .flow-box{min-width:auto}
+
+/* ══════════════════════════════════════════
+   LIVE PLAYGROUND
+   ══════════════════════════════════════════ */
+.live-playground {
+  background: linear-gradient(135deg, #0a0a1e 0%, #0f0f26 100%);
+  border: 1.5px solid rgba(69,183,209,0.28);
+  border-radius: 22px;
+  padding: 28px 24px 22px;
+  margin: 22px 0;
+  position: relative;
+  overflow: hidden;
+}
+.live-playground::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(69,183,209,0.75), transparent);
+  pointer-events: none;
+}
+.live-playground::after {
+  content: '';
+  position: absolute;
+  top: -90px; right: -90px;
+  width: 240px; height: 240px;
+  background: radial-gradient(circle, rgba(108,99,255,0.13) 0%, transparent 65%);
+  pointer-events: none;
+}
+.lp-orb2 {
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(69,183,209,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.lp-live-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.68rem; font-weight: 900; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--accent3);
+  margin-bottom: 20px;
+}
+.lp-live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #45f08f;
+  box-shadow: 0 0 10px #45f08f, 0 0 20px rgba(69,240,143,0.4);
+  animation: lp-pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes lp-pulse {
+  0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 10px #45f08f, 0 0 20px rgba(69,240,143,0.4)}
+  50%{opacity:0.35;transform:scale(0.65);box-shadow:0 0 4px #45f08f}
+}
+.lp-title {
+  font-weight: 800; font-size: 0.95rem; color: var(--text);
+  letter-spacing: 0.5px;
+}
+.lp-valor-row {
+  display: flex; align-items: center; gap: 18px;
+  margin: 4px 0 16px; flex-wrap: wrap;
+}
+.lp-var-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem; color: var(--text-dim);
+  white-space: nowrap;
+}
+.lp-valor-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.8rem; font-weight: 900; color: var(--accent3);
+  min-width: 72px; text-align: center; line-height: 1;
+  text-shadow: 0 0 32px rgba(69,183,209,0.55), 0 0 60px rgba(69,183,209,0.2);
+  transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.lp-slider-wrap { flex: 1; min-width: 200px; }
+.lp-slider-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.68rem; color: var(--text-dim);
+  margin-top: 5px; font-family: 'JetBrains Mono', monospace;
+}
+.lp-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 5px;
+  border-radius: 3px; outline: none; cursor: pointer;
+  background: linear-gradient(90deg, var(--accent3) var(--pct,27.5%), rgba(255,255,255,0.08) var(--pct,27.5%));
+  transition: background 0.1s;
+}
+.lp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 26px; height: 26px;
+  border-radius: 50%; background: var(--accent3);
+  box-shadow: 0 0 14px rgba(69,183,209,0.75), 0 0 28px rgba(69,183,209,0.35);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+  border: 2px solid rgba(255,255,255,0.25);
+}
+.lp-slider::-webkit-slider-thumb:hover,
+.lp-slider:active::-webkit-slider-thumb {
+  transform: scale(1.3);
+  box-shadow: 0 0 22px rgba(69,183,209,0.9), 0 0 44px rgba(69,183,209,0.4);
+}
+.lp-condition-row {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;
+  margin: 12px 0; flex-wrap: wrap;
+}
+.lp-cond-text { color: var(--text-dim); }
+.lp-arrow { color: var(--text-dim); font-size: 1rem; }
+.lp-cond-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 18px; border-radius: 50px; font-weight: 900; font-size: 0.90rem;
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
+}
+.lp-cond-badge.badge-true {
+  background: rgba(69,240,143,0.14); color: #45f08f;
+  border: 1.5px solid rgba(69,240,143,0.6);
+  box-shadow: 0 0 20px rgba(69,240,143,0.22), inset 0 0 12px rgba(69,240,143,0.05);
+}
+.lp-cond-badge.badge-false {
+  background: rgba(255,107,107,0.14); color: #ff6b6b;
+  border: 1.5px solid rgba(255,107,107,0.6);
+  box-shadow: 0 0 20px rgba(255,107,107,0.22), inset 0 0 12px rgba(255,107,107,0.05);
+}
+.lp-divider {
+  height: 1px; background: rgba(255,255,255,0.05);
+  margin: 16px 0;
+}
+.lp-paths {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px;
+}
+@media(max-width:520px){ .lp-paths { grid-template-columns: 1fr; } }
+.lp-path {
+  padding: 18px 16px; border-radius: 16px; text-align: center;
+  border: 1.5px solid transparent;
+  transition: all 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  opacity: 0.22; transform: scale(0.91);
+  position: relative; overflow: hidden;
+}
+.lp-path::before {
+  content: ''; position: absolute;
+  inset: 0; border-radius: 14px; opacity: 0;
+  transition: opacity 0.4s;
+}
+.lp-path.lp-active { opacity: 1; transform: scale(1.03); }
+.lp-path.lp-active::before { opacity: 1; }
+.lp-path.lp-if-path {
+  background: rgba(69,240,143,0.04);
+  border-color: rgba(69,240,143,0.12);
+}
+.lp-path.lp-if-path::before {
+  background: radial-gradient(circle at 50% 0%, rgba(69,240,143,0.08) 0%, transparent 70%);
+}
+.lp-path.lp-if-path.lp-active {
+  background: rgba(69,240,143,0.09);
+  border-color: rgba(69,240,143,0.6);
+  box-shadow: 0 0 32px rgba(69,240,143,0.18), 0 4px 24px rgba(0,0,0,0.3);
+}
+.lp-path.lp-else-path {
+  background: rgba(255,107,107,0.04);
+  border-color: rgba(255,107,107,0.12);
+}
+.lp-path.lp-else-path::before {
+  background: radial-gradient(circle at 50% 0%, rgba(255,107,107,0.08) 0%, transparent 70%);
+}
+.lp-path.lp-else-path.lp-active {
+  background: rgba(255,107,107,0.09);
+  border-color: rgba(255,107,107,0.6);
+  box-shadow: 0 0 32px rgba(255,107,107,0.18), 0 4px 24px rgba(0,0,0,0.3);
+}
+.lp-path-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
+.lp-path-kw {
+  font-family:'JetBrains Mono',monospace; font-size:0.72rem;
+  font-weight:900; text-transform:uppercase; letter-spacing:2px; margin-bottom:6px;
+}
+.lp-path-kw.kw-if { color:#45f08f; }
+.lp-path-kw.kw-else { color:#ff6b6b; }
+.lp-path-out {
+  font-family:'JetBrains Mono',monospace; font-size:0.79rem;
+  color:var(--text-dim); margin-top:4px; line-height:1.5;
+}
+.lp-terminal-out {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.88rem;
+  padding: 11px 18px; background: rgba(0,0,0,0.4); border-radius: 10px;
+  margin-top: 16px; min-height: 38px;
+  border-left: 3px solid #45f08f;
+  transition: border-color 0.4s ease, color 0.3s ease;
+  color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.lp-terminal-out::before {
+  content: '▶'; font-size: 0.65rem; opacity: 0.5; flex-shrink: 0;
+}
+
+/* ── playground temperatura (febre) ── */
+.lp-temp-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.6rem; font-weight: 900;
+  min-width: 80px; text-align: center; line-height: 1;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.lp-temp-display.temp-normal { color: #45f08f; text-shadow: 0 0 28px rgba(69,240,143,0.5); }
+.lp-temp-display.temp-febre  { color: #ff6b6b; text-shadow: 0 0 28px rgba(255,107,107,0.5); }
 </style>
 </head>
 <body>
@@ -132,14 +338,15 @@
   <div class="sidebar-group">
     <div class="sidebar-group-title">🎯 Conteúdo</div>
     <a class="sidebar-link" onclick="goTo('poder-decisoes')"><span class="dot" style="background:var(--accent4)"></span>O poder das decisões</a>
-    <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz V/F</a>
     <a class="sidebar-link" onclick="goTo('comando-if')"><span class="dot" style="background:var(--accent4)"></span>O comando if</a>
+    <a class="sidebar-link" onclick="goTo('exer-febre')"><span class="dot" style="background:var(--accent6)"></span>febre.py 👀</a>
     <a class="sidebar-link" onclick="goTo('comando-else')"><span class="dot" style="background:var(--accent2)"></span>else — senão</a>
-    <a class="sidebar-link" onclick="goTo('exer-pode-votar')"><span class="dot" style="background:var(--accent6)"></span>Pode votar?</a>
+    <a class="sidebar-link" onclick="goTo('exer-pode-votar')"><span class="dot" style="background:var(--accent6)"></span>pode_votar.py 👀</a>
     <a class="sidebar-link" onclick="goTo('comando-elif')"><span class="dot" style="background:var(--accent3)"></span>elif — múltiplos caminhos</a>
     <a class="sidebar-link" onclick="goTo('exer-evento')"><span class="dot" style="background:var(--accent6)"></span>entrada_evento.py 👀</a>
     <a class="sidebar-link" onclick="goTo('operadores-comp')"><span class="dot" style="background:var(--accent5)"></span>Operadores de comparação</a>
     <a class="sidebar-link" onclick="goTo('operadores-logic')"><span class="dot" style="background:var(--accent6)"></span>Operadores lógicos</a>
+    <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz V/F</a>
     <a class="sidebar-link" onclick="goTo('exer-frete')"><span class="dot" style="background:var(--accent4)"></span>Entrega grátis</a>
     <a class="sidebar-link" onclick="goTo('restaurante')"><span class="dot" style="background:var(--accent5)"></span>Restaurante Inteligente 🍔</a>
     <a class="sidebar-link" onclick="goTo('bora-codar-30')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar 3.0</a>
@@ -163,7 +370,7 @@
   </p>
   <div class="hero-stack">
     <span class="stack-chip">🎯 if / else / elif</span>
-    <span class="stack-chip">⚖️ ==  !=  &gt;  &lt;</span>
+    <span class="stack-chip">⚖️ == != &gt; &lt;</span>
     <span class="stack-chip">🔗 and / or / not</span>
     <span class="stack-chip bug">🐛 BugZilla</span>
   </div>
@@ -223,60 +430,7 @@
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       2. QUIZ DE AQUECIMENTO V/F
-       ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="quiz-aquecimento">
-    <div class="step-header">
-      <div class="step-number sn-yellow">🧩</div>
-      <div>
-        <div class="step-title">Quiz de aquecimento — Verdadeiro ou Falso?</div>
-        <div class="step-sub">Marca a tua aposta antes de seguir</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="quiz">
-        <div class="quiz-q"><span class="q-emoji">1️⃣</span> <strong>Todo</strong> bloco <code>if</code> sempre é executado.</div>
-        <div class="quiz-options">
-          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
-          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
-        </div>
-        <div class="quiz-feedback" data-explain="o if só executa quando a condição é verdadeira. Senão, ele é pulado."></div>
-      </div>
-
-      <div class="quiz" style="margin-top:14px">
-        <div class="quiz-q"><span class="q-emoji">2️⃣</span> O <code>else</code> é <strong>opcional</strong>.</div>
-        <div class="quiz-options">
-          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
-          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
-        </div>
-        <div class="quiz-feedback" data-explain="você pode ter um if sozinho. O else só entra quando você quer um plano B."></div>
-      </div>
-
-      <div class="quiz" style="margin-top:14px">
-        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Posso ter <strong>vários</strong> <code>elif</code> em sequência.</div>
-        <div class="quiz-options">
-          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
-          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
-        </div>
-        <div class="quiz-feedback" data-explain="elif é literalmente 'else if' — pode encadear quantos quiser pra cobrir várias possibilidades."></div>
-      </div>
-
-      <div class="quiz" style="margin-top:14px">
-        <div class="quiz-q"><span class="q-emoji">4️⃣</span> Uso <code>if</code> para perguntar <strong>"quando?"</strong>.</div>
-        <div class="quiz-options">
-          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
-          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
-        </div>
-        <div class="quiz-feedback" data-explain="if pergunta 'SE' (uma condição é verdadeira agora), não 'quando' (que tem a ver com tempo/loop)."></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       3. O COMANDO IF
+       2. O COMANDO IF
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="comando-if">
     <div class="step-header">
@@ -319,15 +473,48 @@
     <span class="bi">print</span>(<span class="st">"Pode entrar! 🎉"</span>)</pre>
       </div>
 
-      <div class="terminal" data-typewriter>
-        <div class="terminal-header">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="title">Run · controle_acesso.py</span>
+      <!-- ══ LIVE PLAYGROUND 1 — só if ══ -->
+      <div class="live-playground" id="pg-if">
+        <div class="lp-orb2"></div>
+        <div class="lp-live-badge">
+          <span class="lp-live-dot"></span>
+          <span class="lp-title">Playground interativo — arraste para ver o if em ação</span>
         </div>
-        <div class="terminal-body">
-          <span class="typed" data-text="Pode entrar! 🎉"></span><span class="cursor"></span>
+
+        <div class="lp-valor-row">
+          <span class="lp-var-label">idade =</span>
+          <span class="lp-valor-display" id="pg-if-val">22</span>
+          <div class="lp-slider-wrap">
+            <input class="lp-slider" id="pg-if-slider" type="range" min="0" max="80" value="22"
+              oninput="lpIfUpdate(this.value)">
+            <div class="lp-slider-labels"><span>0</span><span>18</span><span>40</span><span>60</span><span>80</span></div>
+          </div>
         </div>
+
+        <div class="lp-condition-row">
+          <span class="lp-cond-text">if idade &gt;= 18:</span>
+          <span class="lp-arrow">→</span>
+          <span class="lp-cond-badge badge-true" id="pg-if-badge">22 &gt;= 18 → True ✓</span>
+        </div>
+
+        <div class="lp-divider"></div>
+
+        <div class="lp-paths">
+          <div class="lp-path lp-if-path lp-active" id="pg-if-path">
+            <span class="lp-path-icon">🎉</span>
+            <div class="lp-path-kw kw-if">bloco if executa</div>
+            <div class="lp-path-out">print("Pode entrar! 🎉")</div>
+          </div>
+          <div class="lp-path lp-else-path" id="pg-if-skip">
+            <span class="lp-path-icon">🤐</span>
+            <div class="lp-path-kw kw-else">if é pulado</div>
+            <div class="lp-path-out">(nada acontece)</div>
+          </div>
+        </div>
+
+        <div class="lp-terminal-out" id="pg-if-out">Pode entrar! 🎉</div>
       </div>
+      <!-- fim playground 1 -->
 
       <div class="warning">
         <span class="warning-icon">⚠️</span>
@@ -337,29 +524,96 @@
           Esse "andar pra dentro" é como o Python sabe o que pertence ao bloco do <code>if</code>.
         </div>
       </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       EXERCÍCIO OLHINHO — FEBRE.PY  (novo, antes do else)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exer-febre">
+    <div class="step-header">
+      <div class="step-number sn-purple">👀</div>
+      <div>
+        <div class="step-title">Exercício — febre.py</div>
+        <div class="step-sub">Primeiro if sozinho na prática</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · febre.py</div>
+        </div>
+      </div>
 
       <div class="concept">
-        <div class="concept-title">🛣️ E quando a idade é menor?</div>
+        <div class="concept-title">💡 O que fazer</div>
         <p>
-          Se mudarmos pra <code>idade = 15</code>, o <code>if</code> simplesmente é
-          <strong>pulado</strong>. Nada aparece na tela. Bora visualizar isso:
+          Crie um arquivo <code>febre.py</code>. O programa deve:
+        </p>
+        <p style="margin-left:18px">
+          <strong>1.</strong> Perguntar a <strong>temperatura</strong> do usuário com <code>float(input(...))</code>.<br>
+          <strong>2.</strong> SE <code>temperatura &gt; 37.5</code> → imprimir <em>"🌡️ Febre detectada! Descanse."</em><br>
+          <strong>3.</strong> Senão → imprimir <em>"✅ Temperatura normal."</em>
+        </p>
+        <p>
+          Use <code>float()</code> pra aceitar valores como 36.8. Lembra que o <code>if</code> só executa
+          se a condição for <strong>True</strong>?
         </p>
       </div>
 
-      <div class="flow-container autoplay">
-        <div class="flow-box fb-input">
-          <div class="label">Entrada</div>
-          <div>idade = 15</div>
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Abra o PyCharm e tente.
+          Se der erro, leia a mensagem e tente de novo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
         </div>
-        <div class="flow-arrow"></div>
-        <div class="flow-box fb-process">
-          <div class="label">Pergunta</div>
-          <div>idade &gt;= 18 ?</div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
         </div>
-        <div class="flow-arrow"><span class="flow-label">não</span></div>
-        <div class="flow-box fb-false">
-          <div class="label">Resultado</div>
-          <div>(if é pulado) 🤐</div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">febre.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>temperatura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua temperatura: "</span>))
+
+<span class="kw">if</span> temperatura <span class="op">&gt;</span> <span class="num">37.5</span>:
+    <span class="bi">print</span>(<span class="st">"🌡️ Febre detectada! Descanse."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Temperatura normal."</span>)</pre>
+          </div>
+
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · febre.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Sua temperatura: </span><span class="typed" data-text="38.2"></span><br>
+              <span class="typed" data-text="🌡️ Febre detectada! Descanse."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">💡</span>
+            <div class="tip-content">
+              <strong>Percebeu o float()?</strong> Como temperatura pode ser 36.8 ou 38.2,
+              usamos <code>float()</code> em vez de <code>int()</code> — aceita os decimais!
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -368,7 +622,7 @@
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       4. ELSE — SENÃO
+       3. ELSE — SENÃO
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="comando-else">
     <div class="step-header">
@@ -400,11 +654,53 @@
     <span class="bi">print</span>(<span class="st">"Volte com 18 anos. ⛔"</span>)</pre>
       </div>
 
+      <!-- ══ LIVE PLAYGROUND 2 — if/else ══ -->
+      <div class="live-playground" id="pg-else">
+        <div class="lp-orb2"></div>
+        <div class="lp-live-badge">
+          <span class="lp-live-dot"></span>
+          <span class="lp-title">Playground — if / else ao vivo</span>
+        </div>
+
+        <div class="lp-valor-row">
+          <span class="lp-var-label">idade =</span>
+          <span class="lp-valor-display" id="pg-else-val">22</span>
+          <div class="lp-slider-wrap">
+            <input class="lp-slider" id="pg-else-slider" type="range" min="0" max="80" value="22"
+              oninput="lpElseUpdate(this.value)">
+            <div class="lp-slider-labels"><span>0</span><span>18</span><span>40</span><span>60</span><span>80</span></div>
+          </div>
+        </div>
+
+        <div class="lp-condition-row">
+          <span class="lp-cond-text">if idade &gt;= 18:</span>
+          <span class="lp-arrow">→</span>
+          <span class="lp-cond-badge badge-true" id="pg-else-badge">22 &gt;= 18 → True ✓</span>
+        </div>
+
+        <div class="lp-divider"></div>
+
+        <div class="lp-paths">
+          <div class="lp-path lp-if-path lp-active" id="pg-else-ifpath">
+            <span class="lp-path-icon">🎉</span>
+            <div class="lp-path-kw kw-if">bloco if</div>
+            <div class="lp-path-out">print("Pode entrar! 🎉")</div>
+          </div>
+          <div class="lp-path lp-else-path" id="pg-else-elpath">
+            <span class="lp-path-icon">⛔</span>
+            <div class="lp-path-kw kw-else">bloco else</div>
+            <div class="lp-path-out">print("Volte com 18 anos. ⛔")</div>
+          </div>
+        </div>
+
+        <div class="lp-terminal-out" id="pg-else-out">Pode entrar! 🎉</div>
+      </div>
+      <!-- fim playground 2 -->
+
       <div class="concept">
         <div class="concept-title">🌳 Visualizando a árvore de decisão</div>
         <p>
           O programa olha a <code>idade</code>, faz a pergunta e segue <strong>um e só um</strong> caminho.
-          Veja a animação abaixo (autoplay 🪄):
         </p>
       </div>
 
@@ -461,51 +757,88 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       EXERCÍCIO GUIADO — PODE VOTAR?
+       EXERCÍCIO OLHINHO — PODE VOTAR?
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="exer-pode-votar">
     <div class="step-header">
-      <div class="step-number sn-blue">🎯</div>
+      <div class="step-number sn-blue">👀</div>
       <div>
-        <div class="step-title">Bora Codar! — pode_votar.py</div>
-        <div class="step-sub">Primeiro if/else juntos</div>
+        <div class="step-title">Exercício — pode_votar.py</div>
+        <div class="step-sub">Primeiro if/else juntos — faça sozinho!</div>
       </div>
     </div>
 
-    <div class="exercise guided">
+    <div class="exercise solo">
       <div class="exercise-header">
-        <span class="exercise-icon">🎯</span>
+        <span class="exercise-icon">💪</span>
         <div>
-          <div class="exercise-title">Desafio guiado pelo professor</div>
-          <div class="exercise-sub">Vamos fazer juntos · pode_votar.py</div>
+          <div class="exercise-title">Desafio Individual</div>
+          <div class="exercise-sub">Faça sozinho · pode_votar.py</div>
         </div>
       </div>
 
-      <p style="color:var(--text-dim);margin-bottom:14px">
-        Bora consolidar: peça a idade do usuário e diga <strong>se ela pode votar</strong> (idade <code>&gt;=</code> 16).
-      </p>
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>pode_votar.py</code>. Peça a idade do usuário e diga
+          <strong>se pode votar</strong> (no Brasil, a partir dos 16 anos):
+        </p>
+        <p style="margin-left:18px">
+          <strong>1.</strong> Leia a idade com <code>int(input(...))</code>.<br>
+          <strong>2.</strong> SE <code>idade &gt;= 16</code> → <em>"🗳️ Você pode votar!"</em><br>
+          <strong>3.</strong> Senão → <em>"⏳ Ainda não pode votar."</em>
+        </p>
+      </div>
 
-      <div class="code-block with-lines">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">pode_votar.py</span>
-          <span class="lang-badge python">Python</span>
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Abra o PyCharm e tente.
+          Se der erro, leia a mensagem e tente de novo —
+          <strong>quem espia antes de tentar perde a maior parte do aprendizado!</strong>
         </div>
-        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">pode_votar.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
 <pre>idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
 
 <span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">16</span>:
     <span class="bi">print</span>(<span class="st">"🗳️ Você pode votar!"</span>)
 <span class="kw">else</span>:
     <span class="bi">print</span>(<span class="st">"⏳ Ainda não pode votar."</span>)</pre>
-      </div>
+          </div>
 
-      <div class="tip">
-        <span class="tip-icon">🎉</span>
-        <div class="tip-content">
-          <strong>Você acabou de fazer o computador decidir.</strong>
-          Pode parecer pouco, mas <em>esse</em> é o coração de qualquer software do mundo —
-          do app do banco ao TikTok. É só if/else em cima de if/else.
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · pode_votar.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Sua idade: </span><span class="typed" data-text="14"></span><br>
+              <span class="typed" data-text="⏳ Ainda não pode votar."></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎉</span>
+            <div class="tip-content">
+              <strong>Você acabou de fazer o computador decidir.</strong>
+              Pode parecer pouco, mas <em>esse</em> é o coração de qualquer software do mundo —
+              do app do banco ao TikTok. É só if/else em cima de if/else.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -514,7 +847,7 @@
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       5. ELIF — MÚLTIPLOS CAMINHOS
+       4. ELIF — MÚLTIPLOS CAMINHOS
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="comando-elif">
     <div class="step-header">
@@ -608,7 +941,7 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       EXERCÍCIO SOLO — entrada_evento.py (com olhinho)
+       EXERCÍCIO OLHINHO — entrada_evento.py
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="exer-evento">
     <div class="step-header">
@@ -712,7 +1045,7 @@ idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="s
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       6. OPERADORES DE COMPARAÇÃO
+       5. OPERADORES DE COMPARAÇÃO
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="operadores-comp">
     <div class="step-header">
@@ -777,7 +1110,7 @@ idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="s
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       7. OPERADORES LÓGICOS
+       6. OPERADORES LÓGICOS
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="operadores-logic">
     <div class="step-header">
@@ -846,8 +1179,81 @@ tem_convite  = <span class="bool">True</span>
     </div>
   </section>
 
+  <div class="section-connector"><div class="line"></div></div>
+
   <!-- ═══════════════════════════════════════════════════════
-       EXERCÍCIO GUIADO — ENTREGA GRÁTIS
+       7. QUIZ DE AQUECIMENTO V/F  (movido para cá)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-aquecimento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz — Verdadeiro ou Falso?</div>
+        <div class="step-sub">Testa tudo que você aprendeu até aqui!</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">1️⃣</span> <strong>Todo</strong> bloco <code>if</code> sempre é executado.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="o if só executa quando a condição é verdadeira. Senão, ele é pulado."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">2️⃣</span> O <code>else</code> é <strong>opcional</strong>.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="você pode ter um if sozinho. O else só entra quando você quer um plano B."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Posso ter <strong>vários</strong> <code>elif</code> em sequência.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="elif é literalmente 'else if' — pode encadear quantos quiser pra cobrir várias possibilidades."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">4️⃣</span> Uso <code>if</code> para perguntar <strong>"quando?"</strong>.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="if pergunta 'SE' (uma condição é verdadeira agora), não 'quando' (que tem a ver com tempo/loop)."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">5️⃣</span> O operador <code>==</code> compara valores, enquanto <code>=</code> atribui.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">✅ Verdadeiro</button>
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="exato! = é caixinha (guarda valor), == é pergunta (compara valores). Essa distinção é fundamental."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:14px">
+        <div class="quiz-q"><span class="q-emoji">6️⃣</span> O <code>and</code> retorna True se <strong>pelo menos um</strong> lado for True.</div>
+        <div class="quiz-options">
+          <button class="quiz-opt"                      onclick="checkQuiz(this, false)">✅ Verdadeiro</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">❌ Falso</button>
+        </div>
+        <div class="quiz-feedback" data-explain="isso é o or! O and exige que os DOIS lados sejam True. Se um for False, o resultado é False."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       8. EXERCÍCIO GUIADO — ENTREGA GRÁTIS
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="exer-frete">
     <div class="step-header">
@@ -912,7 +1318,7 @@ tem_convite  = <span class="bool">True</span>
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       8. RESTAURANTE INTELIGENTE 🍔
+       9. RESTAURANTE INTELIGENTE 🍔
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="restaurante">
     <div class="step-header">
@@ -986,7 +1392,7 @@ tem_convite  = <span class="bool">True</span>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       9. BORA CODAR 3.0 — Sistema de Promoções
+       10. BORA CODAR 3.0 — Sistema de Promoções
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="bora-codar-30">
     <div class="step-header">
@@ -1064,7 +1470,7 @@ tem_convite  = <span class="bool">True</span>
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       10. BUGZILLA 🐛
+       11. BUGZILLA 🐛
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="bugzilla">
     <div class="step-header">
@@ -1173,7 +1579,7 @@ tem_convite  = <span class="bool">True</span>
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       11. DESAFIO CASA — descontos.py (com olhinho)
+       12. DESAFIO CASA — descontos.py (com olhinho)
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="exer-descontos">
     <div class="step-header">
@@ -1284,7 +1690,7 @@ total = valor <span class="op">*</span> (<span class="num">1</span> <span class=
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       12. MINI SISTEMA — consolidação
+       13. MINI SISTEMA — consolidação
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="mini-sistema">
     <div class="step-header">
@@ -1364,7 +1770,7 @@ assinante  = <span class="bi">input</span>(<span class="st">"É assinante? (sim/
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       13. RESUMO + PRÓXIMO CAPÍTULO
+       14. RESUMO + PRÓXIMO CAPÍTULO
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="resumo">
     <div class="step-header">
@@ -1394,7 +1800,7 @@ assinante  = <span class="bi">input</span>(<span class="st">"É assinante? (sim/
         </div>
         <div class="keyword-chip">
           <span class="emoji">⚖️</span>
-          <span class="kw-name">==  !=  &gt;  &lt;  &gt;=  &lt;=</span>
+          <span class="kw-name">== != &gt; &lt; &gt;= &lt;=</span>
           <span class="kw-desc">Operadores de comparação (perguntas)</span>
         </div>
         <div class="keyword-chip">
@@ -1452,5 +1858,84 @@ assinante  = <span class="bi">input</span>(<span class="st">"É assinante? (sim/
 </footer>
 
 <script src="../../shared/scripts.js" defer></script>
+<script>
+/* ══════════════════════════════════════════
+   LIVE PLAYGROUND — Lógica interativa
+   ══════════════════════════════════════════ */
+
+// Playground 1 — só if (sem else)
+function lpIfUpdate(val) {
+  const idade = parseInt(val);
+  const pct   = (idade / 80 * 100).toFixed(1);
+
+  document.getElementById('pg-if-val').textContent = idade;
+  document.getElementById('pg-if-slider').style.setProperty('--pct', pct + '%');
+
+  const cond  = idade >= 18;
+  const badge = document.getElementById('pg-if-badge');
+  badge.textContent = idade + ' >= 18 → ' + (cond ? 'True ✓' : 'False ✗');
+  badge.className   = 'lp-cond-badge ' + (cond ? 'badge-true' : 'badge-false');
+
+  const ifPath   = document.getElementById('pg-if-path');
+  const skipPath = document.getElementById('pg-if-skip');
+
+  if (cond) {
+    ifPath.classList.add('lp-active');
+    skipPath.classList.remove('lp-active');
+  } else {
+    skipPath.classList.add('lp-active');
+    ifPath.classList.remove('lp-active');
+  }
+
+  const out = document.getElementById('pg-if-out');
+  if (cond) {
+    out.textContent       = 'Pode entrar! 🎉';
+    out.style.borderColor = '#45f08f';
+  } else {
+    out.textContent       = '(nada — if é pulado)';
+    out.style.borderColor = 'rgba(255,255,255,0.12)';
+  }
+}
+
+// Playground 2 — if/else completo
+function lpElseUpdate(val) {
+  const idade = parseInt(val);
+  const pct   = (idade / 80 * 100).toFixed(1);
+
+  document.getElementById('pg-else-val').textContent = idade;
+  document.getElementById('pg-else-slider').style.setProperty('--pct', pct + '%');
+
+  const cond  = idade >= 18;
+  const badge = document.getElementById('pg-else-badge');
+  badge.textContent = idade + ' >= 18 → ' + (cond ? 'True ✓' : 'False ✗');
+  badge.className   = 'lp-cond-badge ' + (cond ? 'badge-true' : 'badge-false');
+
+  const ifPath = document.getElementById('pg-else-ifpath');
+  const elPath = document.getElementById('pg-else-elpath');
+
+  if (cond) {
+    ifPath.classList.add('lp-active');
+    elPath.classList.remove('lp-active');
+  } else {
+    elPath.classList.add('lp-active');
+    ifPath.classList.remove('lp-active');
+  }
+
+  const out = document.getElementById('pg-else-out');
+  if (cond) {
+    out.textContent       = 'Pode entrar! 🎉';
+    out.style.borderColor = '#45f08f';
+  } else {
+    out.textContent       = 'Volte com 18 anos. ⛔';
+    out.style.borderColor = '#ff6b6b';
+  }
+}
+
+// Inicializa os playgrounds quando a página carrega
+document.addEventListener('DOMContentLoaded', function () {
+  lpIfUpdate(22);
+  lpElseUpdate(22);
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,69 @@
+# Hub - Visao Geral do Bootcamp
+(fonte: index.html)
+
+═══════════════════════════════════════════════════════ HERO ═══════════════════════════════════════════════════════
+
+🐍 💡 🚀
+Bootcamp · programa AI
+
+# Programação para Iniciantes
+
+Lógica de programação e algoritmos básicos com Python. Do primeiro `print("Olá!")` a um sistema completo com banco de dados e interface gráfica.
+
+🐍 Python 3 📦 PyCharm 💾 TinyDB 🎨 Streamlit 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ MENSAGEM DE BOAS-VINDAS ═══════════════════════════════════════════════════════
+
+### Olá, futuro(a) dev! 👋
+
+Esse é o material visual e interativo do bootcamp. Cada capítulo é uma página cheia de analogias, fluxos animados, exercícios com olhinho 👀 e o nosso vilão preferido: o BugZilla 🐛.
+
+Comece pelo Capítulo 01 e siga em ordem. Cada um foi pensado pra te levar pelo caminho mais natural.
+
+═══════════════════════════════════════════════════════ CARDS DOS CAPÍTULOS ═══════════════════════════════════════════════════════
+
+📚
+
+Os 10 capítulos do bootcamp
+
+Da primeira linha ao seu primeiro app completo
+
+CAP · 01 🐍 Boas-vindas e Fundamentos O que é programar, como o Python pensa, e seu primeiro `print("Olá!")`. print input f-string CAP · 02 📦 Variáveis e Tipos Caixinhas com nome guardando textos, números e booleanos. A base de tudo. str int float bool CAP · 03 🤔 Estruturas Condicionais Python tomando decisões com `if`, `elif` e `else`. if/else == and / or CAP · 04 🔁 Loops e Listas `while`, `for`, `range`, e listas de várias coisinhas. while for list CAP · 05 ⚙️ Funções Empacote pedaços de código pra usar várias vezes. Receitas reutilizáveis. def return params CAP · 06 🏆 Desafios Integradores 5 mini-sistemas pra consolidar tudo: votação, lanchonete, cinema, arcade, academia. 🎬 votação 🍔 lanche 🎟 cinema CAP · 07 🗂️ Dicionários Pares chave → valor. Cadastros que parecem fichas reais. dict key/value CRUD CAP · 08 💾 Persistência com JSON "E se eu fechar o programa?" Salvando dados em arquivo `.json`. json.dump json.load CAP · 09 📂 TinyDB — banco de dados mini Insert, read, update, delete. Tudo dentro de um arquivinho. CRUD Query Tables CAP · 10 🎨 Streamlit — sua primeira UI Transforme seu script em um app web bonito. Sem HTML, sem JS. st.button st.input app web
+
+═══════════════════════════════════════════════════════ PROFESSOR ═══════════════════════════════════════════════════════
+
+👨‍🏫
+
+Quem te acompanha
+
+Seu professor nessa jornada
+
+🧑‍💻
+
+### Prof. Kelson Almeida
+
+Mestre em Informática pela UFPB · Bacharel em Sistemas de Informação · Pesquisador na University of New Brunswick (Canadá) · Desenvolvedor Sênior na NTT Data Europe & Latam @ Itaú.
+
+👨‍🏫 Conhecer o professor → github.com/kelsonvictr ↗
+
+═══════════════════════════════════════════════════════ O QUE TORNA ESSE MATERIAL DIFERENTE ═══════════════════════════════════════════════════════
+
+✨
+
+O que esse material tem de diferente
+
+Pensado do zero pra quem está começando
+
+💡 Analogia primeiro Receita de bolo, caixinhas, garçom. Código vem só depois que você já entendeu.
+
+👀 Olhinho na resposta Cada exercício esconde a solução até você tentar. É onde o aprendizado mora.
+
+🎬 Tudo animado Fluxos, loops e variáveis se movem na tela. Você vê o código acontecendo.
+
+🐛 BugZilla amigável Erros são parte do jogo. Cada vilão vira uma lição.
+
+🧩 Quizzes rápidos Pequenas pausas pra checar se o conceito grudou.
+
+🚀 Projeto real ao final Você termina com um app web que salva dados de verdade. Sério.
+
+Feito com ♥ pela programa AI · Bootcamp Programação para Iniciantes v2 · github.com/kelsonvictr

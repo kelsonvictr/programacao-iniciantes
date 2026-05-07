@@ -1,0 +1,825 @@
+# Capitulo 03 - Condicionais
+(fonte: capitulos/03-condicionais/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+🚦 🤔 🎯
+Capítulo 03 · Bootcamp programa AI
+
+# Estruturas Condicionais
+
+Hoje o computador aprende a decidir. Você vai dominar if, else, elif e os operadores de comparação e lógicos — e fazer o seu primeiro programa que pensa. 🤯
+
+🎯 if / else / elif ⚖️ == != > < 🔗 and / or / not 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. O PODER DAS DECISÕES ═══════════════════════════════════════════════════════
+
+🚦
+
+O poder das decisões
+
+Hoje o seu programa começa a pensar
+
+Até agora seus programas seguiam um caminho só, em linha reta: pega o nome → mostra o nome. Mas a vida real não é assim — a gente toma decisões o tempo todo:
+
+🚦
+SE o sinal estiver verde, você atravessa. Senão, espera.
+
+☔
+SE está chovendo, leva guarda-chuva. Senão, vai sem.
+
+🍕
+SE tem dinheiro, pede pizza. Senão, faz miojo. 😅
+
+A grande virada de hoje
+
+Pela primeira vez, o seu programa vai olhar para um valor, pensar e escolher um caminho de execução. Ele deixa de ser uma esteira e vira um cruzamento 🛣️.
+
+E olha que coisa linda: tudo isso com 3 palavrinhas — `if`, `else`, `elif`.
+
+═══════════════════════════════════════════════════════ 2. O COMANDO IF ═══════════════════════════════════════════════════════
+
+🎯
+
+O comando `if`
+
+Se a condição for verdadeira, execute
+
+O garçom verificando o pedido
+
+Imagina um garçom 🧑‍🍳 anotando seu pedido. Antes de mandar pra cozinha, ele pensa: "SE o cliente é maior de idade, posso colocar a cerveja no pedido."
+
+Ele verifica, e só executa se a condição bater. É exatamente isso que o `if` faz.
+
+📐 Sintaxe do if
+
+`if` seguido da condição, dois pontos `:` e o bloco indentado:
+
+controle_acesso.py Python
+
+```
+idade = 22
+
+if idade >= 18:
+    print("Pode entrar! 🎉")
+```
+
+══ LIVE PLAYGROUND 1 — só if ══
+
+Playground interativo — arraste para ver o if em ação
+
+idade = 22
+
+018406080
+
+if idade >= 18: → 22 >= 18 → True ✓
+
+🎉
+bloco if executa
+
+print("Pode entrar! 🎉")
+
+🤐
+if é pulado
+
+(nada acontece)
+
+Pode entrar! 🎉
+
+fim playground 1
+⚠️
+Os dois pontos no fim do `if` são obrigatórios. E o `print` debaixo precisa estar indentado (4 espaços). Esse "andar pra dentro" é como o Python sabe o que pertence ao bloco do `if`.
+
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — FEBRE.PY (novo, antes do else) ═══════════════════════════════════════════════════════
+
+👀
+
+Exercício — febre.py
+
+Primeiro if sozinho na prática
+
+💪
+
+Desafio Individual
+
+Faça sozinho · febre.py
+
+💡 O que fazer
+
+Crie um arquivo `febre.py`. O programa deve:
+
+1. Perguntar a temperatura do usuário com `float(input(...))`.
+2. SE `temperatura > 37.5` → imprimir "🌡️ Febre detectada! Descanse."
+3. Senão → imprimir "✅ Temperatura normal."
+
+Use `float()` pra aceitar valores como 36.8. Lembra que o `if` só executa se a condição for True?
+
+🚨
+
+PARE! Tente sozinho primeiro. Abra o PyCharm e tente. Se der erro, leia a mensagem e tente de novo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+febre.py Python
+
+```
+temperatura = float(input("Sua temperatura: "))
+
+if temperatura > 37.5:
+    print("🌡️ Febre detectada! Descanse.")
+else:
+    print("✅ Temperatura normal.")
+```
+
+Run · febre.py
+
+Sua temperatura:
+
+💡
+Percebeu o float()? Como temperatura pode ser 36.8 ou 38.2, usamos `float()` em vez de `int()` — aceita os decimais!
+
+═══════════════════════════════════════════════════════ 3. ELSE — SENÃO ═══════════════════════════════════════════════════════
+
+🛣️
+
+O comando `else` — "senão"
+
+O plano B do seu programa
+
+E se a condição for falsa? A gente quer mostrar outra coisa. Pra isso existe o `else` — em português, "senão".
+
+controle_acesso.py Python
+
+```
+idade = int(input("Sua idade: "))
+
+if idade >= 18:
+    print("Pode entrar! 🎉")
+else:
+    print("Volte com 18 anos. ⛔")
+```
+
+══ LIVE PLAYGROUND 2 — if/else ══
+
+Playground — if / else ao vivo
+
+idade = 22
+
+018406080
+
+if idade >= 18: → 22 >= 18 → True ✓
+
+🎉
+bloco if
+
+print("Pode entrar! 🎉")
+
+⛔
+bloco else
+
+print("Volte com 18 anos. ⛔")
+
+Pode entrar! 🎉
+
+fim playground 2
+
+🌳 Visualizando a árvore de decisão
+
+O programa olha a `idade`, faz a pergunta e segue um e só um caminho.
+
+Entrada
+
+idade = 22
+
+Pergunta
+
+idade >= 18 ?
+
+verdadeiro ✓
+
+if
+
+Pode entrar! 🎉
+
+falso ✗
+
+else
+
+Volte com 18 anos ⛔
+
+🚦
+Analogia do semáforo: verde → atravessa. Vermelho → para. Sempre um dos dois — nunca os dois ao mesmo tempo. É essa exclusividade que o `if/else` garante.
+
+Run · controle_acesso.py
+
+Sua idade:
+
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — PODE VOTAR? ═══════════════════════════════════════════════════════
+
+👀
+
+Exercício — pode_votar.py
+
+Primeiro if/else juntos — faça sozinho!
+
+💪
+
+Desafio Individual
+
+Faça sozinho · pode_votar.py
+
+💡 O que fazer
+
+Crie `pode_votar.py`. Peça a idade do usuário e diga se pode votar (no Brasil, a partir dos 16 anos):
+
+1. Leia a idade com `int(input(...))`.
+2. SE `idade >= 16` → "🗳️ Você pode votar!"
+3. Senão → "⏳ Ainda não pode votar."
+
+🚨
+
+PARE! Tente sozinho primeiro. Abra o PyCharm e tente. Se der erro, leia a mensagem e tente de novo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+pode_votar.py Python
+
+```
+idade = int(input("Sua idade: "))
+
+if idade >= 16:
+    print("🗳️ Você pode votar!")
+else:
+    print("⏳ Ainda não pode votar.")
+```
+
+Run · pode_votar.py
+
+Sua idade:
+
+🎉
+Você acabou de fazer o computador decidir. Pode parecer pouco, mas esse é o coração de qualquer software do mundo — do app do banco ao TikTok. É só if/else em cima de if/else.
+
+═══════════════════════════════════════════════════════ 4. ELIF — MÚLTIPLOS CAMINHOS ═══════════════════════════════════════════════════════
+
+🛤️
+
+O comando `elif` — múltiplos caminhos
+
+"else if" — quando você tem mais de duas opções
+
+O cardápio do restaurante 🍽️
+
+O garçom pergunta: "O que vai querer?" e você tem várias opções: pizza, lasanha, salada, hambúrguer… Não dá pra resolver com if/else — só dá conta de duas escolhas. Aí entra o `elif`: "else if" — se não for o anterior, será que é esse?
+
+🚦 O semáforo (analogia favorita)
+
+Três cores, três comportamentos. Decisão clássica de elif:
+
+cor == "vermelho" → pare
+
+cor == "amarelo" → atenção
+
+cor == "verde" → siga
+
+semaforo.py Python
+
+```
+cor = input("Cor do sinal: ")
+
+if cor == "verde":
+    print("🟢 Pode seguir!")
+elif cor == "amarelo":
+    print("🟡 Atenção, vai fechar!")
+elif cor == "vermelho":
+    print("🔴 Pare!")
+else:
+    print("🤔 Cor desconhecida...")
+```
+
+🚶
+Bonequinho num cruzamento: ele chega, olha o sinal, e segue UM caminho. O Python testa de cima pra baixo — assim que uma condição der True, ele executa aquele bloco e ignora todos os outros.
+
+⚠️
+Só pode existir um `if` e um `else` numa mesma estrutura, mas quantos `elif` você quiser no meio.
+
+═══════════════════════════════════════════════════════ EXERCÍCIO OLHINHO — entrada_evento.py ═══════════════════════════════════════════════════════
+
+💪
+
+Desafio Criativo — entrada_evento.py
+
+Sua vez de usar elif na vida real
+
+💪
+
+Desafio Individual
+
+Faça sozinho · entrada_evento.py
+
+💡 Dica para fazer sozinho
+
+Imagina que você é o segurança 🦺 de um evento e precisa decidir o que dizer a cada pessoa que chega, dependendo da idade. Crie um arquivo `entrada_evento.py` e:
+
+1. Peça a idade do usuário com `input()` e converta com `int()` (lembra do cap 02?).
+2. Use `if/elif/else` com 3 faixas:
+
+• idade < 16 → "Entrada não permitida 🚫"
+• 16 a 17 → "Entrada apenas com responsável 👨‍👧"
+• 18 ou mais → "Entrada liberada! 🎉"
+
+Lembra do `elif cor == "amarelo":`? Aqui é a mesma ideia, só que com números (use `<`, `>=`).
+
+🚨
+
+PARE! Tente sozinho primeiro. Abra o PyCharm e tente. Se der erro, leia a mensagem e tenta de novo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+entrada_evento.py Python
+
+```
+# pega a idade e converte pra inteiro
+idade = int(input("Sua idade: "))
+
+if idade < 16:
+    print("🚫 Entrada não permitida.")
+elif idade < 18:
+    print("👨‍👧 Entrada apenas com responsável.")
+else:
+    print("🎉 Entrada liberada!")
+```
+
+Run · entrada_evento.py
+
+Sua idade:
+
+✨
+Reparou na ordem? Como o Python testa de cima pra baixo, quando o `elif idade < 18` roda, ele já sabe que a idade não é menor que 16 (senão teria caído no `if`). Por isso esse `elif` cobre exatamente a faixa 16-17.
+
+═══════════════════════════════════════════════════════ 5. OPERADORES DE COMPARAÇÃO ═══════════════════════════════════════════════════════
+
+⚖️
+
+Operadores de comparação
+
+Os símbolos que perguntam coisas
+
+Toda condição que você coloca dentro de um `if` usa um operador de comparação. São 6 — e você já viu alguns. Bora oficializar:
+
+==
+
+igual a
+
+`3 == 3` → True   `3 == 4` → False
+
+!=
+
+diferente de
+
+`3 != 4` → True   `3 != 3` → False
+
+>
+
+maior que
+
+`5 > 3` → True   `3 > 5` → False
+
+<
+
+menor que
+
+`3 < 5` → True   `5 < 3` → False
+
+>=
+
+maior ou igual a
+
+`3 >= 3` → True   `2 >= 3` → False
+
+<=
+
+menor ou igual a
+
+`3 <= 3` → True   `4 <= 3` → False
+
+🤯
+Atenção máxima: `=` (uma igualdade) é atribuição (eu coloco um valor numa variável). `==` (duas) é comparação (eu pergunto se são iguais). Esse erro é tão comum que o BugZilla vai aparecer em breve só por causa dele 🐛.
+
+═══════════════════════════════════════════════════════ 6. OPERADORES LÓGICOS ═══════════════════════════════════════════════════════
+
+🔗
+
+Operadores lógicos: `and`, `or`, `not`
+
+Combinando condições
+
+E se a condição for composta? Ex.: "se for sexta E der pra sair cedo, bora pra praia 🏖️". A gente combina condições com 3 palavrinhas:
+
+and
+
+e — os dois precisam ser verdadeiros
+`idade >= 18 and tem_ingresso`
+
+or
+
+ou — basta um ser verdadeiro
+`dia == "sab" or dia == "dom"`
+
+not
+
+negação — inverte verdadeiro/falso
+`not chovendo`
+
+acesso_clube.py Python
+
+```
+idade        = 20
+tem_convite  = True
+
+if idade >= 18 and tem_convite:
+    print("Bem-vindo(a) ao clube! 🎉")
+else:
+    print("Acesso negado 🚫")
+```
+
+💡
+Dica de ouro: imagine o `and` como dois cadeados — os dois precisam abrir. O `or` é uma porta com duas chaves — qualquer uma serve. O `not` é o avesso (vira do lado contrário).
+
+═══════════════════════════════════════════════════════ 7. QUIZ DE AQUECIMENTO V/F (movido para cá) ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz — Verdadeiro ou Falso?
+
+Testa tudo que você aprendeu até aqui!
+
+1️⃣ Todo bloco `if` sempre é executado.
+
+✅ Verdadeiro ❌ Falso
+
+2️⃣ O `else` é opcional.
+
+✅ Verdadeiro ❌ Falso
+
+3️⃣ Posso ter vários `elif` em sequência.
+
+✅ Verdadeiro ❌ Falso
+
+4️⃣ Uso `if` para perguntar "quando?".
+
+✅ Verdadeiro ❌ Falso
+
+5️⃣ O operador `==` compara valores, enquanto `=` atribui.
+
+✅ Verdadeiro ❌ Falso
+
+6️⃣ O `and` retorna True se pelo menos um lado for True.
+
+✅ Verdadeiro ❌ Falso
+
+═══════════════════════════════════════════════════════ 8. EXERCÍCIO GUIADO — ENTREGA GRÁTIS ═══════════════════════════════════════════════════════
+
+🚚
+
+Bora Codar! — entrega_gratis.py
+
+Combinando condições no mundo real
+
+🎯
+
+Desafio guiado — junto com o professor
+
+entrega_gratis.py · regra: pedido > R$100 ganha frete grátis
+
+Cenário: você tá montando o checkout de uma loja. Se o valor do pedido for maior que R$100, o frete é grátis. Senão, frete custa R$15.
+
+entrega_gratis.py Python
+
+```
+valor_pedido = float(input("Valor do pedido: R$ "))
+
+if valor_pedido > 100:
+    print("🚚 Frete GRÁTIS! Total: R$", valor_pedido)
+else:
+    frete = 15
+    print(f"Frete: R$ {frete}. Total: R$ {valor_pedido + frete:.2f}")
+```
+
+Run · entrega_gratis.py
+
+Valor do pedido: R$
+
+💡
+Notou o `float()`? Aqui usamos pra aceitar valores com casas decimais (R$ 79,90 etc). Já o `int()` só pega inteiros.
+
+═══════════════════════════════════════════════════════ 9. RESTAURANTE INTELIGENTE 🍔 ═══════════════════════════════════════════════════════
+
+🍔
+
+Cenário — Restaurante Inteligente
+
+Tudo o que você aprendeu, junto
+
+### 🍔 Bem-vindo à programa AI Burgers!
+
+Aqui o programa conhece o cliente e dá um mimo dependendo do dia da semana:
+
+📅
+Segunda-feira → 10% de desconto pra animar a galera 🤑
+
+🍰
+Sexta-feira → sobremesa grátis pra começar bem o fds
+
+🍽️
+Outros dias → pedido normal, mas atendido com carinho 😉
+
+🌳 A árvore de decisão do restaurante
+
+Animação rolando: o programa decide o que oferecer:
+
+Entrada
+
+dia = "segunda"
+
+Pergunta 1
+
+dia == "segunda"?
+
+sim
+
+Saída
+
+🤑 10% de desconto!
+
+Segunda
+
+🤑 10% off
+
+Sexta
+
+🍰 Sobremesa grátis
+
+Outros
+
+🍽️ Pedido normal
+
+═══════════════════════════════════════════════════════ 10. BORA CODAR 3.0 — Sistema de Promoções ═══════════════════════════════════════════════════════
+
+3.0
+
+Bora Codar! (3.0) — Sistema de Promoções
+
+A gente codifica o restaurante juntos · promocoes.py
+
+🎯
+
+Desafio guiado pelo professor
+
+promocoes.py
+
+Passo a passo:
+
+📥
+1. Pega o dia da semana com `input()`.
+
+🌳
+2. Usa `if/elif/else` pra decidir a promoção.
+
+🎉
+3. Mostra a mensagem certinha pro cliente.
+
+promocoes.py Python
+
+```
+dia = input("Que dia é hoje? ").lower()
+
+if dia == "segunda":
+    print("🤑 Hoje tem 10% de desconto!")
+elif dia == "sexta":
+    print("🍰 Sobremesa grátis no seu pedido!")
+else:
+    print("🍽️ Bom pedido! Sem promoção hoje.")
+```
+
+Run · promocoes.py
+
+Que dia é hoje?
+
+✨
+Reparou no `.lower()`? Ele transforma o que o usuário digitou em minúsculo. Assim, "Sexta", "SEXTA" ou "sexta" todos funcionam igual — truque importante quando você compara strings!
+
+═══════════════════════════════════════════════════════ 11. BUGZILLA 🐛 ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu de novo!
+
+Os erros clássicos do if/else
+
+🐛
+
+"Mas eu jurava que tava certo!"
+
+Os tropeços mais comuns com condicionais
+
+Tem 2 erros que todo mundo comete na primeira vez com if/else. Bora desmistificar agora pra você não cair neles 😉.
+
+Erro 1: = vs ==
+
+### 🐞 Erro 1 — confundir `=` com `==`
+
+Esse é o clássico dos clássicos. `=` atribui, `==` compara.
+
+❌
+Errado:
+
+```
+if idade = 18:
+    print("OK")
+```
+
+SyntaxError — Python reclama na hora.
+
+✅
+Certo:
+
+```
+if idade == 18:
+    print("OK")
+```
+
+"é igual a 18?" — perfeito.
+
+🧠
+Truque mnemônico: "= é caixinha, == é pergunta". Se você quer guardar, é `=`. Se você quer perguntar, é `==`.
+
+Erro 2: esquecer :
+
+### 🐞 Erro 2 — esquecer os dois pontos `:`
+
+O `:` no fim do `if` / `elif` / `else` é obrigatório — é como o Python sabe onde começa o bloco.
+
+❌
+Errado:
+
+```
+if idade >= 18
+    print("OK")
+```
+
+SyntaxError: expected ':'
+
+✅
+Certo:
+
+```
+if idade >= 18:
+    print("OK")
+```
+
+Os dois pontinhos no fim. Sempre.
+
+📖
+Hábito de ouro: quando der erro de sintaxe num `if`, a primeira coisa que você confere é se tem o `:` e se a próxima linha está indentada (4 espaços).
+
+═══════════════════════════════════════════════════════ 12. DESAFIO CASA — descontos.py (com olhinho) ═══════════════════════════════════════════════════════
+
+🏠
+
+Desafio para Casa — descontos.py
+
+Faixas de desconto por valor da compra
+
+🏠
+
+Desafio para Casa
+
+Faça em casa · descontos.py
+
+💡 Dica para fazer sozinho
+
+Crie `descontos.py`. O programa pergunta o valor da compra e aplica desconto por faixa:
+
+• até R$ 50 → sem desconto
+• R$ 51 a R$ 200 → 5% de desconto
+• R$ 201 a R$ 500 → 10% de desconto
+• acima de R$ 500 → 15% de desconto
+
+Passos: 1) leia com `float(input(...))`; 2) use `if/elif/else` pra escolher o desconto; 3) calcule o valor final e mostre uma f-string bonita com 2 casas decimais (`f"{total:.2f}"`).
+
+Lembra do `entrada_evento.py`? A estrutura do `elif` com faixas de número é igualzinha — só muda a regra do negócio.
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse aqui é pra fazer em casa com calma, no seu ritmo. Errar é parte do processo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+descontos.py Python
+
+```
+# pega o valor da compra (com casas decimais)
+valor = float(input("Valor da compra: R$ "))
+
+if valor <= 50:
+    desconto = 0
+elif valor <= 200:
+    desconto = 0.05
+elif valor <= 500:
+    desconto = 0.10
+else:
+    desconto = 0.15
+
+total = valor * (1 - desconto)
+print(f"Desconto aplicado: {desconto*100:.0f}%")
+print(f"Total a pagar: R$ {total:.2f}")
+```
+
+Run · descontos.py
+
+Valor da compra: R$
+
+🎯
+Olha como o elif fica natural: a gente vai descartando faixas de baixo pra cima. Quando o programa chega no `elif valor <= 500`, ele já sabe que o valor é maior que 200 — então cobre exatamente a faixa 201-500. Essa é a beleza do encadeamento.
+
+═══════════════════════════════════════════════════════ 13. MINI SISTEMA — consolidação ═══════════════════════════════════════════════════════
+
+🧩
+
+Mini Sistema — Consolidação
+
+Tudo o que você aprendeu, num só programa
+
+🚀
+
+Desafio Final do Capítulo
+
+Faça sozinho · mini_sistema.py
+
+💡 Dica para fazer sozinho
+
+Junta tudo num `mini_sistema.py` de cadastro de cliente VIP:
+
+1. Pergunte nome, idade e se é assinante (responde "sim"/"não").
+2. Use `and` pra descobrir se a pessoa é maior de 18 E assinante → "Cliente VIP! 🌟"
+3. Senão, mostre uma mensagem amigável usando o nome.
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse exercício amarra os 3 conceitos: `input`, `if/else` e o operador `and`. Você consegue!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+mini_sistema.py Python
+
+```
+nome       = input("Seu nome: ")
+idade      = int(input("Sua idade: "))
+assinante  = input("É assinante? (sim/não): ").lower()
+
+if idade >= 18 and assinante == "sim":
+    print(f"🌟 {nome}, você é Cliente VIP!")
+else:
+    print(f"Olá {nome}! Bora virar VIP? 😉")
+```
+
+🏆
+Você fez um sistema com 3 entradas e regra de negócio. Isso é literalmente o que rola num back-end real — só com mais variáveis e mais ifs.
+
+═══════════════════════════════════════════════════════ 14. RESUMO + PRÓXIMO CAPÍTULO ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 03
+
+O que você acabou de dominar
+
+🎯 if Executa um bloco SE a condição for verdadeira
+
+🛣️ else O "senão" — entra quando o if falha
+
+🛤️ elif "else if" — múltiplos caminhos em sequência
+
+⚖️ == != > < >= <= Operadores de comparação (perguntas)
+
+🔗 and / or / not Operadores lógicos para combinar condições
+
+🐛 = vs == Atribuição vs comparação — o erro do BugZilla
+
+🍔 Promoções Decisões com base em entrada do usuário
+
+🌟 Mini Sistema Combinou tudo num programa real
+
+### "Hoje seu programa começou a pensar 🧠.
+Bora ensinar ele a repetir?"
+
+### Próximo capítulo →
+
+Capítulo 04 — Loops e Listas. Você aprendeu a decidir. Agora vai aprender a repetir — `while`, `for` e listas. Bora?
+🔁 Ir para Capítulo 04 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

@@ -1,0 +1,687 @@
+# Capitulo 07 - Dicionarios
+(fonte: capitulos/07-dicionarios/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+📒 🔑 📇
+Capítulo 07 · Bootcamp programa AI
+
+# Dicionários
+
+Hoje você sai de "guardar uma lista de coisas" e entra em "organizar dados de verdade". Vamos aprender chave: valor, listas de dicionários e construir um Sistema de Cadastro completo. Bora! 🚀
+
+📒 dict 🔑 chave: valor 📋 lista de dicts 🏆 sistema_cadastro 🐛 KeyError
+
+═══════════════════════════════════════════════════════ 1. QUIZ RELEMBRANDO ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz relembrando — for & lista
+
+Antes de avançar, vamos checar o capítulo passado
+
+Antes da gente conhecer dicionário, bora dar uma relembrada rápida do que já sabemos sobre `for` e `lista`. Se errar, sem stress — clica de novo. 😉
+
+1️⃣ Em uma lista `nomes = ["Ana", "Bia", "Caio"]`, qual o índice do "Bia"?
+
+A) 0 B) 1 C) 2 D) 3
+
+2️⃣ O que o `for nome in nomes:` faz?
+
+A) Repete pra sempre B) Passa item por item da lista C) Conta de 1 até 10 D) Pula a lista
+
+3️⃣ Como adicionar "Davi" na lista `nomes`?
+
+A) `nomes + "Davi"` B) `nomes = "Davi"` C) `nomes.append("Davi")` D) `nomes.add("Davi")`
+
+═══════════════════════════════════════════════════════ 2. O QUE É DICIONÁRIO ═══════════════════════════════════════════════════════
+
+📒
+
+Dicionários — chave: valor
+
+Quando lista não basta, dicionário resolve
+
+Pensa na agenda do seu celular 📱
+
+Quando você quer ligar pra Mãe, você não procura "o terceiro número da lista". Você procura pelo nome "Mãe" — e o celular te entrega o número.
+
+É isso que um dicionário faz em Python: você guarda uma chave (tipo "Mãe") e ela aponta pra um valor (o número).
+
+Em Python a sintaxe usa chaves `{ }` e dois pontos:
+
+aluno.py Python
+
+```
+# um dicionário: ficha de um aluno
+aluno = {
+    "nome":  "Kelson",
+    "idade": 33,
+    "curso": "Python",
+}
+```
+
+Visualmente o `aluno` é tipo uma ficha cadastral:
+
+aluno
+
+"nome" → "Kelson"
+
+"idade" → 33
+
+"curso" → "Python"
+
+🧠 Sacou a ideia?
+
+A chave (à esquerda) é como a "etiqueta" da gaveta. O valor (à direita) é o que tá guardado lá dentro. E você acessa pela chave, sem se preocupar com posição/índice.
+
+Outras analogias do mundo real:
+
+📇
+Carteira de identidade: "Nome → João", "RG → 123…", "Nascimento → 1990".
+
+📱
+Agenda telefônica: "Mãe → 9999-1234", "Pai → 9999-5678".
+
+🎫
+Carteirinha de aluno: "Curso → Python", "Turma → A", "Matrícula → 042".
+
+═══════════════════════════════════════════════════════ 3. CADASTRO_DICIONARIO.PY (GUIDED) ═══════════════════════════════════════════════════════
+
+7.0
+
+Bora Codar! — cadastro_dicionario.py
+
+Vamos criar nosso primeiro dicionário juntos
+
+🎯
+
+Desafio guiado pelo professor
+
+Vamos fazer juntos · cadastro_dicionario.py
+
+A gente vai pedir 3 coisas pro usuário e guardar tudo num único dicionário:
+
+cadastro_dicionario.py Python
+
+```
+# pede os dados
+nome  = input("Nome do aluno: ")
+idade = int(input("Idade: "))
+curso = input("Curso: ")
+
+# monta o dicionário
+aluno = {"nome": nome, "idade": idade, "curso": curso}
+
+# mostra a ficha
+print("Cadastro:", aluno)
+```
+
+Run · cadastro_dicionario.py
+
+Nome do aluno:
+Idade:
+Curso:
+
+✨
+Repare: em vez de 3 variáveis soltas (`nome`, `idade`, `curso`), a gente tem UM dicionário só que junta tudo. Isso vira nossa "ficha do aluno" — agora o cadastro tá todo num lugar só.
+
+═══════════════════════════════════════════════════════ 4. ACESSAR VALORES ═══════════════════════════════════════════════════════
+
+🔑
+
+Acessar valores
+
+aluno["chave"] — pegar pelo nome da gaveta
+
+Pra pegar um valor, você usa colchetes com a chave entre aspas:
+
+acesso.py Python
+
+```
+aluno = {"nome": "Kelson", "idade": 33, "curso": "Python"}
+
+print(aluno["nome"])    # Kelson
+print(aluno["idade"])   # 33
+print(f"{aluno['nome']} faz {aluno['curso']}!")
+```
+
+Run · acesso.py
+
+📌 Lembra como era na lista?
+
+Em lista você acessava por número: `nomes[0]`. Em dicionário você acessa por nome da chave: `aluno["nome"]`. Mais legível, mais "humano". 👍
+
+═══════════════════════════════════════════════════════ 5. ATUALIZAR / ADICIONAR ═══════════════════════════════════════════════════════
+
+✏️
+
+Atualizar e Adicionar valores
+
+aluno["idade"] = 34 — mesma sintaxe pra editar e pra criar novo
+
+Aqui tem uma sacada legal: a sintaxe pra atualizar um valor e pra adicionar uma chave nova é a mesma:
+
+atualizar.py Python
+
+```
+aluno = {"nome": "Kelson", "idade": 33, "curso": "Python"}
+
+# ATUALIZAR — a chave 'idade' já existe, então só sobrescreve
+aluno["idade"] = 34
+
+# ADICIONAR — a chave 'telefone' não existia, agora existe!
+aluno["telefone"] = "99999-1234"
+
+print(aluno)
+```
+
+Run · atualizar.py
+
+{'nome': 'Kelson', 'idade': 34, 'curso': 'Python', 'telefone': '99999-1234'}
+
+Visualmente, o dicionário cresce:
+
+aluno (depois)
+
+"nome" → "Kelson"
+
+"idade" → 34 ✏️
+
+"curso" → "Python"
+
+"telefone" → "99999-1234" ✨
+
+💡
+Regra simples: se a chave já existir, o Python atualiza. Se não existir, ele cria. Sem stress, sem método especial.
+
+═══════════════════════════════════════════════════════ 6. DESAFIO atualizar_dados_aluno.py (SOLO) ═══════════════════════════════════════════════════════
+
+7.1
+
+Desafio Individual — atualizar_dados_aluno.py
+
+Agora é com você
+
+💪
+
+Desafio Individual
+
+Faça sozinho · atualizar_dados_aluno.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `atualizar_dados_aluno.py`. Comece com um dicionário `aluno` já preenchido (nome, idade, curso).
+
+Mostre o aluno antes da mudança. Depois pergunte ao usuário a nova idade com `input()` (lembra de `int()`!) e atualize `aluno["idade"]`.
+
+No final, mostre o aluno depois. Bônus: adicione uma chave nova `"telefone"` também — você sabe como!
+
+🚨
+
+PARE! Tente sozinho primeiro. Faz o esforço — você tem TUDO que precisa pra resolver. Errar é parte do processo!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+atualizar_dados_aluno.py Python
+
+```
+# dicionário inicial
+aluno = {"nome": "Kelson", "idade": 33, "curso": "Python"}
+
+print("Antes:", aluno)
+
+# pega nova idade e atualiza
+nova_idade = int(input("Nova idade do aluno: "))
+aluno["idade"] = nova_idade
+
+# adiciona um campo novo
+aluno["telefone"] = input("Telefone: ")
+
+print("Depois:", aluno)
+```
+
+✨
+Reparou? A linha que atualiza a idade e a linha que adiciona o telefone são idênticas em forma: `dicionário[chave] = valor`. O Python decide se cria ou atualiza olhando se a chave já existia.
+
+═══════════════════════════════════════════════════════ 7. LISTA DE DICIONÁRIOS ═══════════════════════════════════════════════════════
+
+📋
+
+Lista de Dicionários
+
+Vários cadastros, todos juntinhos numa "prateleira"
+
+Um `aluno` é legal. Mas e se a gente tiver uma turma inteira? A gente coloca vários dicionários dentro de uma lista:
+
+turma.py Python
+
+```
+alunos = []   # lista vazia, vai guardar dicts
+
+alunos.append({"nome": "Ana",    "idade": 22, "curso": "Python"})
+alunos.append({"nome": "Bia",    "idade": 25, "curso": "Web"})
+alunos.append({"nome": "Caio",   "idade": 30, "curso": "Dados"})
+
+# percorrer com for: cada item da lista é um dicionário
+for a in alunos:
+    print(f"{a['nome']} ({a['idade']}) — {a['curso']}")
+```
+
+Run · turma.py
+
+Visualmente é uma prateleira de fichas:
+
+alunos[0]
+
+"nome"→"Ana"
+
+"idade"→22
+
+"curso"→"Python"
+
+alunos[1]
+
+"nome"→"Bia"
+
+"idade"→25
+
+"curso"→"Web"
+
+alunos[2]
+
+"nome"→"Caio"
+
+"idade"→30
+
+"curso"→"Dados"
+
+🎯 Combinando dois mundos
+
+Lista + dicionário é a estrutura mais usada do Python na vida real. Cada item da lista é uma "ficha completa" (dicionário). Você usa o `for` pra percorrer e `["chave"]` pra ler cada campo.
+
+═══════════════════════════════════════════════════════ 8. LISTA VS DICIONÁRIO (VERSUS VISUAL) ═══════════════════════════════════════════════════════
+
+⚔️
+
+Lista vs Dicionário
+
+Quando usar cada um
+
+#### 📋 Lista — acesso por posição
+
+Pense em uma fila ordenada. Você pega pela posição:
+`nomes = ["Ana", "Bia", "Caio"]` `nomes[0] # "Ana"` `nomes[2] # "Caio"`
+✅ Boa quando a ordem importa.
+
+vs
+
+#### 📒 Dicionário — acesso por chave
+
+Pense em uma ficha. Você pega pelo nome do campo:
+`aluno = {"nome": "Ana", "idade": 22}` `aluno["nome"] # "Ana"` `aluno["idade"] # 22`
+✅ Boa quando o significado importa.
+
+🤝
+Plot twist: os dois juntos são imbatíveis. `alunos = [aluno1, aluno2, aluno3]` — lista ordenada de fichas. É exatamente o que a gente vai usar no Sistema de Cadastro!
+
+═══════════════════════════════════════════════════════ 9. DESAFIO cadastro_pet.py (SOLO) ═══════════════════════════════════════════════════════
+
+7.2
+
+Desafio Individual — cadastro_pet.py
+
+Mesma ideia, agora pros bichinhos
+
+💪
+
+Desafio Individual
+
+Faça sozinho · cadastro_pet.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `cadastro_pet.py`. Pergunte ao usuário 3 coisas usando `input()`: nome do pet, espécie (cachorro, gato, peixe…) e idade (lembra que tem que `int()`!).
+
+Monte um dicionário `pet` com as chaves `"nome"`, `"especie"` e `"idade"`. Depois mostre uma frase tipo: "Rex é um(a) cachorro de 5 anos." usando f-string.
+
+Bem parecido com o cadastro_dicionario.py que a gente fez juntos — só muda o tema. Você consegue!
+
+🚨
+
+PARE! Tente sozinho primeiro. Cria o arquivo, escreve linha por linha. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+cadastro_pet.py Python
+
+```
+# pede os dados do pet
+nome    = input("Nome do pet: ")
+especie = input("Espécie (cachorro, gato, peixe...): ")
+idade   = int(input("Idade: "))
+
+# monta o dicionário
+pet = {"nome": nome, "especie": especie, "idade": idade}
+
+print(f"{pet['nome']} é um(a) {pet['especie']} de {pet['idade']} anos.")
+```
+
+Run · cadastro_pet.py
+
+Nome do pet:
+Espécie (cachorro, gato, peixe...):
+Idade:
+
+🐾
+Notou? Foi a mesmíssima estrutura do cadastro de aluno. Quando você entender que "é só dado mudando, a estrutura é igual", você passou de iniciante pra quase intermediário. 😉
+
+═══════════════════════════════════════════════════════ 10. QUIZ DICIONÁRIOS ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz Dicionários
+
+Bora testar o que você aprendeu
+
+1️⃣ Em `aluno = {"nome": "Ana"}`, como pegar o valor "Ana"?
+
+A) `aluno[0]` B) `aluno.nome` C) `aluno["nome"]` D) `aluno{"nome"}`
+
+2️⃣ Qual o jeito certo de criar um dicionário?
+
+A) `aluno = ["nome", "Ana"]` B) `aluno = {"nome": "Ana"}` C) `aluno = ("nome", "Ana")` D) `aluno = <"nome": "Ana">`
+
+3️⃣ O que faz `aluno["idade"] = 34` se a chave "idade" já existe?
+
+A) Dá erro B) Atualiza o valor pra 34 C) Cria uma chave nova "idade2" D) Apaga a chave
+
+═══════════════════════════════════════════════════════ 11. BUGZILLA ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu de novo!
+
+Erros clássicos de quem tá começando com dict
+
+🐛
+
+BugZilla detectou: KeyError
+
+Quando você pede uma chave que não existe
+
+Pediu `aluno["telefon"]` em vez de `aluno["telefone"]`? O Python não advinha. Ele lança um `KeyError` e dá tchau.
+
+erro_keyerror.py Python
+
+```
+aluno = {"nome": "Kelson", "idade": 33}
+
+print(aluno["telefone"])    # 💥 KeyError: 'telefone'
+```
+
+E tem outro clássico: confundir `{ }` (dict) com `[ ]` (lista). Olha o BugZilla brincando:
+
+erro_chaves.py Python
+
+```
+# ❌ ERRADO: usa [ ] querendo dicionário
+aluno = ["nome": "Ana"]    # SyntaxError!
+
+# ✅ CERTO: dict usa { }
+aluno = {"nome": "Ana"}
+```
+
+### 🛡️ Como se proteger
+
+🔍
+Confira a grafia da chave. `"nome"` `!=` `"Nome"` `!=` `"nome "`. Python é literal: maiúscula, minúscula e espaço importam.
+
+🛟
+Use `.get()` quando você não sabe se a chave existe: `aluno.get("telefone", "não cadastrado")` — devolve o valor se existir, ou o segundo argumento se não existir. Sem erro!
+
+📒
+Decora a forma: `{ }` é DICT, `[ ]` é LISTA. Vê os colchetes? São primos, mas brigam.
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — CLÍMAX ═══════════════════════════════════════════════════════
+🏆 Desafio Master
+
+## Sistema de Cadastro Completo
+
+Chegou a hora. Você vai juntar tudo que aprendeu até aqui: `while`, `if`, `for`, `list`, `dict`, `input`… num programa que faz sentido na vida real.
+
+═══════════════════════════════════════════════════════ 12. SISTEMA DE CADASTRO (SOLO MASTER) ═══════════════════════════════════════════════════════
+
+7.3
+
+Desafio MASTER — sistema_cadastro.py
+
+O climax do capítulo · combina TUDO
+
+🏆
+
+Desafio Individual MASTER
+
+Faça sozinho · sistema_cadastro.py
+
+Você vai construir um menu interativo que cadastra alunos, guarda numa lista de dicionários, lista todos, busca por nome e mostra um total ao sair. Olha como vai ficar:
+
+==== SISTEMA DE CADASTRO ====
+
+[1] Adicionar aluno
+
+[2] Listar alunos
+
+[3] Buscar por nome
+
+[0] Sair
+
+Escolha uma opção: _
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `sistema_cadastro.py`. Sua "caixa de ferramentas":
+
+- Comece com uma lista vazia `alunos = []`.
+- Use um `while True:` pra ficar mostrando o menu até o usuário escolher sair (opção 0).
+- Dentro do loop, mostre o menu com `print()` e leia a opção com `input()`.
+- Use `if/elif/else` pra cada opção:
+
+- 1: peça nome, idade (com `int()`) e curso, monte um dict e use `alunos.append({...})`.
+- 2: use `for a in alunos` e mostre `a["nome"]`, `a["idade"]`, `a["curso"]`.
+- 3: peça um nome, dê outro `for` e compare com `a["nome"] == nome_busca`.
+- 0: mostre o total (`len(alunos)`) e use `break` pra sair.
+
+- Não esqueça do `else` pra "opção inválida".
+
+É grandinho, mas você já sabe TUDO que precisa. Vai por partes: primeiro faz o menu rodando. Depois adiciona uma opção por vez. Pequenas vitórias 🏆.
+
+🚨
+
+PARE! Esse aqui é o boss fight do capítulo. Tenta MESMO antes de espiar. Vai dar bug? Vai. Vai precisar reler? Talvez. Mas quando VOCÊ conseguir, você vai sair desse capítulo com gás de programador de verdade. Bora!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+sistema_cadastro.py Python
+
+```
+# lista que vai guardar todos os cadastros
+alunos = []
+
+while True:
+    print("\n==== SISTEMA DE CADASTRO ====")
+    print("[1] Adicionar aluno")
+    print("[2] Listar alunos")
+    print("[3] Buscar por nome")
+    print("[0] Sair")
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == "1":
+        nome  = input("Nome: ")
+        idade = int(input("Idade: "))
+        curso = input("Curso: ")
+        alunos.append({"nome": nome, "idade": idade, "curso": curso})
+        print(f"✅ {nome} cadastrado(a) com sucesso!")
+
+    elif opcao == "2":
+        if len(alunos) == 0:
+            print("Nenhum aluno cadastrado ainda.")
+        else:
+            print("\n— Lista de alunos —")
+            for a in alunos:
+                print(f"• {a['nome']} ({a['idade']}) — {a['curso']}")
+
+    elif opcao == "3":
+        nome_busca = input("Nome a buscar: ")
+        encontrou = False
+        for a in alunos:
+            if a["nome"] == nome_busca:
+                print(f"✅ {a['nome']} — {a['idade']} anos — {a['curso']}")
+                encontrou = True
+        if not encontrou:
+            print(f"❌ Nenhum aluno chamado {nome_busca}.")
+
+    elif opcao == "0":
+        print(f"\n👋 Saindo... Total cadastrado: {len(alunos)} aluno(s).")
+        break
+
+    else:
+        print("❌ Opção inválida. Tenta de novo!")
+```
+
+Run · sistema_cadastro.py
+
+==== SISTEMA DE CADASTRO ====
+[1] Adicionar aluno [2] Listar [3] Buscar [0] Sair
+Escolha uma opção:
+Nome:
+Idade:
+Curso:
+
+Escolha uma opção:
+
+### 🎉 OLHA O QUE VOCÊ ACABOU DE CONSTRUIR! 🎉
+
+Um programa interativo de verdade. Tem menu, tem cadastro, tem busca. Junta while + if + for + list + dict + input. Você passou de "imprimi olá mundo" pra "escrevi um sistema". Pode comemorar. 🏆
+
+═══════════════════════════════════════════════════════ 13. SISTEMA PET (PARA CASA) ═══════════════════════════════════════════════════════
+
+🏠
+
+Desafio para Casa — sistema_cadastro_pet.py
+
+Versão pet · pra fixar em casa
+
+🏠
+
+Desafio para Casa
+
+Faça em casa · sistema_cadastro_pet.py
+
+💡 Dica para fazer sozinho (em casa)
+
+Pega o `sistema_cadastro.py` que você (espero!) acabou de fazer e adapta pra pets. As chaves agora são `"nome"`, `"especie"` e `"idade"`. A lista vira `pets = []`.
+
+Mantém o mesmo menu (adicionar, listar, buscar, sair). Capricha nos textos — pode pôr emoji de pet 🐶🐱🐠.
+
+Por que esse exercício? Porque praticar a mesma estrutura mudando só os dados é o que fixa de verdade. Quando você sentir que tá quase no automático, é sinal que aprendeu.
+
+🚨
+
+PARE! Tente sozinho em casa. Sem pressa. Pega água, fecha a aba do spoiler, e vai. Quando voltar pra próxima aula, traz o código rodando — vai dar uma sensação ÓTIMA. Você consegue!
+
+👀 Só clique aqui DEPOIS de tentar em casa — Ver código completo ▼
+
+sistema_cadastro_pet.py Python
+
+```
+# lista que vai guardar os pets cadastrados 🐾
+pets = []
+
+while True:
+    print("\n==== CADASTRO DE PETS 🐾 ====")
+    print("[1] Adicionar pet")
+    print("[2] Listar pets")
+    print("[3] Buscar por nome")
+    print("[0] Sair")
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == "1":
+        nome    = input("Nome do pet: ")
+        especie = input("Espécie: ")
+        idade   = int(input("Idade: "))
+        pets.append({"nome": nome, "especie": especie, "idade": idade})
+        print(f"✅ {nome} cadastrado(a)! 🐶")
+
+    elif opcao == "2":
+        if len(pets) == 0:
+            print("Nenhum pet cadastrado ainda.")
+        else:
+            print("\n— Lista de pets —")
+            for p in pets:
+                print(f"• {p['nome']} ({p['especie']}, {p['idade']} anos)")
+
+    elif opcao == "3":
+        nome_busca = input("Nome a buscar: ")
+        encontrou = False
+        for p in pets:
+            if p["nome"] == nome_busca:
+                print(f"✅ {p['nome']} — {p['especie']} — {p['idade']} anos")
+                encontrou = True
+        if not encontrou:
+            print(f"❌ Nenhum pet chamado {nome_busca}.")
+
+    elif opcao == "0":
+        print(f"\n👋 Saindo... Total: {len(pets)} pet(s).")
+        break
+
+    else:
+        print("❌ Opção inválida.")
+```
+
+🐾
+Comparou com o sistema_cadastro.py? A estrutura é idêntica. Só mudaram nomes de variáveis e textos. Isso é programação real: reaproveitar a forma, mudar o conteúdo.
+
+═══════════════════════════════════════════════════════ 14. RESUMO + PONTE PRO CAP 08 ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 07
+
+O que você acabou de dominar
+
+📒 dict Estrutura chave: valor — `{"nome": "Ana"}`
+
+🔑 Acessar `aluno["nome"]` — colchetes + chave em aspas
+
+✏️ Atualizar / Adicionar `aluno["idade"] = 34` — mesma sintaxe
+
+📋 Lista de dicts Vários cadastros numa lista — `alunos.append({...})`
+
+🛟 .get() Acesso seguro com valor padrão se a chave não existir
+
+🐛 KeyError Quando você pede chave que não existe — confere a grafia!
+
+🏆 Sistema de Cadastro while + if + for + list + dict — VOCÊ FEZ!
+
+🤝 Lista vs Dict Lista = ordem importa · Dict = significado importa
+
+### "Você não tá mais brincando de Python —
+tá organizando dados de verdade." 📒✨
+
+BRIDGE PRO CAP 08
+
+### 🤔 Mas peraí…
+
+😱
+Você fez o sistema_cadastro.py. Cadastrou 5 alunos. Tá orgulhoso(a). Aí você fecha o programa… e cadê os dados? Sumiram! 💨 Tudo guardado só na memória — quando o Python desliga, vai junto.
+
+💾
+É aí que entra o JSON. Um jeitinho simples de salvar seus dicionários num arquivo que sobrevive a fechar o programa. E adivinha? JSON é praticamente um dicionário em texto.
+
+💾 Ir para Capítulo 08 — JSON →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

@@ -1,0 +1,605 @@
+# Capitulo 08 - JSON
+(fonte: capitulos/08-json/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+💾 📄 ✨
+Capítulo 08 · Bootcamp programa AI
+
+# Persistência com JSON
+
+Cansou de perder os dados quando fecha o programa? Hoje você aprende a SALVAR tudo em arquivo e LER de volta. Esse é o capítulo que muda o jogo. 💾
+
+📦 import json 💾 json.dump 📖 json.load 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. O PROBLEMA — fechei e sumiu tudo ═══════════════════════════════════════════════════════
+
+😱
+
+"Fechei o programa e SUMIU TUDO!"
+
+O drama clássico de quem ainda não conhece persistência
+
+### Você cadastrou 20 alunos no sistema do Capítulo 07…
+
+…aí fechou o PyCharm, foi tomar um café, voltou animado pra continuar — e PUF, sumiu tudo. A lista voltou vazia. O computador "esqueceu". 🫥
+
+Por que isso acontece?
+
+Tudo que mora numa variável fica na memória RAM — que é um lugar rapidíssimo mas volátil. Quando o programa fecha, a RAM é liberada. Os dados somem.
+
+Pra guardar de verdade, a gente precisa escrever os dados num arquivo no disco. Disco é mais lento que RAM, mas não esquece — mesmo se você desligar o computador.
+
+🧠⚡
+
+#### RAM (memória)
+
+Onde moram suas variáveis enquanto o programa roda.
+
+Some quando fecha.
+
+💾📄
+
+#### Disco (arquivo)
+
+Onde a gente persiste os dados num arquivo.
+
+Permanece pra sempre.
+
+📓 Pensa num caderno
+
+Você anota os contatos no caderno (escreve no disco). Depois fecha o caderno (fecha o programa). Daqui a uma semana você abre de novo (abre o programa) — e tá lá tudo, intacto. É EXATAMENTE isso que JSON faz pelo seu programa.
+
+✍️ Anota
+Você escreve dados no caderno
+
+📕 Fecha
+Caderno na gaveta
+
+📖 Abre
+Pega de volta depois
+
+🎉 Tá lá!
+Dados intactos
+
+### 💾 Calma. Vem aí a salvação: JSON.
+
+JSON é um formato simples de texto que o Python sabe ler e escrever. Você salva suas listas e dicionários num arquivo `.json` e pronto — nunca mais perde nada.
+
+═══════════════════════════════════════════════════════ 2. QUIZ DE AQUECIMENTO ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz de Aquecimento
+
+Antes da gente botar a mão na massa
+
+1️⃣ Quando você fecha um programa Python, o que acontece com as variáveis?
+
+A) Ficam salvas pra sempre B) São apagadas da memória C) Vão pra um arquivo automático D) Viram código-fonte
+
+2️⃣ JSON quer dizer:
+
+A) Just Save Object Now B) JavaScript Object Notation C) Java Standard Object Network D) Joint Storage Open Notation
+
+═══════════════════════════════════════════════════════ 3. O QUE É JSON ═══════════════════════════════════════════════════════
+
+📄
+
+O que é JSON?
+
+JavaScript Object Notation — texto que parece dicionário
+
+JSON é um formato de texto pra guardar dados. Ele nasceu no mundo do JavaScript (daí o nome), mas hoje TODA linguagem entende — inclusive Python.
+
+E olha que coisa boa: JSON parece QUASE igual a um dicionário Python. Se você sabe `dict`, você já sabe JSON quase de graça. 🎁
+
+📚 Comparação lado a lado
+
+Olha como é parecido:
+
+Python · dict
+
+na memória Python
+
+```
+aluno = {
+    "nome": "Ana",
+    "idade": 22,
+    "ativo": True
+}
+```
+
+≈ idêntico →
+
+Arquivo · JSON
+
+aluno.json JSON
+
+```
+{
+    "nome": "Ana",
+    "idade": 22,
+    "ativo": true
+}
+```
+
+🔍
+Olho clínico: as únicas diferenças são pequenas — em JSON o `True` vira `true` (minúsculo) e `None` vira `null`. O resto é a mesma coisa. Por isso a gente diz que JSON é "o primo gêmeo" do dicionário Python.
+
+🗃️ E uma lista de dicionários?
+
+Lembra da prateleira de fichas do Capítulo 07? Em JSON fica assim:
+
+alunos.json JSON
+
+```
+[
+    {
+        "nome": "Ana",
+        "idade": 22,
+        "curso": "Python"
+    },
+    {
+        "nome": "João",
+        "idade": 28,
+        "curso": "IA"
+    }
+]
+```
+
+📄
+
+alunos.json
+
+um arquivo de texto comum — você pode abrir no PyCharm, no Bloco de Notas, em qualquer editor
+
+═══════════════════════════════════════════════════════ 4. A MÁGICA — SALVAR E LER (FLUXO ANIMADO) ═══════════════════════════════════════════════════════
+
+✨
+
+A mágica: salvar → fechar → abrir → ler
+
+O ciclo de vida dos seus dados
+
+Aqui é a hora do "AHA!". Olha esse ciclo todo, do começo ao fim:
+
+1. Programa rodando
+
+🐍 Lista de alunos na memória
+
+json.dump(...)
+
+2. Salvar
+
+💾 Python escreve no arquivo
+
+3. Disco
+
+📄 alunos.json salvo!
+
+programa fecha
+
+4. Tempo passa…
+
+💤 Computador desligado, dia seguinte…
+
+programa abre
+
+5. Ler
+
+📖 Python lê o arquivo
+
+json.load(...)
+
+6. Voltou!
+
+🎉 Lista intacta na memória
+
+🪄
+Resumo da mágica: `json.dump` = guarda no caderno (escreve). `json.load` = lê o caderno de volta. São as duas únicas funções que você precisa decorar deste capítulo.
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — HORA DE CODAR ═══════════════════════════════════════════════════════
+💾 Hora de Persistir
+
+## Bora salvar de verdade!
+
+Dois exercícios guiados juntos — primeiro a gente salva, depois lê. No final, um desafio solo épico pra unir tudo.
+
+═══════════════════════════════════════════════════════ 5. SALVAR DADOS — json.dump (GUIADO) ═══════════════════════════════════════════════════════
+
+8.0
+
+Bora Codar! — salvar_dados.py
+
+Salvando uma lista de dicts num arquivo .json
+
+🎯
+
+Desafio guiado pelo professor
+
+Vamos fazer juntos · salvar_dados.py
+
+📦 import json — o módulo built-in
+
+O Python já vem com a "caixa de ferramentas" pra mexer com JSON. Você só precisa importar ela no topo do arquivo: `import json`. Não precisa instalar nada.
+
+A lógica do programa é:
+
+- Cria uma lista de dicionários (alunos, contatos, o que for)
+- Abre um arquivo no modo escrita (`"w"` de write)
+- Chama `json.dump(dados, arquivo)` — a mágica acontece
+- Pronto — tem um arquivo `.json` no seu projeto 🎉
+
+salvar_dados.py Python
+
+```
+import json
+
+# 1. lista de dicionários (lembra do cap 07?)
+alunos = [
+    {"nome": "Ana",  "idade": 22, "curso": "Python"},
+    {"nome": "João", "idade": 28, "curso": "IA"},
+]
+
+# 2. abre o arquivo em modo escrita ("w") e salva
+with open("alunos.json", "w") as arquivo:
+    json.dump(alunos, arquivo, indent=4, ensure_ascii=False)
+
+print("✅ Dados salvos em alunos.json!")
+```
+
+Saída no terminal:
+
+Run · salvar_dados.py
+
+$ python salvar_dados.py
+
+E ao lado do `salvar_dados.py` apareceu um arquivo novo:
+
+📄
+
+alunos.json
+
+criado automaticamente pelo Python — abre ele no PyCharm pra ver o conteúdo!
+
+alunos.json (gerado) JSON
+
+```
+[
+    {
+        "nome": "Ana",
+        "idade": 22,
+        "curso": "Python"
+    },
+    {
+        "nome": "João",
+        "idade": 28,
+        "curso": "IA"
+    }
+]
+```
+
+✨
+Reparou nos extras? `indent=4` deixa o JSON bonitinho com identação (sem isso, vira uma linha só horrível). `ensure_ascii=False` permite acentos e emojis no arquivo (sem isso, "João" virava `"João"` — feio).
+
+⚠️
+Atenção ao modo `"w"`: se o arquivo já existir, ele é SOBRESCRITO (apagado e regravado). É o que a gente quer aqui — mas tá ligado.
+
+═══════════════════════════════════════════════════════ 6. LER DADOS — json.load (GUIADO) ═══════════════════════════════════════════════════════
+
+8.1
+
+Bora Codar! — ler_dados.py
+
+Recuperando os dados do arquivo .json
+
+🎯
+
+Desafio guiado pelo professor
+
+Vamos fazer juntos · ler_dados.py
+
+Agora a outra metade da mágica. Crie um NOVO arquivo `ler_dados.py` (separado do `salvar_dados.py`) e bora resgatar os dados que você acabou de salvar:
+
+ler_dados.py Python
+
+```
+import json
+
+# 1. abre o arquivo em modo leitura ("r" de read)
+with open("alunos.json", "r", encoding="utf-8") as arquivo:
+    alunos = json.load(arquivo)
+
+# 2. agora 'alunos' é uma lista de dicts NORMAL — usa como sempre
+for aluno in alunos:
+    print(f"👤 {aluno['nome']} — {aluno['idade']} anos — curso: {aluno['curso']}")
+```
+
+Run · ler_dados.py
+
+$ python ler_dados.py
+
+🪄 O que aconteceu de verdade
+
+O `json.load(arquivo)` leu o texto do arquivo, entendeu que era JSON, e reconstruiu a lista de dicts idêntica à que você salvou. Você fechou o programa, abriu de novo, e os dados voltaram. ✨
+
+🆚
+dump × load: "dump" é despejar os dados no arquivo. "load" é carregar os dados do arquivo. Mesma família, sentidos opostos.
+
+═══════════════════════════════════════════════════════ 7. with open(...) — explicação leve ═══════════════════════════════════════════════════════
+
+📂
+
+Mas o que é esse `with open(...)`?
+
+Explicação leve — sem complicar
+
+📁 É a porta do arquivo
+
+Pensa que o arquivo é uma caixa fechada. Pra mexer nele, você precisa abrir, fazer o que tem que fazer, e fechar. Se esquecer de fechar, dá problema.
+
+O `with open(...) as arquivo:` é o jeitão Python de fazer isso bonito: ele abre, deixa você usar, e fecha sozinho no final. Sem chance de esquecer. 🪄
+
+estrutura geral Python
+
+```
+with open("nome_do_arquivo.json", "modo") as apelido:
+    # aqui dentro você usa "apelido" como se fosse o arquivo
+    # quando o bloco acaba, Python fecha sozinho ✅
+```
+
+🚪 Os modos mais comuns
+
+O segundo argumento do `open()` é o modo:
+
+📖
+
+#### `"r"` — read (ler)
+
+Para ler um arquivo que JÁ existe.
+
+Usa com `json.load(...)`.
+
+✏️
+
+#### `"w"` — write (escrever)
+
+Para escrever. Cria o arquivo se não existir, sobrescreve se existir.
+
+Usa com `json.dump(...)`.
+
+🧘
+Não trava nisso agora. Por enquanto basta lembrar: `"r"` pra ler, `"w"` pra escrever. Depois, naturalmente, você vai entender o resto.
+
+═══════════════════════════════════════════════════════ 8. BUGZILLA — armadilhas de JSON ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu de novo!
+
+Os 3 erros clássicos com JSON
+
+🐛
+
+Tá com problema no seu JSON? Calma, é uma das três:
+
+Erros que TODO mundo comete na primeira vez
+
+Antes de surtar, confere essa lista — quase sempre é uma das três coisas abaixo.
+
+Bug 1
+
+### 🐛 Bug #1 — esqueci de importar `json`
+
+Você começa a digitar `json.dump(...)` e o Python solta:
+
+erro Terminal
+
+```
+NameError: name 'json' is not defined
+```
+
+🩹
+Conserto: primeira linha do arquivo, sempre — `import json`. Sem isso, o Python não sabe quem é esse "json".
+
+Bug 2
+
+### 🐛 Bug #2 — arquivo vazio quebra o `json.load`
+
+Você cria `alunos.json` manualmente, deixa em branco, e tenta carregar:
+
+erro Terminal
+
+```
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+```
+
+🩹
+Conserto: arquivo JSON vazio NÃO É JSON válido. Pra começar do zero, escreve `[]` (lista vazia) ou `{}` (dict vazio) dentro dele. Ou então salva primeiro com `json.dump([], arq)`.
+
+Bug 3
+
+### 🐛 Bug #3 — modo errado: `"r"` vs `"w"`
+
+Tentou ler um arquivo que ainda não existe, com modo `"r"`:
+
+erro Terminal
+
+```
+FileNotFoundError: [Errno 2] No such file or directory: 'alunos.json'
+```
+
+🩹
+Conserto: ou roda o `salvar_dados.py` primeiro (pra criar o arquivo), ou trata o erro com `try / except FileNotFoundError` — é o que a gente vai usar no desafio final 👀.
+
+═══════════════════════════════════════════════════════ 9. QUIZ DE FIXAÇÃO ═══════════════════════════════════════════════════════
+
+🎯
+
+Quiz de Fixação
+
+Antes do desafio final, bora confirmar
+
+3️⃣ Pra salvar uma lista de dicts num arquivo, você usa:
+
+A) json.save(lista, "arq.json") B) json.dump(lista, arquivo) com modo "w" C) print(lista) num .json D) json.load(lista, "arq.json")
+
+4️⃣ Você abriu `alunos.json` com modo `"w"` e ele já tinha dados. O que acontece?
+
+A) Os dados antigos são preservados e o novo é adicionado B) Python pergunta se você quer sobrescrever C) O conteúdo antigo é apagado e substituído D) Dá erro automaticamente
+
+5️⃣ Qual é a primeira linha que NUNCA pode faltar?
+
+A) install json B) from json import save C) import json D) require("json")
+
+═══════════════════════════════════════════════════════ 10. DESAFIO FINAL — sistema_cadastro_json.py (SOLO 👀) ═══════════════════════════════════════════════════════
+
+8.2
+
+Desafio Prático — sistema_cadastro_json.py
+
+Pega o sistema do Cap 07 e PERSISTE de verdade
+
+💪
+
+Desafio Individual — o "boss" do capítulo
+
+Faça sozinho · sistema_cadastro_json.py
+
+💡 Dica para fazer sozinho
+
+Lembra do `sistema_cadastro.py` do Capítulo 07? Aquele com menu (1-Adicionar, 2-Listar, 3-Buscar, 4-Sair) e uma lista de dicionários dos alunos. Você vai pegar exatamente esse e fazer 3 mudanças:
+
+1. No começo do programa, antes de mostrar o menu, tenta LER o arquivo `alunos.json`. Se existir, carrega na lista. Se NÃO existir (primeira vez rodando), começa com lista vazia.
+
+2. A opção 4-Sair deixa de só dar `break` — agora ela também SALVA a lista no `alunos.json` antes de sair.
+
+3. Pra tratar "arquivo não existe ainda" sem quebrar, usa `try / except FileNotFoundError`. Tipo: "tenta abrir; se não rolar, começa vazio".
+
+Conceitos que você JÁ tem: `while True`, `if/elif/else`, `input()`, `append`, `for`, `list`, `dict`, `import json`, `json.dump`, `json.load`, `with open(...)`. Você tem TODAS as peças. 💪
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse é o exercício mais legal do capítulo — você vai sentir o "AHA!" de fazer um programa que lembra das coisas. Roda, cadastra um aluno, fecha. Roda DE NOVO e vê os alunos voltando. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+sistema_cadastro_json.py Python
+
+```
+import json
+
+ARQUIVO = "alunos.json"
+
+# 1. carrega os dados do arquivo (se existir)
+try:
+    with open(ARQUIVO, "r", encoding="utf-8") as f:
+        alunos = json.load(f)
+    print(f"📂 Carreguei {len(alunos)} aluno(s) salvos.")
+except FileNotFoundError:
+    alunos = []
+    print("📭 Nenhum cadastro ainda. Começando do zero.")
+
+while True:
+    print("\n=== Sistema de Cadastro ===")
+    print("1 - Adicionar aluno")
+    print("2 - Listar alunos")
+    print("3 - Buscar aluno")
+    print("4 - Sair (e salvar)")
+
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == "1":
+        nome  = input("Nome: ")
+        idade = int(input("Idade: "))
+        curso = input("Curso: ")
+        alunos.append({"nome": nome, "idade": idade, "curso": curso})
+        print(f"✅ {nome} cadastrado(a)!")
+
+    elif opcao == "2":
+        if not alunos:
+            print("📭 Nenhum aluno cadastrado ainda.")
+        for a in alunos:
+            print(f"👤 {a['nome']} — {a['idade']} anos — {a['curso']}")
+
+    elif opcao == "3":
+        alvo = input("Nome a buscar: ")
+        encontrados = [a for a in alunos if a["nome"].lower() == alvo.lower()]
+        print(encontrados if encontrados else "😶 Não encontrei.")
+
+    elif opcao == "4":
+        with open(ARQUIVO, "w", encoding="utf-8") as f:
+            json.dump(alunos, f, indent=4, ensure_ascii=False)
+        print("💾 Dados salvos. Até mais!")
+        break
+
+    else:
+        print("❓ Opção inválida.")
+```
+
+primeira execução · sistema_cadastro_json.py
+
+=== Sistema de Cadastro ===
+Escolha uma opção:
+Nome:
+Idade:
+Curso:
+
+Escolha uma opção:
+
+segunda execução (no dia seguinte!) · sistema_cadastro_json.py
+
+=== Sistema de Cadastro ===
+Escolha uma opção:
+
+🎉
+SENTIU? Fechou e abriu de novo, e a Ana tava lá. Esse é o momento exato em que seus programas deixam de ser brincadeira e viram software de verdade. Bem-vindo(a) ao mundo da persistência! 💾
+
+🤓
+Curiosidade pra quem tá ligado: esse padrão de "carregar tudo na memória → modificar → salvar tudo de novo" funciona pra cadastros pequenos (até umas centenas de itens). Quando passar disso, a gente quer algo melhor — e é exatamente o que vem no Cap 09. 😉
+
+═══════════════════════════════════════════════════════ 11. RESUMO + PONTE PRO CAP 09 ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 08
+
+O que você acabou de desbloquear
+
+📦 import json Módulo built-in do Python — não instala nada
+
+💾 json.dump Salva (despeja) lista/dict num arquivo .json
+
+📖 json.load Carrega (lê) o arquivo .json de volta pra memória
+
+📂 with open() Abre o arquivo e fecha sozinho no fim do bloco
+
+✏️ modo "w" Escrita — sobrescreve o arquivo
+
+📖 modo "r" Leitura — só lê, não modifica
+
+🛡️ try/except FileNotFoundError Trata "arquivo ainda não existe" sem quebrar
+
+🐛 BugZilla import esquecido, arquivo vazio, modo errado
+
+### "Agora seus programas TÊM MEMÓRIA.
+Fechou? Abriu? Tá tudo lá." 💾✨
+
+#### 🌉 Ponte pro próximo capítulo
+
+JSON é fantástico — simples, universal, funciona em qualquer projeto pequeno. Mas tem um detalhe: a gente sempre carrega o arquivo INTEIRO na memória, modifica, e salva o arquivo INTEIRO de novo.
+
+Isso é tranquilo pra 10, 100, 500 alunos. Mas se você cresce pra 10 mil cadastros? Aí já vira lerdeza. E se duas pessoas mexerem ao mesmo tempo? Bagunça.
+
+É aí que entra o TinyDB — um banco de dados de bolso que ainda usa JSON por baixo dos panos, mas oferece `insert`, `search`, `update`, `remove` de forma profissional. Vai parecer mágica depois do que você acabou de aprender. 🚀
+
+### Próximo capítulo →
+
+Capítulo 09 — TinyDB. Persistência de nível profissional, ainda em arquivo, mas com superpoderes. Você vai amar.
+🗃️ Ir para Capítulo 09 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

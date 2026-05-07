@@ -1,0 +1,1026 @@
+# Capitulo 01 - Boas-vindas e Fundamentos
+(fonte: capitulos/01-boas-vindas/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+🐍 👋 ✨
+Capítulo 01 · Bootcamp programa AI
+
+# Boas-vindas e Fundamentos
+
+Bem-vindo(a) ao mundo da programação! Hoje você vai entender o que é programar de verdade, conhecer o Python e escrever sua primeira linha de código. Bora?
+
+🐍 Python 📦 PyCharm 💬 print / input 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. BOAS-VINDAS ═══════════════════════════════════════════════════════
+
+🎯
+
+Boas-vindas ao mundo da Programação
+
+A primeira coisa que você precisa saber
+
+### Programar é ensinar o computador a resolver problemas.
+
+Você escreve instruções, e ele executa exatamente o que foi pedido.
+
+⚠️
+Mas atenção: o computador não entende intenções. Ele só entende comandos claros e lógicos. Se você for ambíguo, ele faz besteira (mas culpado é sempre o programador, não ele 😅).
+
+Aprender a programar é como…
+
+…aprender um novo idioma. Só que em vez de falar com pessoas, você fala com máquinas. E elas são bem mais literais que a gente — nada de "cê me passa o sal aí?". Tem que ser na régua.
+
+═══════════════════════════════════════════════════════ 2. POR QUE PROGRAMAÇÃO? CARREIRA · SALÁRIOS · MERCADO ═══════════════════════════════════════════════════════
+
+💼
+
+Por que essa carreira é PERFEITA agora 🚀
+
+Salários, remoto, faculdade — a real sobre desenvolvimento no Brasil
+
+HERO STAT — empolga de cara
+
+📊 Pesquisa Salarial 2025
+
+R$ 15.635
+
+é o salário médio de um programador SÊNIOR no Brasil
+
+Fonte: pesquisa.codigofonte.com.br/2025 · 12.510 profissionais consultados (mar–jul 2025)
+
+🚀
+
+SALÁRIOS POR NÍVEL
+
+### 💰 Quanto ganha um programador no Brasil?
+
+A pesquisa do Código Fonte TV é a maior do Brasil sobre nossa área. Médias de 2025:
+
+JÚNIOR
+
+R$ 4.154
+
+início da carreira
+0–2 anos
+
+PLENO
+
+R$ 7.840
+
+2–5 anos
+de estrada
+
+SÊNIOR
+
+R$ 15.635
+
+5+ anos &
+profundidade técnica
+
+📊
+Fonte: Pesquisa Salarial Código Fonte TV 2025 · pesquisa.codigofonte.com.br/2025 · 12.510 profissionais · jul/2025
+
+### 🌍 E pra empresas no exterior?
+
+O céu é o limite. Inglês + dev sólido = você concorre globalmente, do quarto.
+
+🇵🇹
+
+PORTUGAL
+
+≈ R$ 20.387
+
+~ USD 2.450/mês
+destino popular
+
+🇺🇸
+
+EUA
+
+≈ R$ 39.750
+
+~ USD 4.770/mês
+remoto worldwide
+
+🇨🇭
+
+SUÍÇA
+
+≈ R$ 47.500
+
+~ USD 5.700/mês
+top do mercado
+
+📊
+Fonte: Pesquisa Código Fonte TV 2025 (médias informadas pelos respondentes que trabalham no exterior) · pesquisa.codigofonte.com.br/2025. Conversão estimada a R$ 5,30/USD (varia com o câmbio do dia).
+
+💵
+Trabalhando pra fora dá pra multiplicar 3 a 5x o salário Sênior brasileiro. Inglês + base sólida + portfólio = passaporte digital. Não precisa nem mudar de país.
+
+HOME OFFICE
+
+### 🏠 É verdade que rola muito home-office?
+
+61%
+
+trabalham
+remoto hoje
+
+78%
+
+consideram remoto
+a modalidade ideal
+
+1%
+
+prefere
+presencial
+
+Programador é profissional sem fronteiras. Casa, café, praia, outro país — basta um notebook e Wi-Fi decente.
+
+📊
+Fonte: Pesquisa Código Fonte TV 2025 · pesquisa.codigofonte.com.br/2025 · valores: 61,77% remoto · 78,16% remoto-ideal · 1,34% presencial.
+
+FACULDADE OU NÃO
+
+### 🎓 Tem que fazer faculdade?
+
+Resposta direta: não obriga. A área é meritocrática — o que conta é o que você sabe entregar.
+
+67%
+
+têm ensino superior
+
+33%
+
+trabalham SEM faculdade
+
+⚖️
+Mas pera: faculdade não é obstáculo, é acelerador. Ela te dá fundamentos (algoritmos, lógica, matemática), networking e disciplina. Faça ou não, a base sólida é o que vai te destacar — e é exatamente isso que esse curso te entrega.
+
+📊
+Fonte: Pesquisa Código Fonte TV 2025 · pesquisa.codigofonte.com.br/2025 · valores: 67,2% com superior completo · 32,8% sem diploma. Tendência confirmada também pela Stack Overflow Developer Survey 2024.
+
+RANKING DE LINGUAGENS
+
+### 🥇 Linguagens mais bem pagas no Brasil
+
+Salário médio em 2025 — pesquisa do Código Fonte TV:
+
+#1
+
+☕ Java
+
+R$ 10.735
+
+#2
+
+🟦 C#
+
+R$ 10.195
+
+#3
+
+🔷 TypeScript
+
+R$ 9.627
+
+#4
+
+🐍 Python VOCÊ ESTÁ AQUI
+
+R$ 9.506
+
+#5
+
+🟨 JavaScript
+
+R$ 8.896
+
+💡
+Python é a linguagem perfeita pra começar — sintaxe limpa, comunidade gigante, usada de IA a backend, de scripts a foguetes da NASA. E o salário, como dá pra ver, também não decepciona.
+
+📊
+Fonte: Pesquisa Código Fonte TV 2025 · pesquisa.codigofonte.com.br/2025 · ranking por salário médio: Java R$ 10.735,79 · C# R$ 10.195,72 · TypeScript R$ 9.627,67 · Python R$ 9.506,39 · JavaScript R$ 8.896,38.
+
+POR QUE ESSE CURSO É FUNDAMENTAL
+
+### 🧱 "E se eu quiser fazer Java? C#? Cyber? Dados?"
+
+Não importa. Esse curso é sobre os FUNDAMENTOS DA PROGRAMAÇÃO — lógica, algoritmos, decisões, repetição, dados, funções. Esses conceitos são universais: rodam em Python, Java, C#, Go, Rust, qualquer linguagem.
+
+☕
+
+Java / Kotlin
+
+backend corporativo, Android
+
+🛡️
+
+Cibersegurança
+
+precisa entender código pra atacar/defender
+
+📊
+
+Dados / IA
+
+SQL, Python, ML — tudo é código
+
+🧪
+
+QA & Testes
+
+automação exige programar
+
+🌐
+
+Web / Mobile
+
+JS, TS, Swift, Kotlin
+
+⚙️
+
+DevOps / Cloud
+
+scripts, automação, IaC
+
+🏗️
+Trocar de linguagem é mudar de "sotaque", não de idioma. Quem aprende lógica direito pula entre linguagens em semanas. Quem só decora sintaxe trava no primeiro problema novo.
+
+IA: VALE A PENA AINDA APRENDER A PROGRAMAR?
+
+### 🤖 "E a IA? Vale a pena ainda aprender a programar?"
+
+A pergunta certa pra 2025. Resposta direta: SIM, mais do que nunca. O jogo mudou — mas quem tem base sólida sai na frente como nunca antes na história da nossa profissão.
+
+95%
+
+dos programadores brasileiros já usam IA pra programar no dia a dia. Pesquisa Código Fonte TV 2025 · valores: 95,52% usam IA · ChatGPT é a ferramenta mais usada (62,92%)
+
+📊
+Fonte: Pesquisa Código Fonte TV 2025 · pesquisa.codigofonte.com.br/2025. Tendência também medida pela Stack Overflow Developer Survey 2024 · survey.stackoverflow.co/2024.
+
+#### ⚖️ O que a IA faz bem · onde ela ainda tropeça
+
+✅ A IA é monstra em…
+
+- gerar código boilerplate
+- completar funções repetitivas
+- traduzir & explicar erros
+- sugerir refatorações simples
+- acelerar quem já sabe o que quer
+
+❌ A IA tropeça em…
+
+- decidir o que precisa ser construído
+- arquitetura de sistemas reais
+- debug em código grande & ambíguo
+- regras de negócio do cliente
+- segurança, ética, performance fina
+
+#### 🚀 IA é uma alavanca — depende de quem está embaixo dela
+
+🚀
+
+Você COM base + IA
+Você usa a IA como copiloto. Entende o que ela gera, corrige o que está errado, conduz a solução. Vira o famoso 10x dev — entrega num dia o que antes levava semanas.
+
+😵
+
+Você SEM base + IA
+Vira "prompt monkey": cola código que não entende, não consegue debugar, depende 100% da IA pra qualquer coisa. O mercado descarta primeiro.
+
+🎯
+Empresas não pagam por quem digita código — pagam por quem RESOLVE PROBLEMAS. A IA gera linhas; o engenheiro decide quais escrever, por quê, e o que está errado nelas. Sem base, você não consegue nem revisar o que a IA te entrega.
+
+📚
+É por isso que esse curso é mais importante AGORA do que era há 5 anos. Aqui você constrói o chão de fábrica — lógica, algoritmos, fluxo, dados. Depois que a base é firme, a IA vira seu copiloto turbinado, não sua bengala.
+
+Pensa numa calculadora 👀
+
+Calculadora não eliminou matemático — turbinou quem sabia matemática. Quem nunca aprendeu a contar não vira gênio só porque tem calculadora na mão. IA é a mesma coisa: amplifica quem tem base, expõe quem não tem.
+
+LINKEDIN
+
+### 💼 LinkedIn: a sua porta de entrada
+
+Na nossa área, recrutador caça no LinkedIn. É lá que ele vê seu currículo, seu networking, seus posts, seu histórico. Sem LinkedIn ativo, você fica invisível pra metade do mercado.
+
+📸 Foto profissional primeira impressão importa muito
+
+🎯 Headline forte "Dev Júnior · Python · construindo & aprendendo"
+
+🔗 GitHub linkado prove que você programa, não só fala
+
+✍️ Poste o que aprende cada projeto deste curso vira post
+
+🚀
+Comece HOJE. Não espere "ficar bom" pra criar perfil. A jornada (até com seus erros) é o que atrai oportunidade — recrutador adora história real.
+
+VAGAS REAIS
+
+### 📋 Vagas que você vai disputar — exemplos reais
+
+Snapshots do que rola hoje no LinkedIn / Gupy / vagas remotas:
+
+🐍 Python · Júnior
+
+Desenvolvedor Python Júnior
+
+FinTech brasileira · iniciantes bem-vindos
+
+R$ 4.000–6.500 🌎 100% remoto
+
+🌍 Latam · Mid
+
+Backend Engineer · Mid-level
+
+US Startup · contrata da América Latina
+
+USD 4–6,5 mil/mês 🌎 Remoto worldwide
+
+🌱 Trainee
+
+Trainee Dev · Programa de formação
+
+Big Tech / Banco · começo de carreira
+
+R$ 3.500–5.000 🏠 Híbrido / Remoto
+
+💡 Onde caçar: linkedin.com/jobs · gupy.io · vagas.com.br · remotar.com.br · turing.com · weworkremotely.com. Dezenas de novas todo dia.
+
+🧪
+Vagas exemplo são perfis típicos extraídos dos portais citados acima (LinkedIn Jobs, Gupy, Vagas.com, Remotar, Turing, We Work Remotely). Salários e benefícios variam por empresa e momento — sempre consulte as ofertas atualizadas.
+
+═══════ FONTES &amp; METODOLOGIA — painel consolidado ═══════
+
+### 📚 Fontes & metodologia
+
+Aqui a gente trabalha com dado real, não com "tendência LinkedIn". Confira você mesmo:
+
+- 📊 Pesquisa Salarial Código Fonte TV 2025 — fonte primária dos números (salários por nível, home-office, faculdade, ranking de linguagens, uso de IA). Base de 12.510 profissionais respondentes, coleta entre março e julho de 2025.
+🔗 pesquisa.codigofonte.com.br/2025
+- 🌍 Salários no exterior — médias informadas pelos respondentes da mesma pesquisa que trabalham fora (em USD/mês). Conversão pra reais usa câmbio aproximado de R$ 5,30/USD; varia com o dólar do dia. Os valores em USD foram: Portugal ~$2.450, EUA ~$4.770, Suíça ~$5.700.
+- 📈 Stack Overflow Developer Survey 2024 — pesquisa global com mais de 65 mil devs. Corrobora os pontos sobre meritocracia da área (vários devs sem diploma), tendência de remoto e adoção massiva de IA.
+🔗 survey.stackoverflow.co/2024
+- 💼 Vagas exemplo — perfis típicos publicados em portais públicos: LinkedIn Jobs, Gupy, Vagas.com, Remotar, Turing e We Work Remotely. Não são ofertas reais nominadas — apenas representativos do que circula.
+
+💡
+Os números mudam ano a ano. Antes de citar em entrevista (ou em conversa de mesa de bar), confira a edição mais recente da pesquisa. Dado bom é dado checado.
+
+TEM UM PREÇO
+⚡
+Mas tudo tem um preço. Programar não é talento mágico — é prática diária. Tem que codar muito, errar muito, ler doc, pesquisar, perguntar. Quem faz 30 minutos por dia, todo dia, vence quem só estuda no fim de semana. Maratona, não sprint.
+
+Pensa assim 👀
+
+Aprender a programar é como aprender um instrumento musical. Ninguém vira músico só assistindo aula — só tocando. Aqui é igual: cada exercício "olhinho", cada bug, cada `print("Olá")` que dá errado é uma nota da partitura.
+
+═══════════════════════════════════════════════════════ 2.5 HORA DA VERDADE — gerencia expectativas (anti-frustração) ═══════════════════════════════════════════════════════
+
+🤝
+
+Hora da verdade — aqui a gente não mente
+
+Real talk antes que o hype vire frustração 😅
+
+😅 Spoiler honesto:
+você NÃO vai sair empregado quando esse curso acabar.
+
+Calma, calma — respira fundo, não fecha a aba 🙃. Aqui a gente trabalha com verdade, e a verdade tá no próprio nome: Programação para INICIANTES. A palavra-chave é iniciantes — não "empregabilidade instantânea".
+
+Qualquer um que prometer "vaga garantida em 30 dias" tá vendendo sonho. Aqui a gente vende base — que é o que ninguém pula sem se machucar.
+
+O QUE ESSE CURSO É
+
+### ✅ O que ESSE curso entrega
+
+A base de tudo: lógica de programação, algoritmos, condicionais, loops, listas, dicionários, funções. O chão de fábrica em cima do qual você vai construir TUDO depois.
+
+É como aprender o alfabeto antes de escrever romance. Sem isso, qualquer curso avançado vira inglês com você de espanhol — você até pega umas palavras, mas não conversa.
+
+O QUE ESSE CURSO NÃO É
+
+### ❌ O que esse curso NÃO entrega (e nem promete)
+
+- ✗ Stack completa de mercado (Spring, React, Node, Django, AWS, Docker…)
+- ✗ Banco de dados profissional (PostgreSQL, modelagem, queries complexas)
+- ✗ Git/GitHub avançado, CI/CD, code review, pull requests do dia a dia
+- ✗ Arquitetura de software, padrões de projeto, microsserviços
+- ✗ Vaga garantida (nenhum curso entrega isso — desconfia de quem promete!)
+
+ROADMAP
+
+### 🗺️ O caminho da pedra (e onde você está nele)
+
+Programação é jornada. Esse curso é a primeira etapa — não a última. Olha o mapa:
+
+1
+
+🌱
+
+Base sólida
+VOCÊ ESTÁ AQUI
+
+→
+
+2
+
+🛠️
+
+Stack de mercado
+Spring, React, SQL, Git
+
+→
+
+3
+
+📦
+
+Projetos reais
+GitHub bombado
+
+→
+
+4
+
+💼
+
+Estágio / Trainee / Jr
+primeira vaga 🎉
+
+→
+
+5
+
+🚀
+
+Pleno → Sênior
+R$ 15k+, exterior, 10x dev
+
+CLOSER
+💪
+Mas olha que dá pra subir: esse curso é o passo UM, não o trinta. Sem ele você não constrói nada. Com ele bem aprendido, todo o resto fica infinitamente mais fácil — porque você vai entender o "porquê", não só o "como".
+
+🤝
+Combinado? Aqui a gente não vende sonho — entrega base. Você sai daqui programador iniciante de verdade, pronto pra encarar o próximo nível. É o começo, não o fim. E começo bem dado vale ouro.
+
+═══════════════════════════════════════════════════════ 3. QUIZ DE AQUECIMENTO ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz de Aquecimento
+
+Marca a tua aposta antes da gente seguir
+
+1️⃣ Programar é:
+
+A) Ensinar o computador a resolver problemas B) Falar com o computador em qualquer idioma C) Fazer desenhos na tela D) Apenas criar sites
+
+2️⃣ "Python" é:
+
+A) Um tipo de cobra 🐍 B) Uma linguagem para falar com o computador C) Um aplicativo de música D) Um site de vídeos
+
+═══════════════════════════════════════════════════════ 3. O QUE É PROGRAMAR ═══════════════════════════════════════════════════════
+
+🍰
+
+O que é programar?
+
+A analogia da receita
+
+Pensa numa receita de bolo
+
+Você lê o passo a passo: bata os ovos, peneire a farinha, leve ao forno. Cada passo é claro, em ordem, e tem um resultado esperado.
+
+Programar é igualzinho. Você escreve o passo a passo, o computador executa. Se você esquecer um ingrediente, o bolo desanda 🍰 — e o programa também.
+
+#### 🍰 Receita de bolo
+
+- Ingredientes = farinha, ovos, leite…
+- Passo a passo = bata, misture, asse
+- Resultado = bolo pronto
+
+#### 💻 Programa Python
+
+- Dados = nome, idade, números…
+- Algoritmo = comandos em ordem
+- Resultado = saída do programa
+
+💡
+Glossário rápido: `Receita` = código, `Ingredientes` = dados, `Passo a passo` = algoritmo. Bem simples, né?
+
+═══════════════════════════════════════════════════════ 4. O IDIOMA DAS MÁQUINAS ═══════════════════════════════════════════════════════
+
+🗣️
+
+O idioma das máquinas
+
+Por que existem várias linguagens?
+
+Assim como a gente usa português pra conversar entre pessoas, usamos linguagens de programação pra conversar com computadores.
+
+Existem várias (Java, JavaScript, C, Ruby…). A nossa escolhida é o Python — amigável, poderosa e moderna.
+
+🧠 Seu primeiro "Oi!" pro computador
+
+É literalmente uma linha:
+
+Python REPL
+
+>>>
+Olá, mundo!
+
+🐍
+print é um comando que pede pro Python imprimir (mostrar) algo na tela. Tudo que estiver entre parênteses e aspas é o que vai aparecer.
+
+═══════════════════════════════════════════════════════ 5. POR QUE PYTHON ═══════════════════════════════════════════════════════
+
+🐍
+
+Por que aprender Python?
+
+Spoiler: é a melhor escolha pra começar
+
+📝
+Sintaxe simples — parece quase com inglês. Sem ponto e vírgula no fim, sem chaves apertando o código.
+
+🌐
+Usado em tudo — sites, inteligência artificial, ciência de dados, automação, jogos, scripts pessoais…
+
+🤝
+Comunidade enorme — qualquer dúvida que você tiver, alguém já perguntou no Stack Overflow.
+
+🚀
+Ideal pra começar — você aprende lógica de programação limpa, sem se distrair com burocracia da linguagem.
+
+🎬 Curiosidade
+
+O Python foi criado por Guido van Rossum em 1991. O nome NÃO vem do bicho 🐍 — vem do grupo de comédia britânico Monty Python, que o Guido era fã. Por isso a comunidade Python é tão bem-humorada (e a documentação tem piadas escondidas 😄).
+
+═══════════════════════════════════════════════════════ 6. DO CÓDIGO À AÇÃO (FLUXO ANIMADO) ═══════════════════════════════════════════════════════
+
+⚡
+
+Do código à ação
+
+O que acontece quando você clica em "Run"
+
+Você escreve uma linha em Python e aperta "Run" no PyCharm. Em milissegundos, isso aqui acontece:
+
+Você
+
+✍️ Escreve o código
+
+aperta Run
+
+Python
+
+📖 Lê seu texto
+
+Tradução
+
+🔄 Traduz pra "linguagem da máquina"
+
+Computador
+
+⚡ Executa passo a passo
+
+Saída
+
+🎉 Mostra o resultado!
+
+Pensa num robô assistente
+
+Você dá a receita pra ele. Ele lê, entende e faz exatamente o que foi mandado. Sem improviso. Se o passo 3 estiver errado, ele faz errado mesmo — a culpa é sempre da receita, não do robô.
+
+═══════════════════════════════════════════════════════ 7. PENSAR COMO PROGRAMADOR ═══════════════════════════════════════════════════════
+
+🧠
+
+Pensar como um programador
+
+Antes do código, vem o pensamento
+
+Antes de escrever qualquer linha de código, todo programador faz três coisas:
+
+🔨
+1. Quebra o problema em partes menores. Um problema gigante vira vários probleminhas tratáveis.
+
+📋
+2. Cria passos claros e ordenados. Cada passo faz UMA coisa, e bem feita.
+
+✨
+3. Combina lógica e criatividade. Tem mais de um caminho pra resolver — escolhe um.
+
+☕ Exemplo: fazer café (em "código humano")
+
+Pegar o filtro
+📦
+
+Colocar o pó
+☕
+
+Ferver a água
+💧
+
+Passar o café
+⏳
+
+Beber 😋
+🥤
+
+🤔
+Reparou? Se a gente pular o passo "ferver a água", o café fica frio. Se a gente trocar a ordem, fica errado. Programar é exatamente isso, mas pro computador.
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — HORA DE CODAR ═══════════════════════════════════════════════════════
+💻 Hora de Codar
+
+## Bora pôr a mão na massa!
+
+Quatro exercícios curtinhos pra você falar com a máquina pela primeira vez. Os dois primeiros a gente faz junto. Os outros dois… olhinho 👀.
+
+═══════════════════════════════════════════════════════ 8. BORA CODAR 1.0 — Olá, mundo! ═══════════════════════════════════════════════════════
+
+1.0
+
+Bora Codar! — Olá, mundo!
+
+Seu primeiro programa Python na vida
+
+🎯
+
+Desafio guiado pelo professor
+
+Vamos fazer juntos · ola_mundo.py
+
+Passo a passo:
+
+Abra o PyCharm
+📦
+
+Crie o arquivo `ola_mundo.py`
+📄
+
+Escreva: `print("Olá, mundo!")`
+⌨️
+
+Aperte Run ▶ e veja o resultado
+🚀
+
+ola_mundo.py Python
+
+```
+print("Olá, mundo!")
+```
+
+No terminal do PyCharm vai aparecer:
+
+Run · ola_mundo.py
+
+$ python ola_mundo.py
+
+🎉
+Parabéns! Você acabou de conversar com o computador. Pode parecer bobo, mas todo mundo que programa começou aqui — inclusive os engenheiros da NASA.
+
+═══════════════════════════════════════════════════════ 9. BORA CODAR 1.1 — Olá, [usuário]! ═══════════════════════════════════════════════════════
+
+1.1
+
+Bora Codar! — Olá, [seu nome]!
+
+Agora a gente conversa com o usuário · ola_usuario.py
+
+🎯
+
+Desafio guiado pelo professor
+
+Conhecendo o input()
+
+Até agora a gente só mostrou texto. Bora deixar o usuário digitar o nome dele e cumprimentar ele.
+
+📥 input() — pegando dados do usuário
+
+A função `input()` mostra uma pergunta na tela e espera o usuário digitar. O que ele digitar volta como uma string (texto) que a gente pode guardar numa variável.
+
+ola_usuario.py Python
+
+```
+# pergunta o nome e guarda na variável
+nome = input("Qual é o seu nome? ")
+print(f"Olá, {nome}! Bem-vindo(a) ao Python 🐍")
+```
+
+Run · ola_usuario.py
+
+Qual é o seu nome?
+
+💡
+Aquele `f"…{nome}…"` é uma f-string — jeito moderno e bonito de juntar variáveis com texto. A gente vai estudar a fundo no próximo capítulo.
+
+🧪
+Teste: rode várias vezes mudando o nome. Funciona com qualquer um? (Spoiler: sim 😉)
+
+═══════════════════════════════════════════════════════ 10. DESAFIO 1.2 — boas_vindas.py (com olhinho) ═══════════════════════════════════════════════════════
+
+1.2
+
+Desafio Individual — boas_vindas.py
+
+Agora é com você
+
+💪
+
+Desafio Individual
+
+Faça sozinho · boas_vindas.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `boas_vindas.py`. Dentro, peça duas coisas ao usuário usando `input()`: o nome e o curso.
+
+Depois mostre uma frase de boas-vindas usando f-string: "Bem-vindo(a), [nome]! Você está no curso de [curso]."
+
+É bem parecido com o exercício 1.1 que a gente acabou de fazer — só que agora com duas variáveis em vez de uma. Você consegue!
+
+🚨
+
+PARE! Tente sozinho primeiro. Abra o PyCharm, crie o arquivo e tente. Errar é parte do processo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+boas_vindas.py Python
+
+```
+# pega os dados do usuário
+nome  = input("Qual é o seu nome? ")
+curso = input("Em qual curso você está? ")
+
+print(f"Bem-vindo(a), {nome}! Você está no curso de {curso}.")
+```
+
+✨
+Reparou? A gente usou DUAS variáveis na mesma f-string, cada uma entre suas `{ }`. Pode usar quantas quiser!
+
+═══════════════════════════════════════════════════════ 11. DESAFIO 1.3 — calculo_idade.py (com olhinho) ═══════════════════════════════════════════════════════
+
+1.3
+
+Desafio Individual — calculo_idade.py
+
+Primeira conta com input!
+
+💪
+
+Desafio Individual
+
+Faça sozinho · calculo_idade.py
+
+💡 Dica para fazer sozinho
+
+Crie `calculo_idade.py`. Peça duas coisas ao usuário: o nome e o ano de nascimento.
+
+Calcule a idade aproximada: `2026 - ano_nascimento`. E mostre: "[nome], você tem aproximadamente [idade] anos."
+
+⚠️ Pega leve nessa parte: o `input()` sempre devolve texto. Pra fazer conta com o ano, você precisa converter pra número usando `int(...)`. Tipo: `int(input("Ano: "))`.
+
+🚨
+
+PARE! Tente sozinho primeiro. Sem pressa — se der erro, leia a mensagem com calma. O Python te ajuda quando você lê o que ele diz!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+calculo_idade.py Python
+
+```
+# pega o nome (texto, fica como veio)
+nome             = input("Qual é o seu nome? ")
+# pega o ano e CONVERTE pra número inteiro
+ano_nascimento   = int(input("Em que ano você nasceu? "))
+idade            = 2026 - ano_nascimento
+
+print(f"{nome}, você tem aproximadamente {idade} anos.")
+```
+
+Run · calculo_idade.py
+
+Qual é o seu nome?
+Em que ano você nasceu?
+
+🔢
+Por que `int()`? Porque `input()` sempre devolve uma string (texto). E texto não dá pra subtrair! Tipo isso aqui dá erro: `"2002" - 2026`. Convertendo com `int()`, você diz pro Python: "vai, vira número que eu preciso fazer conta".
+
+═══════════════════════════════════════════════════════ 11.1 DESAFIO 1.4 — mensagem_dupla.py (com olhinho) ═══════════════════════════════════════════════════════
+
+1.4
+
+Desafio Individual — mensagem_dupla.py
+
+Fez o 1.3? Bora reforçar com mais um 💪
+
+💪
+
+Desafio Individual
+
+Faça sozinho · mensagem_dupla.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `mensagem_dupla.py`. Vamos juntar três informações numa mensagem só:
+
+Peça com `input()`: seu nome, o nome de um amigo(a), e a cidade de vocês.
+
+No final, mostre uma frase tipo: "Olá! Eu sou [nome], meu amigo(a) é [amigo] e somos lá de [cidade]."
+
+Mesma ideia do boas_vindas.py (1.2), só que com três variáveis na mesma f-string. Você consegue!
+
+🚨
+
+PARE! Tente sozinho primeiro. Lembrando: cada `{ }` dentro da f-string vira o conteúdo de uma variável. Espiar antes de tentar = aprendizado pela metade.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+mensagem_dupla.py Python
+
+```
+# pega os três dados
+nome   = input("Seu nome: ")
+amigo  = input("Nome do(a) amigo(a): ")
+cidade = input("Cidade de vocês: ")
+
+print(f"Olá! Eu sou {nome}, meu amigo(a) é {amigo} e somos lá de {cidade}.")
+```
+
+Run · mensagem_dupla.py
+
+Seu nome:
+Nome do(a) amigo(a):
+Cidade de vocês:
+
+✨
+Variação: tente trocar a frase por "E aí, [amigo]? O [nome] mandou um salve de [cidade]!". Mesma ideia, ordem diferente — a f-string aceita as variáveis na ordem que você quiser.
+
+═══════════════════════════════════════════════════════ 11.2 DESAFIO 1.5 — dias_de_vida.py (com olhinho) ═══════════════════════════════════════════════════════
+
+1.5
+
+Desafio Individual — dias_de_vida.py
+
+Fez o 1.4? Bora pra mais uma conta 🧮
+
+💪
+
+Desafio Individual
+
+Faça sozinho · dias_de_vida.py
+
+💡 Dica para fazer sozinho
+
+Crie `dias_de_vida.py`. Peça a idade do usuário e mostre quantos dias ele já viveu (aproximadamente).
+
+Lembra do 1.3 (calculo_idade.py)? A pegadinha é a mesma: `input()` devolve texto. Pra fazer conta com a idade, precisa converter com `int()`.
+
+Fórmula simples: `dias = idade * 365`. Depois mostre algo como "Você já viveu cerca de [dias] dias!"
+
+🚨
+
+PARE! Tente sozinho primeiro. Se aparecer um erro, leia com calma — o Python costuma dizer EXATAMENTE qual linha tá com problema. Errar uma vez ensina mais que acertar de primeira.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+dias_de_vida.py Python
+
+```
+# pega a idade e CONVERTE pra inteiro
+idade = int(input("Quantos anos você tem? "))
+dias  = idade * 365
+
+print(f"Você já viveu cerca de {dias} dias!")
+```
+
+Run · dias_de_vida.py
+
+Quantos anos você tem?
+
+🧮
+Bônus: mostre também as horas! É só multiplicar dias por 24: `horas = dias * 24`. Vai te impressionar quantas horas você já passou neste planeta. ⏰
+
+═══════════════════════════════════════════════════════ 11.3 DESAFIO 1.6 — conversor_metros.py (com olhinho) ═══════════════════════════════════════════════════════
+
+1.6
+
+Desafio Individual — conversor_metros.py
+
+Fez o 1.5? Esse é o último — fechamento com chave de ouro 🏆
+
+💪
+
+Desafio Individual
+
+Faça sozinho · conversor_metros.py
+
+💡 Dica para fazer sozinho
+
+Crie `conversor_metros.py`. Peça um valor em metros e mostre duas conversões:
+
+- em centímetros (× 100)
+- em milímetros (× 1000)
+
+Lembre de usar `int()` pra converter o input em número antes de fazer conta. Você pode usar dois `print()` diferentes (um pra cada conversão) ou um só com várias coisas separadas por `,`.
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse é o desafio mais "matemático" do capítulo — e o mais útil. Calculadora portátil! Tenta um caminho, se travar, tenta outro. Só não espia ainda.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+conversor_metros.py Python
+
+```
+# pega o valor em metros
+metros = int(input("Quantos metros? "))
+cm     = metros * 100
+mm     = metros * 1000
+
+print(f"{metros} metros = {cm} cm = {mm} mm")
+```
+
+Run · conversor_metros.py
+
+Quantos metros?
+
+🚀
+Mandou bem! Você acabou de criar sua primeira "calculadora" em Python. Toda a base do capítulo está aí: `input`, `int`, conta e `print` com f-string. Você já é um programador iniciante. 🎉
+
+═══════════════════════════════════════════════════════ 12. BUGZILLA — APRESENTAÇÃO ═══════════════════════════════════════════════════════
+
+🐛
+
+Conheça o BugZilla
+
+Nosso vilão favorito — vai aparecer em todos os capítulos
+
+🐛
+
+BugZilla apareceu!
+
+Vilão amigável que vai te ensinar a errar com elegância
+
+Todo programador erra. TODO MUNDO. Inclusive seniors com 20 anos de experiência. Cada erro é uma oportunidade de aprender.
+
+O Python é seu amigo: quando algo dá errado, ele mostra uma mensagem tentando te ajudar. Leia com calma, mesmo que pareça intimidador. A última linha geralmente diz exatamente o que aconteceu.
+
+### 👀 Erros clássicos que o BugZilla adora
+
+Você vai conhecer esses bem de perto. Não se preocupa — todo mundo passa por aqui:
+
+😬
+Esquecer os parênteses: `print"Olá"` ❌
+
+😬
+Esquecer as aspas: `print(Olá)` ❌ — Python acha que `Olá` é uma variável que não existe
+
+😬
+Esquecer de converter com `int()` e tentar fazer conta com texto
+
+📖
+Hábito de ouro: quando der erro, leia a mensagem. Procure a palavra Error e a linha indicada. 90% das vezes a resposta tá ali.
+
+═══════════════════════════════════════════════════════ 13. RESUMO + PRÓXIMO CAPÍTULO ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 01
+
+O que você acabou de aprender
+
+🎯 O que é programar Ensinar o computador a resolver problemas com instruções claras
+
+🐍 Python Linguagem amigável, sintaxe simples, comunidade gigante
+
+💬 print() Mostra texto na tela
+
+📥 input() Pega texto digitado pelo usuário
+
+🔢 int() Converte texto em número inteiro
+
+✨ f-string `f"Olá, {nome}!"` — junta texto com variável
+
+🧠 Pensamento lógico Quebrar o problema em passos claros e ordenados
+
+🐛 BugZilla Errar é parte do jogo — leia a mensagem!
+
+### "Agora você fala o idioma das máquinas.
+E esse foi só o primeiro 'Olá'!" 😉🐍
+
+### Próximo capítulo →
+
+Capítulo 02 — Variáveis e Tipos. Você vai descobrir que tudo que a gente fez aqui já usava variáveis (lembra do `nome = ...`?). Bora aprofundar?
+📦 Ir para Capítulo 02 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

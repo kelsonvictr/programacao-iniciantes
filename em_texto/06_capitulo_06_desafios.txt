@@ -1,0 +1,699 @@
+# Capitulo 06 - Desafios
+(fonte: capitulos/06-desafios/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+🎬 🍔 🎟 🎮 🏋️
+Capítulo 06 · Bootcamp programa AI
+
+# Desafios Integradores
+
+Cinco mini-sistemas pra juntar tudo que você aprendeu até aqui: variáveis, condicionais, loops, listas e funções. Sem material novo — só você + Python + um cenário pra resolver.
+
+📦 variáveis 🔀 if/elif 🔁 while 📋 listas 🧩 funções
+
+═══════════════════════════════════════════════════════ INTRO — HORA DE JUNTAR TUDO ═══════════════════════════════════════════════════════
+
+🚀
+
+Hora de juntar TUDO!
+
+Bem-vindo(a) ao capítulo de consolidação
+
+Até aqui a gente foi por partes: primeiro variáveis, depois condicionais, aí loops + listas, e fechando com funções. Cada conceito veio com seu exerciciozinho — bonitinho, isolado, focado.
+
+Mas a vida real não é assim. Quando você vai construir um sistema de verdade — uma lanchonete, um cinema, um app de academia — você precisa juntar tudo no mesmo programa. E é EXATAMENTE isso que vamos fazer agora.
+
+É como sair da musculação isolada e ir pro CrossFit 💪
+
+Antes você treinava bíceps em UM aparelho, perna em OUTRO. Agora vem o "WOD do dia": 10 burpees + 15 agachamentos + 20 polichinelos, tudo junto, em ordem, com tempo. Cansativo? Sim. Mas é aí que o condicionamento aparece de verdade.
+
+Cada desafio aqui é um WOD de programação. Você JÁ TEM tudo que precisa. O que falta é só… juntar.
+
+🧰 Sua caixa de ferramentas
+
+Antes de começar, dá uma respirada e relembra o que você sabe fazer:
+
+📥 input() + int() pegar dados do usuário e converter pra número
+
+🔀 if / elif / else decidir caminhos baseados no que o usuário escolheu
+
+🔁 while True repetir o menu até o usuário pedir pra sair
+
+📋 lista.append() guardar cada coisa que o usuário escolhe
+
+🧮 sum() / len() / count() calcular total, contar quantidade, contar repetições
+
+🧩 def funcao() organizar o código em pedaços com nome
+
+✨ f-string `f"Total: R${total}"` — montar mensagens bonitas
+
+🚪 break sair do loop quando o usuário escolher 0
+
+💡
+Estrutura padrão dos 5 desafios: `menu` → `while True` → `input()` → `if/elif/else` → `lista.append()` → `break` quando 0 → resumo final. Decora esse esqueleto. Os 5 problemas são variações do mesmo tema.
+
+⏱️
+Tempo sugerido: 20-30 min por desafio. Se travar, respira, relê o enunciado, escreve no papel o que precisa acontecer e SÓ depois vai pro código. Pensar antes > digitar antes.
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — COMEÇOU O JOGO ═══════════════════════════════════════════════════════
+🏆 5 desafios · 1 promessa
+
+## Sai do "fiz exercício" e vira dev de verdade.
+
+Cada desafio tem cenário, menu mockado, regras, dica e olhinho 👀. Tenta sozinho ANTES de espiar — é aí que a mágica acontece.
+
+═══════════════════════════════════════════════════════ DESAFIO 1 — SISTEMA DE VOTAÇÃO DE FILMES 🎬 ═══════════════════════════════════════════════════════
+
+1
+
+Sistema de Votação de Filmes 🎬
+
+Eleição relâmpago no clube do cinema
+
+🎬
+
+Desafio 01
+
+Sistema de Votação de Filmes
+
+Mostra o menu, coleta votos numa lista e anuncia o filme campeão.
+
+Sua turma quer escolher um filme pra assistir junto na sexta. Em vez de discutir no grupo do WhatsApp por 2h, você decide automatizar: cada pessoa digita o número do filme preferido, e no final o programa mostra quem ganhou e por quantos votos.
+
+🎬 Mockup do menu (é assim que vai aparecer no terminal)
+
+Run · votacao_filmes.py
+
+🎬 ===== VOTAÇÃO DE FILMES ===== 1 - Interestelar 2 - Vingadores: Ultimato 3 - O Senhor dos Anéis 0 - Encerrar votação Digite o número do filme: 1 ✅ Voto registrado! Digite o número do filme: 3 ✅ Voto registrado! Digite o número do filme: 1 ✅ Voto registrado! Digite o número do filme: 0 🏆 ===== RESULTADO ===== Filme vencedor: Interestelar Votos: 2 Total de votos válidos: 3
+
+📋 Regras do desafio
+
+Mostre o menu com os 3 filmes e a opção `0 - Encerrar votação`. 📜
+
+Use `while True` pra repetir o menu enquanto o usuário não digitar `0`. 🔁
+
+A cada voto, guarde o nome do filme escolhido numa lista (use `append`). 📋
+
+Quando o usuário digitar `0`, saia do loop com `break`. 🚪
+
+Use `lista.count("nome")` pra contar votos de cada filme. 🔢
+
+Mostre o filme vencedor, quantos votos teve e o total de votos. 🏆
+
+💪
+
+Desafio 1 · Faça sozinho
+
+Arquivo: votacao_filmes.py
+
+💡 Dica para fazer sozinho
+
+Crie `votacao_filmes.py`. Antes de qualquer loop, monte uma função `mostrar_menu()` que faz `print` dos filmes e do `0 - Encerrar`.
+
+Crie uma lista vazia: `votos = []`. Depois abre um `while True` que: chama `mostrar_menu()`, pede `int(input(...))`, e usa `if/elif/else` pra decidir o que fazer.
+
+Se for `1`, faz `votos.append("Interestelar")`. Se for `0`, `break`. Se for outra coisa, mostra "opção inválida" (lembra do capítulo 03? mesmo padrão).
+
+Depois do loop, descobre o vencedor. Você pode usar `max(votos, key=votos.count)` ou comparar manualmente os 3 `count`. Mostre com f-string.
+
+🚨
+
+PARE! Tenta sozinho primeiro. Você JÁ TEM tudo que precisa: menu (cap 03), while (cap 04), lista (cap 04), funções (cap 05). Errar é parte do processo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+votacao_filmes.py Python
+
+```
+# 🎬 Sistema de Votação de Filmes
+
+def mostrar_menu():
+    print("\n🎬 ===== VOTAÇÃO DE FILMES =====")
+    print("1 - Interestelar")
+    print("2 - Vingadores: Ultimato")
+    print("3 - O Senhor dos Anéis")
+    print("0 - Encerrar votação")
+
+# lista que vai guardar cada voto (como string)
+votos = []
+
+while True:
+    mostrar_menu()
+    opcao = int(input("\nDigite o número do filme: "))
+
+    if opcao == 1:
+        votos.append("Interestelar")
+        print("✅ Voto registrado!")
+    elif opcao == 2:
+        votos.append("Vingadores: Ultimato")
+        print("✅ Voto registrado!")
+    elif opcao == 3:
+        votos.append("O Senhor dos Anéis")
+        print("✅ Voto registrado!")
+    elif opcao == 0:
+        break
+    else:
+        print("❌ Opção inválida, tenta de novo.")
+
+# --- resultado final ---
+if len(votos) == 0:
+    print("\n🤷 Ninguém votou. Encerrando.")
+else:
+    # max() com key=votos.count devolve o item que mais aparece
+    vencedor = max(votos, key=votos.count)
+    qtd      = votos.count(vencedor)
+
+    print("\n🏆 ===== RESULTADO =====")
+    print(f"Filme vencedor: {vencedor}")
+    print(f"Votos: {qtd}")
+    print(f"Total de votos válidos: {len(votos)}")
+```
+
+✨
+Sacou o pulo do gato? Em vez de criar 3 contadores (`votos_filme1`, `votos_filme2`...), a gente guarda todos os votos numa lista só e usa `count()` pra descobrir quantos cada filme tem. Menos código, mais Python.
+
+⚠️
+Cuidado com `int(input())`: se o usuário digitar "abc" em vez de número, o programa quebra. Pra esse desafio tá ok — mas em sistemas reais a gente trataria com `try / except` (vamos ver lá no fim do bootcamp).
+
+🚀 Ver versão deployada do desafio
+
+═══════════════════════════════════════════════════════ DESAFIO 2 — LANCHONETE AI BURGERS 🍔 ═══════════════════════════════════════════════════════
+
+2
+
+Lanchonete AI Burgers 🍔
+
+Sistema de pedido com cálculo de total
+
+🍔
+
+Desafio 02
+
+Lanchonete AI Burgers
+
+Cliente monta o pedido item por item, e no final mostramos a notinha.
+
+Você foi contratado pra automatizar o atendimento de uma lanchonete que ainda anota pedido em papel. O dono quer um terminal simples: o cliente escolhe os itens um por um, e no final o programa mostra quantos itens foram pedidos e o valor total.
+
+🍔 Mockup do menu
+
+Run · lanchonete_ai.py
+
+🍔 ===== AI BURGERS ===== 1 - X-Burger ........ R$15 2 - X-Salada ........ R$18 3 - Batata Frita .... R$10 4 - Refrigerante .... R$ 7 0 - Finalizar Pedido O que você quer? 1 ✅ X-Burger adicionado ao pedido! O que você quer? 3 ✅ Batata Frita adicionada ao pedido! O que você quer? 4 ✅ Refrigerante adicionado ao pedido! O que você quer? 0 🧾 Total de 3 item(s) - Valor total: R$32
+
+📋 Regras do desafio
+
+Menu com 4 itens (com preços) e `0 - Finalizar Pedido`. 📜
+
+Loop `while True` repete enquanto o cliente não digitar 0. 🔁
+
+A cada item escolhido, guarde o preço numa lista. 💰
+
+Use `sum(lista)` pra somar o total e `len(lista)` pra contar os itens. 🧮
+
+No final, mostre: "🧾 Total de N item(s) - Valor total: R$XX". 🧾
+
+Trate opção inválida com mensagem amigável. 🛡️
+
+💪
+
+Desafio 2 · Faça sozinho
+
+Arquivo: lanchonete_ai.py
+
+💡 Dica para fazer sozinho
+
+Crie `lanchonete_ai.py`. Função `mostrar_menu()` primeiro (é o mesmo padrão do desafio 1!).
+
+Duas listas paralelas vão ser sua amiga: uma com os nomes dos itens pedidos e outra com os preços. Ou só uma de preços, se você quiser simplificar — vai dos dois jeitos.
+
+No `if/elif`, cada opção `append`-a o preço correspondente: opção 1 → `15`, opção 2 → `18`, etc.
+
+No final, `sum(precos)` te dá o total e `len(precos)` te dá quantos itens. Monta a frase com f-string e pronto.
+
+🚨
+
+Tenta sozinho! Você JÁ TEM tudo que precisa! Estrutura é IDÊNTICA ao desafio 1 — só muda o que vai dentro da lista (preço em vez de nome). Confia.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+lanchonete_ai.py Python
+
+```
+# 🍔 Lanchonete AI Burgers
+
+def mostrar_menu():
+    print("\n🍔 ===== AI BURGERS =====")
+    print("1 - X-Burger ........ R$15")
+    print("2 - X-Salada ........ R$18")
+    print("3 - Batata Frita .... R$10")
+    print("4 - Refrigerante .... R$ 7")
+    print("0 - Finalizar Pedido")
+
+# duas listas em paralelo: nome do item e preço
+itens  = []
+precos = []
+
+while True:
+    mostrar_menu()
+    opcao = int(input("\nO que você quer? "))
+
+    if opcao == 1:
+        itens.append("X-Burger");   precos.append(15)
+        print("✅ X-Burger adicionado ao pedido!")
+    elif opcao == 2:
+        itens.append("X-Salada");   precos.append(18)
+        print("✅ X-Salada adicionada ao pedido!")
+    elif opcao == 3:
+        itens.append("Batata Frita"); precos.append(10)
+        print("✅ Batata Frita adicionada ao pedido!")
+    elif opcao == 4:
+        itens.append("Refrigerante"); precos.append(7)
+        print("✅ Refrigerante adicionado ao pedido!")
+    elif opcao == 0:
+        break
+    else:
+        print("❌ Opção inválida, escolhe um número do menu.")
+
+# --- nota fiscal ---
+total      = sum(precos)
+quantidade = len(itens)
+
+print(f"\n🧾 Total de {quantidade} item(s) - Valor total: R${total}")
+```
+
+✨
+Por que duas listas? Pra ficar fácil de evoluir depois: imagina que amanhã o dono quer imprimir CADA item do pedido na nota. Com a lista `itens`, é só fazer um `for nome in itens`. Programador bom é programador preguiçoso (no bom sentido) — escreve hoje pensando em não sofrer amanhã.
+
+🚀 Ver versão deployada do desafio
+
+═══════════════════════════════════════════════════════ DESAFIO 3 — CINEMA AI 🎟 ═══════════════════════════════════════════════════════
+
+3
+
+Cinema AI 🎟
+
+Bilheteria com cálculo de ingressos
+
+🎟
+
+Desafio 03
+
+Cinema AI
+
+Cliente compra vários ingressos e o sistema fecha a venda com o total.
+
+O Cinema AI quer um caixa automático: o cliente fica em frente à máquina, escolhe quantos ingressos quiser (de qualquer filme), e no final o sistema mostra o total de ingressos comprados e o valor total.
+
+🎟 Mockup do menu
+
+Run · cinema_ai.py
+
+🎟 ===== CINEMA AI ===== 1 - Duna 2 .................. R$25 2 - Oppenheimer ............. R$30 3 - Barbie .................. R$20 0 - Finalizar Compra Qual ingresso? 2 ✅ Ingresso de Oppenheimer comprado! Qual ingresso? 2 ✅ Ingresso de Oppenheimer comprado! Qual ingresso? 3 ✅ Ingresso de Barbie comprado! Qual ingresso? 0 🧾 Total de ingressos: 3 💰 Valor total: R$80 🎉 Obrigado por escolher o Cinema AI!
+
+📋 Regras do desafio
+
+Menu com 3 filmes (cada um com seu preço) e `0` pra finalizar. 🎬
+
+Loop `while True` repete a compra. 🔁
+
+Use uma lista pra guardar os preços dos ingressos comprados. 📋
+
+No final mostre 3 linhas: total de ingressos, valor total, mensagem de agradecimento. 🧾
+
+Use uma função pra mostrar o menu (mantém o código limpo). 🧩
+
+Trate opção inválida sem quebrar o programa. 🛡️
+
+💪
+
+Desafio 3 · Faça sozinho
+
+Arquivo: cinema_ai.py
+
+💡 Dica para fazer sozinho
+
+Crie `cinema_ai.py`. Esse desafio é quase idêntico ao da Lanchonete — só muda o cenário e a mensagem final. Aproveita o código mental que você já tem.
+
+Função `mostrar_menu()` com os 3 filmes. Lista `ingressos_precos = []`. `while True` com `if/elif`: opção 1 = `append(25)`, opção 2 = `append(30)`, opção 3 = `append(20)`.
+
+No final, três `print`: quantidade (`len`), valor (`sum`) e a mensagem de agradecimento. Capricha nos emojis 🧾 💰 🎉.
+
+🚨
+
+Tá ficando fácil, né? Esse padrão "menu + while + lista + total" é a espinha dorsal de quase todo CLI básico. Fixa esse esqueleto na cabeça — vai te servir pra MUITA coisa.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+cinema_ai.py Python
+
+```
+# 🎟 Cinema AI
+
+def mostrar_menu():
+    print("\n🎟 ===== CINEMA AI =====")
+    print("1 - Duna 2 .................. R$25")
+    print("2 - Oppenheimer ............. R$30")
+    print("3 - Barbie .................. R$20")
+    print("0 - Finalizar Compra")
+
+ingressos_filmes = []   # nome do filme de cada ingresso
+ingressos_precos = []   # preço de cada ingresso
+
+while True:
+    mostrar_menu()
+    opcao = int(input("\nQual ingresso? "))
+
+    if opcao == 1:
+        ingressos_filmes.append("Duna 2");     ingressos_precos.append(25)
+        print("✅ Ingresso de Duna 2 comprado!")
+    elif opcao == 2:
+        ingressos_filmes.append("Oppenheimer"); ingressos_precos.append(30)
+        print("✅ Ingresso de Oppenheimer comprado!")
+    elif opcao == 3:
+        ingressos_filmes.append("Barbie");     ingressos_precos.append(20)
+        print("✅ Ingresso de Barbie comprado!")
+    elif opcao == 0:
+        break
+    else:
+        print("❌ Opção inválida.")
+
+# --- nota final ---
+total_ingressos = len(ingressos_precos)
+valor_total     = sum(ingressos_precos)
+
+print(f"\n🧾 Total de ingressos: {total_ingressos}")
+print(f"💰 Valor total: R${valor_total}")
+print("🎉 Obrigado por escolher o Cinema AI!")
+```
+
+🎬
+Bonus de chefe: tenta listar quantos ingressos de CADA filme foram vendidos antes do total. Dica: `ingressos_filmes.count("Duna 2")` conta as ocorrências. Aí você imprime tipo: "🎬 Duna 2: 2 ingressos".
+
+═══════════════════════════════════════════════════════ DESAFIO 4 — AI ARCADE 🎮 ═══════════════════════════════════════════════════════
+
+4
+
+AI Arcade 🎮
+
+Sistema de partidas + ranking pessoal
+
+🎮
+
+Desafio 04
+
+AI Arcade
+
+A cada partida, o jogador informa a pontuação. No final, somamos tudo.
+
+Bem-vindo(a) ao fliperama do futuro. Aqui você escolhe um jogo, simula a partida (informa quanto fez), repete quantas vezes quiser e no final o sistema te dá um resumo total com a pontuação somada.
+
+🎮 Mockup do menu
+
+Run · ai_arcade.py
+
+🎮 ===== AI ARCADE ===== 1 - Corrida Espacial 🚀 2 - Caça aos Pixels 🕹 3 - Batalha de Códigos ⚔ 0 - Encerrar Qual jogo? 1 🚀 Sua pontuação em Corrida Espacial: 1500 ✅ Partida registrada! Qual jogo? 3 ⚔ Sua pontuação em Batalha de Códigos: 2200 ✅ Partida registrada! Qual jogo? 0 🎮 Partidas jogadas: 2 🔢 Pontuação total: 3700 🏆 Parabéns, dev gamer!
+
+📋 Regras do desafio
+
+Menu com 3 jogos e `0 - Encerrar`. 🎮
+
+Quando o jogador escolhe um jogo, peça a pontuação (input + int). 🔢
+
+Guarde cada pontuação numa lista. 📋
+
+Quando digitar 0, mostre: total de partidas, pontuação somada e mensagem de parabéns. 🏆
+
+Use uma função pra mostrar o menu. 🧩
+
+Bonus: mostre também a maior pontuação (use `max`). 🥇
+
+💪
+
+Desafio 4 · Faça sozinho
+
+Arquivo: ai_arcade.py
+
+💡 Dica para fazer sozinho
+
+Crie `ai_arcade.py`. A diferença pros desafios anteriores é que cada partida pede DOIS inputs: primeiro o jogo, depois a pontuação.
+
+Estrutura: `mostrar_menu()`, `opcao = int(input(...))`, e DENTRO de cada `elif` você faz outro input pra pegar a pontuação. Tipo:
+
+# pseudo-código:
+elif opcao == 1:
+pontos = int(input("..."))
+pontuacoes.append(pontos)
+
+No fim: `len(pontuacoes)` = partidas jogadas, `sum(pontuacoes)` = pontuação total.
+
+🚨
+
+Tenta sozinho! Você JÁ TEM tudo: input dentro de if, lista, while, função. Só é juntar as peças. O segredo: separa as etapas no papel antes de codar.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+ai_arcade.py Python
+
+```
+# 🎮 AI Arcade — sistema de partidas
+
+def mostrar_menu():
+    print("\n🎮 ===== AI ARCADE =====")
+    print("1 - Corrida Espacial 🚀")
+    print("2 - Caça aos Pixels 🕹")
+    print("3 - Batalha de Códigos ⚔")
+    print("0 - Encerrar")
+
+def registrar_partida(jogo_nome, emoji):
+    # pede a pontuação e devolve o número (já como int)
+    pontos = int(input(f"{emoji} Sua pontuação em {jogo_nome}: "))
+    print("✅ Partida registrada!")
+    return pontos
+
+pontuacoes = []
+jogos      = []
+
+while True:
+    mostrar_menu()
+    opcao = int(input("\nQual jogo? "))
+
+    if opcao == 1:
+        pontuacoes.append(registrar_partida("Corrida Espacial", "🚀"))
+        jogos.append("Corrida Espacial")
+    elif opcao == 2:
+        pontuacoes.append(registrar_partida("Caça aos Pixels", "🕹"))
+        jogos.append("Caça aos Pixels")
+    elif opcao == 3:
+        pontuacoes.append(registrar_partida("Batalha de Códigos", "⚔"))
+        jogos.append("Batalha de Códigos")
+    elif opcao == 0:
+        break
+    else:
+        print("❌ Opção inválida.")
+
+# --- resumo ---
+if len(pontuacoes) == 0:
+    print("\n🤷 Nenhuma partida jogada.")
+else:
+    print(f"\n🎮 Partidas jogadas: {len(pontuacoes)}")
+    print(f"🔢 Pontuação total: {sum(pontuacoes)}")
+    print(f"🥇 Maior pontuação: {max(pontuacoes)}")
+    print("🏆 Parabéns, dev gamer!")
+```
+
+🧩
+Olha que sacada: a função `registrar_partida` recebe o nome e o emoji do jogo, faz o input e devolve a pontuação. Isso evita 3 cópias do mesmo `int(input(...))` + `print`. Cap 05 dando frutos! 🌱
+
+═══════════════════════════════════════════════════════ DESAFIO 5 — ACADEMIA AI FITNESS 🏋️ ═══════════════════════════════════════════════════════
+
+5
+
+Academia AI Fitness 🏋️
+
+Registro de treino com soma de minutos
+
+🏋️
+
+Desafio 05
+
+Academia AI Fitness
+
+Aluno escolhe atividades, e o app soma os minutos do treino completo.
+
+Última parada: a Academia AI. O aluno entra na recepção, escolhe quais atividades vai fazer hoje (cada uma com tempo fixo) e ao final o app soma quantas atividades e quantos minutos de treino — pra ele saber quando ir embora 😅.
+
+🏋️ Mockup do menu
+
+Run · academia_ai.py
+
+🏋️ ===== ACADEMIA AI FITNESS ===== 1 - Corrida na esteira ....... 30 min 2 - Bicicleta ergométrica .... 25 min 3 - Musculação ............... 40 min 4 - Alongamento .............. 15 min 0 - Finalizar treino Qual atividade? 1 ✅ Corrida na esteira adicionada (30 min) Qual atividade? 3 ✅ Musculação adicionada (40 min) Qual atividade? 4 ✅ Alongamento adicionado (15 min) Qual atividade? 0 🧾 3 atividades ⏱ Tempo total: 85 minutos 🔥 Parabéns pelo esforço!
+
+📋 Regras do desafio
+
+Menu com 4 atividades (cada uma com tempo) e `0 - Finalizar treino`. 🏋️
+
+Loop `while True` coleta as atividades. 🔁
+
+A cada escolha, guarde o tempo em uma lista de minutos. ⏱
+
+Confirme em tela: "✅ X adicionado (N min)". ✅
+
+No final: total de atividades, tempo total em minutos e mensagem motivacional. 🔥
+
+Função `mostrar_menu()`, padrão dos outros desafios. 🧩
+
+💪
+
+Desafio 5 · Faça sozinho
+
+Arquivo: academia_ai.py
+
+💡 Dica para fazer sozinho
+
+Crie `academia_ai.py`. Esse é o mais simples de todos — é exatamente o esqueleto da Lanchonete (desafio 2), só que com "minutos" em vez de "preço".
+
+Função `mostrar_menu()` com as 4 atividades. Lista `tempos = []`. `while True`: opção 1 `append(30)`, opção 2 `append(25)`, opção 3 `append(40)`, opção 4 `append(15)`, opção 0 `break`.
+
+Final: `len(tempos)` = quantidade de atividades, `sum(tempos)` = tempo total. Três `print` com emoji e pronto!
+
+🚨
+
+Último desafio! Bota fé que tu faz sem espiar. Esse aqui é a vitória de honra — se chegou aqui, é porque já entendeu o padrão. Bora?
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+academia_ai.py Python
+
+```
+# 🏋️ Academia AI Fitness
+
+def mostrar_menu():
+    print("\n🏋️ ===== ACADEMIA AI FITNESS =====")
+    print("1 - Corrida na esteira ....... 30 min")
+    print("2 - Bicicleta ergométrica .... 25 min")
+    print("3 - Musculação ............... 40 min")
+    print("4 - Alongamento .............. 15 min")
+    print("0 - Finalizar treino")
+
+atividades = []
+tempos     = []
+
+while True:
+    mostrar_menu()
+    opcao = int(input("\nQual atividade? "))
+
+    if opcao == 1:
+        atividades.append("Corrida na esteira");   tempos.append(30)
+        print("✅ Corrida na esteira adicionada (30 min)")
+    elif opcao == 2:
+        atividades.append("Bicicleta ergométrica"); tempos.append(25)
+        print("✅ Bicicleta ergométrica adicionada (25 min)")
+    elif opcao == 3:
+        atividades.append("Musculação");           tempos.append(40)
+        print("✅ Musculação adicionada (40 min)")
+    elif opcao == 4:
+        atividades.append("Alongamento");          tempos.append(15)
+        print("✅ Alongamento adicionado (15 min)")
+    elif opcao == 0:
+        break
+    else:
+        print("❌ Opção inválida.")
+
+# --- resumo do treino ---
+qtd_atividades = len(atividades)
+tempo_total    = sum(tempos)
+
+print(f"\n🧾 {qtd_atividades} atividades")
+print(f"⏱  Tempo total: {tempo_total} minutos")
+print("🔥 Parabéns pelo esforço!")
+```
+
+🌟
+Reparou que os 5 desafios são o MESMO esqueleto? `menu → while True → if/elif/break → resumo`. Mude o cenário e os números, e você tem: caixa de mercado, controle de estoque, kanban pessoal, app de hábitos, contador de calorias… Você acabou de aprender um padrão que vale por 100 programas.
+
+═══════════════════════════════════════════════════════ BUGZILLA — LOOP INFINITO ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu (de novo!)
+
+O loop que NUNCA termina — clássico recorrente
+
+🐛
+
+"Meu programa travou e não para mais!"
+
+Erro nº 1 nesses 5 desafios — e o mais traumático
+
+Quase todo mundo já passou por isso: roda o código, escolhe a opção `0`… e nada acontece. O menu volta. Você digita 0 de novo. O menu volta. Você fica tentando matar o programa com `Ctrl+C`. BugZilla feliz da vida.
+
+A causa quase sempre é uma das três abaixo. Bora ver?
+
+### 🐛 Os 3 vilões do loop infinito
+
+😬
+Esqueceu o `break` no `elif opcao == 0` — o menu fecha o ciclo, mas nada manda sair do `while`. Resultado: roda pra sempre.
+
+😬
+Esqueceu o `int()` no input e tá comparando string com número: `opcao == 0` nunca é verdade quando `opcao` é `"0"` (com aspas). "0" não é 0.
+
+😬
+Comparou com `=` em vez de `==` — `=` atribui valor, `==` compara. Em `if`/`elif` você SEMPRE quer `==`.
+
+🛟
+Como sair de um loop infinito no PyCharm: aperta Ctrl + F2 (ou clica no quadradinho vermelho 🟥 ao lado do ▶). Aí você analisa, conserta e roda de novo. Loop infinito não te machuca — é só corrigir.
+
+═══════════════════════════════════════════════════════ ENCERRAMENTO — VOCÊ É DEV INICIANTE 🚀 ═══════════════════════════════════════════════════════
+
+🎉
+
+Você completou os 5 desafios!
+
+Não foi pouca coisa — vamos celebrar?
+
+### 🎉 Parabéns, você é oficialmente um(a) dev iniciante! 🚀
+
+Cinco sistemas. Variáveis, condicionais, loops, listas E funções — tudo trabalhando junto. Você não copiou de tutorial: você pensou, errou, ajustou e fez funcionar. Isso aí, meu amigo / minha amiga, é programar.
+
+5 sistemas completos
+
+~250 linhas de código
+
+0 atalhos no caminho
+
+### 📦 Da caixinha de Capítulo 01 até a lanchonete: olha o tanto que você cresceu
+
+Lembra do `print("Olá, mundo!")` do primeiro capítulo? De lá pra cá foram só 5 capítulos — e você já constrói:
+
+🎬 Sistema de votação com contagem por opção e vencedor automático
+
+🍔 Caixa de lanchonete com cálculo de total e nota fiscal
+
+🎟 Bilheteria de cinema multi-ingressos com somatório
+
+🎮 Sistema de partidas com pontuação somada e ranking
+
+🏋️ App de treino com tempo total e atividades registradas
+
+🧠 Pensamento por padrão "menu + while + lista + resumo" no automático
+
+Pensa nisso assim 🧗
+
+Você entrou nesse bootcamp sem saber o que era `print()`. Hoje você roda 5 sistemas que recebem dados, decidem o que fazer, repetem ações, guardam histórico e geram relatório. É exatamente isso que um app de verdade faz — só que com um pouquinho mais de polimento. O coração já tá batendo.
+
+📌
+Um conselho para a vida: guarda esses 5 arquivos no GitHub. Daqui a 6 meses, quando você for fazer um sistema "de verdade", vai abrir esses códigos e rir do quanto pareciam difíceis hoje. Esse é o jeito que a gente sente o crescimento.
+
+### Próximo capítulo →
+
+Você dominou o básico. Mas reparou que toda hora a gente teve que usar duas listas em paralelo (nome + preço, atividade + tempo)? Tem um jeito MUITO mais elegante de fazer isso — com dicionários.
+
+Bora pro Capítulo 07 — Dicionários? Agora que você domina o básico, vamos aprender a organizar dados melhor.
+🗝 Ir para Capítulo 07 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

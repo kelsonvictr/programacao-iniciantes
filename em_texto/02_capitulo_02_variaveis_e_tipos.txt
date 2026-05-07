@@ -1,0 +1,754 @@
+# Capitulo 02 - Variaveis e Tipos
+(fonte: capitulos/02-variaveis-tipos/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+📦 🏷️ ✨
+Capítulo 02 · Bootcamp programa AI
+
+# Variáveis e Tipos
+
+Hoje você descobre que toda informação de um programa mora numa caixinha com etiqueta. Bora aprender str, int, float, bool, conversão de tipos e finalmente entender as famosas f-strings!
+
+📦 Variáveis 🏷️ Tipos 🔄 Conversão ✨ f-strings 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. VARIÁVEIS = CAIXINHAS ═══════════════════════════════════════════════════════
+
+📦
+
+Variáveis = caixinhas com etiqueta
+
+A analogia que vai te salvar para sempre
+
+Imagina o seu armário…
+
+Você tem várias caixas lá dentro. Cada caixa tem uma etiqueta: "meias", "camisas", "documentos". E cada caixa guarda uma coisa diferente.
+
+Em Python é exatamente isso. Só que em vez de pano, a caixa guarda dados: um nome, uma idade, um preço, um sim/não.
+
+Pra criar uma caixinha em Python, você só precisa de uma linha:
+
+primeira_variavel.py Python
+
+```
+nome = "Kelson"
+print(nome)
+```
+
+🪄 Lendo da direita pra esquerda
+
+O sinal de `=` é o "guarda dentro de". A linha `nome = "Kelson"` lê assim: "guarda 'Kelson' dentro da caixinha chamada nome".
+
+Pronto. Agora toda vez que você escrever `nome`, o Python vai lá na caixa, olha o que tem dentro, e usa.
+
+Visualmente, a coisa fica assim:
+
+nome
+"Kelson"
+
+str
+
+idade
+33
+
+int
+
+cidade
+"João Pessoa"
+
+str
+
+💡
+Regra do nome da caixinha: começa com letra ou `_`, sem espaços, sem acento, sem começar com número. Use `snake_case`: `nome_completo`, `idade_aluno`. Evite: `1nome` ❌, `nome completo` ❌, `endereço` ❌.
+
+🔁
+Variável "varia" mesmo: você pode trocar o que tem dentro a qualquer hora. Se eu fizer `nome = "Ana"` depois, a caixinha passa a guardar "Ana" — o "Kelson" some. Por isso o nome é variável 😉.
+
+═══════════════════════════════════════════════════════ 2. EXERCÍCIO RÁPIDO — MINHAS CAIXINHAS ═══════════════════════════════════════════════════════
+
+⚡
+
+Exercício rápido — Minhas Caixinhas
+
+5 minutinhos pra fixar a ideia
+
+🎯
+
+Bora criar 3 caixinhas suas
+
+Junto com o professor · minhas_caixinhas.py
+
+Cria um arquivo `minhas_caixinhas.py` e digita estas três linhas, mas com os seus dados:
+
+minhas_caixinhas.py Python
+
+```
+nome   = "Ana"
+idade  = 22
+cidade = "Recife"
+
+print(nome)
+print(idade)
+print(cidade)
+```
+
+Run · minhas_caixinhas.py
+
+👀
+Reparou? O `"Ana"` tá entre aspas e o `22` não. Isso não é à toa — é a primeira pista de tipos de dados. Bora ver isso agora!
+
+═══════════════════════════════════════════════════════ 3. TIPOS DE DADOS ═══════════════════════════════════════════════════════
+
+🏷️
+
+Tipos de dados
+
+Toda caixinha tem uma etiqueta — texto, número, sim/não…
+
+Etiqueta colorida em cada caixa
+
+Imagina que cada caixa tem uma fitinha colorida indicando o que ela aceita guardar: 🟢 só texto, 🔵 só número inteiro, 🟡 número com vírgula, 🔴 sim/não. Em Python a fitinha se chama tipo. Os 4 tipos básicos são:
+
+str
+
+Texto. Sempre entre aspas. Pode ter qualquer coisa: letra, número, emoji.
+
+nome = "Kelson"
+
+int
+
+Número inteiro. Sem aspas, sem vírgula. Positivo ou negativo.
+
+idade = 33
+
+float
+
+Número com casas decimais. Em Python a separação é ponto, não vírgula.
+
+preco = 19.90
+
+bool
+
+Sim ou não. Só dois valores possíveis: `True` ou `False` (com inicial maiúscula!).
+
+ativo = True
+
+⚠️
+Pegadinha clássica: `"33"` (com aspas) é str, não int! Mesmo parecendo número, a presença das aspas faz o Python tratar como texto. Você não consegue somar texto com texto como se fosse conta.
+
+Quiz 1
+
+1️⃣ O valor `3.14` em Python é do tipo:
+
+A) int B) float C) str D) bool
+
+Quiz 2
+
+2️⃣ A linha `nome = "programa AI"` guarda:
+
+A) Texto (str) B) Número inteiro (int) C) Booleano (bool) D) Nada — dá erro
+
+═══════════════════════════════════════════════════════ 4. TIPAGEM DINÂMICA ═══════════════════════════════════════════════════════
+
+🪄
+
+Tipagem dinâmica
+
+Em Python, você não precisa avisar o tipo — ele descobre sozinho
+
+Em algumas linguagens você precisa dizer ANTES qual o tipo: "essa caixa é só pra inteiro". Em Python, não. Você só joga o valor lá dentro, e o Python olha e decide o tipo. Isso se chama tipagem dinâmica.
+
+tipagem_dinamica.py Python
+
+```
+nome   = "Kelson"
+idade  = 33
+preco  = 19.90
+ativo  = True
+
+print(type(nome))
+print(type(idade))
+print(type(preco))
+print(type(ativo))
+```
+
+Run · tipagem_dinamica.py
+
+🔍 type() — o "raio-x" da variável
+
+A função `type(x)` diz qual o tipo da caixinha `x`. É um truque útil quando você fica em dúvida: "isso aqui é número ou texto?" — pergunta pro Python.
+
+🤯
+Mente blown: a mesma caixinha pode mudar de tipo! `x = 10` (int) → `x = "oi"` (str) → `x = True` (bool). O Python re-etiqueta. Mas use com moderação — costuma confundir o leitor do código.
+
+═══════════════════════════════════════════════════════ 5. INPUT() REVISITADO ═══════════════════════════════════════════════════════
+
+📥
+
+input() revisitado
+
+A pegadinha que pega TODO mundo no começo
+
+No capítulo 1 a gente já usou `input()` pra perguntar o nome. Agora bora prestar atenção numa verdade fundamental:
+
+### 🚨 input() SEMPRE devolve string.
+
+Não importa se o usuário digitou `"Maria"`, `"33"` ou `"3.14"`. Pro Python, tudo que veio do `input()` é texto.
+
+input_e_tipo.py Python
+
+```
+idade = input("Sua idade: ")
+print(idade)
+print(type(idade))   # mesmo digitando 33, vem como str!
+```
+
+Run · input_e_tipo.py
+
+Sua idade:
+
+😬
+Por isso aquele exercício do capítulo 1 (cálculo da idade) precisava do `int()`. Sem ele, você tentaria fazer `"2002" - 2026` e o Python iria chamar a polícia. Bora ver como converter no próximo bloco.
+
+═══════════════════════════════════════════════════════ 6. CONVERSÃO DE TIPOS ═══════════════════════════════════════════════════════
+
+🔄
+
+Conversão de tipos
+
+Trocando a etiqueta da caixinha
+
+Pra converter um valor de um tipo pra outro, use a função com o nome do tipo: `int(...)`, `float(...)`, `str(...)`.
+
+int(x)
+
+Vira inteiro
+
+int("33") → 33
+
+float(x)
+
+Vira decimal
+
+float("3.14") → 3.14
+
+str(x)
+
+Vira texto
+
+str(33) → "33"
+
+O fluxo clássico é: pergunta → recebe texto → converte → faz conta → mostra:
+
+Você
+
+📥 input("Idade: ")
+
+vem texto
+
+Python
+
+📦 idade = "33" (str)
+
+int(idade)
+
+Conversão
+
+🔄 idade = 33 (int)
+
+Conta
+
+➕ idade + 1 = 34
+
+Print
+
+🎉 "Você tem 34 anos!"
+
+conversao.py Python
+
+```
+# pega já convertendo na hora
+idade  = int(input("Sua idade: "))
+altura = float(input("Sua altura (m): "))
+
+ano_que_vem = idade + 1
+print(f"Ano que vem você terá {ano_que_vem} anos.")
+```
+
+🎯
+Truque do envolope: envolve o `input()` com `int(...)` ou `float(...)` direto. Assim você já guarda a caixa com o tipo certo e não precisa converter depois.
+
+💥
+Cuidado: `int("oi")` dá erro feio (`ValueError`). Só dá pra converter texto que parece número. E `int("3.14")` também dá erro — pra decimal use `float`.
+
+═══════════════════════════════════════════════════════ 7. PRINT() AVANÇADO ═══════════════════════════════════════════════════════
+
+💬
+
+print() avançado
+
+Vários argumentos, sep e end
+
+O `print()` aceita vários valores de uma vez, separados por vírgula. Por padrão, ele junta com espaço e quebra linha no fim.
+
+print_basico.py Python
+
+```
+nome  = "Ana"
+idade = 22
+print("Olá,", nome, "você tem", idade, "anos")
+```
+
+Run · print_basico.py
+
+🎛️ sep e end — controlando o "tempero"
+
+`sep` = o que separa os argumentos (padrão: espaço).
+`end` = o que vai no final (padrão: `\n`, ou seja, quebra de linha).
+
+print_sep_end.py Python
+
+```
+print("2026", "04", "27", sep="-")
+print("carregando", end="...")
+print("pronto!")
+# saída:
+# 2026-04-27
+# carregando...pronto!
+```
+
+🍕
+Quando usar? `sep="-"` é ótimo pra datas e códigos. `end=""` é ótimo pra fazer "barra de progresso" na mesma linha. Mas no dia a dia a gente quase sempre prefere f-string — bora ver agora.
+
+═══════════════════════════════════════════════════════ 8. F-STRINGS ═══════════════════════════════════════════════════════
+
+✨
+
+F-strings — o jeito moderno
+
+Coloque variáveis DENTRO da string com naturalidade
+
+F-string é uma string que começa com `f"..."`. Dentro dela, qualquer coisa entre `{ }` é avaliado e substituído pelo valor.
+
+#### ❌ Antigamente (chato)
+
+old.py Python
+
+```
+print("Olá, " + nome + ", você tem " + str(idade) + " anos")
+```
+
+#### ✅ Hoje (lindo)
+
+new.py Python
+
+```
+print(f"Olá, {nome}, você tem {idade} anos")
+```
+
+🎁 Bônus: formatação numérica
+
+Dá pra formatar um número direto no `{ }`. O mais comum: `{var:.2f}` arredonda pra 2 casas decimais.
+
+fstring_format.py Python
+
+```
+preco    = 19.9
+desconto = 0.1
+final    = preco * (1 - desconto)
+
+print(f"Preço final: R$ {final:.2f}")   # Preço final: R$ 17.91
+```
+
+Run · fstring_format.py
+
+📐
+Cheat-sheet rápido: `{n:.2f}` = 2 casas decimais · `{n:.0f}` = sem casas (arredonda) · `{n:5d}` = inteiro com 5 espaços · `{texto:>10}` = alinhado à direita. Não precisa decorar agora — só lembra que existe.
+
+Mini quiz f-string
+
+3️⃣ Para mostrar o preço `9.5` com 2 casas decimais numa f-string, eu uso:
+
+A) `f"{preco}.2f"` B) `f"{preco:.2f}"` C) `f"{preco,2f}"` D) `"preco:.2f"`
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — HORA DE CODAR ═══════════════════════════════════════════════════════
+💻 Hora de Codar
+
+## Bora juntar tudo num programa de verdade!
+
+Um exercício guiado pra fixar variáveis + tipos + f-strings, e depois um desafio individual com olhinho 👀.
+
+═══════════════════════════════════════════════════════ 9. BORA CODAR 2.0 — Cadastro Simples ═══════════════════════════════════════════════════════
+
+2.0
+
+Bora Codar! — Cadastro simples
+
+Junto com o professor · cadastro_simples.py
+
+🎯
+
+Cadastro de aluno (nome, idade, cidade)
+
+Variáveis + input + f-string juntinhos
+
+A gente vai pedir três coisas pro usuário, guardar em variáveis e mostrar uma frase bonita no final. Atenção: a idade vai virar `int` porque a gente quer poder fazer conta com ela depois.
+
+cadastro_simples.py Python
+
+```
+# pega os dados do usuário
+nome   = input("Qual é o seu nome? ")
+idade  = int(input("Quantos anos você tem? "))
+cidade = input("Em qual cidade você mora? ")
+
+# mostra uma frase montada com f-string
+print(f"Cadastro feito! {nome}, {idade} anos, mora em {cidade}.")
+print(f"Ano que vem você terá {idade + 1} anos 🎂")
+```
+
+Run · cadastro_simples.py
+
+Qual é o seu nome?
+Quantos anos você tem?
+Em qual cidade você mora?
+
+nome
+"Kelson"
+
+str
+
+idade
+33
+
+int
+
+cidade
+"João Pessoa"
+
+str
+
+🔥
+Reparou? Dentro da f-string, `{idade + 1}` faz a conta na hora! Pode ter expressão dentro do `{ }` — não precisa criar variável separada só pra isso.
+
+═══════════════════════════════════════════════════════ 10. DESAFIO INDIVIDUAL — apresentacao.py ═══════════════════════════════════════════════════════
+
+💪
+
+Desafio Individual — apresentacao.py
+
+Agora é com você. Olhinho 👀 só DEPOIS de tentar!
+
+💪
+
+Desafio Individual
+
+Faça sozinho · apresentacao.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `apresentacao.py`. Dentro, peça três coisas ao usuário com `input()`: o nome, a idade e o hobby favorito.
+
+No final, mostre uma frase usando f-string juntando os três, tipo: "Prazer, eu sou [nome], tenho [idade] anos e adoro [hobby]!"
+
+É bem parecido com o Cadastro Simples que a gente acabou de fazer. Se você só vai mostrar a idade (sem fazer conta), pode até deixar como string — mas convém treinar o `int()`!
+
+🚨
+
+PARE! Tente sozinho primeiro. Abra o PyCharm, crie o arquivo e tente. Errar é parte do processo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+apresentacao.py Python
+
+```
+# pega os dados do usuário
+nome  = input("Seu nome: ")
+idade = int(input("Sua idade: "))
+hobby = input("Seu hobby favorito: ")
+
+print(f"Prazer, eu sou {nome}, tenho {idade} anos e adoro {hobby}!")
+```
+
+Run · apresentacao.py
+
+Seu nome:
+Sua idade:
+Seu hobby favorito:
+
+✨
+Variação criativa: tente trocar a frase pra usar `{idade + 1}` e mostrar quantos anos a pessoa terá ano que vem. Ou some `idade + 10` e fala que daqui 10 anos ela vai estar uma fera no Python!
+
+═══════════════════════════════════════════════════════ 10.1 DESAFIO — media_notas.py (com olhinho) ═══════════════════════════════════════════════════════
+
+💪
+
+Desafio Individual — media_notas.py
+
+Fez o apresentacao.py? Bora pra mais um 💪
+
+💪
+
+Desafio Individual
+
+Faça sozinho · media_notas.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `media_notas.py`. Peça duas notas ao usuário (números com decimal, tipo 7.5) e mostre a média.
+
+🎯 Pegadinha: como nota tem vírgula (ex.: 7.5), você não pode usar `int()` dessa vez — precisa usar `float()`. A fórmula é simples: `media = (n1 + n2) / 2`.
+
+Mostre algo como: "A média de 7.5 e 8.0 é 7.75." (use f-string, igualzinho aos exercícios do cap 01).
+
+🚨
+
+PARE! Tente sozinho primeiro. Lembre: `float()` aceita `"7.5"`, mas `int()` dá erro. Se você esquecer e o programa quebrar — ótimo! É assim que a gente aprende.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+media_notas.py Python
+
+```
+# pega as duas notas (com float pra aceitar vírgula!)
+n1    = float(input("Primeira nota: "))
+n2    = float(input("Segunda nota: "))
+media = (n1 + n2) / 2
+
+print(f"A média de {n1} e {n2} é {media}.")
+```
+
+Run · media_notas.py
+
+Primeira nota:
+Segunda nota:
+
+✨
+Limpa essa média! Tente formatar com `{media:.2f}` pra mostrar só 2 casas decimais. Aí 7.75 continua 7.75, mas 8.333333... vira 8.33 — bem mais elegante.
+
+═══════════════════════════════════════════════════════ 10.2 DESAFIO — temperatura.py (com olhinho) ═══════════════════════════════════════════════════════
+
+💪
+
+Desafio Individual — temperatura.py
+
+Fez a média? Conversor de Celsius pra Fahrenheit 🌡️
+
+💪
+
+Desafio Individual
+
+Faça sozinho · temperatura.py
+
+💡 Dica para fazer sozinho
+
+Crie `temperatura.py`. Peça uma temperatura em Celsius (ex.: 25.0) e mostre o equivalente em Fahrenheit.
+
+Fórmula: `F = C * 1.8 + 32`. Use `float()` de novo, já que temperatura geralmente tem decimal.
+
+Resultado tipo: "25.0°C equivalem a 77.0°F."
+
+🚨
+
+PARE! Tente sozinho primeiro. Atenção à ordem das operações em Python: a multiplicação acontece antes da soma, então `C * 1.8 + 32` funciona certinho — não precisa de parênteses.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+temperatura.py Python
+
+```
+# pega a temperatura em Celsius
+celsius    = float(input("Temperatura em Celsius: "))
+fahrenheit = celsius * 1.8 + 32
+
+print(f"{celsius}°C equivalem a {fahrenheit}°F.")
+```
+
+Run · temperatura.py
+
+Temperatura em Celsius:
+
+🌡️
+Curiosidade: 0°C (água congela) = 32°F. E 100°C (água ferve) = 212°F. Roda o seu programa com esses dois valores e veja se bate!
+
+═══════════════════════════════════════════════════════ 10.3 DESAFIO — receita.py (com olhinho) ═══════════════════════════════════════════════════════
+
+💪
+
+Desafio Individual — receita.py
+
+Fez os dois anteriores? Bora pra um caso real: caixa de loja 💰
+
+💪
+
+Desafio Individual
+
+Faça sozinho · receita.py
+
+💡 Dica para fazer sozinho
+
+Crie `receita.py`. Imagine que você é o caixa de uma loja. Peça o preço unitário de um produto e a quantidade que o cliente comprou. Mostre o total a pagar formatado com 2 casas decimais.
+
+Tipos diferentes! Preço usa `float()` (tem vírgula), quantidade usa `int()` (sempre inteiro — ninguém compra meia camisa).
+
+Use `{total:.2f}` na f-string pra ficar bonito tipo "Total: R$ 89.70" em vez de R$ 89.7.
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse é o exercício mais "vida real" do capítulo — esse mesmo cálculo roda em milhares de e-commerces do Brasil. Bora resolver por conta. Olhinho só depois.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+receita.py Python
+
+```
+# preço com decimal · quantidade sempre inteira
+preco      = float(input("Preço unitário (R$): "))
+quantidade = int(input("Quantidade: "))
+total      = preco * quantidade
+
+print(f"Total: R$ {total:.2f}")
+```
+
+Run · receita.py
+
+Preço unitário (R$):
+Quantidade:
+
+🚀
+Olha o que você fez! Acabou de escrever a essência de um checkout de e-commerce: receber valores, multiplicar, formatar. Acrescente um `desconto` ou um `frete` pra brincar mais — é só somar/subtrair antes do `print`. 🛒
+
+═══════════════════════════════════════════════════════ 11. BUGZILLA 🐛 ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu de novo!
+
+Os erros canônicos do capítulo 02
+
+🐛
+
+"Eu tô de volta!"
+
+Trazendo dois erros que TODO iniciante comete com variáveis e tipos
+
+Bora ver os clássicos. Quando você passar por eles na vida real, já vai saber identificar e corrigir 💪.
+
+Bug 1: parênteses
+
+### 🐛 Bug #1 — Esqueci os parênteses do print
+
+Em Python 3, `print` é uma função — precisa dos parênteses.
+
+#### ❌ Errado
+
+```
+print "Olá"
+```
+
+`SyntaxError: Missing parentheses in call to 'print'`
+
+#### ✅ Certo
+
+```
+print("Olá")
+```
+
+Funciona lindamente.
+
+Bug 2: somar string + int
+
+### 🐛 Bug #2 — Tentei somar texto com número
+
+Lembra que `input()` sempre devolve string? Se você esquecer de converter, o Python reclama.
+
+#### ❌ Errado
+
+```
+idade = input("Idade: ")
+print(idade + 1)
+```
+
+`TypeError: can only concatenate str (not "int") to str`
+
+#### ✅ Certo
+
+```
+idade = int(input("Idade: "))
+print(idade + 1)
+```
+
+Convertendo com `int()`, agora dá pra somar.
+
+🐛
+Variação cruel: `"Você tem " + idade` também explode (não dá pra concatenar str com int). Solução: usa f-string, `f"Você tem {idade}"`, ou converte: `"Você tem " + str(idade)`.
+
+Bug 3: vírgula vs ponto
+
+### 🐛 Bug #3 — Decimal com vírgula no Python
+
+Brasileiro adora vírgula nos decimais. Python NÃO. Tem que ser ponto.
+
+#### ❌ Errado
+
+```
+preco = 19,90
+```
+
+Python entende como uma tupla com dois números 🤯
+
+#### ✅ Certo
+
+```
+preco = 19.90
+```
+
+Float lindo de morrer.
+
+📖
+Hábito de ouro: sempre que aparecer erro, leia a última linha. `SyntaxError` = você escreveu errado. `TypeError` = misturou tipos. `ValueError` = converteu algo que não dava pra converter. 90% dos erros do bootcamp caem nesses três.
+
+═══════════════════════════════════════════════════════ 12. RESUMO + PRÓXIMO CAPÍTULO ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 02
+
+Checklist do que você acabou de aprender
+
+📦 Variáveis Caixinhas com etiqueta que guardam dados
+
+🟢 str Texto, sempre entre aspas
+
+🔵 int Número inteiro
+
+🟡 float Número decimal (com ponto, não vírgula!)
+
+🔴 bool True ou False
+
+🪄 Tipagem dinâmica Python descobre o tipo sozinho — use `type()`
+
+📥 input() Sempre devolve string!
+
+🔄 int() float() str() Conversão entre tipos
+
+💬 print() Vários args, com `sep` e `end`
+
+✨ f-string `f"{var:.2f}"` — moderna e elegante
+
+🐛 BugZilla Parênteses, somar str + int, vírgula nos decimais
+
+💪 apresentacao.py Você fez um programa que coleta e mostra dados!
+
+### "Toda informação tem uma caixinha.
+E você agora sabe como guardar, etiquetar e usar!" 📦✨
+
+### Próximo capítulo →
+
+Capítulo 03 — Estruturas Condicionais. Até agora seu programa só vai numa direção. Bora ensinar ele a tomar decisões: "se a idade for maior que 18, pode entrar; senão, volta pra casa". Você vai amar 😎.
+🔀 Ir para Capítulo 03 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

@@ -1,0 +1,687 @@
+# Capitulo 09 - TinyDB
+(fonte: capitulos/09-tinydb/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+💾 🐍 ✨
+Capítulo 09 · Bootcamp programa AI
+
+# TinyDB — Banco de dados pra iniciante
+
+JSON foi um SUPER passo, mas começa a complicar quando os dados crescem. Vem aí o TinyDB — um banco de verdade dentro de um arquivinho. Hoje você vai fazer CRUD completo em Python, sem SQL, sem servidor, sem stress.
+
+💾 TinyDB 🔍 Query 📂 CRUD 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. PONTE — DO JSON PRO TINYDB ═══════════════════════════════════════════════════════
+
+🌉
+
+Do JSON pro TinyDB
+
+A ponte do capítulo passado pra esse
+
+No Capítulo 08 você aprendeu a salvar dados em `.json` com `json.dump()` e `json.load()`. Foi um marco — a partir dali seus dados sobrevivem ao programa fechar.
+
+🤔 Mas… e se eu quisesse mais?
+
+Pensa só: hoje, pra atualizar UM aluno no JSON, você precisa ler o arquivo inteiro, modificar a lista e regravar tudo. Pra buscar alguém, é um `for` na mão. Funciona? Funciona. Mas dá pra fazer melhor.
+
+E se a gente pudesse falar com o arquivo assim: "me dá quem se chama Ana" ou "atualiza só a idade do João, deixa o resto em paz"? Esse é o trabalho de um banco de dados.
+
+Pensa numa caixa de fichas
+
+Com JSON, é como se você tivesse uma caixa fechada com elástico. Pra mexer numa ficha, abre a caixa, tira tudo, mexe, guarda tudo de novo.
+
+Com o TinyDB é como ter uma caixa com divisórias e etiquetas. Você fala: "puxa a ficha da Ana" e ela vem. "Troca a idade dela", e só ela muda. O resto fica intocado. 📂
+
+═══════════════════════════════════════════════════════ 2. O PROBLEMA ═══════════════════════════════════════════════════════
+
+🤔
+
+O problema (real) com JSON na unha
+
+Quando os dados crescem, a coisa complica
+
+Lembra do `sistema_cadastro_json.py` do capítulo passado? Ele fazia mais ou menos isso toda vez que você atualizava ou removia alguém:
+
+🐍 Programa Python
+precisa atualizar 1 aluno
+
+↓ abre o arquivo todo ↓
+
+🧠 Carrega tudo na memória
+json.load(...)
+
+↓ percorre a lista no for ↓
+
+🔄 Mexe na lista, junta de novo
+muito código pra pouca coisa
+
+↓ regrava o arquivo TODO ↓
+
+📄 alunos.json
+reescrito do zero pra mudar 1 idade 😬
+
+⚠️
+Reparou? Pra mudar UMA idade, a gente reescreve o arquivo INTEIRO. Se o arquivo tem 1.000 alunos, todos os 1.000 viram bytes novos no disco. Funciona com 10, com 100… mas começa a ficar feio.
+
+"É aí que entra um banco de dados de verdade. 🪄"
+
+═══════════════════════════════════════════════════════ 3. O QUE É TINYDB? ═══════════════════════════════════════════════════════
+
+📦
+
+O que é TinyDB?
+
+Um banco de dados que cabe num arquivinho
+
+💾 Tiny + Database = "banco minúsculo"
+
+O TinyDB é uma biblioteca Python (a gente instala com `pip`) que oferece um banco de dados completo guardado num único arquivo `.json`. Sem SQL, sem servidor, sem senha, sem porta.
+
+O melhor: ele trabalha com o que você já sabe — dicionários (cap 07) e listas (cap 04). A API é praticamente "escreve em português": `db.insert(...)`, `db.all()`, `db.search(...)`.
+
+Do caderno à gaveta com etiquetas
+
+A lista de dicionários do cap 07 era um caderno que rasgava ao fechar o programa.
+
+O JSON do cap 08 é um caderno guardado na gaveta — mas pra mexer numa ficha, tem que tirar tudo da gaveta, mexer e guardar tudo de novo.
+
+O TinyDB é a gaveta com fichas etiquetadas. Você fala "fichas da turma de Python", ele te entrega só essas. Você pede "atualiza idade da Ana", ele atualiza só ela. 📂
+
+🐍 Seu programa Python
+db.insert({"nome": "Ana", "idade": 22})
+
+↕️ TinyDB cuida de tudo
+
+💾 TinyDB
+salva, busca, atualiza, remove
+
+↕️ por baixo dos panos: arquivo JSON
+
+📄 alunos.json
+persistente — sobrevive ao programa fechar ✅
+
+1️⃣ O TinyDB é melhor que JSON puro porque…
+
+A) Ele usa SQL avançado B) Permite buscar/atualizar/remover registros sem reescrever o arquivo todo na mão C) É um servidor de banco como o MySQL D) Não precisa instalar nada
+
+═══════════════════════════════════════════════════════ 4. INSTALAÇÃO ═══════════════════════════════════════════════════════
+
+📦
+
+Instalação
+
+Um comando e pronto
+
+O TinyDB não vem com o Python — é uma biblioteca da comunidade. Pra instalar, abra o Terminal do PyCharm e rode:
+
+Terminal · pip install
+
+$
+Collecting tinydb...
+Successfully installed tinydb-4.8.0 ✅
+
+💡
+O `pip` é o "loja de apps" do Python. Você pede uma biblioteca, ele baixa e deixa pronta pra usar com `import`. Roda só uma vez por projeto — depois o TinyDB já fica disponível.
+
+🧪
+Confere se deu certo: abra um arquivo Python e digite `from tinydb import TinyDB`. Se rodar sem erro, tá tudo certo. Se aparecer `ModuleNotFoundError`, o pip não encontrou — instala de novo!
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER — HORA DE CRUD ═══════════════════════════════════════════════════════
+📂 Hora do CRUD
+
+## As 4 operações que todo banco faz
+
+Create, Read, Update, Delete. Bora ver cada uma — uma linha por vez. Os 4 primeiros a gente faz junto.
+
+═══════════════════════════════════════════════════════ 5. SALVANDO DADOS — INSERT (Bora Codar guiado) ═══════════════════════════════════════════════════════
+
+5️⃣
+
+Salvando dados — `db.insert()`
+
+CREATE · primeiro contato com o banco
+
+🎯
+
+Bora Codar! — primeiro_tinydb.py
+
+Vamos fazer juntos · CREATE
+
+Crie o arquivo `primeiro_tinydb.py`, escreva esse código e rode:
+
+primeiro_tinydb.py Python
+
+```
+from tinydb import TinyDB
+
+db = TinyDB("alunos.json")
+
+db.insert({"nome": "Ana",  "idade": 22, "curso": "Python"})
+db.insert({"nome": "João", "idade": 25, "curso": "Java"})
+
+print("✅ Dados salvos com sucesso!")
+```
+
+🤯
+Só isso! Sem `open()`, sem `json.dump()`, sem `with`. Cada `db.insert()` recebe um dicionário — exatamente o que você já sabe usar. O TinyDB salva no disco automaticamente.
+
+Run · primeiro_tinydb.py
+
+$ python primeiro_tinydb.py
+
+🔍 O que aconteceu no arquivo? (clique pra ver) ▼
+
+O TinyDB criou automaticamente o arquivo `alunos.json` na mesma pasta do script. Se você abrir, vai ver isso aqui:
+
+alunos.json JSON
+
+```
+{
+  "_default": {
+    "1": {"nome": "Ana",  "idade": 22, "curso": "Python"},
+    "2": {"nome": "João", "idade": 25, "curso": "Java"}
+  }
+}
+```
+
+📁
+Por baixo dos panos é JSON mesmo. Cada registro recebe um id automático ("1", "2", …). A chave `"_default"` é o nome da tabela padrão — a gente fala de tabelas mais pra frente!
+
+═══════════════════════════════════════════════════════ 6. LENDO DADOS — db.all() (guiado) ═══════════════════════════════════════════════════════
+
+6️⃣
+
+Lendo dados — `db.all()`
+
+READ · trazer tudo do banco pra memória
+
+🎯
+
+Bora Codar! — ler_tinydb.py
+
+Vamos fazer juntos · READ
+
+📂 .all() devolve uma lista de dicionários
+
+O `db.all()` traz todos os registros do banco — já no formato que você conhece: uma lista em que cada item é um dicionário. Dá pra percorrer com `for`, contar com `len()`, tudo do que já vimos!
+
+ler_tinydb.py Python
+
+```
+from tinydb import TinyDB
+
+db = TinyDB("alunos.json")
+dados = db.all()
+
+print("📂 Dados carregados:")
+for aluno in dados:
+    print(aluno)
+```
+
+Run · ler_tinydb.py
+
+$ python ler_tinydb.py
+
+{'nome': 'Ana', 'idade': 22, 'curso': 'Python'}
+{'nome': 'João', 'idade': 25, 'curso': 'Java'}
+
+🧪 Teste o WOW da persistência!
+
+Rode `primeiro_tinydb.py` uma vez. Depois feche o terminal, abra de novo, rode `ler_tinydb.py` — os dados continuam lá! 🎉 É essa a mágica de um banco de verdade.
+
+═══════════════════════════════════════════════════════ 7. BUSCANDO — search() + Query (guiado) ═══════════════════════════════════════════════════════
+
+7️⃣
+
+Buscando dados — `db.search()` + `Query`
+
+READ filtrado · achar o que importa
+
+🎯
+
+Bora Codar! — buscar_tinydb.py
+
+Vamos fazer juntos · SEARCH
+
+Pra buscar, importa também o `Query` — ele é o "interrogador" do banco.
+
+buscar_tinydb.py Python
+
+```
+from tinydb import TinyDB, Query
+
+db = TinyDB("alunos.json")
+q  = Query()
+
+resultado = db.search(q.nome == "Ana")
+print(resultado)
+# [{'nome': 'Ana', 'idade': 22, 'curso': 'Python'}]
+```
+
+🔍 Lendo isso em português
+
+`q.nome == "Ana"` quer dizer: "o campo nome é igual a 'Ana'". E `db.search(...)` traz todos os registros que batem com essa condição, numa lista. Se ninguém bater, vem uma lista vazia `[]`.
+
+💡
+Dá pra combinar condições: `(q.curso == "Python") & (q.idade >= 18)` (use `&` e `|`, não `and`/`or`, é uma pegadinha do TinyDB!). Vamos brincar disso no desafio.
+
+📌
+Existe um atalho: `from tinydb import where` e `db.search(where("nome") == "Ana")`. Faz o mesmo. Mas `Query()` é o jeito moderno e flexível — vamos seguir com ele.
+
+═══════════════════════════════════════════════════════ 8. ATUALIZANDO — update (guiado) ═══════════════════════════════════════════════════════
+
+8️⃣
+
+Atualizando — `db.update()`
+
+UPDATE · mudar campos sem reescrever o resto
+
+🎯
+
+Bora Codar! — atualizar_tinydb.py
+
+Vamos fazer juntos · UPDATE
+
+atualizar_tinydb.py Python
+
+```
+from tinydb import TinyDB, Query
+
+db = TinyDB("alunos.json")
+q  = Query()
+
+db.update({"idade": 23}, q.nome == "Ana")
+print("✅ Idade atualizada!")
+```
+
+Lendo em português
+
+"No registro onde o nome é Ana, muda a idade pra 23."
+
+Repara na ordem: primeiro o que mudar (dicionário com os campos novos), depois onde mudar (a query). Os outros campos da Ana ficam intocados, e os outros alunos não são afetados.
+
+Run · atualizar_tinydb.py
+
+$ python atualizar_tinydb.py
+
+🧪
+Quer comprovar? Roda em seguida o `ler_tinydb.py`. A Ana agora aparece com idade 23, e o João continua com 25. Sem você ter mexido em mais nada!
+
+═══════════════════════════════════════════════════════ 9. REMOVENDO — remove (guiado) ═══════════════════════════════════════════════════════
+
+9️⃣
+
+Removendo — `db.remove()`
+
+DELETE · com cuidado, viu?
+
+🎯
+
+Bora Codar! — remover_tinydb.py
+
+Vamos fazer juntos · DELETE
+
+remover_tinydb.py Python
+
+```
+from tinydb import TinyDB, Query
+
+db = TinyDB("alunos.json")
+q  = Query()
+
+db.remove(q.nome == "João")
+print("✅ João removido do banco.")
+```
+
+⚠️
+Cuidado! O `remove()` apaga permanentemente do disco. Diferente de uma lista que volta sozinha quando você reinicia o programa, aqui o dado foi mesmo. Se chamar `db.remove(q.curso == "Python")`, some todo mundo que faz Python.
+
+🛡️
+Boa prática: antes de remover, faça um `db.search(...)` com a mesma query pra ver o que vai ser apagado. Confere, e só então remove. Em sistemas reais, sempre tem uma confirmação antes do delete!
+
+═══════════════════════════════════════════════════════ 10. RESUMO CRUD ═══════════════════════════════════════════════════════
+
+📋
+
+Resumo CRUD
+
+As 4 operações fundamentais — todas numa página
+
+🧠 CRUD = Create / Read / Update / Delete
+
+É a sigla mágica de todo banco de dados do mundo — do TinyDB ao MySQL, do MongoDB ao PostgreSQL. Quatro operações básicas. No TinyDB cada uma é uma linha:
+
+🐍 CRUD com TinyDB · cheat sheet
+
+Operação | Código TinyDB | O que faz
+
+CREATE | `db.insert({"nome": "Ana"})` | Adiciona um novo registro
+READ | `db.all()` · `db.search(q.nome == "Ana")` | Lista tudo ou filtra
+UPDATE | `db.update({"idade": 23}, q.nome == "Ana")` | Altera campos de quem bate na query
+DELETE | `db.remove(q.nome == "João")` | Apaga quem bate na query
+
+➕ insert cria um novo registro a partir de um dicionário
+
+📂 all / search lê tudo ou filtra com Query
+
+✏️ update muda campos sem mexer no resto
+
+🗑️ remove apaga registros do disco
+
+"Quatro operações. Quatro linhas. Sem SQL. Tudo Python." 🐍
+
+2️⃣ Qual é a ordem dos argumentos em `db.update()`?
+
+A) Primeiro a query, depois o dicionário B) Primeiro o dicionário com os novos valores, depois a query C) Só passa a query, ele atualiza tudo D) Tem que passar o id manualmente
+
+═══════════════════════════════════════════════════════ 11. TABELAS ═══════════════════════════════════════════════════════
+
+🗄️
+
+Tabelas — `db.table(...)`
+
+Várias gavetas dentro do mesmo armário
+
+Até agora, todos os `insert()` caíram na "tabela padrão" (lembra do `"_default"` no JSON?). Mas e se a gente quiser separar alunos e professores no mesmo arquivo, sem misturar?
+
+tabelas_tinydb.py Python
+
+```
+from tinydb import TinyDB
+
+db = TinyDB("escola.json")
+alunos      = db.table("alunos")
+professores = db.table("professores")
+
+alunos.insert({"nome": "Ana", "idade": 22})
+professores.insert({"nome": "Kelson", "disciplina": "Python"})
+```
+
+Gavetas no mesmo armário
+
+O arquivo `escola.json` é o armário. Cada `db.table("...")` é uma gaveta. A gaveta de alunos não se mistura com a de professores. Os dois moram no mesmo arquivo, mas em "andares" diferentes. 🗄️
+
+🔍 Como fica o arquivo escola.json? (clique pra ver) ▼
+
+escola.json JSON
+
+```
+{
+  "alunos": {
+    "1": {"nome": "Ana", "idade": 22}
+  },
+  "professores": {
+    "1": {"nome": "Kelson", "disciplina": "Python"}
+  }
+}
+```
+
+Cada tabela é uma "seção" no JSON. Tudo organizado, sem mistura.
+
+💡
+Cada tabela tem o CRUD completo. `alunos.search(...)`, `professores.update(...)` — todos os métodos que a gente já viu funcionam direitinho em cada tabela individualmente.
+
+═══════════════════════════════════════════════════════ 12. DEMO INTERATIVA ═══════════════════════════════════════════════════════
+
+🧪
+
+Demo interativa — TinyDB ao vivo
+
+Visualize o banco mudando enquanto o "código" roda
+
+Aqui é como se o seu script Python tivesse rodado e você estivesse olhando o banco. Repare como o estado da tabela muda a cada operação, igualzinho aconteceria no `alunos.json` de verdade:
+
+Python REPL · TinyDB
+
+>>>
+1
+>>>
+2
+>>>
+[{'nome': 'Ana', 'idade': 22, 'curso': 'Python'}]
+>>>
+[1]
+>>>
+[2]
+
+#### 💾 Estado final do banco
+
+Depois de inserir 2, atualizar a Ana e remover o João:
+
+📄 alunos.json — tabela _default
+
+id | nome | idade | curso
+
+1 | Ana | 23 ✏️ | Python
+2 | João | 25 | Java
+
+👀
+A linha do João aparece riscada só pra você visualizar — no arquivo de verdade, ele já sumiu. Bora ver isso no PyCharm rodando o código!
+
+═══════════════════════════════════════════════════════ 13. BUGZILLA — erros comuns de TinyDB ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu (de novo)!
+
+Os pega-ratos clássicos do TinyDB
+
+🐛
+
+BugZilla: "ah, esses bugs de Query… meu favorito!"
+
+Três tropeços que TODO MUNDO comete na primeira semana de TinyDB
+
+Não se assusta se você cair em um desses — é praticamente um rito de passagem. Vamos olhar os três bugs mais comuns, e como o BugZilla foge:
+
+Bug #1: Query() não instanciada
+
+### 🐞 Bug #1 — Esquecer de "construir" o Query()
+
+Olha esse código:
+
+bug_query.py Python
+
+```
+from tinydb import TinyDB, Query
+
+db = TinyDB("alunos.json")
+
+# ❌ ERRADO: faltou o ()
+db.search(Query.nome == "Ana")
+# AttributeError: type object 'Query' has no attribute 'nome'
+```
+
+🐛
+Por que? `Query` é uma classe. Pra usar você precisa instanciar — chamar com parênteses, criando um "objeto de busca".
+
+✅
+Certo: `q = Query()` e depois `db.search(q.nome == "Ana")`. O parêntese é a parte importante — é ele que cria seu interrogador.
+
+Bug #2: ordem do update
+
+### 🐞 Bug #2 — Inverter a ordem do `update`
+
+bug_update.py Python
+
+```
+# ❌ ERRADO: query primeiro, dicionário depois
+db.update(q.nome == "Ana", {"idade": 23})
+
+# ✅ CERTO: dicionário primeiro, query depois
+db.update({"idade": 23}, q.nome == "Ana")
+```
+
+🐛
+A regra de ouro: O QUE muda vem antes, ONDE muda vem depois. Trocou a ordem? O TinyDB se confunde e dá erro estranho — ou pior, atualiza nada e você nem percebe.
+
+Bug #3: and/or em vez de & |
+
+### 🐞 Bug #3 — Usar `and`/`or` em vez de `&`/`|`
+
+bug_and.py Python
+
+```
+# ❌ ERRADO: usar and/or em queries
+db.search(q.curso == "Python" and q.idade >= 18)
+
+# ✅ CERTO: use & e | (com parênteses!)
+db.search((q.curso == "Python") & (q.idade >= 18))
+db.search((q.curso == "Python") | (q.curso == "Java"))
+```
+
+🐛
+Pegadinha do TinyDB: `and` e `or` são do Python "puro" e não conseguem combinar duas queries. Use `&` (E) e `|` (OU) — e SEMPRE com parênteses em volta de cada condição. É chato, mas é assim.
+
+📖
+Hábito de ouro (de novo): quando der erro, leia a mensagem. 90% dos erros de TinyDB começam com `AttributeError` (esqueceu o `()` do Query) ou `TypeError` (combinou queries com `and`). Já sabe onde olhar!
+
+═══════════════════════════════════════════════════════ 14. DESAFIO PRÁTICO — SOLO COM OLHINHO 👀 ═══════════════════════════════════════════════════════
+
+💪
+
+Desafio Prático — sistema_cadastro_tinydb.py
+
+Sistema completo, persistência real, agora é com você
+
+💪
+
+Desafio Individual
+
+Faça sozinho · sistema_cadastro_tinydb.py
+
+💡 Dica para fazer sozinho
+
+Lembra do `sistema_cadastro_json.py` do Capítulo 08? Aquele com menu (1- adicionar, 2- listar, 3- buscar, 0- sair)? Reescreva ele usando TinyDB.
+
+Crie `sistema_cadastro_tinydb.py` com:
+
+1️⃣ `from tinydb import TinyDB, Query` e `db = TinyDB("alunos.json")`
+2️⃣ Uma função `adicionar_aluno()` que pede nome, idade (com `int()`) e curso, e usa `db.insert(...)`.
+3️⃣ Uma função `listar_alunos()` que percorre `db.all()` e imprime tudo bonitinho.
+4️⃣ Uma função `buscar_por_nome()` que pede o nome e usa `db.search(q.nome == nome)`.
+5️⃣ Um menu em `while True:` com `if/elif` chamando cada função. Saída quando `op == "0"`.
+
+🧪 O grande teste: quando terminar, rode o programa, cadastre 2 alunos, saia, feche o terminal, abra de novo e rode tudo de novo — os alunos continuam lá! É a primeira vez que seu programa tem memória de verdade. 🧠
+
+Você já fez praticamente esse código no cap 07 e cap 08. A diferença agora é só: a `lista` virou `db`, e o `append` virou `insert`. Você consegue!
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse é o desafio que amarra todo o bootcamp — funções (cap 5), listas (cap 4), dicionários (cap 7), JSON (cap 8) e agora TinyDB. Errar é parte do processo — quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+sistema_cadastro_tinydb.py Python
+
+```
+from tinydb import TinyDB, Query
+
+db = TinyDB("alunos.json")
+q  = Query()
+
+def mostrar_menu():
+    print("\n=== Sistema de Alunos ===")
+    print("1 - Adicionar aluno")
+    print("2 - Listar alunos")
+    print("3 - Buscar por nome")
+    print("0 - Sair")
+
+def adicionar_aluno():
+    nome  = input("Nome: ")
+    idade = int(input("Idade: "))
+    curso = input("Curso: ")
+    db.insert({"nome": nome, "idade": idade, "curso": curso})
+    print("✅ Aluno cadastrado!")
+
+def listar_alunos():
+    alunos = db.all()
+    if len(alunos) == 0:
+        print("Nenhum aluno cadastrado.")
+        return
+    for aluno in alunos:
+        print(f"- {aluno['nome']}, {aluno['idade']} anos, {aluno['curso']}")
+    print(f"Total: {len(alunos)} aluno(s)")
+
+def buscar_por_nome():
+    nome      = input("Nome para buscar: ")
+    resultado = db.search(q.nome == nome)
+    if len(resultado) == 0:
+        print("Nenhum aluno encontrado.")
+    else:
+        for aluno in resultado:
+            print(f"- {aluno['nome']}, {aluno['idade']} anos, {aluno['curso']}")
+
+while True:
+    mostrar_menu()
+    op = input("Escolha: ")
+    if   op == "1": adicionar_aluno()
+    elif op == "2": listar_alunos()
+    elif op == "3": buscar_por_nome()
+    elif op == "0":
+        print(f"Total no banco: {len(db.all())} 👋")
+        break
+```
+
+✨
+Reparou? Comparado ao `sistema_cadastro_json.py` do cap 08, esse código é menor. Sumiram o `json.dump`, o `json.load`, o `open()` com `with`… O TinyDB cuida de tudo.
+
+🚀
+Quer turbinar? Adiciona uma opção 4 - atualizar curso (com `db.update`) e uma 5 - remover aluno (com `db.remove`). Agora você tem CRUD COMPLETO!
+
+═══════════════════════════════════════════════════════ 15. RESUMO + CTA ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 09
+
+Você acabou de virar usuário de banco de dados de verdade
+
+✅
+TinyDB — banco de dados num arquivinho `.json`, sem SQL, sem servidor.
+
+✅
+pip install tinydb — uma vez por projeto, e tá pronto.
+
+✅
+db.insert(...) — Create. Recebe um dicionário, salva direto no disco.
+
+✅
+db.all() / db.search(q.campo == valor) — Read. Tudo ou filtrado.
+
+✅
+db.update({...}, q.campo == valor) — Update. Só os campos que você passar.
+
+✅
+db.remove(q.campo == valor) — Delete. Permanente, com cuidado!
+
+✅
+db.table("nome") — várias gavetas no mesmo armário.
+
+✅
+BugZilla: esquecer `Query()`, inverter ordem do update, usar `and`/`or` em vez de `&`/`|`.
+
+💾 TinyDB banco de dados pequeno, todo em Python
+
+🔍 Query() o "interrogador" do banco
+
+📂 CRUD create / read / update / delete
+
+🗄️ table() organizar em "gavetas"
+
+"Agora seus programas têm memória DE VERDADE.
+Os dados sobrevivem mesmo depois de fechar o terminal." 🧠💾
+
+CTA pro próximo capítulo
+
+### Próximo capítulo →
+
+Capítulo 10 — Streamlit. Agora que você salva dados num banco, vamos dar uma cara bonita pra isso! Botões, formulários, tabelas no navegador — sem HTML, sem CSS. Só Python. 🎨
+🎨 Ir para Capítulo 10 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

@@ -1,0 +1,653 @@
+# Capitulo 04 - Loops e Listas
+(fonte: capitulos/04-loops-listas/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+🔁 📋 ✨
+Capítulo 04 · Bootcamp programa AI
+
+# Loops e Listas
+
+Hoje a gente ensina o computador a repetir tarefas sozinho e a guardar várias coisas em uma única caixinha. É a parte que faz a programação parecer mágica — você escreve 4 linhas e o programa faz milhares de operações. Bora?
+
+🔁 while ➡️ for 📏 range() 📋 listas 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. AQUECIMENTO ═══════════════════════════════════════════════════════
+
+🧩
+
+Aquecimento
+
+Antes de codar, dois quizzes pra esquentar a cabeça
+
+### E se a gente quisesse mostrar de 1 a 1000 na tela?
+
+Copiar e colar `print()` mil vezes? Nem pensar. Pra isso existem os loops — estruturas que repetem comandos por você.
+
+1️⃣ Pra que serve uma estrutura de repetição (loop)?
+
+A) Para guardar valores em variáveis B) Para repetir um bloco de código várias vezes C) Para tomar decisões (sim/não) D) Para imprimir uma única linha
+
+2️⃣ O `while` executa o bloco enquanto:
+
+A) Sempre, infinitamente B) A condição for verdadeira (True) C) A condição for falsa (False) D) Só uma vez
+
+═══════════════════════════════════════════════════════ 2. WHILE ═══════════════════════════════════════════════════════
+
+🔁
+
+while — fica fazendo enquanto…
+
+A primeira estrutura de repetição
+
+Pensa numa torneira pingando
+
+Enquanto a torneira estiver aberta, ela pinga. Você fecha → para de pingar. Enquanto seu celular tem bateria, ele liga. Bateria acabou → desliga. Esse "enquanto" é literalmente o `while` em Python.
+
+A estrutura é assim:
+
+exemplo_while.py Python
+
+```
+while condicao:
+    # comandos que vão repetir
+    # enquanto a condição for True
+    ...
+```
+
+🎬 Ele em ação — contagem de 1 a 5
+
+O contador começa em 1, e a cada volta a gente incrementa (soma 1). Quando passa de 5, o while para.
+
+contador = 1 condição: contador <= 5
+
+1
+
+2
+
+3
+
+4
+
+5
+
+contagem_simples.py Python
+
+```
+contador = 1
+while contador <= 5:
+    print(contador)
+    contador = contador + 1   # 👈 não esquecer!
+```
+
+⚠️
+Cuidado supremo do while: se você esquecer de aumentar o contador (a famosa linha `contador = contador + 1`), a condição NUNCA vira False — e o programa roda pra sempre. O famoso loop infinito 🌀. O BugZilla AMA isso. Cuidado.
+
+═══════════════════════════════════════════════════════ 3. BORA CODAR — CONTAGEM ANIMADA (guiado) ═══════════════════════════════════════════════════════
+
+4.0
+
+Bora Codar! — Contagem animada
+
+Vamos fazer juntos · contagem.py
+
+🎯
+
+Desafio guiado pelo professor
+
+Seu primeiro while na prática
+
+Passo a passo:
+
+Crie o arquivo `contagem.py`
+📄
+
+Crie a variável `contador = 1`
+🔢
+
+Use `while contador <= 10:`
+🔁
+
+Dentro: `print(contador)` e `contador += 1`
+⬆️
+
+contagem.py Python
+
+```
+# conta de 1 a 10
+contador = 1
+while contador <= 10:
+    print(f"Número: {contador}")
+    contador += 1
+```
+
+Run · contagem.py
+
+$ python contagem.py
+
+✨
+Atalho útil: `contador += 1` é a mesma coisa que `contador = contador + 1`. Mais curto, mesma coisa.
+
+═══════════════════════════════════════════════════════ 4. DESAFIO — CONTAGEM REGRESSIVA (solo) ═══════════════════════════════════════════════════════
+
+4.1
+
+Desafio Individual — contagem_regressiva.py
+
+3… 2… 1… 🚀
+
+💪
+
+Desafio Individual
+
+Faça sozinho · contagem_regressiva.py
+
+💡 Dica para fazer sozinho
+
+Crie `contagem_regressiva.py`. Faça uma contagem de 10 até 1 (de cabeça pra baixo!) usando `while`. No final, imprima "🚀 Decolar!".
+
+🤔 Pensa: se antes você somava 1, agora você precisa subtrair 1. A condição também muda — `while contador >= 1`. Lembra do exercício anterior!
+
+🚨
+
+PARE! Tente sozinho primeiro. Erre, ajuste, teste de novo — é assim que se aprende. Quem espia antes de tentar perde a maior parte do aprendizado!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+contagem_regressiva.py Python
+
+```
+# conta de 10 até 1
+contador = 10
+while contador >= 1:
+    print(contador)
+    contador -= 1
+print("🚀 Decolar!")
+```
+
+🚀
+Reparou? A linha do "Decolar" fica fora do while — ela só aparece depois que o loop termina. Indentação importa!
+
+═══════════════════════════════════════════════════════ 5. FOR ═══════════════════════════════════════════════════════
+
+➡️
+
+for — passa em cada um da fila
+
+Quando você sabe quantas vezes vai repetir
+
+Pensa num professor fazendo chamada
+
+Ele tem uma lista de alunos e vai um por um: "Ana?", "João?", "Davi?"… Não precisa contar nada — ele só percorre a fila. É isso que o `for` faz: percorre uma sequência, item por item.
+
+exemplo_for.py Python
+
+```
+for item in sequencia:
+    print(item)
+```
+
+#### 🔁 while
+
+- "Enquanto algo for verdade…"
+- Você controla o contador na mão
+- Pode rodar 0 ou ∞ vezes
+- Cuidado com loop infinito 🌀
+
+#### ➡️ for
+
+- "Pra cada item da sequência…"
+- O Python controla pra você
+- Roda exatamente N vezes (tamanho da sequência)
+- Mais seguro e mais comum no dia a dia
+
+💡
+Regra prática: se você sabe quantas vezes vai repetir, use `for`. Se depende de uma condição que muda (tipo "enquanto o usuário não digitar sair"), use `while`.
+
+═══════════════════════════════════════════════════════ 6. RANGE ═══════════════════════════════════════════════════════
+
+📏
+
+range() — uma régua de números
+
+O parceiro favorito do for
+
+Pensa numa régua de escola
+
+A régua tem números marcadinhos: 1, 2, 3, 4, 5… O `range(1, 6)` é literalmente isso — uma régua que vai de 1 até 5. Sim, até 5, não até 6!
+
+⚠️
+O detalhe que pega todo mundo: em `range(start, stop)`, o número `stop` NÃO entra na sequência. Ele é o "limite" — chegou nele, para.
+
+range(1, 6) gera:
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+✅ entram: 1, 2, 3, 4, 5  ·  ❌ NÃO entra: 6 (é o limite!)
+
+exemplo_range.py Python
+
+```
+# for + range = combo perfeito
+for numero in range(1, 6):
+    print(numero)
+# imprime: 1, 2, 3, 4, 5
+```
+
+🎯
+Atalho: `range(5)` (só com um número) também funciona — ele vai de 0 até 4 (sempre começa em 0 quando você não diz o início).
+
+═══════════════════════════════════════════════════════ 6.5. MINI QUIZ DO RANGE ═══════════════════════════════════════════════════════
+
+🧩
+
+Mini quiz — você pegou o range?
+
+Pergunta rapidinha de 10 segundos
+
+3️⃣ Quantos números `range(1, 11)` gera?
+
+A) 11 números (1 a 11) B) 10 números (1 a 10) C) 9 números (2 a 10) D) Infinito
+
+═══════════════════════════════════════════════════════ 7. BORA CODAR — TABUADA (guiado) ═══════════════════════════════════════════════════════
+
+4.2
+
+Bora Codar! — Tabuada
+
+Vamos fazer juntos · tabuada.py
+
+🎯
+
+Desafio guiado pelo professor
+
+A tabuada do 3 — em 4 linhas!
+
+Lembra de quando a gente decorava tabuada na escola? Agora o computador faz por você. Vamos imprimir `3 x 1 = 3`, `3 x 2 = 6`, … até `3 x 10 = 30`.
+
+tabuada.py Python
+
+```
+# tabuada do 3
+numero = 3
+for i in range(1, 11):
+    print(f"{numero} x {i} = {numero * i}")
+```
+
+Run · tabuada.py
+
+$ python tabuada.py
+
+🤯
+Olha que poder: 4 linhas de código fizeram o trabalho que demoraria 10 `print()`. E se a gente quisesse de 1 a 100? Trocar o `11` por `101`. Pronto. Isso é programar.
+
+═══════════════════════════════════════════════════════ 8. DESAFIO — TABUADA INTERVALO (solo) ═══════════════════════════════════════════════════════
+
+4.3
+
+Desafio Individual — tabuada_intervalo.py
+
+Tabuada com intervalo personalizado
+
+💪
+
+Desafio Individual
+
+Faça sozinho · tabuada_intervalo.py
+
+💡 Dica para fazer sozinho
+
+Crie `tabuada_intervalo.py`. Pergunte ao usuário 3 coisas:
+
+- Qual número quer ver a tabuada (ex: 7)
+- Início do intervalo (ex: 5)
+- Fim do intervalo (ex: 10)
+
+Depois imprima a tabuada do número escolhido de início até fim. ⚠️ Atenção: `input()` retorna texto — converta com `int()`! E lembra que o `range(start, stop)` não inclui o `stop`? Soma +1 no fim pra incluir.
+
+🚨
+
+PARE! Tente sozinho primeiro. Junte input + int + for + range — é tudo o que você já sabe. Tenta antes de espiar!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+tabuada_intervalo.py Python
+
+```
+numero = int(input("Qual a tabuada? "))
+inicio = int(input("Início do intervalo: "))
+fim    = int(input("Fim do intervalo: "))
+
+for i in range(inicio, fim + 1):
+    # o "+1" garante que o "fim" entra
+    print(f"{numero} x {i} = {numero * i}")
+```
+
+Run · tabuada_intervalo.py
+
+Qual a tabuada?
+Início do intervalo:
+Fim do intervalo:
+
+🧠
+Por que `fim + 1`? Porque o range corta no `stop`. Se eu quero que o 8 apareça, tenho que pedir `range(5, 9)` — que é `range(inicio, fim + 1)`.
+
+═══════════════════════════════════════════════════════ 9. BUGZILLA ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu de novo!
+
+Os erros clássicos de loop
+
+🐛
+
+Dois pesadelos do iniciante com loops
+
+A gente sofre — depois aprende. Todo mundo passa por aqui.
+
+Erro 1: esquecer os dois pontos `:` no fim do `while` ou `for`.
+
+errado.py erro
+
+```
+while contador <= 5   # ❌ faltou os : no final
+    print(contador)
+    contador += 1
+```
+
+O Python reclama com algo tipo: `SyntaxError: expected ':'`. Bom, é exatamente isso — esqueceu os dois pontinhos.
+
+Erro 2: loop infinito 🌀 — o famoso "esqueci de incrementar".
+
+infinito.py perigo
+
+```
+contador = 1
+while contador <= 5:
+    print(contador)
+    # 😱 esqueceu de fazer contador += 1
+    # resultado: imprime "1" pra sempre 🌀🌀🌀
+```
+
+Se isso acontecer com você no PyCharm, aperta o botão Stop ⏹ (quadradinho vermelho) pra matar o programa. Fica tranquilo, computador não explode 😄.
+
+👀 Como CORRIGIR cada um — clique pra ver ▼
+
+corrigido.py Python
+
+```
+contador = 1
+while contador <= 5:    # ✅ tem os dois pontos
+    print(contador)
+    contador += 1             # ✅ incrementa, sempre
+```
+
+📖
+Hábito de ouro: sempre que escrever `while`, já escreva o incremento na hora. Tipo um casamento — não deixe para depois.
+
+═══════════════════════════════════════════════════════ CHAPTER DIVIDER ═══════════════════════════════════════════════════════
+📋 Parte 2 — Listas
+
+## Guardando várias coisas em uma caixinha só
+
+Até agora cada variável guardava uma coisa. E se você quiser guardar todos os alunos da turma? Bora conhecer as listas.
+
+═══════════════════════════════════════════════════════ 10. LISTAS ═══════════════════════════════════════════════════════
+
+📋
+
+Listas — uma prateleira numerada
+
+Vários valores, uma só variável
+
+Pensa numa prateleira numerada
+
+Cada posição da prateleira tem um número fixo: 0, 1, 2, 3… (sim, começa em zero, programador é assim 😅). Em cada posição você guarda uma coisa. Pra pegar uma coisa específica, você aponta para o número da posição.
+
+primeira_lista.py Python
+
+```
+# minha primeira lista
+alunos = ["Ana", "João", "Davi", "Maria", "Lia"]
+
+print(alunos[0])   # Ana   — primeira posição
+print(alunos[2])   # Davi  — terceira posição
+```
+
+Visualmente:
+
+0
+"Ana"
+
+1
+"João"
+
+2
+"Davi"
+
+3
+"Maria"
+
+4
+"Lia"
+
+⚠️
+Cuidado: índice começa em 0! O "primeiro" da lista é `alunos[0]`, não `alunos[1]`. É contraintuitivo, mas é assim em quase toda linguagem de programação.
+
+🛠 Funções essenciais de lista
+
+Duas que você vai usar TODA HORA:
+
+funcoes_lista.py Python
+
+```
+alunos = ["Ana", "João", "Davi"]
+
+print(len(alunos))      # 3 — tamanho da lista
+
+alunos.append("Pedro")  # adiciona no FIM
+print(alunos)
+# ['Ana', 'João', 'Davi', 'Pedro']
+```
+
+🔁
+Combo perfeito: `for nome in alunos:` percorre a lista inteirinha, uma posição de cada vez. Sem precisar mexer com índices!
+
+for_lista.py Python
+
+```
+alunos = ["Ana", "João", "Davi"]
+
+for nome in alunos:
+    print(f"Olá, {nome}!")
+```
+
+═══════════════════════════════════════════════════════ 11. DESAFIO — LISTA DE ALUNOS (solo) ═══════════════════════════════════════════════════════
+
+4.4
+
+Desafio Individual — lista_alunos.py
+
+Sua primeira lista na prática
+
+💪
+
+Desafio Individual
+
+Faça sozinho · lista_alunos.py
+
+💡 Dica para fazer sozinho
+
+Crie `lista_alunos.py`. Comece com uma lista de 5 nomes (à sua escolha — pode ser dos seus colegas reais 😄).
+
+Depois faça 3 coisas:
+
+- Imprima quantos alunos têm na lista (use `len()`).
+- Imprima o primeiro e o último da lista (dica: `lista[0]` e `lista[-1]`).
+- Use `for` pra mostrar todos os nomes, um por linha, com a frase "Aluno: [nome]".
+
+🚨
+
+PARE! Tente sozinho primeiro. É a primeira vez que você junta `for` + lista. Vai por etapas — testa cada parte separada se precisar. Você consegue!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+lista_alunos.py Python
+
+```
+alunos = ["Ana", "João", "Davi", "Maria", "Lia"]
+
+print(f"Total de alunos: {len(alunos)}")
+print(f"Primeiro: {alunos[0]}")
+print(f"Último: {alunos[-1]}")
+
+for nome in alunos:
+    print(f"Aluno: {nome}")
+```
+
+🤓
+Bônus: `alunos[-1]` pega o último sem você precisar saber o tamanho. `alunos[-2]` pega o penúltimo, e assim por diante. Ó, presente do Python!
+
+═══════════════════════════════════════════════════════ 12. DESAFIO — LISTA INTERATIVA (solo) — climax! ═══════════════════════════════════════════════════════
+
+4.5
+
+Desafio Final — lista_interativa.py
+
+while + lista + input no mesmo programa 🔥
+
+🏆
+
+Desafio Individual — Climax do capítulo
+
+Faça sozinho · lista_interativa.py
+
+💡 Dica para fazer sozinho
+
+Crie `lista_interativa.py`. Esse é o exercício cumulativo do capítulo — você vai juntar tudo: while, input, lista, append, for. 🤯
+
+Comportamento esperado:
+
+- Comece com uma lista vazia: `nomes = []`.
+- Use `while True:` pra repetir até o usuário digitar `"sair"`.
+- A cada volta, peça um nome com `input()`.
+- Se o nome for `"sair"`, use `break` pra parar o loop.
+- Senão, `append` o nome na lista.
+- Quando sair do loop, mostre a lista final com um `for`.
+
+🆕 Conceito novo: `break` faz o loop parar imediatamente, mesmo que a condição ainda fosse True.
+
+🚨
+
+PARE! Esse é o desafio mais legal do capítulo. Tenta de verdade — pode dar erro, pode ficar 10 minutos quebrando a cabeça, e tá ótimo. É aí que o cérebro aprende. 💪
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+lista_interativa.py Python
+
+```
+# lista vazia pra começar
+nomes = []
+
+while True:
+    nome = input("Digite um nome (ou 'sair' pra terminar): ")
+    if nome == "sair":
+        break             # 👋 sai do while
+    nomes.append(nome)
+
+print("\n--- Lista final ---")
+for n in nomes:
+    print(f"• {n}")
+```
+
+Run · lista_interativa.py
+
+Digite um nome (ou 'sair' pra terminar):
+Digite um nome (ou 'sair' pra terminar):
+Digite um nome (ou 'sair' pra terminar):
+Digite um nome (ou 'sair' pra terminar):
+
+🎯
+Sacou o poder? Esse padrão (`while True` + `break` + lista) é a base de quase todo sistema de cadastro do mundo — desde um app de receitas até o Instagram. Você acabou de aprender algo profissional.
+
+═══════════════════════════════════════════════════════ 13. QUIZ DE LISTAS ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz — fixando listas
+
+Duas perguntas pra ver se grudou
+
+4️⃣ Dada a lista `frutas = ["maçã", "banana", "uva"]`, qual comando imprime "banana"?
+
+A) `print(frutas[1])` — não, esse é o terceiro B) `print(frutas[1])` C) `print(frutas[2])` D) `print(frutas["banana"])`
+
+5️⃣ O que `len(["a", "b", "c", "d"])` retorna?
+
+A) 3 (porque começa em 0) B) 4 C) 5 D) "abcd"
+
+═══════════════════════════════════════════════════════ 14. DESAFIO EXTERNO ═══════════════════════════════════════════════════════
+
+🌟
+
+Desafio extra — pra quem quer mais
+
+Sistema completo prático lá fora
+
+🚀
+
+#### Mini-projeto extra — Desafio 01
+
+Sistema completo pra você praticar tudo que viu até aqui (variáveis, condicionais, loops, listas). Acessa, lê o enunciado e tenta resolver. É opcional, mas quem faz, decola. 🚀
+
+Abrir desafio →
+
+═══════════════════════════════════════════════════════ 15. RESUMO + PRÓXIMO CAPÍTULO ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 04
+
+Tudo que você acabou de dominar
+
+🔁 while Repete enquanto a condição for True (cuidado com o incremento!)
+
+➡️ for Percorre cada item de uma sequência
+
+📏 range(start, stop) Gera números de start até stop−1 (stop NÃO entra)
+
+📋 listas `[1, 2, 3]` — vários valores em uma só variável
+
+0️⃣ índices Começam em 0! `lista[0]` é o primeiro
+
+📐 len() Quantos itens tem a lista
+
+➕ append() Adiciona um item no fim da lista
+
+⛔ break Sai de um loop antes da hora
+
+🐛 BugZilla Esquecer `:` e loop infinito — clássicos
+
+### "Você ensinou o computador a repetir e a guardar coisas.
+Agora ele faz mil tarefas pra você sem cansar — bem-vindo ao mundo real do código!" 🚀
+
+### Próximo capítulo →
+
+Capítulo 05 — Funções. Você já consegue repetir código com loops. Mas e quando o mesmo código aparece em vários lugares do programa? Funções resolvem isso — você escreve UMA vez, usa MUITAS. Bora?
+🛠 Ir para Capítulo 05 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr

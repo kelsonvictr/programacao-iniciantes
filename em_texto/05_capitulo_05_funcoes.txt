@@ -1,0 +1,650 @@
+# Capitulo 05 - Funcoes
+(fonte: capitulos/05-funcoes/index.html)
+
+═══════════════ MENU MOBILE ═══════════════
+
+═══════════════ HERO ═══════════════
+
+🛠️ ⚙️ ✨
+Capítulo 05 · Bootcamp programa AI
+
+# Funções
+
+Lembra quando você tinha que copiar e colar o mesmo código várias vezes? Hoje a gente acaba com isso. Você vai aprender a empacotar pedaços de código e reutilizar quantas vezes quiser. Bora?
+
+🛠️ def 📥 parâmetros 📤 return 🎓 zip + sorted 🐛 BugZilla
+
+═══════════════════════════════════════════════════════ 1. POR QUE FUNÇÕES? ═══════════════════════════════════════════════════════
+
+🎯
+
+Por que funções?
+
+A regra de ouro: não repita você mesmo
+
+Imagina que você quer cumprimentar três pessoas diferentes no seu programa. Sem função, você acabaria fazendo isso aqui:
+
+#### 😫 Repetindo igual papagaio…
+
+```
+print("Olá, Ana! Bem-vinda à programa AI 🐍")
+print("Olá, João! Bem-vindo à programa AI 🐍")
+print("Olá, Davi! Bem-vindo à programa AI 🐍")
+```
+
+Olha quanto código duplicado! Se um dia o curso mudar de nome, você teria que editar três linhas. Se forem cem alunos… já viu, né?
+
+#### 😎 Com função, escreve UMA vez e usa quantas quiser
+
+```
+def saudacao(nome):
+    print(f"Olá, {nome}! Bem-vindo à programa AI 🐍")
+
+saudacao("Ana")
+saudacao("João")
+saudacao("Davi")
+```
+
+Função é tipo uma receita de bolo escrita
+
+Você escreve a receita uma vez. Depois, sempre que quiser bolo, é só seguir a receita — não precisa inventar tudo do zero. Função em Python é exatamente isso: um pedaço de código com nome, guardado, esperando você chamar.
+
+☕
+Pensa numa máquina de café: você aperta o botão e sai café. Você não precisa explicar pra máquina como moer o grão, ferver a água, passar o pó — ela sabe. Função é a mesma ideia: você "aperta o botão" (chama a função), ela faz o trabalho.
+
+💡
+Filosofia: programador bom é preguiçoso de qualidade — não copia código, cria função. Menos código pra escrever, menos lugares pra dar bug.
+
+═══════════════════════════════════════════════════════ 2. QUIZ AQUECIMENTO ═══════════════════════════════════════════════════════
+
+🧩
+
+Aquecimento rápido
+
+Marca a tua aposta antes
+
+1️⃣ Pra que serve uma função?
+
+A) Decorar o código com cores diferentes B) Empacotar um pedaço de código pra reutilizar C) Fazer o computador funcionar D) Substituir o input()
+
+═══════════════════════════════════════════════════════ 3. DEF — CRIANDO FUNÇÕES ═══════════════════════════════════════════════════════
+
+🛠️
+
+def — criando uma função
+
+A palavrinha mágica
+
+Pra criar uma função em Python, a gente usa a palavra-chave `def` (de define, "definir"). Olha que simples:
+
+def saudacao():
+
+print("Olá! Bem-vindo à programa AI 🐍")
+
+def palavra-chave que abre uma função
+
+saudacao nome que VOCÊ escolhe (sem espaço, sem acento)
+
+() parênteses obrigatórios (mesmo vazios!)
+
+: dois pontos no fim — abre o "bloco" da função
+
+📐
+O que vier indentado (com 4 espaços) faz parte da função. Quando você "desindenta", saiu da função. Igualzinho ao `if` e ao `for` que a gente já viu.
+
+Mas atenção: definir a função NÃO faz nada acontecer ainda! É como escrever a receita do bolo — o bolo ainda não existe. Pra ela rodar, a gente precisa chamar:
+
+primeira_funcao.py Python
+
+```
+# 1) DEFINIÇÃO — só ensina o Python o que é "saudacao"
+def saudacao():
+    print("Olá! Bem-vindo à programa AI 🐍")
+
+# 2) CHAMADA — agora SIM ela executa
+saudacao()
+```
+
+Run · primeira_funcao.py
+
+$ python primeira_funcao.py
+
+✨
+Resumindo: `def` = ensinar a função. `saudacao()` = mandar ela rodar. Os parênteses no fim são essenciais — sem eles, você só "aponta" pra função, não chama.
+
+═══════════════════════════════════════════════════════ 4. FUNÇÃO COMO MÁQUINA — VISUAL WOW ═══════════════════════════════════════════════════════
+
+🛠️
+
+Função é uma máquina
+
+Entra um valor, sai um valor
+
+Esse é o jeito mais útil de pensar em função: como uma maquininha. Você joga uma coisa na entrada, ela processa, e devolve algo na saída:
+
+entrada (parâmetro)
+
+"Ana"
+
+▶
+
+⚙️
+saudacao()
+
+a função
+
+▶
+
+saída (return)
+
+"Olá, Ana!"
+
+Tipo um liquidificador 🥤
+
+Você joga frutas dentro (entrada), aperta o botão e sai vitamina (saída). Cada vez que você troca a fruta, sai uma vitamina diferente — mas o liquidificador é o mesmo.
+
+Função em Python = mesma ideia. Mesmo código, entradas diferentes, resultados diferentes.
+
+🧠
+Toda vez que você ver uma função, pensa: "o que entra, o que processa, o que sai". É a chave pra entender qualquer função do Python — desde `print()` até as suas.
+
+═══════════════════════════════════════════════════════ 5. PARÂMETROS ═══════════════════════════════════════════════════════
+
+📥
+
+Parâmetros — dando entrada pra função
+
+A função fica configurável
+
+Até agora nossa função sempre fala "Olá! Bem-vindo…" genérico. Que tal personalizar pra cada pessoa? Pra isso, a gente coloca um parâmetro entre os parênteses:
+
+saudacao_param.py Python
+
+```
+def saudacao(nome):
+    print(f"Olá, {nome}! Bem-vindo à programa AI 🐍")
+
+saudacao("Ana")
+saudacao("João")
+```
+
+📥 parâmetro vs 📦 argumento
+
+Parâmetro é o nome que aparece na definição (entre os parênteses do `def`). É tipo um espaço reservado: "aqui vai vir um nome".
+
+Argumento é o valor real que você passa quando chama: `saudacao("Ana")` — "Ana" é o argumento.
+
+Tranquilo se misturar os dois nomes, todo mundo faz isso 😅.
+
+🎯
+Você pode ter quantos parâmetros quiser, separados por vírgula: `def soma(a, b):` recebe dois números. `def cadastro(nome, idade, curso):` recebe três coisas. Só não esquece de passar o mesmo número de argumentos quando for chamar!
+
+═══════════════════════════════════════════════════════ 6. REAPROVEITANDO — animação de 3 chamadas ═══════════════════════════════════════════════════════
+
+♻️
+
+Reaproveitando — chama quantas vezes quiser
+
+Mesmo código, entradas diferentes
+
+Olha como a mesma função, chamada três vezes com argumentos diferentes, produz três resultados diferentes — sem você reescrever nada:
+
+saudacao("Ana") ▶ "Olá, Ana! Bem-vindo à programa AI 🐍"
+
+saudacao("João") ▶ "Olá, João! Bem-vindo à programa AI 🐍"
+
+saudacao("Davi") ▶ "Olá, Davi! Bem-vindo à programa AI 🐍"
+
+Run · saudacao_param.py
+
+😌
+Sente o alívio? A receita foi escrita uma vez. Cada "chamada" é só apertar o botão de novo, com fruta diferente no liquidificador. Esse é o superpoder das funções.
+
+Divider
+💻 Hora de Codar — Parte 1
+
+## Bora criar nossas funções!
+
+Dois exercícios curtinhos antes de aprender o return. O primeiro a gente faz junto. O segundo… olhinho 👀.
+
+═══════════════════════════════════════════════════════ 7. EXERCÍCIO GUIADO — func_soma.py ═══════════════════════════════════════════════════════
+
+5.0
+
+Bora Codar! — Função de soma
+
+Junto com o professor · func_soma.py
+
+🎯
+
+Desafio guiado
+
+Vamos fazer juntos · func_soma.py
+
+Vamos criar uma função que recebe dois números e imprime a soma. Passo a passo:
+
+1️⃣
+Crie o arquivo `func_soma.py` no PyCharm.
+
+2️⃣
+Defina a função com dois parâmetros: `a` e `b`.
+
+3️⃣
+Dentro dela, dê um `print()` mostrando o resultado de `a + b`.
+
+4️⃣
+Chame ela duas vezes com pares diferentes pra testar.
+
+func_soma.py Python
+
+```
+def soma(a, b):
+    print(f"{a} + {b} = {a + b}")
+
+soma(2, 3)
+soma(10, 7)
+```
+
+Run · func_soma.py
+
+🚀
+Sacou? A função `soma` existe pra sempre. Pode chamar mil vezes, com mil pares — não precisa reescrever a continha.
+
+═══════════════════════════════════════════════════════ 8. DESAFIO SOLO — func_saudacao.py ═══════════════════════════════════════════════════════
+
+5.1
+
+Desafio Individual — saudação personalizada
+
+Agora é com você · func_saudacao.py
+
+💪
+
+Desafio Individual
+
+Faça sozinho · func_saudacao.py
+
+💡 Dica para fazer sozinho
+
+Crie um arquivo `func_saudacao.py`. Defina uma função chamada `saudar` que recebe dois parâmetros: `nome` e `curso`.
+
+Dentro dela, use `print()` com f-string mostrando algo como "Olá, [nome]! Bom estudo no curso de [curso] 🚀".
+
+Depois chame ela três vezes com pessoas/cursos diferentes. Lembra do exercício da soma? É a mesma estrutura — só muda o que tem dentro!
+
+🚨
+
+PARE! Tente sozinho primeiro. Errar com função é completamente normal — esquecer dois pontos, esquecer parêntese… todo mundo passa por isso! Tenta antes de espiar 👀.
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+func_saudacao.py Python
+
+```
+def saudar(nome, curso):
+    print(f"Olá, {nome}! Bom estudo no curso de {curso} 🚀")
+
+saudar("Ana", "Python")
+saudar("João", "JavaScript")
+saudar("Davi", "Lógica de Programação")
+```
+
+✨
+Reparou? Os parâmetros entram na ordem em que você definiu. `saudar("Ana", "Python")` → `nome="Ana"`, `curso="Python"`. Trocar a ordem na chamada vira bagunça!
+
+═══════════════════════════════════════════════════════ 9. RETURN — função devolve valor ═══════════════════════════════════════════════════════
+
+📤
+
+return — quando a função devolve um valor
+
+A saída da máquina
+
+Até agora nossas funções só mostravam coisas com `print()`. Mas e se a gente quiser guardar o resultado da função pra usar depois? Pra isso existe o `return`:
+
+Antes
+
+##### Só imprime — não dá pra reaproveitar
+
+soma_print.py Python
+
+```
+def soma(a, b):
+    print(a + b)
+
+soma(2, 3)  # mostra 5 e acabou
+```
+
+Depois
+
+##### Devolve o valor — você guarda numa variável!
+
+soma_return.py Python
+
+```
+def soma(a, b):
+    return a + b
+
+resultado = soma(2, 3)
+print(resultado * 10)  # 50
+```
+
+📤 return = "ó, devolvendo aqui pra você"
+
+Quando o Python encontra um `return`, ele sai da função levando aquele valor pra fora. Quem chamou a função pode guardar esse valor numa variável ou usar direto numa conta.
+
+Diferença chave: `print()` só mostra na tela, ninguém pega o valor. `return` entrega o valor de volta — você decide o que fazer com ele.
+
+Run · soma_return.py
+
+🧠
+Mantra: "função sem `return` é igual telefone sem voz — ela faz coisa, mas não te conta nada de volta". Quando você quiser usar o resultado, use `return`.
+
+═══════════════════════════════════════════════════════ 10. QUIZ DO MEIO ═══════════════════════════════════════════════════════
+
+🧩
+
+Quiz rápido — return
+
+Confere o que entendeu
+
+2️⃣ Qual a diferença entre `print()` e `return`?
+
+A) São a mesma coisa, escritos diferente B) print mostra na tela; return devolve o valor pra usar depois C) return é mais rápido que print D) print só funciona dentro de funções
+
+3️⃣ O que acontece com `saudacao` sem os parênteses, em `saudacao`?
+
+A) Roda a função normalmente B) Dá erro de sintaxe C) Não roda — você só "aponta" pra função, mas não chama D) Roda só metade do código
+
+═══════════════════════════════════════════════════════ 11. SISTEMA DE NOTAS (sem função) — guiado ═══════════════════════════════════════════════════════
+
+5.2
+
+Bora Codar! — Sistema de Notas
+
+Junto com o professor · sistema_notas.py
+
+🎯
+
+Desafio guiado
+
+Pega 3 notas, calcula média, diz se passou
+
+Vamos juntar tudo que a gente já viu (input, conversão, condicional, agora função!) num sistema simples: o usuário digita 3 notas, a gente calcula a média e diz se passou. Aprovado se média ≥ 7.
+
+sistema_notas.py Python
+
+```
+# pega as 3 notas (convertendo pra float, podem ter vírgula)
+n1 = float(input("Nota 1: "))
+n2 = float(input("Nota 2: "))
+n3 = float(input("Nota 3: "))
+
+media = (n1 + n2 + n3) / 3
+
+if media >= 7:
+    print(f"Média {media:.1f} — APROVADO ✅")
+else:
+    print(f"Média {media:.1f} — REPROVADO ❌")
+```
+
+Run · sistema_notas.py
+
+Nota 1:
+Nota 2:
+Nota 3:
+
+🤔
+Beleza, funciona. Mas e se eu quiser calcular a média de outro aluno? Tem que copiar tudo de novo? E se forem 50 alunos? 😱
+
+Pois é. É aí que entra a função!
+
+═══════════════════════════════════════════════════════ 12. SISTEMA DE NOTAS REFATORADO — solo ═══════════════════════════════════════════════════════
+
+5.3
+
+Desafio Individual — Sistema de Notas com função
+
+Refatorando · sistema_notas_func.py
+
+💪
+
+Refatorando com função
+
+Faça sozinho · sistema_notas_func.py
+
+💡 Dica para fazer sozinho
+
+Bora refatorar (deixar mais inteligente) o exercício anterior. Crie `sistema_notas_func.py`. Defina uma função `resultado_aluno` que recebe 3 parâmetros (`n1`, `n2`, `n3`).
+
+Dentro dela: calcula a média e retorna uma frase pronta tipo "Média 7.7 — APROVADO ✅" ou "Média 4.2 — REPROVADO ❌".
+
+Depois, fora da função, peça as 3 notas com `input()`, chame a função e imprima o que ela retornou. Bônus: chame a função 2 ou 3 vezes com notas diferentes — repare como agora ficou fácil!
+
+🚨
+
+PARE! Tente sozinho primeiro. Esse é o exercício do "olhar de novo o exercício de cima" — copia mentalmente, ajusta. Você consegue!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+sistema_notas_func.py Python
+
+```
+def resultado_aluno(n1, n2, n3):
+    media = (n1 + n2 + n3) / 3
+    if media >= 7:
+        return f"Média {media:.1f} — APROVADO ✅"
+    else:
+        return f"Média {media:.1f} — REPROVADO ❌"
+
+# pega as notas do usuário
+n1 = float(input("Nota 1: "))
+n2 = float(input("Nota 2: "))
+n3 = float(input("Nota 3: "))
+
+# chama a função e mostra o que ela retornou
+print(resultado_aluno(n1, n2, n3))
+```
+
+🎉
+Olha a evolução! Agora a "lógica do aluno" está empacotada em uma função. Pra calcular outro aluno, é só chamar de novo: `print(resultado_aluno(5, 4, 6))`. Esse é o poder da reutilização.
+
+═══════════════════════════════════════════════════════ 13. BUGZILLA ═══════════════════════════════════════════════════════
+
+🐛
+
+BugZilla apareceu — erros clássicos com função
+
+Os 3 mais comuns que TODO MUNDO comete
+
+🐛
+
+"Minha função não rodou! / Deu erro!"
+
+Calma, o BugZilla tá explicando — vamos pegar ele
+
+Função é onde o iniciante mais escorrega. Mas todo erro é o mesmo padrão: você está chamando errado, ou esqueceu um detalhe. Olha os clássicos 👇
+
+### 1. Esquecer os parênteses ao chamar 🎯
+
+Errado
+
+##### O Python só "aponta" — não executa
+
+bug_1.py Python
+
+```
+def saudacao():
+    print("Olá!")
+
+saudacao   # ❌ sem ()
+```
+
+Resultado: nada aparece. O programa termina silencioso.
+
+Correto
+
+##### Com () você manda rodar
+
+fix_1.py Python
+
+```
+def saudacao():
+    print("Olá!")
+
+saudacao()  # ✅ com ()
+```
+
+### 2. Esquecer os dois pontos no `def` 🎯
+
+Errado
+
+##### SyntaxError instantâneo
+
+bug_2.py Python
+
+```
+def saudacao(nome)   # ❌ faltou :
+    print(nome)
+```
+
+Correto
+
+##### Sempre dois-pontinhos no fim do def!
+
+fix_2.py Python
+
+```
+def saudacao(nome):  # ✅
+    print(nome)
+```
+
+### 3. Variável que existe SÓ dentro da função 🎯
+
+🐛
+O caso clássico: você cria uma variável dentro da função e tenta usar fora. Não rola.
+
+bug_escopo.py Python
+
+```
+def calcular():
+    resultado = 42   # existe SÓ dentro daqui
+
+calcular()
+print(resultado)  # ❌ NameError: name 'resultado' is not defined
+```
+
+💡
+Solução simples: use `return`! A função devolve o valor e você guarda numa variável fora: `resultado = calcular()`. Sem mistério.
+
+Divider
+🎓 Mini Projeto Final
+
+## Ranking de Alunos
+
+Hora de juntar tudo: função, lista, loop e duas novas armas — `zip()` e `sorted()`.
+
+═══════════════════════════════════════════════════════ 14. MINI PROJETO — RANKING ALUNOS ═══════════════════════════════════════════════════════
+
+5.4
+
+Mini Projeto — Ranking de Alunos 🎓
+
+Climax do capítulo · ranking_alunos.py
+
+Imagina que você tem uma lista de nomes e uma lista de notas, e quer mostrar do maior pro menor. A gente vai usar duas ferramentinhas novas (entry-level, juro):
+
+🤝 zip() — junta duas listas em pares
+
+`zip(["Ana","João"], [9, 6])` → `[("Ana",9), ("João",6)]`. É tipo um zíper de calça: pega o primeiro de cada lado e une.
+
+📊 sorted() — ordena qualquer coisa
+
+`sorted([3, 1, 2])` → `[1, 2, 3]`. Pra ordenar do maior pro menor, passa `reverse=True`.
+
+E pra ordenar pares pela segunda posição (a nota), a gente usa `key=lambda x: x[1]`. Não precisa entender a fundo agora — é só uma "fórmula pronta" pra essa situação.
+
+💪
+
+Mini Projeto Individual
+
+Faça sozinho · ranking_alunos.py
+
+💡 Dica para fazer sozinho
+
+Crie `ranking_alunos.py`. Faça assim:
+
+1) Crie duas listas: `alunos = ["Ana","João","Davi","Lia"]` e `notas = [9, 6, 7.5, 8]`.
+
+2) Defina uma função `ranking(alunos, notas)` que: junta com `zip()`, ordena com `sorted(..., key=lambda x: x[1], reverse=True)`, e `return` a lista ordenada.
+
+3) Fora da função, chame ela e use um `for` pra imprimir cada aluno + nota com a posição (1º, 2º, 3º…).
+
+Lembra do `for` com `enumerate`? Não precisa — dá pra fazer com um contador simples também. Ou usa `enumerate` pra ficar bonito 😉.
+
+🚨
+
+PARE! Esse é o boss final do capítulo. Erra à vontade. Se travar muito, abre o olhinho — mas tenta primeiro!
+
+👀 Só clique aqui DEPOIS de tentar — Ver código completo ▼
+
+ranking_alunos.py Python
+
+```
+def ranking(alunos, notas):
+    # 1) une os pares: [("Ana",9),("João",6),...]
+    pares = list(zip(alunos, notas))
+    # 2) ordena pelo segundo item (a nota), do maior pro menor
+    ordenado = sorted(pares, key=lambda x: x[1], reverse=True)
+    return ordenado
+
+alunos = ["Ana", "João", "Davi", "Lia"]
+notas  = [9, 6, 7.5, 8]
+
+classificacao = ranking(alunos, notas)
+
+print("🏆 RANKING DE ALUNOS")
+for posicao, (nome, nota) in enumerate(classificacao, start=1):
+    print(f"{posicao}º — {nome}: {nota}")
+```
+
+Run · ranking_alunos.py
+
+🎓
+Você acabou de fazer um sistema de ranking de verdade. Função, lista, loop, `zip`, `sorted` — tudo junto. Dá um zoom mental nesse código. Você criou ele!
+
+═══════════════════════════════════════════════════════ 15. RESUMO + PRÓXIMO CAPÍTULO ═══════════════════════════════════════════════════════
+
+✅
+
+Resumo do Capítulo 05
+
+O que você acabou de aprender
+
+🛠️ def Cria uma função: `def nome():`
+
+📥 parâmetros Entradas que a função recebe entre os parênteses
+
+📤 return Devolve um valor pra quem chamou
+
+♻️ Reaproveitar Escreve uma vez, chama mil — DRY!
+
+⚙️ Função = máquina Entra, processa, sai
+
+🤝 zip() Junta duas listas em pares
+
+📊 sorted() Ordena listas (com `reverse=True`!)
+
+🐛 BugZilla () esquecidos, : faltando, escopo de variável
+
+#### "Agora você não copia código — você cria função."
+
+Esse é o jeito de programador profissional pensar 🚀
+
+### Próximo capítulo →
+
+Capítulo 06 — Desafios Integradores. Cinco mini-sistemas pra você consolidar TUDO: variáveis, condicionais, loops, listas e funções. Já tá pronto pra encarar?
+🏆 Ir para Capítulo 06 →
+ou ← voltar ao hub
+
+Feito com ♥ pela programa AI · Hub do bootcamp · github.com/kelsonvictr
