@@ -66,29 +66,7 @@ if idade >= 18:
     print("Pode entrar! 🎉")
 ```
 
-══ LIVE PLAYGROUND 1 — só if ══
-
-Playground interativo — arraste para ver o if em ação
-
-idade = 22
-
-018406080
-
-if idade >= 18: → 22 >= 18 → True ✓
-
-🎉
-bloco if executa
-
-print("Pode entrar! 🎉")
-
-🤐
-if é pulado
-
-(nada acontece)
-
-Pode entrar! 🎉
-
-fim playground 1
+══ LIVE PLAYGROUND 1 — só if ══ fim playground 1
 ⚠️
 Os dois pontos no fim do `if` são obrigatórios. E o `print` debaixo precisa estar indentado (4 espaços). Esse "andar pra dentro" é como o Python sabe o que pertence ao bloco do `if`.
 
@@ -161,29 +139,7 @@ else:
     print("Volte com 18 anos. ⛔")
 ```
 
-══ LIVE PLAYGROUND 2 — if/else ══
-
-Playground — if / else ao vivo
-
-idade = 22
-
-018406080
-
-if idade >= 18: → 22 >= 18 → True ✓
-
-🎉
-bloco if
-
-print("Pode entrar! 🎉")
-
-⛔
-bloco else
-
-print("Volte com 18 anos. ⛔")
-
-Pode entrar! 🎉
-
-fim playground 2
+══ LIVE PLAYGROUND 2 — if/else ══ fim playground 2
 
 🌳 Visualizando a árvore de decisão
 

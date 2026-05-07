@@ -62,6 +62,8 @@ SKIP_CLASSES = {
     "bg-grid", "bg-orbs", "orb",
     "progress-track", "progress-bar",
     "menu-toggle", "sidebar-nav", "sidebar-close",
+    # componentes interativos (sliders, playgrounds) — viram lixo em texto plano
+    "live-playground", "lp-slider-labels", "lp-orb2",
 }
 
 # IDs equivalentes a ignorar (mesmo motivo).
