@@ -1,0 +1,3070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 3.5 — 30 Desafios (Caps 1, 2 e 3) | Bootcamp programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* desativa ligaduras pra operadores ficarem exatos */
+.code-block pre, pre, code {
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
+/* hero gradient próprio do capítulo */
+.hero h1.grad-d35{
+  background:linear-gradient(135deg,var(--accent2),var(--accent5),var(--accent7));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* banner do "monte seu projeto" */
+.pycharm-banner{
+  position:relative;overflow:hidden;border-radius:22px;
+  padding:26px 28px;margin:18px 0;
+  background:linear-gradient(135deg,rgba(55,118,171,0.12),rgba(255,212,59,0.06));
+  border:2px solid rgba(55,118,171,0.30);
+}
+.pycharm-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 92% 12%,rgba(255,212,59,0.18),transparent 55%);
+  pointer-events:none;
+}
+.pycharm-banner h3{
+  font-size:1.45rem;color:var(--python-y);margin-bottom:6px;
+  position:relative;z-index:1;
+}
+.pycharm-banner p{color:var(--text-dim);font-size:0.98rem;position:relative;z-index:1}
+.pycharm-banner code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+
+/* lista de passos do PyCharm */
+.steps-list{counter-reset:pcs;display:grid;gap:10px;margin:16px 0}
+.steps-list .pc-step{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 16px;
+  font-size:0.95rem;line-height:1.55;
+}
+.steps-list .pc-step::before{
+  counter-increment:pcs;content:counter(pcs);
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--python),var(--accent4));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.9rem;flex-shrink:0;margin-top:2px;
+}
+
+/* divisor com label de bloco */
+.block-divider{
+  margin:30px 0 18px;text-align:center;position:relative;
+}
+.block-divider::before{
+  content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent);
+}
+.block-divider .bd-pill{
+  position:relative;display:inline-block;
+  padding:8px 18px;border-radius:50px;
+  background:var(--surface2);
+  border:1.5px solid rgba(108,99,255,0.25);
+  font-family:'JetBrains Mono',monospace;font-weight:800;
+  font-size:0.78rem;letter-spacing:1.5px;color:var(--accent6);
+  text-transform:uppercase;
+}
+
+/* mini-cards de stats (no encerramento) */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr}}
+.stat-card{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:18px;text-align:center;
+}
+.stat-card .stat-num{
+  display:block;font-size:2.2rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.stat-card .stat-label{color:var(--text-dim);font-size:0.85rem;font-weight:600}
+
+/* CTA card próximo capítulo */
+.next-chapter-card{
+  text-align:center;
+  background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(108,99,255,0.04));
+  border-color:rgba(167,139,250,0.20);
+}
+.cta-btn{
+  display:inline-block;padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent6),var(--accent));
+  color:#fff;text-decoration:none;font-weight:900;
+  border-radius:50px;letter-spacing:1px;
+  box-shadow:0 8px 22px rgba(108,99,255,0.30);
+  transition:transform .2s ease;
+}
+.cta-btn:hover{transform:translateY(-2px)}
+
+/* deixa o título do desafio com filename ainda mais legível */
+.step-title code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:1px 7px;border-radius:5px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+
+/* sidebar com muitos itens — espaço menor */
+.sidebar-nav .sidebar-link{font-size:0.86rem;padding:6px 10px}
+.sidebar-nav .sidebar-group-title{margin-top:14px}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🎯 Cap 3.5 — Desafios</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🚀 Começar</div>
+    <a class="sidebar-link" onclick="goTo('intro')"><span class="dot" style="background:var(--accent5)"></span>Boas-vindas</a>
+    <a class="sidebar-link" onclick="goTo('setup-pycharm')"><span class="dot" style="background:var(--python)"></span>Criar projeto no PyCharm</a>
+    <a class="sidebar-link" onclick="goTo('como-usar')"><span class="dot" style="background:var(--accent4)"></span>Como usar este capítulo</a>
+
+    <div class="sidebar-group-title">📦 Bloco 1 · só print + variáveis (1-10)</div>
+    <a class="sidebar-link" onclick="goTo('d01')"><span class="dot" style="background:var(--accent4)"></span>01 · ola_pessoal.py</a>
+    <a class="sidebar-link" onclick="goTo('d02')"><span class="dot" style="background:var(--accent4)"></span>02 · meu_perfil.py</a>
+    <a class="sidebar-link" onclick="goTo('d03')"><span class="dot" style="background:var(--accent4)"></span>03 · soma_simples.py</a>
+    <a class="sidebar-link" onclick="goTo('d04')"><span class="dot" style="background:var(--accent4)"></span>04 · dobro_triplo.py</a>
+    <a class="sidebar-link" onclick="goTo('d05')"><span class="dot" style="background:var(--accent4)"></span>05 · convertendo_idade.py</a>
+    <a class="sidebar-link" onclick="goTo('d06')"><span class="dot" style="background:var(--accent4)"></span>06 · conversor_moedas.py</a>
+    <a class="sidebar-link" onclick="goTo('d07')"><span class="dot" style="background:var(--accent4)"></span>07 · area_retangulo.py</a>
+    <a class="sidebar-link" onclick="goTo('d08')"><span class="dot" style="background:var(--accent4)"></span>08 · media_3_notas.py</a>
+    <a class="sidebar-link" onclick="goTo('d09')"><span class="dot" style="background:var(--accent4)"></span>09 · troco_padaria.py</a>
+    <a class="sidebar-link" onclick="goTo('d10')"><span class="dot" style="background:var(--accent4)"></span>10 · imc_simples.py</a>
+
+    <div class="sidebar-group-title">🤔 Bloco 2 · if / else / elif (11-20)</div>
+    <a class="sidebar-link" onclick="goTo('d11')"><span class="dot" style="background:var(--accent5)"></span>11 · maior_de_idade.py</a>
+    <a class="sidebar-link" onclick="goTo('d12')"><span class="dot" style="background:var(--accent5)"></span>12 · positivo_negativo.py</a>
+    <a class="sidebar-link" onclick="goTo('d13')"><span class="dot" style="background:var(--accent5)"></span>13 · multiplo_de_5.py</a>
+    <a class="sidebar-link" onclick="goTo('d14')"><span class="dot" style="background:var(--accent5)"></span>14 · aprovado_reprovado.py</a>
+    <a class="sidebar-link" onclick="goTo('d15')"><span class="dot" style="background:var(--accent5)"></span>15 · senha_simples.py</a>
+    <a class="sidebar-link" onclick="goTo('d16')"><span class="dot" style="background:var(--accent5)"></span>16 · temperatura_agua.py</a>
+    <a class="sidebar-link" onclick="goTo('d17')"><span class="dot" style="background:var(--accent5)"></span>17 · imc_classificador.py</a>
+    <a class="sidebar-link" onclick="goTo('d18')"><span class="dot" style="background:var(--accent5)"></span>18 · desconto_idoso.py</a>
+    <a class="sidebar-link" onclick="goTo('d19')"><span class="dot" style="background:var(--accent5)"></span>19 · tamanho_numero.py</a>
+    <a class="sidebar-link" onclick="goTo('d20')"><span class="dot" style="background:var(--accent5)"></span>20 · mes_em_palavras.py</a>
+
+    <div class="sidebar-group-title">🔗 Bloco 3 · and / or / not (21-30)</div>
+    <a class="sidebar-link" onclick="goTo('d21')"><span class="dot" style="background:var(--accent6)"></span>21 · pode_dirigir.py</a>
+    <a class="sidebar-link" onclick="goTo('d22')"><span class="dot" style="background:var(--accent6)"></span>22 · entrada_show.py</a>
+    <a class="sidebar-link" onclick="goTo('d23')"><span class="dot" style="background:var(--accent6)"></span>23 · intervalo_numero.py</a>
+    <a class="sidebar-link" onclick="goTo('d24')"><span class="dot" style="background:var(--accent6)"></span>24 · letra_vogal.py</a>
+    <a class="sidebar-link" onclick="goTo('d25')"><span class="dot" style="background:var(--accent6)"></span>25 · dia_util_ou_fds.py</a>
+    <a class="sidebar-link" onclick="goTo('d26')"><span class="dot" style="background:var(--accent6)"></span>26 · triangulo_valido.py</a>
+    <a class="sidebar-link" onclick="goTo('d27')"><span class="dot" style="background:var(--accent6)"></span>27 · ano_bissexto.py</a>
+    <a class="sidebar-link" onclick="goTo('d28')"><span class="dot" style="background:var(--accent6)"></span>28 · classificacao_filme.py</a>
+    <a class="sidebar-link" onclick="goTo('d29')"><span class="dot" style="background:var(--accent6)"></span>29 · calculadora_4op.py</a>
+    <a class="sidebar-link" onclick="goTo('d30')"><span class="dot" style="background:var(--accent6)"></span>30 · cadastro_vip.py</a>
+
+    <div class="sidebar-group-title">🏁 Final</div>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--accent7)"></span>Você venceu! 🎉</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🎯 💪 🐍</div>
+  <span class="hero-badge">Capítulo 3.5 · Bootcamp programa AI</span>
+  <h1 class="grad-d35">30 Desafios — Caps 1, 2 e 3</h1>
+  <p class="subtitle">
+    Trinta exercícios pra <strong>fixar</strong> o que você viu nos capítulos
+    01, 02 e 03 — print, input, variáveis, tipos, f-string,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">if/elif/else</code>
+    e os operadores. Sem material novo. Só você + Python + muita prática 💪.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">📥 input/print</span>
+    <span class="stack-chip">📦 variáveis</span>
+    <span class="stack-chip">✨ f-string</span>
+    <span class="stack-chip">🔀 if/elif/else</span>
+    <span class="stack-chip">🔗 and / or</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTRO — boas-vindas
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="intro">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🚀</div>
+      <div>
+        <div class="step-title">Bem-vindo(a) à série de 30 desafios</div>
+        <div class="step-sub">Hora de transformar conhecimento em <em>músculo</em></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Você já viu o material dos capítulos <strong>01 (Boas-vindas)</strong>,
+        <strong>02 (Variáveis e Tipos)</strong> e <strong>03 (Condicionais)</strong>.
+        Mas ler é uma coisa — <strong>codar é outra</strong>. É no dedo que o conceito gruda. 🧠
+      </p>
+
+      <div class="analogy">
+        <div class="analogy-title">Academia da programação 🏋️</div>
+        <p>
+          Pensa nesse capítulo como uma <strong>série de repetições</strong>: cada desafio
+          é um exercício que trabalha um musculozinho diferente do que você já aprendeu.
+          Não tem novidade aqui — só <em>execução</em>.
+        </p>
+        <p>
+          Faça <strong>na ordem</strong>. Os primeiros são bem fáceis (de propósito) pra
+          esquentar. Os últimos misturam tudo. Quando terminar, você vai estar com
+          uma confiança absurda pra encarar o cap 04. 💪
+        </p>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">📦</span>
+          <div class="tip-content"><strong>Bloco 1 (1-10):</strong> só print, input, variáveis e f-string. Aquece o motor.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🤔</span>
+          <div class="tip-content"><strong>Bloco 2 (11-20):</strong> entram <code>if</code>, <code>else</code> e <code>elif</code>. O programa começa a decidir.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🔗</span>
+          <div class="tip-content"><strong>Bloco 3 (21-30):</strong> combina condições com <code>and</code>, <code>or</code>, <code>not</code>. Coisas mais reais.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SETUP NO PYCHARM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="setup-pycharm">
+    <div class="step-header">
+      <div class="step-number sn-py">📦</div>
+      <div>
+        <div class="step-title">Criar o projeto <code>desafio_caps_1_2_3</code> no PyCharm</div>
+        <div class="step-sub">Antes de começar, monte sua "academia"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pycharm-banner">
+        <h3>🐍 Um projeto só pra esses 30 desafios</h3>
+        <p>
+          Cada desafio será um arquivo <code>.py</code> separado dentro de
+          <strong>UM ÚNICO projeto</strong> chamado <code>desafio_caps_1_2_3</code>.
+          Bora montar agora pra você não precisar pensar nisso de novo:
+        </p>
+      </div>
+
+      <div class="steps-list">
+        <div class="pc-step">
+          Abra o <strong>PyCharm</strong>. Na tela inicial, clique em <code>New Project</code>
+          (ou no menu <em>File → New Project…</em> se já estiver com outro projeto aberto).
+        </div>
+        <div class="pc-step">
+          No campo <strong>Location</strong>, escolha onde salvar e dê o nome
+          <code>desafio_caps_1_2_3</code> ao final do caminho.
+          Ex.: <code>~/PycharmProjects/desafio_caps_1_2_3</code>.
+        </div>
+        <div class="pc-step">
+          Em <strong>Interpreter type</strong>, deixe a opção padrão recomendada
+          (<em>Project venv</em> com Python 3.10 ou superior). Se não tiver Python,
+          clique em <code>Add Interpreter</code> e o próprio PyCharm baixa pra você.
+        </div>
+        <div class="pc-step">
+          Pode <strong>desmarcar</strong> a opção <em>Create a welcome script</em> /
+          <em>main.py</em> — vamos criar nossos próprios arquivos.
+        </div>
+        <div class="pc-step">
+          Clique em <strong>Create</strong>. Aguarde o PyCharm preparar o ambiente
+          (vai aparecer uma barrinha lá embaixo). ☕
+        </div>
+        <div class="pc-step">
+          <strong>Dica:</strong> pra criar cada desafio, clique com o botão direito
+          na pasta do projeto → <em>New → Python File</em> → digite o nome (ex.:
+          <code>ola_pessoal.py</code>) → Enter. ✅
+        </div>
+        <div class="pc-step">
+          <strong>Pra rodar:</strong> com o arquivo aberto, clique no triângulo verde
+          ▶ no canto superior direito (ou <em>botão direito → Run 'nome_do_arquivo'</em>).
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Não esquece:</strong> nomes de arquivo Python sempre em
+          <code>minusculo_com_underline.py</code>. Sem espaços, sem acentos, sem maiúsculas
+          — esse é o estilo oficial da galera Python (chamado <em>snake_case</em>) 🐍.
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Por que um projeto só?</strong> Assim você acumula os 30 arquivos
+          numa pastinha só, fica fácil revisar depois e o PyCharm já fica configurado
+          (interpreter, virtualenv) — você não perde tempo abrindo várias janelas.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMO USAR ESTE CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="como-usar">
+    <div class="step-header">
+      <div class="step-number sn-blue">👀</div>
+      <div>
+        <div class="step-title">Como usar este capítulo</div>
+        <div class="step-sub">A regra do olhinho 👀 — ela é sagrada aqui</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>Pra cada um dos 30 desafios, o ritual é:</p>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:14px 0">
+        <div class="tip">
+          <span class="tip-icon">1️⃣</span>
+          <div class="tip-content"><strong>Leia</strong> o "💡 O que fazer" e a dica de cada desafio.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">2️⃣</span>
+          <div class="tip-content"><strong>Crie</strong> o arquivo <code>.py</code> no PyCharm com o nome indicado.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">3️⃣</span>
+          <div class="tip-content"><strong>Tente sozinho.</strong> Erre, leia o erro, ajuste, rode de novo. Esse loop é o aprendizado.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">4️⃣</span>
+          <div class="tip-content">Só aí, <strong>se travar de verdade</strong>, abre o olhinho 👀 pra ver a resposta — compara com a sua.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🚨</span>
+        <div class="warning-content">
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado.</strong>
+          Sério. Errar é o jeito mais rápido de aprender — não pula essa parte! 💪
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCO 1 — só print + variáveis + f-string (1-10)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider"><span class="bd-pill">📦 Bloco 1 · Aquecimento (1-10)</span></div>
+
+  <!-- ─────────── DESAFIO 01 ─────────── -->
+  <section class="step-section" id="d01">
+    <div class="step-header">
+      <div class="step-number sn-blue">01</div>
+      <div>
+        <div class="step-title">Desafio 01 — <code>ola_pessoal.py</code></div>
+        <div class="step-sub">Vários print() em sequência</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">ola_pessoal.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie o arquivo <code>ola_pessoal.py</code>. Use <code>print()</code> <strong>três vezes</strong>
+          pra escrever três frases diferentes, uma em cada linha:
+        </p>
+        <p style="margin-left:18px">
+          1) <em>"Olá, pessoal!"</em><br>
+          2) <em>"Estou aprendendo Python"</em><br>
+          3) <em>"E é incrível! 🐍"</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Cada <code>print()</code> já <strong>quebra a linha</strong> automaticamente —
+          você não precisa fazer nada de especial. Só chamar 3 vezes.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">ola_pessoal.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3</div>
+<pre><span class="bi">print</span>(<span class="st">"Olá, pessoal!"</span>)
+<span class="bi">print</span>(<span class="st">"Estou aprendendo Python"</span>)
+<span class="bi">print</span>(<span class="st">"E é incrível! 🐍"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · ola_pessoal.py</span>
+            </div>
+            <div class="terminal-body">
+              Olá, pessoal!<br>
+              Estou aprendendo Python<br>
+              E é incrível! 🐍
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 02 ─────────── -->
+  <section class="step-section" id="d02">
+    <div class="step-header">
+      <div class="step-number sn-yellow">02</div>
+      <div>
+        <div class="step-title">Desafio 02 — <code>meu_perfil.py</code></div>
+        <div class="step-sub">Variáveis + f-string</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">meu_perfil.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie 4 variáveis com <strong>seus dados</strong>: <code>nome</code>, <code>idade</code>,
+          <code>cidade</code> e <code>profissao_sonho</code>. Depois, mostre uma "ficha de perfil"
+          usando <strong>f-string</strong>, no formato:
+        </p>
+        <p style="margin-left:18px">
+          <em>=== MEU PERFIL ===<br>
+          Nome: ...<br>
+          Idade: ...<br>
+          Cidade: ...<br>
+          Profissão dos sonhos: ...</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          F-string lembra? <code>f"Nome: {nome}"</code> — o que tá entre <code>{ }</code>
+          é substituído pelo valor da variável.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">meu_perfil.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre>nome             = <span class="st">"Kelson"</span>
+idade            = <span class="num">33</span>
+cidade           = <span class="st">"João Pessoa"</span>
+profissao_sonho  = <span class="st">"Astronauta 🚀"</span>
+
+<span class="bi">print</span>(<span class="st">"=== MEU PERFIL ==="</span>)
+<span class="bi">print</span>(<span class="st">f"Nome: {nome}"</span>)
+<span class="bi">print</span>(<span class="st">f"Idade: {idade}"</span>)
+<span class="bi">print</span>(<span class="st">f"Cidade: {cidade}"</span>)
+<span class="bi">print</span>(<span class="st">f"Profissão dos sonhos: {profissao_sonho}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · meu_perfil.py</span>
+            </div>
+            <div class="terminal-body">
+              === MEU PERFIL ===<br>
+              Nome: Kelson<br>
+              Idade: 33<br>
+              Cidade: João Pessoa<br>
+              Profissão dos sonhos: Astronauta 🚀
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 03 ─────────── -->
+  <section class="step-section" id="d03">
+    <div class="step-header">
+      <div class="step-number sn-green">03</div>
+      <div>
+        <div class="step-title">Desafio 03 — <code>soma_simples.py</code></div>
+        <div class="step-sub">input + int + soma</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">soma_simples.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça <strong>dois números inteiros</strong> ao usuário e mostre a soma deles
+          numa frase bonitinha tipo <em>"A soma de 5 + 3 é 8"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          Lembra que <code>input()</code> sempre devolve <strong>texto</strong>?
+          Pra somar como número, envolve com <code>int(input(...))</code>.
+          Senão Python vai <em>concatenar</em> as strings ("5" + "3" = "53") em vez de somar!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_simples.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>a = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Primeiro número: "</span>))
+b = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Segundo número: "</span>))
+
+<span class="bi">print</span>(<span class="st">f"A soma de {a} + {b} é {a + b}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · soma_simples.py</span>
+            </div>
+            <div class="terminal-body">
+              Primeiro número: <strong>5</strong><br>
+              Segundo número: <strong>3</strong><br>
+              A soma de 5 + 3 é 8
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 04 ─────────── -->
+  <section class="step-section" id="d04">
+    <div class="step-header">
+      <div class="step-number sn-purple">04</div>
+      <div>
+        <div class="step-title">Desafio 04 — <code>dobro_triplo.py</code></div>
+        <div class="step-sub">Multiplicação simples</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">dobro_triplo.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número inteiro ao usuário e mostre o <strong>dobro</strong> e o
+          <strong>triplo</strong> dele.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✖️</span>
+        <div class="tip-content">
+          O operador de multiplicação em Python é <code>*</code> (asterisco).
+          Ex.: <code>n * 2</code> dá o dobro, <code>n * 3</code> dá o triplo.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">dobro_triplo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>n = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+
+<span class="bi">print</span>(<span class="st">f"O dobro de {n} é {n * 2}"</span>)
+<span class="bi">print</span>(<span class="st">f"O triplo de {n} é {n * 3}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · dobro_triplo.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número: <strong>7</strong><br>
+              O dobro de 7 é 14<br>
+              O triplo de 7 é 21
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 05 ─────────── -->
+  <section class="step-section" id="d05">
+    <div class="step-header">
+      <div class="step-number sn-mint">05</div>
+      <div>
+        <div class="step-title">Desafio 05 — <code>convertendo_idade.py</code></div>
+        <div class="step-sub">Anos → meses, dias e horas</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">convertendo_idade.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte a idade da pessoa em <strong>anos</strong> e mostre o equivalente em
+          <strong>meses</strong>, <strong>dias</strong> e <strong>horas</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧮</span>
+        <div class="tip-content">
+          1 ano = 12 meses · 1 ano = 365 dias (vamos ignorar os bissextos) · 1 dia = 24 horas.
+          Você pode calcular as horas a partir dos dias!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">convertendo_idade.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre>anos = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantos anos você tem? "</span>))
+
+meses = anos <span class="op">*</span> <span class="num">12</span>
+dias  = anos <span class="op">*</span> <span class="num">365</span>
+horas = dias <span class="op">*</span> <span class="num">24</span>
+
+<span class="bi">print</span>(<span class="st">f"{anos} anos é o mesmo que:"</span>)
+<span class="bi">print</span>(<span class="st">f"  {meses} meses"</span>)
+<span class="bi">print</span>(<span class="st">f"  {dias} dias"</span>)
+<span class="bi">print</span>(<span class="st">f"  {horas} horas"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · convertendo_idade.py</span>
+            </div>
+            <div class="terminal-body">
+              Quantos anos você tem? <strong>20</strong><br>
+              20 anos é o mesmo que:<br>
+              &nbsp;&nbsp;240 meses<br>
+              &nbsp;&nbsp;7300 dias<br>
+              &nbsp;&nbsp;175200 horas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 06 ─────────── -->
+  <section class="step-section" id="d06">
+    <div class="step-header">
+      <div class="step-number sn-red">06</div>
+      <div>
+        <div class="step-title">Desafio 06 — <code>conversor_moedas.py</code></div>
+        <div class="step-sub">Reais → dólares com formatação</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">conversor_moedas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma variável <code>cotacao</code> com o valor <code>5.0</code>
+          (quantos reais valem 1 dólar). Peça ao usuário um valor em reais e mostre
+          o equivalente em dólares, com <strong>2 casas decimais</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💰</span>
+        <div class="tip-content">
+          Como o valor pode ter centavos, use <code>float(input(...))</code>.
+          Pra formatar com 2 casas: <code>f"{valor:.2f}"</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">conversor_moedas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>cotacao = <span class="num">5.0</span>   <span class="cm"># quantos reais valem 1 dólar</span>
+reais   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor em R$: "</span>))
+
+dolares = reais <span class="op">/</span> cotacao
+<span class="bi">print</span>(<span class="st">f"R$ {reais:.2f} = US$ {dolares:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · conversor_moedas.py</span>
+            </div>
+            <div class="terminal-body">
+              Valor em R$: <strong>250</strong><br>
+              R$ 250.00 = US$ 50.00
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 07 ─────────── -->
+  <section class="step-section" id="d07">
+    <div class="step-header">
+      <div class="step-number sn-blue">07</div>
+      <div>
+        <div class="step-title">Desafio 07 — <code>area_retangulo.py</code></div>
+        <div class="step-sub">Geometria básica</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">area_retangulo.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte a <strong>base</strong> e a <strong>altura</strong> de um retângulo
+          (em cm) e mostre a área (com 2 casas decimais).
+        </p>
+        <p>
+          Lembra da fórmula? <strong>área = base × altura</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📐</span>
+        <div class="tip-content">
+          Use <code>float()</code> pra aceitar valores com vírgula tipo 4.5 cm.
+          Em Python, vírgula vira ponto (4.5).
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">area_retangulo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>base   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Base (cm): "</span>))
+altura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Altura (cm): "</span>))
+
+area = base <span class="op">*</span> altura
+<span class="bi">print</span>(<span class="st">f"Área do retângulo: {area:.2f} cm²"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · area_retangulo.py</span>
+            </div>
+            <div class="terminal-body">
+              Base (cm): <strong>4.5</strong><br>
+              Altura (cm): <strong>2</strong><br>
+              Área do retângulo: 9.00 cm²
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 08 ─────────── -->
+  <section class="step-section" id="d08">
+    <div class="step-header">
+      <div class="step-number sn-yellow">08</div>
+      <div>
+        <div class="step-title">Desafio 08 — <code>media_3_notas.py</code></div>
+        <div class="step-sub">Cálculo de média aritmética</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">media_3_notas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça <strong>3 notas</strong> de um aluno (de 0 a 10, com decimais)
+          e calcule a <strong>média</strong>. Mostre o resultado com 2 casas decimais.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧮</span>
+        <div class="tip-content">
+          Média aritmética = (soma dos valores) ÷ (quantidade). Aqui é
+          <code>(n1 + n2 + n3) / 3</code>. Cuidado com os parênteses!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">media_3_notas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>n1 = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"1ª nota: "</span>))
+n2 = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"2ª nota: "</span>))
+n3 = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"3ª nota: "</span>))
+
+media = (n1 <span class="op">+</span> n2 <span class="op">+</span> n3) <span class="op">/</span> <span class="num">3</span>
+<span class="bi">print</span>(<span class="st">f"Média do aluno: {media:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · media_3_notas.py</span>
+            </div>
+            <div class="terminal-body">
+              1ª nota: <strong>8</strong><br>
+              2ª nota: <strong>6.5</strong><br>
+              3ª nota: <strong>9</strong><br>
+              Média do aluno: 7.83
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 09 ─────────── -->
+  <section class="step-section" id="d09">
+    <div class="step-header">
+      <div class="step-number sn-purple">09</div>
+      <div>
+        <div class="step-title">Desafio 09 — <code>troco_padaria.py</code></div>
+        <div class="step-sub">Subtração e f-string formatada</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">troco_padaria.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça o <strong>valor da compra</strong> e o <strong>valor pago</strong> pelo cliente
+          (em reais). Mostre o <strong>troco</strong> formatado com 2 casas decimais
+          (ex.: <em>"Seu troco é R$ 4.50"</em>).
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💵</span>
+        <div class="tip-content">
+          Troco = valor pago − valor da compra. Como mexe com dinheiro,
+          tudo aqui vai ser <code>float</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">troco_padaria.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>valor_compra = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor da compra: R$ "</span>))
+valor_pago   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor pago: R$ "</span>))
+
+troco = valor_pago <span class="op">-</span> valor_compra
+<span class="bi">print</span>(<span class="st">f"Seu troco é R$ {troco:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · troco_padaria.py</span>
+            </div>
+            <div class="terminal-body">
+              Valor da compra: R$ <strong>15.50</strong><br>
+              Valor pago: R$ <strong>20</strong><br>
+              Seu troco é R$ 4.50
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 10 ─────────── -->
+  <section class="step-section" id="d10">
+    <div class="step-header">
+      <div class="step-number sn-mint">10</div>
+      <div>
+        <div class="step-title">Desafio 10 — <code>imc_simples.py</code></div>
+        <div class="step-sub">Calcula o IMC (sem classificar)</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">imc_simples.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça o <strong>peso (kg)</strong> e a <strong>altura (m)</strong> e calcule o
+          <strong>IMC</strong> (Índice de Massa Corporal). Mostre com 2 casas decimais.
+        </p>
+        <p>
+          Fórmula: <strong>IMC = peso ÷ (altura × altura)</strong>.
+          Por enquanto só calcule e mostre o número — no desafio 17 a gente classifica.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📏</span>
+        <div class="tip-content">
+          A altura precisa estar em <strong>metros</strong> (ex.: 1.75) — não cm.
+          Senão o IMC vai vir todo errado.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">imc_simples.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>peso   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Seu peso (kg): "</span>))
+altura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua altura (m): "</span>))
+
+imc = peso <span class="op">/</span> (altura <span class="op">*</span> altura)
+<span class="bi">print</span>(<span class="st">f"Seu IMC é {imc:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · imc_simples.py</span>
+            </div>
+            <div class="terminal-body">
+              Seu peso (kg): <strong>72</strong><br>
+              Sua altura (m): <strong>1.75</strong><br>
+              Seu IMC é 23.51
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCO 2 — if/else/elif (11-20)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider"><span class="bd-pill">🤔 Bloco 2 · Decisões com if/elif/else (11-20)</span></div>
+
+  <!-- ─────────── DESAFIO 11 ─────────── -->
+  <section class="step-section" id="d11">
+    <div class="step-header">
+      <div class="step-number sn-blue">11</div>
+      <div>
+        <div class="step-title">Desafio 11 — <code>maior_de_idade.py</code></div>
+        <div class="step-sub">Primeiro if/else só seu</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">maior_de_idade.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte a idade da pessoa. SE for <strong>maior ou igual a 18</strong>,
+          mostre <em>"Você é maior de idade. ✅"</em>. SENÃO, mostre
+          <em>"Você é menor de idade. ⛔"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎯</span>
+        <div class="tip-content">
+          Não esquece dos <strong>dois pontos</strong> no fim do <code>if</code>
+          e do <code>else</code>! E indenta com 4 espaços a linha de baixo.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">maior_de_idade.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span>:
+    <span class="bi">print</span>(<span class="st">"Você é maior de idade. ✅"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"Você é menor de idade. ⛔"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · maior_de_idade.py</span>
+            </div>
+            <div class="terminal-body">
+              Sua idade: <strong>22</strong><br>
+              Você é maior de idade. ✅
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 12 ─────────── -->
+  <section class="step-section" id="d12">
+    <div class="step-header">
+      <div class="step-number sn-yellow">12</div>
+      <div>
+        <div class="step-title">Desafio 12 — <code>positivo_negativo.py</code></div>
+        <div class="step-sub">Primeiro elif</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">positivo_negativo.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número inteiro e classifique:
+        </p>
+        <p style="margin-left:18px">
+          • Maior que 0 → <em>"Positivo ➕"</em><br>
+          • Menor que 0 → <em>"Negativo ➖"</em><br>
+          • Igual a 0 → <em>"É zero 0️⃣"</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🛤️</span>
+        <div class="tip-content">
+          Três caminhos = <code>if</code> + <code>elif</code> + <code>else</code>.
+          O <code>else</code> não tem condição (cobre o que sobrou).
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">positivo_negativo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>n = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+
+<span class="kw">if</span> n <span class="op">&gt;</span> <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"Positivo ➕"</span>)
+<span class="kw">elif</span> n <span class="op">&lt;</span> <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"Negativo ➖"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"É zero 0️⃣"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · positivo_negativo.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número: <strong>-7</strong><br>
+              Negativo ➖
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 13 ─────────── -->
+  <section class="step-section" id="d13">
+    <div class="step-header">
+      <div class="step-number sn-green">13</div>
+      <div>
+        <div class="step-title">Desafio 13 — <code>multiplo_de_5.py</code></div>
+        <div class="step-sub">Operador % (resto da divisão)</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">multiplo_de_5.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número e diga se ele é <strong>múltiplo de 5</strong>.
+          Mostra mensagem positiva ou negativa com o número que o usuário digitou.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧮</span>
+        <div class="tip-content">
+          Lembra do <code>%</code>? Ele dá o <strong>resto da divisão</strong>.
+          Se <code>n % 5 == 0</code>, é múltiplo. Mesma ideia do <code>par_impar.py</code>
+          do cap 03, só trocando 2 por 5.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">multiplo_de_5.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>n = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+
+<span class="kw">if</span> n <span class="op">%</span> <span class="num">5</span> <span class="op">==</span> <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">f"{n} é múltiplo de 5 ✅"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"{n} NÃO é múltiplo de 5 ❌"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · multiplo_de_5.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número: <strong>25</strong><br>
+              25 é múltiplo de 5 ✅
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 14 ─────────── -->
+  <section class="step-section" id="d14">
+    <div class="step-header">
+      <div class="step-number sn-purple">14</div>
+      <div>
+        <div class="step-title">Desafio 14 — <code>aprovado_reprovado.py</code></div>
+        <div class="step-sub">if/else com nota</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">aprovado_reprovado.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça a nota final do aluno (0 a 10). Se for <strong>maior ou igual a 6</strong>,
+          imprima <em>"✅ Aprovado!"</em>. Senão, <em>"❌ Reprovado."</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📝</span>
+        <div class="tip-content">
+          Como pode ter nota tipo 6.5, use <code>float()</code>. Cuidado:
+          <code>&gt;=</code> (maior ou igual) é diferente de <code>&gt;</code> (só maior)!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">aprovado_reprovado.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>nota = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua nota (0 a 10): "</span>))
+
+<span class="kw">if</span> nota <span class="op">&gt;=</span> <span class="num">6</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Aprovado!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"❌ Reprovado."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · aprovado_reprovado.py</span>
+            </div>
+            <div class="terminal-body">
+              Sua nota (0 a 10): <strong>5.5</strong><br>
+              ❌ Reprovado.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 15 ─────────── -->
+  <section class="step-section" id="d15">
+    <div class="step-header">
+      <div class="step-number sn-red">15</div>
+      <div>
+        <div class="step-title">Desafio 15 — <code>senha_simples.py</code></div>
+        <div class="step-sub">Comparação de string com ==</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">senha_simples.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie um sistema de senha (bem básico). Peça uma senha. Se for exatamente
+          <code>python123</code>, mostre <em>"🔓 Acesso liberado!"</em>. Senão,
+          <em>"🚫 Senha incorreta."</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          Compare com <code>==</code> (DUAS igualdades). Lembra do BugZilla?
+          <code>=</code> é atribuição, <code>==</code> é pergunta!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">senha_simples.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>senha = <span class="bi">input</span>(<span class="st">"Digite a senha: "</span>)
+
+<span class="kw">if</span> senha <span class="op">==</span> <span class="st">"python123"</span>:
+    <span class="bi">print</span>(<span class="st">"🔓 Acesso liberado!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🚫 Senha incorreta."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · senha_simples.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite a senha: <strong>python123</strong><br>
+              🔓 Acesso liberado!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 16 ─────────── -->
+  <section class="step-section" id="d16">
+    <div class="step-header">
+      <div class="step-number sn-blue">16</div>
+      <div>
+        <div class="step-title">Desafio 16 — <code>temperatura_agua.py</code></div>
+        <div class="step-sub">3 estados — sólida, líquida, gasosa</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">temperatura_agua.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte a temperatura da água em °C. Mostre o estado físico:
+        </p>
+        <p style="margin-left:18px">
+          • abaixo de 0 → <em>"🧊 Sólida (gelo)"</em><br>
+          • de 0 a 99 → <em>"💧 Líquida"</em><br>
+          • 100 ou mais → <em>"💨 Gasosa (vapor)"</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🔁</span>
+        <div class="tip-content">
+          Mesma ideia do <code>nota_escolar.py</code> do cap 03 —
+          <code>if</code> + <code>elif</code> + <code>else</code> em faixas numéricas.
+          O Python testa de cima pra baixo!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">temperatura_agua.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>t = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Temperatura da água (°C): "</span>))
+
+<span class="kw">if</span> t <span class="op">&lt;</span> <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"🧊 Sólida (gelo)"</span>)
+<span class="kw">elif</span> t <span class="op">&lt;</span> <span class="num">100</span>:
+    <span class="bi">print</span>(<span class="st">"💧 Líquida"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"💨 Gasosa (vapor)"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · temperatura_agua.py</span>
+            </div>
+            <div class="terminal-body">
+              Temperatura da água (°C): <strong>-5</strong><br>
+              🧊 Sólida (gelo)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 17 ─────────── -->
+  <section class="step-section" id="d17">
+    <div class="step-header">
+      <div class="step-number sn-yellow">17</div>
+      <div>
+        <div class="step-title">Desafio 17 — <code>imc_classificador.py</code></div>
+        <div class="step-sub">Evolui o desafio 10 com classificação</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">imc_classificador.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pegue o código do <code>imc_simples.py</code> (desafio 10) e adicione
+          uma classificação. Use as faixas:
+        </p>
+        <p style="margin-left:18px">
+          • IMC &lt; 18.5 → <em>"Abaixo do peso"</em><br>
+          • 18.5 a 24.9 → <em>"Peso normal ✅"</em><br>
+          • 25.0 a 29.9 → <em>"Sobrepeso"</em><br>
+          • 30 ou mais → <em>"Obesidade"</em>
+        </p>
+        <p>
+          Mostre uma frase com o IMC formatado e a classificação juntos.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📊</span>
+        <div class="tip-content">
+          Usa <code>elif</code> em sequência testando "menor que". Quando chegar no
+          <code>elif imc &lt; 25</code>, o Python já sabe que o IMC <strong>não é</strong>
+          menor que 18.5 (senão teria caído no <code>if</code>).
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">imc_classificador.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre>peso   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Seu peso (kg): "</span>))
+altura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua altura (m): "</span>))
+
+imc = peso <span class="op">/</span> (altura <span class="op">*</span> altura)
+
+<span class="kw">if</span> imc <span class="op">&lt;</span> <span class="num">18.5</span>:
+    <span class="bi">print</span>(<span class="st">f"IMC {imc:.2f} → Abaixo do peso"</span>)
+<span class="kw">elif</span> imc <span class="op">&lt;</span> <span class="num">25</span>:
+    <span class="bi">print</span>(<span class="st">f"IMC {imc:.2f} → Peso normal ✅"</span>)
+<span class="kw">elif</span> imc <span class="op">&lt;</span> <span class="num">30</span>:
+    <span class="bi">print</span>(<span class="st">f"IMC {imc:.2f} → Sobrepeso"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"IMC {imc:.2f} → Obesidade"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · imc_classificador.py</span>
+            </div>
+            <div class="terminal-body">
+              Seu peso (kg): <strong>72</strong><br>
+              Sua altura (m): <strong>1.75</strong><br>
+              IMC 23.51 → Peso normal ✅
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 18 ─────────── -->
+  <section class="step-section" id="d18">
+    <div class="step-header">
+      <div class="step-number sn-purple">18</div>
+      <div>
+        <div class="step-title">Desafio 18 — <code>desconto_idoso.py</code></div>
+        <div class="step-sub">Cálculo condicional</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">desconto_idoso.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça a <strong>idade</strong> e o <strong>valor da compra</strong>.
+          Se a idade for <strong>≥ 60</strong>, dê <strong>20% de desconto</strong>
+          e mostre o desconto + o total a pagar.
+          Senão, só mostre o total normal.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💸</span>
+        <div class="tip-content">
+          20% de desconto = multiplicar por 0.20 → <code>desconto = valor * 0.20</code>.
+          Total a pagar = valor − desconto. Use <code>{x:.2f}</code> nas f-strings!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">desconto_idoso.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre>idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+valor = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor da compra: R$ "</span>))
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">60</span>:
+    desconto = valor <span class="op">*</span> <span class="num">0.20</span>
+    total    = valor <span class="op">-</span> desconto
+    <span class="bi">print</span>(<span class="st">f"Desconto de 20% aplicado: R$ {desconto:.2f}"</span>)
+    <span class="bi">print</span>(<span class="st">f"Total a pagar: R$ {total:.2f}"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"Total a pagar: R$ {valor:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · desconto_idoso.py</span>
+            </div>
+            <div class="terminal-body">
+              Sua idade: <strong>65</strong><br>
+              Valor da compra: R$ <strong>200</strong><br>
+              Desconto de 20% aplicado: R$ 40.00<br>
+              Total a pagar: R$ 160.00
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 19 ─────────── -->
+  <section class="step-section" id="d19">
+    <div class="step-header">
+      <div class="step-number sn-mint">19</div>
+      <div>
+        <div class="step-title">Desafio 19 — <code>tamanho_numero.py</code></div>
+        <div class="step-sub">Quantos dígitos um número tem?</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">tamanho_numero.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número <strong>positivo</strong> e mostre quantos dígitos ele tem:
+        </p>
+        <p style="margin-left:18px">
+          • menor que 10 → <em>"1 dígito (unidade)"</em><br>
+          • menor que 100 → <em>"2 dígitos (dezena) 🔟"</em><br>
+          • menor que 1000 → <em>"3 dígitos (centena)"</em><br>
+          • caso contrário → <em>"4 dígitos ou mais (milhar+)"</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🔢</span>
+        <div class="tip-content">
+          Cuide da <strong>ordem</strong> dos <code>elif</code>: vai do menor para o maior.
+          Quando chega num <code>elif</code>, ele já sabe que o anterior não bateu.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">tamanho_numero.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre>n = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número positivo: "</span>))
+
+<span class="kw">if</span> n <span class="op">&lt;</span> <span class="num">10</span>:
+    <span class="bi">print</span>(<span class="st">"Tem 1 dígito (unidade)"</span>)
+<span class="kw">elif</span> n <span class="op">&lt;</span> <span class="num">100</span>:
+    <span class="bi">print</span>(<span class="st">"Tem 2 dígitos (dezena) 🔟"</span>)
+<span class="kw">elif</span> n <span class="op">&lt;</span> <span class="num">1000</span>:
+    <span class="bi">print</span>(<span class="st">"Tem 3 dígitos (centena)"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"Tem 4 dígitos ou mais (milhar+)"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · tamanho_numero.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número positivo: <strong>87</strong><br>
+              Tem 2 dígitos (dezena) 🔟
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 20 ─────────── -->
+  <section class="step-section" id="d20">
+    <div class="step-header">
+      <div class="step-number sn-red">20</div>
+      <div>
+        <div class="step-title">Desafio 20 — <code>mes_em_palavras.py</code></div>
+        <div class="step-sub">elif gigante (12 caminhos!)</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">mes_em_palavras.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça o número de um mês (1 a 12) e mostre o nome dele por extenso
+          (1 → "Janeiro", 2 → "Fevereiro", …, 12 → "Dezembro").
+          Se for inválido (0, 13, etc), mostre <em>"Mês inválido!"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📅</span>
+        <div class="tip-content">
+          Sim, vai ficar comprido. Tudo bem! É um <code>if</code>, 11
+          <code>elif</code> e um <code>else</code> no fim.
+          Esse é o tipo de exercício que <strong>treina sua paciência</strong> 😅 —
+          no cap 07 vai dar pra resolver mais elegante com dicionário, mas hoje é "no braço".
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">mes_em_palavras.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26</div>
+<pre>m = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Número do mês (1-12): "</span>))
+
+<span class="kw">if</span> m <span class="op">==</span> <span class="num">1</span>:
+    <span class="bi">print</span>(<span class="st">"Janeiro"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">2</span>:
+    <span class="bi">print</span>(<span class="st">"Fevereiro"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">3</span>:
+    <span class="bi">print</span>(<span class="st">"Março"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">4</span>:
+    <span class="bi">print</span>(<span class="st">"Abril"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">5</span>:
+    <span class="bi">print</span>(<span class="st">"Maio"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">6</span>:
+    <span class="bi">print</span>(<span class="st">"Junho"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">7</span>:
+    <span class="bi">print</span>(<span class="st">"Julho"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">8</span>:
+    <span class="bi">print</span>(<span class="st">"Agosto"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">9</span>:
+    <span class="bi">print</span>(<span class="st">"Setembro"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">10</span>:
+    <span class="bi">print</span>(<span class="st">"Outubro"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">11</span>:
+    <span class="bi">print</span>(<span class="st">"Novembro"</span>)
+<span class="kw">elif</span> m <span class="op">==</span> <span class="num">12</span>:
+    <span class="bi">print</span>(<span class="st">"Dezembro"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"Mês inválido!"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · mes_em_palavras.py</span>
+            </div>
+            <div class="terminal-body">
+              Número do mês (1-12): <strong>9</strong><br>
+              Setembro
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCO 3 — and / or / not (21-30)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider"><span class="bd-pill">🔗 Bloco 3 · Combinando condições (21-30)</span></div>
+
+  <!-- ─────────── DESAFIO 21 ─────────── -->
+  <section class="step-section" id="d21">
+    <div class="step-header">
+      <div class="step-number sn-blue">21</div>
+      <div>
+        <div class="step-title">Desafio 21 — <code>pode_dirigir.py</code></div>
+        <div class="step-sub">Primeiro and</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">pode_dirigir.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte a <strong>idade</strong> e <strong>se a pessoa tem CNH</strong>
+          (responde "sim" / "não").
+          Só pode dirigir se for maior de 18 <strong>E</strong> tiver CNH.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🔗</span>
+        <div class="tip-content">
+          Aqui o operador é <code>and</code>. As DUAS condições precisam ser True.
+          Para a comparação não falhar com "Sim", "SIM" etc, use
+          <code>.lower()</code> no input.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">pode_dirigir.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>idade   = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+tem_cnh = <span class="bi">input</span>(<span class="st">"Tem CNH? (sim/não): "</span>).lower()
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">and</span> tem_cnh <span class="op">==</span> <span class="st">"sim"</span>:
+    <span class="bi">print</span>(<span class="st">"🚗 Pode dirigir!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"⛔ Não pode dirigir."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · pode_dirigir.py</span>
+            </div>
+            <div class="terminal-body">
+              Sua idade: <strong>20</strong><br>
+              Tem CNH? (sim/não): <strong>Sim</strong><br>
+              🚗 Pode dirigir!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 22 ─────────── -->
+  <section class="step-section" id="d22">
+    <div class="step-header">
+      <div class="step-number sn-yellow">22</div>
+      <div>
+        <div class="step-title">Desafio 22 — <code>entrada_show.py</code></div>
+        <div class="step-sub">and + or numa só condição</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">entrada_show.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Sistema de entrada de um show. Pergunte a <strong>idade</strong>
+          e <strong>se está com responsável</strong> (sim/não). A regra:
+        </p>
+        <p style="margin-left:18px">
+          • Pode entrar SE: idade ≥ 18 <strong>OU</strong> (idade ≥ 15 <strong>E</strong> com responsável)<br>
+          • Senão: entrada negada
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎟️</span>
+        <div class="tip-content">
+          Esse é o primeiro com <code>and</code> e <code>or</code> juntos.
+          Use <strong>parênteses</strong> pra deixar claro o que vem primeiro:
+          <code>(idade &gt;= 15 and acompanhado == "sim")</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">entrada_show.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>idade        = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+acompanhado  = <span class="bi">input</span>(<span class="st">"Está com responsável? (sim/não): "</span>).lower()
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">or</span> (idade <span class="op">&gt;=</span> <span class="num">15</span> <span class="kw">and</span> acompanhado <span class="op">==</span> <span class="st">"sim"</span>):
+    <span class="bi">print</span>(<span class="st">"🎉 Entrada liberada!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🚫 Entrada negada."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · entrada_show.py</span>
+            </div>
+            <div class="terminal-body">
+              Sua idade: <strong>16</strong><br>
+              Está com responsável? (sim/não): <strong>sim</strong><br>
+              🎉 Entrada liberada!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 23 ─────────── -->
+  <section class="step-section" id="d23">
+    <div class="step-header">
+      <div class="step-number sn-green">23</div>
+      <div>
+        <div class="step-title">Desafio 23 — <code>intervalo_numero.py</code></div>
+        <div class="step-sub">Está entre dois valores?</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">intervalo_numero.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número e diga se ele está <strong>entre 10 e 50</strong>
+          (incluindo o 10 e o 50).
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">↔️</span>
+        <div class="tip-content">
+          Use <code>and</code> pra exigir que <strong>as duas pontas</strong> sejam respeitadas:
+          <code>n &gt;= 10 and n &lt;= 50</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">intervalo_numero.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>n = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+
+<span class="kw">if</span> n <span class="op">&gt;=</span> <span class="num">10</span> <span class="kw">and</span> n <span class="op">&lt;=</span> <span class="num">50</span>:
+    <span class="bi">print</span>(<span class="st">f"{n} está entre 10 e 50 ✅"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"{n} está fora do intervalo ❌"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · intervalo_numero.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número: <strong>27</strong><br>
+              27 está entre 10 e 50 ✅
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 24 ─────────── -->
+  <section class="step-section" id="d24">
+    <div class="step-header">
+      <div class="step-number sn-purple">24</div>
+      <div>
+        <div class="step-title">Desafio 24 — <code>letra_vogal.py</code></div>
+        <div class="step-sub">Vários or em sequência</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">letra_vogal.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça uma <strong>letra</strong>. Diga se é <strong>vogal</strong> (a, e, i, o, u)
+          ou <strong>consoante</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🅰️</span>
+        <div class="tip-content">
+          Cinco vogais → cinco comparações com <code>or</code>:
+          <code>letra == "a" or letra == "e" or ...</code>.
+          Use <code>.lower()</code> pra aceitar maiúsculas também!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">letra_vogal.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>letra = <span class="bi">input</span>(<span class="st">"Digite uma letra: "</span>).lower()
+
+<span class="kw">if</span> letra <span class="op">==</span> <span class="st">"a"</span> <span class="kw">or</span> letra <span class="op">==</span> <span class="st">"e"</span> <span class="kw">or</span> letra <span class="op">==</span> <span class="st">"i"</span> <span class="kw">or</span> letra <span class="op">==</span> <span class="st">"o"</span> <span class="kw">or</span> letra <span class="op">==</span> <span class="st">"u"</span>:
+    <span class="bi">print</span>(<span class="st">f"'{letra}' é VOGAL 🅰️"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"'{letra}' é CONSOANTE 🔤"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · letra_vogal.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite uma letra: <strong>E</strong><br>
+              'e' é VOGAL 🅰️
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 25 ─────────── -->
+  <section class="step-section" id="d25">
+    <div class="step-header">
+      <div class="step-number sn-mint">25</div>
+      <div>
+        <div class="step-title">Desafio 25 — <code>dia_util_ou_fds.py</code></div>
+        <div class="step-sub">Combina vários or</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">dia_util_ou_fds.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte que dia da semana é hoje e classifique:
+        </p>
+        <p style="margin-left:18px">
+          • "sabado" OU "domingo" → <em>"🛋️ Fim de semana — bora descansar!"</em><br>
+          • segunda a sexta → <em>"💼 Dia útil — bora trabalhar!"</em><br>
+          • outra coisa → <em>"🤔 Dia desconhecido. Tenta de novo."</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📅</span>
+        <div class="tip-content">
+          Use <code>.lower()</code> no input pra aceitar "Sábado" / "SÁBADO" também
+          (mas digite sem acento na comparação: <code>"sabado"</code>) — assim você
+          evita o problema do <em>SÁBADO ≠ sabado</em>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">dia_util_ou_fds.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre>dia = <span class="bi">input</span>(<span class="st">"Que dia é hoje? "</span>).lower()
+
+<span class="kw">if</span> dia <span class="op">==</span> <span class="st">"sabado"</span> <span class="kw">or</span> dia <span class="op">==</span> <span class="st">"domingo"</span>:
+    <span class="bi">print</span>(<span class="st">"🛋️ Fim de semana — bora descansar!"</span>)
+<span class="kw">elif</span> (dia <span class="op">==</span> <span class="st">"segunda"</span> <span class="kw">or</span> dia <span class="op">==</span> <span class="st">"terca"</span> <span class="kw">or</span>
+      dia <span class="op">==</span> <span class="st">"quarta"</span> <span class="kw">or</span> dia <span class="op">==</span> <span class="st">"quinta"</span> <span class="kw">or</span>
+      dia <span class="op">==</span> <span class="st">"sexta"</span>):
+    <span class="bi">print</span>(<span class="st">"💼 Dia útil — bora trabalhar!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🤔 Dia desconhecido. Tenta de novo."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · dia_util_ou_fds.py</span>
+            </div>
+            <div class="terminal-body">
+              Que dia é hoje? <strong>Domingo</strong><br>
+              🛋️ Fim de semana — bora descansar!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 26 ─────────── -->
+  <section class="step-section" id="d26">
+    <div class="step-header">
+      <div class="step-number sn-red">26</div>
+      <div>
+        <div class="step-title">Desafio 26 — <code>triangulo_valido.py</code></div>
+        <div class="step-sub">3 lados, 3 condições com and</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">triangulo_valido.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça os <strong>3 lados</strong> de um triângulo (a, b, c).
+          Existe uma regra: <em>"em um triângulo válido, qualquer lado é menor
+          que a soma dos outros dois"</em>. Ou seja, precisa ser tudo verdade:
+        </p>
+        <p style="margin-left:18px">
+          • a + b &gt; c<br>
+          • a + c &gt; b<br>
+          • b + c &gt; a
+        </p>
+        <p>
+          Mostre <em>"📐 Forma um triângulo válido!"</em> ou <em>"❌ NÃO forma um triângulo."</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📐</span>
+        <div class="tip-content">
+          Três condições juntas com <code>and</code> — todas precisam ser True.
+          Se UMA falhar, já não é triângulo.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">triangulo_valido.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>a = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Lado A: "</span>))
+b = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Lado B: "</span>))
+c = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Lado C: "</span>))
+
+<span class="kw">if</span> a <span class="op">+</span> b <span class="op">&gt;</span> c <span class="kw">and</span> a <span class="op">+</span> c <span class="op">&gt;</span> b <span class="kw">and</span> b <span class="op">+</span> c <span class="op">&gt;</span> a:
+    <span class="bi">print</span>(<span class="st">"📐 Forma um triângulo válido!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"❌ NÃO forma um triângulo."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · triangulo_valido.py</span>
+            </div>
+            <div class="terminal-body">
+              Lado A: <strong>3</strong><br>
+              Lado B: <strong>4</strong><br>
+              Lado C: <strong>5</strong><br>
+              📐 Forma um triângulo válido!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 27 ─────────── -->
+  <section class="step-section" id="d27">
+    <div class="step-header">
+      <div class="step-number sn-blue">27</div>
+      <div>
+        <div class="step-title">Desafio 27 — <code>ano_bissexto.py</code></div>
+        <div class="step-sub">A regra completa de bissexto</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">ano_bissexto.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um ano e diga se ele é <strong>bissexto</strong>.
+          A regra oficial:
+        </p>
+        <p style="margin-left:18px">
+          • É bissexto SE: <strong>(divisível por 4 E NÃO divisível por 100)
+          OU divisível por 400</strong>.
+        </p>
+        <p>
+          Ex.: 2000 é bissexto (div. por 400). 1900 não é (div. por 100, mas não por 400).
+          2024 é bissexto (div. por 4, não por 100).
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🗓️</span>
+        <div class="tip-content">
+          Lembra: <code>%</code> dá o resto. <code>ano % 4 == 0</code> = "divisível por 4".
+          <code>ano % 100 != 0</code> = "NÃO divisível por 100".
+          Use parênteses pra organizar a expressão!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">ano_bissexto.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>ano = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um ano: "</span>))
+
+<span class="kw">if</span> (ano <span class="op">%</span> <span class="num">4</span> <span class="op">==</span> <span class="num">0</span> <span class="kw">and</span> ano <span class="op">%</span> <span class="num">100</span> <span class="op">!=</span> <span class="num">0</span>) <span class="kw">or</span> ano <span class="op">%</span> <span class="num">400</span> <span class="op">==</span> <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">f"{ano} é BISSEXTO 🗓️ (tem 29/02)"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"{ano} NÃO é bissexto."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · ano_bissexto.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um ano: <strong>2024</strong><br>
+              2024 é BISSEXTO 🗓️ (tem 29/02)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 28 ─────────── -->
+  <section class="step-section" id="d28">
+    <div class="step-header">
+      <div class="step-number sn-yellow">28</div>
+      <div>
+        <div class="step-title">Desafio 28 — <code>classificacao_filme.py</code></div>
+        <div class="step-sub">elif aninhado pra faixa etária</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">classificacao_filme.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça a <strong>idade da pessoa</strong> e mostre quais classificações de filme
+          ela pode assistir (livre, 10+, 12+, 14+, 16+, 18+):
+        </p>
+        <p style="margin-left:18px">
+          • idade ≥ 18 → "livre, 10, 12, 14, 16, 18"<br>
+          • idade ≥ 16 → "livre, 10, 12, 14, 16"<br>
+          • idade ≥ 14 → "livre, 10, 12, 14"<br>
+          • idade ≥ 12 → "livre, 10, 12"<br>
+          • idade ≥ 10 → "livre, 10"<br>
+          • menor → "só filmes livres"
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎬</span>
+        <div class="tip-content">
+          Cuidado com a <strong>ordem</strong>! Tem que ir do MAIOR pro menor:
+          se você começar com <code>idade &gt;= 10</code>, todo mundo vai cair aí
+          (até quem tem 30 anos).
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">classificacao_filme.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre>idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Pode: livre, 10, 12, 14, 16, 18"</span>)
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">16</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Pode: livre, 10, 12, 14, 16"</span>)
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">14</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Pode: livre, 10, 12, 14"</span>)
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">12</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Pode: livre, 10, 12"</span>)
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">10</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Pode: livre, 10"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"✅ Só filmes livres 🍿"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · classificacao_filme.py</span>
+            </div>
+            <div class="terminal-body">
+              Sua idade: <strong>15</strong><br>
+              ✅ Pode: livre, 10, 12, 14
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 29 ─────────── -->
+  <section class="step-section" id="d29">
+    <div class="step-header">
+      <div class="step-number sn-green">29</div>
+      <div>
+        <div class="step-title">Desafio 29 — <code>calculadora_4op.py</code></div>
+        <div class="step-sub">Calculadora de 4 operações</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">calculadora_4op.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça <strong>dois números</strong> e o <strong>símbolo da operação</strong>
+          (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>).
+          Mostre o resultado com 2 casas decimais.
+        </p>
+        <p>
+          Cuidado especial: na divisão, se o segundo número for 0,
+          mostre <em>"⚠️ Não dá pra dividir por zero!"</em> em vez de calcular.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧮</span>
+        <div class="tip-content">
+          Use <code>if/elif/else</code> pra cada símbolo. Para a divisão por zero,
+          coloque <strong>outro <code>if</code> dentro do <code>elif</code> da divisão</strong>
+          (que é totalmente válido — chama-se <em>aninhamento</em>).
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">calculadora_4op.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
+<pre>a  = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Primeiro número: "</span>))
+op = <span class="bi">input</span>(<span class="st">"Operação (+, -, *, /): "</span>)
+b  = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Segundo número: "</span>))
+
+<span class="kw">if</span> op <span class="op">==</span> <span class="st">"+"</span>:
+    <span class="bi">print</span>(<span class="st">f"{a} + {b} = {a + b:.2f}"</span>)
+<span class="kw">elif</span> op <span class="op">==</span> <span class="st">"-"</span>:
+    <span class="bi">print</span>(<span class="st">f"{a} - {b} = {a - b:.2f}"</span>)
+<span class="kw">elif</span> op <span class="op">==</span> <span class="st">"*"</span>:
+    <span class="bi">print</span>(<span class="st">f"{a} * {b} = {a * b:.2f}"</span>)
+<span class="kw">elif</span> op <span class="op">==</span> <span class="st">"/"</span>:
+    <span class="kw">if</span> b <span class="op">==</span> <span class="num">0</span>:
+        <span class="bi">print</span>(<span class="st">"⚠️ Não dá pra dividir por zero!"</span>)
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">f"{a} / {b} = {a / b:.2f}"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"❌ Operação '{op}' inválida."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · calculadora_4op.py</span>
+            </div>
+            <div class="terminal-body">
+              Primeiro número: <strong>10</strong><br>
+              Operação (+, -, *, /): <strong>/</strong><br>
+              Segundo número: <strong>4</strong><br>
+              10.0 / 4.0 = 2.50
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 30 ─────────── -->
+  <section class="step-section" id="d30">
+    <div class="step-header">
+      <div class="step-number sn-purple">30</div>
+      <div>
+        <div class="step-title">Desafio 30 — <code>cadastro_vip.py</code></div>
+        <div class="step-sub">Mini-sistema final · junta tudo!</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🏆</span>
+        <div>
+          <div class="exercise-title">Desafio FINAL — chefão</div>
+          <div class="exercise-sub">cadastro_vip.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Sistema de cadastro de cliente. Pergunte:
+        </p>
+        <p style="margin-left:18px">
+          • <strong>nome</strong> (texto)<br>
+          • <strong>idade</strong> (inteiro)<br>
+          • <strong>total gasto na loja</strong> em R$ (float)
+        </p>
+        <p>Depois, classifique o cliente em 4 categorias:</p>
+        <p style="margin-left:18px">
+          • <strong>idade ≥ 18 E gasto ≥ 1000</strong> → <em>"🌟 VIP! Ganhou 15% de desconto na próxima compra."</em><br>
+          • <strong>idade ≥ 18</strong> (mas gasto &lt; 1000) → <em>"🙂 Cliente normal. Continue comprando pra virar VIP!"</em><br>
+          • <strong>gasto ≥ 1000</strong> (mas menor de idade) → <em>"⚠️ Gasto alto, mas precisa de responsável (menor de idade)."</em><br>
+          • <strong>nenhum dos dois</strong> → <em>"👋 Bem-vindo(a) à loja!"</em>
+        </p>
+        <p>
+          Use <strong>f-string com o nome</strong> em todas as mensagens, pra ficar pessoal.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🌟</span>
+        <div class="tip-content">
+          Esse desafio amarra TUDO: 3 inputs com tipos diferentes, comparações,
+          <code>and</code>, várias categorias com <code>elif</code> e f-string com variável.
+          Se você fizer esse, tá pronto pra cap 04 com folga!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Esse é o boss final dos 30 desafios. Encara com calma — você consegue! 💪
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">cadastro_vip.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre>nome  = <span class="bi">input</span>(<span class="st">"Nome do cliente: "</span>)
+idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
+gasto = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Total gasto na loja (R$): "</span>))
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">and</span> gasto <span class="op">&gt;=</span> <span class="num">1000</span>:
+    <span class="bi">print</span>(<span class="st">f"🌟 {nome}, você é VIP! Ganhou 15% de desconto na próxima compra."</span>)
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">18</span>:
+    <span class="bi">print</span>(<span class="st">f"🙂 {nome}, cliente normal. Continue comprando pra virar VIP!"</span>)
+<span class="kw">elif</span> gasto <span class="op">&gt;=</span> <span class="num">1000</span>:
+    <span class="bi">print</span>(<span class="st">f"⚠️ {nome}, gasto alto, mas precisa de responsável (menor de idade)."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"👋 {nome}, bem-vindo(a) à loja!"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · cadastro_vip.py</span>
+            </div>
+            <div class="terminal-body">
+              Nome do cliente: <strong>Ana</strong><br>
+              Idade: <strong>25</strong><br>
+              Total gasto na loja (R$): <strong>1500</strong><br>
+              🌟 Ana, você é VIP! Ganhou 15% de desconto na próxima compra.
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Você acabou os 30 desafios!</strong> Isso é mais Python do que
+              90% das pessoas que dizem "vou começar a estudar programação". Levanta
+              da cadeira e celebra. 🎉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ENCERRAMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="encerramento">
+    <div class="step-header">
+      <div class="step-number sn-mint">🎉</div>
+      <div>
+        <div class="step-title">Você venceu os 30 desafios!</div>
+        <div class="step-sub">Olha o tamanho do seu progresso</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="resto-banner" style="margin-bottom:18px">
+        <h3>🏆 30 arquivos <code style="background:transparent;padding:0;color:var(--accent5)">.py</code> a mais no seu repertório</h3>
+        <p>
+          Você saiu do <em>"oi mundo"</em> e chegou num cadastro de cliente VIP
+          com regras compostas. Isso <strong>É</strong> programar.
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-num">30</span>
+          <span class="stat-label">Desafios resolvidos</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Capítulos consolidados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Conteúdo novo (só prática!)</span>
+        </div>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">📦</span>
+          <div class="tip-content"><strong>Bloco 1 ✅</strong> — print, input, variáveis, tipos e f-string viraram automático.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🤔</span>
+          <div class="tip-content"><strong>Bloco 2 ✅</strong> — você consegue olhar uma regra e pensar em <code>if/elif/else</code> sozinho.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🔗</span>
+          <div class="tip-content"><strong>Bloco 3 ✅</strong> — combina condições com <code>and</code>, <code>or</code> e parênteses sem medo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card next-chapter-card">
+      <h3 style="color:var(--accent6);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 04 — Loops e Listas.</strong>
+        Você aprendeu a <em>decidir</em>. Agora vai aprender a <em>repetir</em> —
+        <code>while</code>, <code>for</code> e listas. Bora? 🔁
+      </p>
+      <a href="../04-loops-listas/" class="cta-btn">🔁 Ir para Capítulo 04 →</a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pela <strong style="color:var(--text)">programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>
