@@ -9,8 +9,17 @@
 <link rel="stylesheet" href="../../shared/components.css">
 <link rel="stylesheet" href="../../shared/animations.css">
 <style>
-/* ── desativa ligaduras no JetBrains Mono para operadores ficarem exatos ── */
-.code-block pre, pre, code { font-feature-settings: 'calt' 0, 'liga' 0; font-variant-ligatures: none; }
+/* ── desativa ligaduras no JetBrains Mono para operadores ficarem exatos ──
+   precisa pegar TUDO porque os playgrounds usam JetBrains Mono fora de <code> */
+*, .code-block pre, pre, code,
+.lp-cond-badge, .lp-counter-meta, .lp-counter-big, .lp-trail-cell,
+.lp-list-cell, .lp-list-cell .val, .lp-var-pill,
+.lp-idx-big, .lp-idx-out, .lp-append-input, .lp-empty-msg,
+.lp-terminal-out, .lp-range-control .lbl, .lp-range-cells .cell,
+.range-caption {
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
 
 /* ============================================================
    BANNER + HERO LOCAL
