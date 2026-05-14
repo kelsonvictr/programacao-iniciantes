@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 4.5 — 30 Desafios (Caps 1, 2, 3 e 4) | Bootcamp programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ⚠️ desativa ligaduras pra operadores ficarem exatos */
+.code-block pre, pre, code {
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
+/* hero gradient próprio do capítulo */
+.hero h1.grad-d45{
+  background:linear-gradient(135deg,var(--accent6),var(--accent),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* banner do "monte seu projeto" */
+.pycharm-banner{
+  position:relative;overflow:hidden;border-radius:22px;
+  padding:26px 28px;margin:18px 0;
+  background:linear-gradient(135deg,rgba(55,118,171,0.12),rgba(255,212,59,0.06));
+  border:2px solid rgba(55,118,171,0.30);
+}
+.pycharm-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 92% 12%,rgba(255,212,59,0.18),transparent 55%);
+  pointer-events:none;
+}
+.pycharm-banner h3{
+  font-size:1.45rem;color:var(--python-y);margin-bottom:6px;
+  position:relative;z-index:1;
+}
+.pycharm-banner p{color:var(--text-dim);font-size:0.98rem;position:relative;z-index:1}
+.pycharm-banner code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+
+/* lista de passos do PyCharm */
+.steps-list{counter-reset:pcs;display:grid;gap:10px;margin:16px 0}
+.steps-list .pc-step{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 16px;
+  font-size:0.95rem;line-height:1.55;
+}
+.steps-list .pc-step::before{
+  counter-increment:pcs;content:counter(pcs);
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--python),var(--accent4));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.9rem;flex-shrink:0;margin-top:2px;
+}
+
+/* divisor com label de bloco */
+.block-divider{margin:30px 0 18px;text-align:center;position:relative}
+.block-divider::before{
+  content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent);
+}
+.block-divider .bd-pill{
+  position:relative;display:inline-block;
+  padding:8px 18px;border-radius:50px;
+  background:var(--surface2);
+  border:1.5px solid rgba(108,99,255,0.25);
+  font-family:'JetBrains Mono',monospace;font-weight:800;
+  font-size:0.78rem;letter-spacing:1.5px;color:var(--accent6);
+  text-transform:uppercase;
+}
+.block-divider.bd-while .bd-pill{border-color:rgba(167,139,250,0.35);color:var(--accent6)}
+.block-divider.bd-for   .bd-pill{border-color:rgba(78,205,196,0.35);color:var(--accent3)}
+.block-divider.bd-list  .bd-pill{border-color:rgba(6,214,160,0.35);color:var(--accent7)}
+
+/* mini-cards de stats (no encerramento) */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr}}
+.stat-card{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:18px;text-align:center;
+}
+.stat-card .stat-num{
+  display:block;font-size:2.2rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--accent6),var(--accent7));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.stat-card .stat-label{color:var(--text-dim);font-size:0.85rem;font-weight:600}
+
+/* CTA card próximo capítulo */
+.next-chapter-card{
+  text-align:center;
+  background:linear-gradient(135deg,rgba(6,214,160,0.08),rgba(78,205,196,0.04));
+  border-color:rgba(6,214,160,0.20);
+}
+.cta-btn{
+  display:inline-block;padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent7),var(--accent3));
+  color:#0a0a12;text-decoration:none;font-weight:900;
+  border-radius:50px;letter-spacing:1px;
+  box-shadow:0 8px 22px rgba(6,214,160,0.30);
+  transition:transform .2s ease;
+}
+.cta-btn:hover{transform:translateY(-2px)}
+
+/* deixa o título do desafio com filename ainda mais legível */
+.step-title code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:1px 7px;border-radius:5px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+
+/* banner de encerramento */
+.resto-banner{
+  background:linear-gradient(135deg,rgba(167,139,250,0.10),rgba(108,99,255,0.05));
+  border:2px solid rgba(167,139,250,0.30);
+  border-radius:18px;padding:22px;text-align:center;
+}
+.resto-banner h3{color:var(--accent6);margin-bottom:6px;font-size:1.4rem}
+.resto-banner p{color:var(--text-dim);font-size:0.96rem;max-width:560px;margin:0 auto}
+
+/* sidebar com muitos itens — espaço menor */
+.sidebar-nav .sidebar-link{font-size:0.86rem;padding:6px 10px}
+.sidebar-nav .sidebar-group-title{margin-top:14px}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🎯 Cap 4.5 — Desafios</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🚀 Começar</div>
+    <a class="sidebar-link" onclick="goTo('intro')"><span class="dot" style="background:var(--accent5)"></span>Boas-vindas</a>
+    <a class="sidebar-link" onclick="goTo('setup-pycharm')"><span class="dot" style="background:var(--python)"></span>Criar projeto no PyCharm</a>
+    <a class="sidebar-link" onclick="goTo('como-usar')"><span class="dot" style="background:var(--accent4)"></span>Como usar este capítulo</a>
+
+    <div class="sidebar-group-title">🔁 Bloco 1 · while (1-10)</div>
+    <a class="sidebar-link" onclick="goTo('d01')"><span class="dot" style="background:var(--accent6)"></span>01 · contar_ate_10.py</a>
+    <a class="sidebar-link" onclick="goTo('d02')"><span class="dot" style="background:var(--accent6)"></span>02 · contagem_regressiva.py</a>
+    <a class="sidebar-link" onclick="goTo('d03')"><span class="dot" style="background:var(--accent6)"></span>03 · pares_ate_20.py</a>
+    <a class="sidebar-link" onclick="goTo('d04')"><span class="dot" style="background:var(--accent6)"></span>04 · tabuada_do_2.py</a>
+    <a class="sidebar-link" onclick="goTo('d05')"><span class="dot" style="background:var(--accent6)"></span>05 · soma_ate_n.py</a>
+    <a class="sidebar-link" onclick="goTo('d06')"><span class="dot" style="background:var(--accent6)"></span>06 · repetir_nome.py</a>
+    <a class="sidebar-link" onclick="goTo('d07')"><span class="dot" style="background:var(--accent6)"></span>07 · dobrar_ate_1000.py</a>
+    <a class="sidebar-link" onclick="goTo('d08')"><span class="dot" style="background:var(--accent6)"></span>08 · parar_no_zero.py</a>
+    <a class="sidebar-link" onclick="goTo('d09')"><span class="dot" style="background:var(--accent6)"></span>09 · quantos_numeros.py</a>
+    <a class="sidebar-link" onclick="goTo('d10')"><span class="dot" style="background:var(--accent6)"></span>10 · media_loop.py</a>
+
+    <div class="sidebar-group-title">📏 Bloco 2 · for + range (11-20)</div>
+    <a class="sidebar-link" onclick="goTo('d11')"><span class="dot" style="background:var(--accent3)"></span>11 · tabuada_qualquer.py</a>
+    <a class="sidebar-link" onclick="goTo('d12')"><span class="dot" style="background:var(--accent3)"></span>12 · soma_pares_100.py</a>
+    <a class="sidebar-link" onclick="goTo('d13')"><span class="dot" style="background:var(--accent3)"></span>13 · contagem_de_2_em_2.py</a>
+    <a class="sidebar-link" onclick="goTo('d14')"><span class="dot" style="background:var(--accent3)"></span>14 · quadrados_ate_10.py</a>
+    <a class="sidebar-link" onclick="goTo('d15')"><span class="dot" style="background:var(--accent3)"></span>15 · multiplos_de_3.py</a>
+    <a class="sidebar-link" onclick="goTo('d16')"><span class="dot" style="background:var(--accent3)"></span>16 · contagem_personalizada.py</a>
+    <a class="sidebar-link" onclick="goTo('d17')"><span class="dot" style="background:var(--accent3)"></span>17 · soma_intervalo.py</a>
+    <a class="sidebar-link" onclick="goTo('d18')"><span class="dot" style="background:var(--accent3)"></span>18 · fatorial.py</a>
+    <a class="sidebar-link" onclick="goTo('d19')"><span class="dot" style="background:var(--accent3)"></span>19 · pagina_de_estoque.py</a>
+    <a class="sidebar-link" onclick="goTo('d20')"><span class="dot" style="background:var(--accent3)"></span>20 · senha_3_tentativas.py</a>
+
+    <div class="sidebar-group-title">📋 Bloco 3 · listas + for (21-30)</div>
+    <a class="sidebar-link" onclick="goTo('d21')"><span class="dot" style="background:var(--accent7)"></span>21 · lista_compras.py</a>
+    <a class="sidebar-link" onclick="goTo('d22')"><span class="dot" style="background:var(--accent7)"></span>22 · total_compras.py</a>
+    <a class="sidebar-link" onclick="goTo('d23')"><span class="dot" style="background:var(--accent7)"></span>23 · quantidade_alunos.py</a>
+    <a class="sidebar-link" onclick="goTo('d24')"><span class="dot" style="background:var(--accent7)"></span>24 · maior_nota.py</a>
+    <a class="sidebar-link" onclick="goTo('d25')"><span class="dot" style="background:var(--accent7)"></span>25 · aprovados_reprovados.py</a>
+    <a class="sidebar-link" onclick="goTo('d26')"><span class="dot" style="background:var(--accent7)"></span>26 · cardapio_indexado.py</a>
+    <a class="sidebar-link" onclick="goTo('d27')"><span class="dot" style="background:var(--accent7)"></span>27 · procurar_nome.py</a>
+    <a class="sidebar-link" onclick="goTo('d28')"><span class="dot" style="background:var(--accent7)"></span>28 · pares_e_impares.py</a>
+    <a class="sidebar-link" onclick="goTo('d29')"><span class="dot" style="background:var(--accent7)"></span>29 · media_e_acima.py</a>
+    <a class="sidebar-link" onclick="goTo('d30')"><span class="dot" style="background:var(--accent7)"></span>30 · adicionar_nomes.py</a>
+
+    <div class="sidebar-group-title">🏁 Final</div>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--accent5)"></span>Você venceu! 🎉</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🔁 📋 🎯</div>
+  <span class="hero-badge">Capítulo 4.5 · Bootcamp programa AI</span>
+  <h1 class="grad-d45">30 Desafios — Caps 1, 2, 3 e 4</h1>
+  <p class="subtitle">
+    Trinta exercícios pra <strong>fixar</strong> tudo do bootcamp até aqui — print, input, variáveis,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">if/elif/else</code>,
+    e agora <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">while</code>,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">for</code>,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">range</code> e listas. Sem material novo. Só você + Python + muita prática 💪.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">🔁 while</span>
+    <span class="stack-chip">➡️ for / range</span>
+    <span class="stack-chip">📋 listas</span>
+    <span class="stack-chip">🧮 sum / len</span>
+    <span class="stack-chip">⛔ break</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTRO — boas-vindas
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="intro">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🚀</div>
+      <div>
+        <div class="step-title">Bem-vindo(a) à segunda série de 30 desafios</div>
+        <div class="step-sub">Agora com <em>loops e listas</em> na jogada</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Você já viu os capítulos <strong>01 (Boas-vindas)</strong>, <strong>02 (Variáveis)</strong>,
+        <strong>03 (Condicionais)</strong> e <strong>04 (Loops e Listas)</strong>.
+        Hora de transformar tudo isso em <strong>músculo</strong>. 💪
+      </p>
+
+      <div class="analogy">
+        <div class="analogy-title">Lembra do treinão do cap 3.5? Pois é, agora com peso 🏋️</div>
+        <p>
+          A receita é a mesma: cada desafio é uma <em>repetição</em> que trabalha um
+          musculozinho específico. A diferença é que agora você tem <strong>mais ferramentas</strong>:
+          além de <code>if</code>, você sabe <code>while</code>, <code>for</code>, <code>range</code> e listas.
+        </p>
+        <p>
+          Faça <strong>na ordem</strong>. Os primeiros são suaves (de propósito).
+          Os últimos misturam tudo. Quando terminar, vai estar pronto pra encarar
+          <strong>funções no cap 05</strong> sem suar frio. 😎
+        </p>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">🔁</span>
+          <div class="tip-content"><strong>Bloco 1 (1-10):</strong> <code>while</code> em todas as formas — contar, repetir, parar com condição.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">➡️</span>
+          <div class="tip-content"><strong>Bloco 2 (11-20):</strong> <code>for</code> + <code>range</code> — quando você sabe quantas voltas dar.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📋</span>
+          <div class="tip-content"><strong>Bloco 3 (21-30):</strong> listas + <code>for</code> — guardar e percorrer várias coisinhas juntas.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SETUP NO PYCHARM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="setup-pycharm">
+    <div class="step-header">
+      <div class="step-number sn-py">📦</div>
+      <div>
+        <div class="step-title">Criar o projeto <code>desafio_caps_1_2_3_4</code> no PyCharm</div>
+        <div class="step-sub">Antes de começar, monte sua "academia"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pycharm-banner">
+        <h3>🐍 Um projeto só pra esses 30 desafios</h3>
+        <p>
+          Cada desafio vai ser um arquivo <code>.py</code> separado dentro de
+          <strong>UM ÚNICO projeto</strong> chamado <code>desafio_caps_1_2_3_4</code>.
+          Bora montar agora:
+        </p>
+      </div>
+
+      <div class="steps-list">
+        <div class="pc-step">
+          Abra o <strong>PyCharm</strong>. Na tela inicial, clique em <code>New Project</code>
+          (ou no menu <em>File → New Project…</em> se já estiver com outro projeto aberto).
+        </div>
+        <div class="pc-step">
+          No campo <strong>Location</strong>, escolha onde salvar e dê o nome
+          <code>desafio_caps_1_2_3_4</code> no final do caminho.
+          Ex.: <code>~/PycharmProjects/desafio_caps_1_2_3_4</code>.
+        </div>
+        <div class="pc-step">
+          Em <strong>Interpreter type</strong>, deixe o padrão (<em>Project venv</em> com Python 3.10+).
+          Sem Python instalado? Clica em <code>Add Interpreter</code> que o PyCharm baixa.
+        </div>
+        <div class="pc-step">
+          Pode <strong>desmarcar</strong> o <em>Create a welcome script / main.py</em> —
+          a gente cria os arquivos um por um.
+        </div>
+        <div class="pc-step">
+          Clique em <strong>Create</strong> e aguarde o PyCharm preparar o ambiente
+          (barrinha lá embaixo). ☕
+        </div>
+        <div class="pc-step">
+          <strong>Pra criar cada desafio:</strong> botão direito na pasta do projeto →
+          <em>New → Python File</em> → digite o nome (ex.: <code>contar_ate_10.py</code>) → Enter. ✅
+        </div>
+        <div class="pc-step">
+          <strong>Pra rodar:</strong> com o arquivo aberto, clique no triângulo verde
+          ▶ no canto superior direito (ou <em>botão direito → Run 'nome_do_arquivo'</em>).
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          <strong>Nomes de arquivo Python</strong> sempre em
+          <code>minusculo_com_underline.py</code>. Sem espaços, sem acentos, sem maiúsculas —
+          é o estilo <em>snake_case</em> da galera Python 🐍.
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Já tem o projeto do cap 3.5?</strong> Você pode reaproveitar e criar uma
+          subpasta tipo <code>desafios_loops/</code> dentro dele — vai do gosto.
+          O importante é não misturar os arquivos no Desktop sem organização.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMO USAR ESTE CAPÍTULO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="como-usar">
+    <div class="step-header">
+      <div class="step-number sn-blue">👀</div>
+      <div>
+        <div class="step-title">Como usar este capítulo</div>
+        <div class="step-sub">A regra do olhinho 👀 — ela é sagrada aqui</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>Pra cada um dos 30 desafios, o ritual é:</p>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:14px 0">
+        <div class="tip">
+          <span class="tip-icon">1️⃣</span>
+          <div class="tip-content"><strong>Leia</strong> o "💡 O que fazer" e a dica de cada desafio.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">2️⃣</span>
+          <div class="tip-content"><strong>Crie</strong> o arquivo <code>.py</code> no PyCharm com o nome indicado.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">3️⃣</span>
+          <div class="tip-content"><strong>Tente sozinho.</strong> Erre, leia o erro, ajuste, rode de novo. Esse loop é o aprendizado.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">4️⃣</span>
+          <div class="tip-content">Só aí, <strong>se travar de verdade</strong>, abre o olhinho 👀 e compara com a sua solução.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🚨</span>
+        <div class="warning-content">
+          <strong>Quem espia antes de tentar perde a maior parte do aprendizado.</strong>
+          Sério. Errar é o jeito mais rápido de aprender — não pula essa parte! 💪
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🌀</span>
+        <div class="tip-content">
+          <strong>Loop infinito?</strong> Se o programa travar e ficar rodando pra sempre,
+          aperta <kbd style="padding:2px 8px;background:var(--surface3);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem">Ctrl + F2</kbd>
+          no PyCharm pra matar. Esse é o erro mais clássico do <code>while</code> —
+          esquecer de atualizar o contador.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCO 1 — while (1-10)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider bd-while"><span class="bd-pill">🔁 Bloco 1 · while (1-10)</span></div>
+
+  <!-- ─────────── DESAFIO 01 ─────────── -->
+  <section class="step-section" id="d01">
+    <div class="step-header">
+      <div class="step-number sn-purple">01</div>
+      <div>
+        <div class="step-title">Desafio 01 — <code>contar_ate_10.py</code></div>
+        <div class="step-sub">Primeiro while da sua vida</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">contar_ate_10.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie um arquivo <code>contar_ate_10.py</code> que conta de <strong>1 até 10</strong>,
+          imprimindo cada número em uma linha. Use <strong>while</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Comece com <code>contador = 1</code>, faça <code>while contador &lt;= 10:</code>,
+          imprima o contador e <strong>não esqueça</strong> de incrementar com
+          <code>contador = contador + 1</code> (ou <code>contador += 1</code>).
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">contar_ate_10.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="var">contador</span> = <span class="num">1</span>
+<span class="kw">while</span> <span class="var">contador</span> &lt;= <span class="num">10</span>:
+    <span class="bi">print</span>(<span class="var">contador</span>)
+    <span class="var">contador</span> += <span class="num">1</span></pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · contar_ate_10.py</span>
+            </div>
+            <div class="terminal-body">
+              1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 02 ─────────── -->
+  <section class="step-section" id="d02">
+    <div class="step-header">
+      <div class="step-number sn-purple">02</div>
+      <div>
+        <div class="step-title">Desafio 02 — <code>contagem_regressiva.py</code></div>
+        <div class="step-sub">while decrescente · 10, 9, 8...</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">contagem_regressiva.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Conte de <strong>10 até 1</strong> (regressivo) com <code>while</code>. No final,
+          imprima <em>"🚀 Foguete decolou!"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Agora você começa em <code>10</code> e a condição vira <code>contador &gt;= 1</code>.
+          E em vez de <code>+= 1</code>, você usa <code>-= 1</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">contagem_regressiva.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="var">contador</span> = <span class="num">10</span>
+<span class="kw">while</span> <span class="var">contador</span> &gt;= <span class="num">1</span>:
+    <span class="bi">print</span>(<span class="var">contador</span>)
+    <span class="var">contador</span> -= <span class="num">1</span>
+
+<span class="bi">print</span>(<span class="st">"🚀 Foguete decolou!"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · contagem_regressiva.py</span>
+            </div>
+            <div class="terminal-body">
+              10<br>9<br>8<br>7<br>6<br>5<br>4<br>3<br>2<br>1<br>🚀 Foguete decolou!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 03 ─────────── -->
+  <section class="step-section" id="d03">
+    <div class="step-header">
+      <div class="step-number sn-purple">03</div>
+      <div>
+        <div class="step-title">Desafio 03 — <code>pares_ate_20.py</code></div>
+        <div class="step-sub">Pulando de 2 em 2</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">pares_ate_20.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Imprima todos os números <strong>pares</strong> de <strong>2 até 20</strong>
+          (2, 4, 6, ..., 20). Use <code>while</code>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Em vez de incrementar de 1 em 1, incrementa <strong>de 2 em 2</strong>.
+          Começa em <code>2</code> e usa <code>contador += 2</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">pares_ate_20.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="var">par</span> = <span class="num">2</span>
+<span class="kw">while</span> <span class="var">par</span> &lt;= <span class="num">20</span>:
+    <span class="bi">print</span>(<span class="var">par</span>)
+    <span class="var">par</span> += <span class="num">2</span></pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · pares_ate_20.py</span>
+            </div>
+            <div class="terminal-body">
+              2<br>4<br>6<br>8<br>10<br>12<br>14<br>16<br>18<br>20
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 04 ─────────── -->
+  <section class="step-section" id="d04">
+    <div class="step-header">
+      <div class="step-number sn-purple">04</div>
+      <div>
+        <div class="step-title">Desafio 04 — <code>tabuada_do_2.py</code></div>
+        <div class="step-sub">Tabuada com while e f-string</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">tabuada_do_2.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Imprima a tabuada do 2, de <code>2 x 1 = 2</code> até <code>2 x 10 = 20</code>,
+          uma linha por multiplicação. Use <code>while</code> e <strong>f-string</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          F-string aqui salva sua vida: <code>f"2 x {i} = {2 * i}"</code>.
+          O contador vai de 1 até 10.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">tabuada_do_2.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="var">i</span> = <span class="num">1</span>
+<span class="kw">while</span> <span class="var">i</span> &lt;= <span class="num">10</span>:
+    <span class="bi">print</span>(<span class="st">f"2 x {i} = {2 * i}"</span>)
+    <span class="var">i</span> += <span class="num">1</span></pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · tabuada_do_2.py</span>
+            </div>
+            <div class="terminal-body">
+              2 x 1 = 2<br>2 x 2 = 4<br>2 x 3 = 6<br>2 x 4 = 8<br>2 x 5 = 10<br>
+              2 x 6 = 12<br>2 x 7 = 14<br>2 x 8 = 16<br>2 x 9 = 18<br>2 x 10 = 20
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 05 ─────────── -->
+  <section class="step-section" id="d05">
+    <div class="step-header">
+      <div class="step-number sn-purple">05</div>
+      <div>
+        <div class="step-title">Desafio 05 — <code>soma_ate_n.py</code></div>
+        <div class="step-sub">Acumulador clássico</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">soma_ate_n.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número <strong>n</strong> ao usuário (com <code>int(input(...))</code>) e
+          calcule a soma <strong>1 + 2 + 3 + ... + n</strong>. Mostre o resultado.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Crie uma variável <code>total = 0</code> <strong>antes</strong> do while.
+          Dentro do loop, faça <code>total += contador</code>. No fim, imprime o <code>total</code>.
+          Essa variável que acumula é chamada de <strong>acumulador</strong>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_ate_n.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="var">n</span>     = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+<span class="var">total</span> = <span class="num">0</span>
+<span class="var">i</span>     = <span class="num">1</span>
+
+<span class="kw">while</span> <span class="var">i</span> &lt;= <span class="var">n</span>:
+    <span class="var">total</span> += <span class="var">i</span>
+    <span class="var">i</span> += <span class="num">1</span>
+
+<span class="bi">print</span>(<span class="st">f"A soma de 1 até {n} é {total}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · soma_ate_n.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número: 5<br>A soma de 1 até 5 é 15
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 06 ─────────── -->
+  <section class="step-section" id="d06">
+    <div class="step-header">
+      <div class="step-number sn-purple">06</div>
+      <div>
+        <div class="step-title">Desafio 06 — <code>repetir_nome.py</code></div>
+        <div class="step-sub">while controlado por input</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">repetir_nome.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Pergunte ao usuário <strong>o nome dele</strong> e <strong>quantas vezes</strong>
+          ele quer ver o nome impresso. Em seguida, imprima o nome essa quantidade de vezes.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Vai precisar de <strong>dois</strong> <code>input()</code> — um pro nome (texto)
+          e outro pra quantidade (com <code>int()</code>). Depois, while clássico.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">repetir_nome.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="var">nome</span>      = <span class="bi">input</span>(<span class="st">"Qual o seu nome? "</span>)
+<span class="var">vezes</span>     = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantas vezes? "</span>))
+
+<span class="var">contador</span> = <span class="num">1</span>
+<span class="kw">while</span> <span class="var">contador</span> &lt;= <span class="var">vezes</span>:
+    <span class="bi">print</span>(<span class="var">nome</span>)
+    <span class="var">contador</span> += <span class="num">1</span></pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · repetir_nome.py</span>
+            </div>
+            <div class="terminal-body">
+              Qual o seu nome? Ana<br>Quantas vezes? 3<br>Ana<br>Ana<br>Ana
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 07 ─────────── -->
+  <section class="step-section" id="d07">
+    <div class="step-header">
+      <div class="step-number sn-purple">07</div>
+      <div>
+        <div class="step-title">Desafio 07 — <code>dobrar_ate_1000.py</code></div>
+        <div class="step-sub">while com condição "até passar de X"</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">dobrar_ate_1000.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Comece com o número <strong>1</strong> e fique <strong>dobrando</strong> ele
+          (1, 2, 4, 8, 16...) até <strong>passar de 1000</strong>. Imprima cada valor.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          O contador agora não é "+= 1" — é <code>numero *= 2</code> (que é o mesmo que
+          <code>numero = numero * 2</code>). E a condição do while é
+          <code>while numero &lt;= 1000:</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">dobrar_ate_1000.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="var">numero</span> = <span class="num">1</span>
+<span class="kw">while</span> <span class="var">numero</span> &lt;= <span class="num">1000</span>:
+    <span class="bi">print</span>(<span class="var">numero</span>)
+    <span class="var">numero</span> *= <span class="num">2</span></pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · dobrar_ate_1000.py</span>
+            </div>
+            <div class="terminal-body">
+              1<br>2<br>4<br>8<br>16<br>32<br>64<br>128<br>256<br>512
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 08 ─────────── -->
+  <section class="step-section" id="d08">
+    <div class="step-header">
+      <div class="step-number sn-purple">08</div>
+      <div>
+        <div class="step-title">Desafio 08 — <code>parar_no_zero.py</code></div>
+        <div class="step-sub">while com sentinela</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">parar_no_zero.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Fique pedindo números ao usuário <strong>até ele digitar 0</strong>. A cada número
+          digitado, dê um print de boas-vindas tipo <em>"Recebi o número X"</em>. Quando ele
+          digitar 0, imprima <em>"Tchau! 👋"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Esse é o "while sentinela": você lê um valor <strong>antes</strong> do loop e
+          dentro do loop lê o próximo. Ou usa o atalho <code>while True:</code> com
+          <code>if numero == 0: break</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">parar_no_zero.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">while</span> <span class="bool">True</span>:
+    <span class="var">numero</span> = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número (0 pra sair): "</span>))
+    <span class="kw">if</span> <span class="var">numero</span> == <span class="num">0</span>:
+        <span class="bi">print</span>(<span class="st">"Tchau! 👋"</span>)
+        <span class="kw">break</span>
+    <span class="bi">print</span>(<span class="st">f"Recebi o número {numero}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · parar_no_zero.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número (0 pra sair): 7<br>Recebi o número 7<br>
+              Digite um número (0 pra sair): 2<br>Recebi o número 2<br>
+              Digite um número (0 pra sair): 0<br>Tchau! 👋
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 09 ─────────── -->
+  <section class="step-section" id="d09">
+    <div class="step-header">
+      <div class="step-number sn-purple">09</div>
+      <div>
+        <div class="step-title">Desafio 09 — <code>quantos_numeros.py</code></div>
+        <div class="step-sub">Sentinela + contador</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">quantos_numeros.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Igual o anterior — pede números até digitar <strong>0</strong> — só que dessa vez
+          você precisa <strong>contar quantos números</strong> o usuário digitou antes do 0.
+          No fim, imprima: <em>"Você digitou N números."</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Cria um <code>contador = 0</code> antes do loop. <strong>Dentro</strong> do loop,
+          quando o número for diferente de 0, faz <code>contador += 1</code>.
+          O 0 final NÃO conta.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">quantos_numeros.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="var">contador</span> = <span class="num">0</span>
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="var">numero</span> = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número (0 pra parar): "</span>))
+    <span class="kw">if</span> <span class="var">numero</span> == <span class="num">0</span>:
+        <span class="kw">break</span>
+    <span class="var">contador</span> += <span class="num">1</span>
+
+<span class="bi">print</span>(<span class="st">f"Você digitou {contador} números."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · quantos_numeros.py</span>
+            </div>
+            <div class="terminal-body">
+              Digite um número (0 pra parar): 5<br>
+              Digite um número (0 pra parar): 8<br>
+              Digite um número (0 pra parar): 3<br>
+              Digite um número (0 pra parar): 0<br>
+              Você digitou 3 números.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 10 ─────────── -->
+  <section class="step-section" id="d10">
+    <div class="step-header">
+      <div class="step-number sn-purple">10</div>
+      <div>
+        <div class="step-title">Desafio 10 — <code>media_loop.py</code></div>
+        <div class="step-sub">Sentinela + acumulador + contador</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">media_loop.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça <strong>notas</strong> (de 0 a 10) ao usuário até ele digitar <strong>-1</strong>
+          (que é o "fim"). No final, mostre a <strong>média</strong> das notas digitadas.
+        </p>
+        <p>
+          Se ele não digitar nenhuma nota (digitou -1 logo de cara), mostre
+          <em>"Nenhuma nota digitada."</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Vai precisar de <strong>duas</strong> variáveis acumuladoras: uma pra
+          <code>soma</code> (com <code>+= nota</code>) e outra pra <code>quantidade</code>
+          (com <code>+= 1</code>). Depois <code>media = soma / quantidade</code> —
+          mas cuidado com divisão por zero!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">media_loop.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre><span class="var">soma</span>       = <span class="num">0</span>
+<span class="var">quantidade</span> = <span class="num">0</span>
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="var">nota</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota (-1 pra encerrar): "</span>))
+    <span class="kw">if</span> <span class="var">nota</span> == -<span class="num">1</span>:
+        <span class="kw">break</span>
+    <span class="var">soma</span>       += <span class="var">nota</span>
+    <span class="var">quantidade</span> += <span class="num">1</span>
+
+<span class="kw">if</span> <span class="var">quantidade</span> == <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"Nenhuma nota digitada."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"Média: {soma / quantidade:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · media_loop.py</span>
+            </div>
+            <div class="terminal-body">
+              Nota (-1 pra encerrar): 8<br>
+              Nota (-1 pra encerrar): 6<br>
+              Nota (-1 pra encerrar): 9<br>
+              Nota (-1 pra encerrar): -1<br>
+              Média: 7.67
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCO 2 — for + range (11-20)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider bd-for"><span class="bd-pill">📏 Bloco 2 · for + range (11-20)</span></div>
+
+  <!-- ─────────── DESAFIO 11 ─────────── -->
+  <section class="step-section" id="d11">
+    <div class="step-header">
+      <div class="step-number sn-teal">11</div>
+      <div>
+        <div class="step-title">Desafio 11 — <code>tabuada_qualquer.py</code></div>
+        <div class="step-sub">for + range com input</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">tabuada_qualquer.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número <strong>n</strong> ao usuário e imprima a <strong>tabuada do n</strong>
+          de 1 a 10, no formato <em>"n x 1 = ..."</em>. Use <code>for</code> + <code>range</code>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>range(1, 11)</code> dá os números de 1 até 10 (o 11 NÃO entra!).
+          Use <code>for i in range(1, 11):</code> e dentro
+          <code>print(f"{n} x {i} = {n * i}")</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">tabuada_qualquer.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="var">n</span> = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Tabuada de qual número? "</span>))
+
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="bi">print</span>(<span class="st">f"{n} x {i} = {n * i}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · tabuada_qualquer.py</span>
+            </div>
+            <div class="terminal-body">
+              Tabuada de qual número? 5<br>
+              5 x 1 = 5<br>5 x 2 = 10<br>5 x 3 = 15<br>5 x 4 = 20<br>5 x 5 = 25<br>
+              5 x 6 = 30<br>5 x 7 = 35<br>5 x 8 = 40<br>5 x 9 = 45<br>5 x 10 = 50
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 12 ─────────── -->
+  <section class="step-section" id="d12">
+    <div class="step-header">
+      <div class="step-number sn-teal">12</div>
+      <div>
+        <div class="step-title">Desafio 12 — <code>soma_pares_100.py</code></div>
+        <div class="step-sub">Acumulador + filtro</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">soma_pares_100.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Some <strong>todos os números pares</strong> de 2 até 100 (2 + 4 + 6 + ... + 100)
+          e mostre o resultado.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Dois jeitos: <strong>(a)</strong> <code>range(2, 101, 2)</code> já pula de 2 em 2;
+          <strong>(b)</strong> percorre <code>range(1, 101)</code> e usa
+          <code>if i % 2 == 0</code>. <em>Tenta os dois!</em>
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_pares_100.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="var">total</span> = <span class="num">0</span>
+
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">2</span>, <span class="num">101</span>, <span class="num">2</span>):
+    <span class="var">total</span> += <span class="var">i</span>
+
+<span class="bi">print</span>(<span class="st">f"Soma dos pares de 2 a 100: {total}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · soma_pares_100.py</span>
+            </div>
+            <div class="terminal-body">
+              Soma dos pares de 2 a 100: 2550
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 13 ─────────── -->
+  <section class="step-section" id="d13">
+    <div class="step-header">
+      <div class="step-number sn-teal">13</div>
+      <div>
+        <div class="step-title">Desafio 13 — <code>contagem_de_2_em_2.py</code></div>
+        <div class="step-sub">range com passo</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">contagem_de_2_em_2.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Imprima os números de <strong>0 a 30</strong> pulando de <strong>2 em 2</strong>
+          (0, 2, 4, ... 30). Use <code>for</code> + <code>range</code> com o terceiro parâmetro
+          (o "passo").
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>range(início, fim, passo)</code>. Pra incluir o 30, o fim tem que ser <strong>31</strong>
+          (lembra: o fim NÃO entra). E o passo é 2.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">contagem_de_2_em_2.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2</div>
+<pre><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">0</span>, <span class="num">31</span>, <span class="num">2</span>):
+    <span class="bi">print</span>(<span class="var">i</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · contagem_de_2_em_2.py</span>
+            </div>
+            <div class="terminal-body">
+              0<br>2<br>4<br>6<br>8<br>10<br>12<br>14<br>16<br>18<br>20<br>22<br>24<br>26<br>28<br>30
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 14 ─────────── -->
+  <section class="step-section" id="d14">
+    <div class="step-header">
+      <div class="step-number sn-teal">14</div>
+      <div>
+        <div class="step-title">Desafio 14 — <code>quadrados_ate_10.py</code></div>
+        <div class="step-sub">Operador ** (potência)</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">quadrados_ate_10.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Imprima os <strong>quadrados</strong> dos números de 1 a 10, no formato
+          <em>"1² = 1"</em>, <em>"2² = 4"</em>, ..., <em>"10² = 100"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Pra elevar ao quadrado em Python: <code>i ** 2</code> (com dois asteriscos!).
+          Ex.: <code>5 ** 2</code> dá 25.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">quadrados_ate_10.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2</div>
+<pre><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="bi">print</span>(<span class="st">f"{i}² = {i ** 2}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · quadrados_ate_10.py</span>
+            </div>
+            <div class="terminal-body">
+              1² = 1<br>2² = 4<br>3² = 9<br>4² = 16<br>5² = 25<br>
+              6² = 36<br>7² = 49<br>8² = 64<br>9² = 81<br>10² = 100
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 15 ─────────── -->
+  <section class="step-section" id="d15">
+    <div class="step-header">
+      <div class="step-number sn-teal">15</div>
+      <div>
+        <div class="step-title">Desafio 15 — <code>multiplos_de_3.py</code></div>
+        <div class="step-sub">for + if (operador %)</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">multiplos_de_3.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número <strong>n</strong> ao usuário e mostre todos os
+          <strong>múltiplos de 3</strong> de 1 até n (inclusivo).
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>i % 3 == 0</code> testa se <code>i</code> é múltiplo de 3 (resto da divisão por 3
+          dá zero). Combine com <code>for i in range(1, n + 1):</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">multiplos_de_3.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="var">n</span> = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Mostrar múltiplos de 3 até: "</span>))
+
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="var">n</span> + <span class="num">1</span>):
+    <span class="kw">if</span> <span class="var">i</span> % <span class="num">3</span> == <span class="num">0</span>:
+        <span class="bi">print</span>(<span class="var">i</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · multiplos_de_3.py</span>
+            </div>
+            <div class="terminal-body">
+              Mostrar múltiplos de 3 até: 15<br>
+              3<br>6<br>9<br>12<br>15
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 16 ─────────── -->
+  <section class="step-section" id="d16">
+    <div class="step-header">
+      <div class="step-number sn-teal">16</div>
+      <div>
+        <div class="step-title">Desafio 16 — <code>contagem_personalizada.py</code></div>
+        <div class="step-sub">range com início + fim do usuário</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">contagem_personalizada.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça ao usuário um <strong>início</strong> e um <strong>fim</strong>. Imprima todos
+          os números do início até o fim (inclusivo) em ordem crescente.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Mesmo esquema do anterior: <code>range(inicio, fim + 1)</code> — o <code>+ 1</code>
+          é pra incluir o último número, porque o <code>range</code> sempre exclui o fim.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">contagem_personalizada.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="var">inicio</span> = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Início: "</span>))
+<span class="var">fim</span>    = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Fim:    "</span>))
+
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">inicio</span>, <span class="var">fim</span> + <span class="num">1</span>):
+    <span class="bi">print</span>(<span class="var">i</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · contagem_personalizada.py</span>
+            </div>
+            <div class="terminal-body">
+              Início: 5<br>Fim:    9<br>5<br>6<br>7<br>8<br>9
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 17 ─────────── -->
+  <section class="step-section" id="d17">
+    <div class="step-header">
+      <div class="step-number sn-teal">17</div>
+      <div>
+        <div class="step-title">Desafio 17 — <code>soma_intervalo.py</code></div>
+        <div class="step-sub">Acumulador com range dinâmico</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">soma_intervalo.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça dois números <strong>A</strong> e <strong>B</strong> ao usuário e calcule a
+          <strong>soma de todos os inteiros</strong> entre A e B (inclusivo). Imprima o resultado.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Igual o anterior, mas em vez de imprimir cada um, você acumula numa variável
+          <code>total += i</code>. Imprime só no final.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_intervalo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="var">a</span>     = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"A: "</span>))
+<span class="var">b</span>     = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"B: "</span>))
+<span class="var">total</span> = <span class="num">0</span>
+
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="var">a</span>, <span class="var">b</span> + <span class="num">1</span>):
+    <span class="var">total</span> += <span class="var">i</span>
+
+<span class="bi">print</span>(<span class="st">f"Soma de {a} até {b} = {total}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · soma_intervalo.py</span>
+            </div>
+            <div class="terminal-body">
+              A: 1<br>B: 10<br>Soma de 1 até 10 = 55
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 18 ─────────── -->
+  <section class="step-section" id="d18">
+    <div class="step-header">
+      <div class="step-number sn-teal">18</div>
+      <div>
+        <div class="step-title">Desafio 18 — <code>fatorial.py</code></div>
+        <div class="step-sub">Acumulador multiplicativo</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">fatorial.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Peça um número <strong>n</strong> ao usuário e calcule o <strong>fatorial</strong>
+          dele — que é <code>n * (n-1) * (n-2) * ... * 1</code>.
+        </p>
+        <p>Exemplos: <em>5! = 120</em>, <em>6! = 720</em>, <em>3! = 6</em>.</p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          Aqui o acumulador começa em <strong>1</strong> (não em 0!), porque a operação é
+          multiplicação — começar em 0 zeraria tudo. Use <code>resultado *= i</code> dentro do for.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">fatorial.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="var">n</span>         = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Fatorial de qual número? "</span>))
+<span class="var">resultado</span> = <span class="num">1</span>
+
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="var">n</span> + <span class="num">1</span>):
+    <span class="var">resultado</span> *= <span class="var">i</span>
+
+<span class="bi">print</span>(<span class="st">f"{n}! = {resultado}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · fatorial.py</span>
+            </div>
+            <div class="terminal-body">
+              Fatorial de qual número? 5<br>5! = 120
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 19 ─────────── -->
+  <section class="step-section" id="d19">
+    <div class="step-header">
+      <div class="step-number sn-teal">19</div>
+      <div>
+        <div class="step-title">Desafio 19 — <code>pagina_de_estoque.py</code></div>
+        <div class="step-sub">for com f-string formatada</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">pagina_de_estoque.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Imprima uma "página de estoque" com <strong>5 produtos numerados</strong>:
+          <em>"Produto 1"</em>, <em>"Produto 2"</em>, ..., <em>"Produto 5"</em>, um por linha.
+          Antes, dê um cabeçalho <em>"=== ESTOQUE ==="</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>for i in range(1, 6):</code> dá <code>1, 2, 3, 4, 5</code>. Use f-string
+          pra montar o nome: <code>f"Produto {i}"</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">pagina_de_estoque.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3</div>
+<pre><span class="bi">print</span>(<span class="st">"=== ESTOQUE ==="</span>)
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="bi">print</span>(<span class="st">f"Produto {i}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · pagina_de_estoque.py</span>
+            </div>
+            <div class="terminal-body">
+              === ESTOQUE ===<br>Produto 1<br>Produto 2<br>Produto 3<br>Produto 4<br>Produto 5
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 20 ─────────── -->
+  <section class="step-section" id="d20">
+    <div class="step-header">
+      <div class="step-number sn-teal">20</div>
+      <div>
+        <div class="step-title">Desafio 20 — <code>senha_3_tentativas.py</code></div>
+        <div class="step-sub">for + break + else clássico</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">senha_3_tentativas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Defina uma senha fixa no código (ex.: <code>"python123"</code>). Dê
+          <strong>3 tentativas</strong> ao usuário pra acertar. Se acertar, imprime
+          <em>"✅ Bem-vindo!"</em> e <code>break</code>. Se acabarem as 3 tentativas,
+          imprime <em>"❌ Conta bloqueada."</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Use <code>for tentativa in range(1, 4):</code>. Lá dentro, compara a senha digitada
+          com a correta. Acertou → <code>break</code>. Pra detectar "esgotou tentativas",
+          use uma variável <code>acertou = False</code> que vira <code>True</code> só se entrar
+          no <code>break</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">senha_3_tentativas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre><span class="var">senha_correta</span> = <span class="st">"python123"</span>
+<span class="var">acertou</span>       = <span class="bool">False</span>
+
+<span class="kw">for</span> <span class="var">tentativa</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">4</span>):
+    <span class="var">senha</span> = <span class="bi">input</span>(<span class="st">f"Tentativa {tentativa}/3 — senha: "</span>)
+    <span class="kw">if</span> <span class="var">senha</span> == <span class="var">senha_correta</span>:
+        <span class="bi">print</span>(<span class="st">"✅ Bem-vindo!"</span>)
+        <span class="var">acertou</span> = <span class="bool">True</span>
+        <span class="kw">break</span>
+    <span class="bi">print</span>(<span class="st">"Senha errada."</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> <span class="var">acertou</span>:
+    <span class="bi">print</span>(<span class="st">"❌ Conta bloqueada."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · senha_3_tentativas.py</span>
+            </div>
+            <div class="terminal-body">
+              Tentativa 1/3 — senha: abc<br>Senha errada.<br>
+              Tentativa 2/3 — senha: python123<br>✅ Bem-vindo!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCO 3 — listas + for (21-30)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider bd-list"><span class="bd-pill">📋 Bloco 3 · listas + for (21-30)</span></div>
+
+  <!-- ─────────── DESAFIO 21 ─────────── -->
+  <section class="step-section" id="d21">
+    <div class="step-header">
+      <div class="step-number sn-mint">21</div>
+      <div>
+        <div class="step-title">Desafio 21 — <code>lista_compras.py</code></div>
+        <div class="step-sub">Lista + for básico</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">lista_compras.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>compras</code> com 4 itens de mercado
+          (ex.: arroz, feijão, leite, pão). Use um <code>for</code> pra imprimir cada item,
+          um por linha, com um traço na frente: <em>"- arroz"</em>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>for item in compras:</code> — não precisa de <code>range</code> nem índice.
+          O Python percorre direto cada elemento.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">lista_compras.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre><span class="var">compras</span> = [<span class="st">"arroz"</span>, <span class="st">"feijão"</span>, <span class="st">"leite"</span>, <span class="st">"pão"</span>]
+
+<span class="kw">for</span> <span class="var">item</span> <span class="kw">in</span> <span class="var">compras</span>:
+    <span class="bi">print</span>(<span class="st">f"- {item}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · lista_compras.py</span>
+            </div>
+            <div class="terminal-body">
+              - arroz<br>- feijão<br>- leite<br>- pão
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 22 ─────────── -->
+  <section class="step-section" id="d22">
+    <div class="step-header">
+      <div class="step-number sn-mint">22</div>
+      <div>
+        <div class="step-title">Desafio 22 — <code>total_compras.py</code></div>
+        <div class="step-sub">sum() vs acumulador no for</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">total_compras.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>precos</code> com 5 números (preços de produtos).
+          Mostre o <strong>total</strong> da compra.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Dois jeitos: <strong>(a)</strong> direto com <code>sum(precos)</code>;
+          <strong>(b)</strong> usando <code>for</code> + acumulador <code>total += preco</code>.
+          Tenta os dois pra fixar a ideia!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">total_compras.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="var">precos</span> = [<span class="num">12.50</span>, <span class="num">7.90</span>, <span class="num">23.00</span>, <span class="num">4.30</span>, <span class="num">18.70</span>]
+
+<span class="cm"># jeito 1 — direto com sum()</span>
+<span class="bi">print</span>(<span class="st">f"Total: R${<span class="bi">sum</span>(precos):.2f}"</span>)
+
+<span class="cm"># jeito 2 — manualmente com for + acumulador</span>
+<span class="var">total</span> = <span class="num">0</span>
+<span class="kw">for</span> <span class="var">preco</span> <span class="kw">in</span> <span class="var">precos</span>:
+    <span class="var">total</span> += <span class="var">preco</span>
+<span class="bi">print</span>(<span class="st">f"Total (no for): R${total:.2f}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · total_compras.py</span>
+            </div>
+            <div class="terminal-body">
+              Total: R$66.40<br>Total (no for): R$66.40
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 23 ─────────── -->
+  <section class="step-section" id="d23">
+    <div class="step-header">
+      <div class="step-number sn-mint">23</div>
+      <div>
+        <div class="step-title">Desafio 23 — <code>quantidade_alunos.py</code></div>
+        <div class="step-sub">len() em ação</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">quantidade_alunos.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>alunos</code> com 5 nomes. Imprima o cabeçalho
+          <em>"📚 Turma de Python"</em>, depois liste cada aluno e ao final mostre
+          <em>"Há N alunos na turma."</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>len(alunos)</code> devolve a quantidade de itens da lista —
+          não precisa contar manualmente.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">quantidade_alunos.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="var">alunos</span> = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>, <span class="st">"Lia"</span>, <span class="st">"Maria"</span>]
+
+<span class="bi">print</span>(<span class="st">"📚 Turma de Python"</span>)
+<span class="kw">for</span> <span class="var">aluno</span> <span class="kw">in</span> <span class="var">alunos</span>:
+    <span class="bi">print</span>(<span class="st">f"- {aluno}"</span>)
+
+<span class="bi">print</span>(<span class="st">f"Há {<span class="bi">len</span>(alunos)} alunos na turma."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · quantidade_alunos.py</span>
+            </div>
+            <div class="terminal-body">
+              📚 Turma de Python<br>- Ana<br>- João<br>- Davi<br>- Lia<br>- Maria<br>
+              Há 5 alunos na turma.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 24 ─────────── -->
+  <section class="step-section" id="d24">
+    <div class="step-header">
+      <div class="step-number sn-mint">24</div>
+      <div>
+        <div class="step-title">Desafio 24 — <code>maior_nota.py</code></div>
+        <div class="step-sub">Descobrir o maior valor "na mão"</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">maior_nota.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>notas</code> com 5 valores. Descubra a <strong>maior nota</strong>
+          usando um <code>for</code> e mostre o resultado.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          O padrão é: cria <code>maior = notas[0]</code> (assume que o primeiro é o maior).
+          No <code>for</code>, compara cada nota com <code>maior</code>: se a atual for maior,
+          atualiza <code>maior = nota</code>. <em>(Sim, dá pra usar <code>max(notas)</code> também
+          — mas tenta fazer "na mão" pra exercitar.)</em>
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">maior_nota.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="var">notas</span> = [<span class="num">7.5</span>, <span class="num">9.0</span>, <span class="num">6.0</span>, <span class="num">8.5</span>, <span class="num">10.0</span>]
+<span class="var">maior</span> = <span class="var">notas</span>[<span class="num">0</span>]
+
+<span class="kw">for</span> <span class="var">nota</span> <span class="kw">in</span> <span class="var">notas</span>:
+    <span class="kw">if</span> <span class="var">nota</span> &gt; <span class="var">maior</span>:
+        <span class="var">maior</span> = <span class="var">nota</span>
+
+<span class="bi">print</span>(<span class="st">f"Maior nota: {maior}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · maior_nota.py</span>
+            </div>
+            <div class="terminal-body">
+              Maior nota: 10.0
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 25 ─────────── -->
+  <section class="step-section" id="d25">
+    <div class="step-header">
+      <div class="step-number sn-mint">25</div>
+      <div>
+        <div class="step-title">Desafio 25 — <code>aprovados_reprovados.py</code></div>
+        <div class="step-sub">Dois contadores em paralelo</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">aprovados_reprovados.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Tem uma lista <code>notas</code>. Conte <strong>quantos alunos foram aprovados</strong>
+          (nota &gt;= 7) e <strong>quantos foram reprovados</strong> (nota &lt; 7).
+          Mostre o resultado.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Duas variáveis em zero antes do for: <code>aprovados = 0</code> e
+          <code>reprovados = 0</code>. Dentro do for, um <code>if/else</code> incrementa
+          o contador certo.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">aprovados_reprovados.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="var">notas</span>      = [<span class="num">6.5</span>, <span class="num">9.0</span>, <span class="num">4.0</span>, <span class="num">7.0</span>, <span class="num">8.5</span>, <span class="num">5.0</span>]
+<span class="var">aprovados</span>  = <span class="num">0</span>
+<span class="var">reprovados</span> = <span class="num">0</span>
+
+<span class="kw">for</span> <span class="var">nota</span> <span class="kw">in</span> <span class="var">notas</span>:
+    <span class="kw">if</span> <span class="var">nota</span> &gt;= <span class="num">7</span>:
+        <span class="var">aprovados</span>  += <span class="num">1</span>
+    <span class="kw">else</span>:
+        <span class="var">reprovados</span> += <span class="num">1</span>
+
+<span class="bi">print</span>(<span class="st">f"✅ Aprovados:  {aprovados}"</span>)
+<span class="bi">print</span>(<span class="st">f"❌ Reprovados: {reprovados}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · aprovados_reprovados.py</span>
+            </div>
+            <div class="terminal-body">
+              ✅ Aprovados:  3<br>❌ Reprovados: 3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 26 ─────────── -->
+  <section class="step-section" id="d26">
+    <div class="step-header">
+      <div class="step-number sn-mint">26</div>
+      <div>
+        <div class="step-title">Desafio 26 — <code>cardapio_indexado.py</code></div>
+        <div class="step-sub">enumerate() — índice + valor juntos</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">cardapio_indexado.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>cardapio</code> com 5 pratos. Mostre como menu numerado, começando
+          em 1: <em>"1 - Lasanha"</em>, <em>"2 - Pizza"</em>, etc.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>for numero, prato in enumerate(cardapio, start=1):</code> percorre a lista
+          e te dá o <strong>número</strong> e o <strong>valor</strong> ao mesmo tempo.
+          <em>(Sem <code>start=1</code>, começa em 0!)</em>
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">cardapio_indexado.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="var">cardapio</span> = [<span class="st">"Lasanha"</span>, <span class="st">"Pizza"</span>, <span class="st">"Sushi"</span>, <span class="st">"Hambúrguer"</span>, <span class="st">"Salada"</span>]
+
+<span class="bi">print</span>(<span class="st">"🍽 Cardápio:"</span>)
+<span class="kw">for</span> <span class="var">numero</span>, <span class="var">prato</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">cardapio</span>, <span class="var">start</span>=<span class="num">1</span>):
+    <span class="bi">print</span>(<span class="st">f"{numero} - {prato}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · cardapio_indexado.py</span>
+            </div>
+            <div class="terminal-body">
+              🍽 Cardápio:<br>1 - Lasanha<br>2 - Pizza<br>3 - Sushi<br>
+              4 - Hambúrguer<br>5 - Salada
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 27 ─────────── -->
+  <section class="step-section" id="d27">
+    <div class="step-header">
+      <div class="step-number sn-mint">27</div>
+      <div>
+        <div class="step-title">Desafio 27 — <code>procurar_nome.py</code></div>
+        <div class="step-sub">Operador <code>in</code> em listas</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">procurar_nome.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>alunos</code>. Peça ao usuário <strong>um nome</strong>.
+          Se o nome estiver na lista, imprime <em>"✅ Sim, X está na turma."</em>
+          Senão, imprime <em>"❌ X não tá matriculado."</em>
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Python tem o operador <code>in</code> que faz isso direto:
+          <code>if nome in alunos:</code>. Não precisa de for nem nada — uma linha resolve!
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">procurar_nome.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="var">alunos</span> = [<span class="st">"Ana"</span>, <span class="st">"João"</span>, <span class="st">"Davi"</span>, <span class="st">"Lia"</span>]
+<span class="var">nome</span>   = <span class="bi">input</span>(<span class="st">"Procurar qual aluno? "</span>)
+
+<span class="kw">if</span> <span class="var">nome</span> <span class="kw">in</span> <span class="var">alunos</span>:
+    <span class="bi">print</span>(<span class="st">f"✅ Sim, {nome} está na turma."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"❌ {nome} não tá matriculado."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · procurar_nome.py</span>
+            </div>
+            <div class="terminal-body">
+              Procurar qual aluno? Davi<br>✅ Sim, Davi está na turma.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 28 ─────────── -->
+  <section class="step-section" id="d28">
+    <div class="step-header">
+      <div class="step-number sn-mint">28</div>
+      <div>
+        <div class="step-title">Desafio 28 — <code>pares_e_impares.py</code></div>
+        <div class="step-sub">for + if % numa lista</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">pares_e_impares.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma lista <code>numeros</code> com 8 inteiros. Conte quantos são
+          <strong>pares</strong> e quantos são <strong>ímpares</strong>. Mostre os dois totais.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <code>numero % 2 == 0</code> diz "é par". <code>else</code> é "ímpar". Junta com
+          dois contadores como no desafio 25.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">pares_e_impares.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="var">numeros</span> = [<span class="num">3</span>, <span class="num">8</span>, <span class="num">12</span>, <span class="num">5</span>, <span class="num">22</span>, <span class="num">7</span>, <span class="num">4</span>, <span class="num">11</span>]
+<span class="var">pares</span>   = <span class="num">0</span>
+<span class="var">impares</span> = <span class="num">0</span>
+
+<span class="kw">for</span> <span class="var">n</span> <span class="kw">in</span> <span class="var">numeros</span>:
+    <span class="kw">if</span> <span class="var">n</span> % <span class="num">2</span> == <span class="num">0</span>:
+        <span class="var">pares</span>   += <span class="num">1</span>
+    <span class="kw">else</span>:
+        <span class="var">impares</span> += <span class="num">1</span>
+
+<span class="bi">print</span>(<span class="st">f"Pares:   {pares}"</span>)
+<span class="bi">print</span>(<span class="st">f"Ímpares: {impares}"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · pares_e_impares.py</span>
+            </div>
+            <div class="terminal-body">
+              Pares:   4<br>Ímpares: 4
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 29 ─────────── -->
+  <section class="step-section" id="d29">
+    <div class="step-header">
+      <div class="step-number sn-mint">29</div>
+      <div>
+        <div class="step-title">Desafio 29 — <code>media_e_acima.py</code></div>
+        <div class="step-sub">Dois passes na mesma lista</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">media_e_acima.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Tem uma lista <code>notas</code>. Calcule a <strong>média</strong> e, depois,
+          conte <strong>quantas notas estão acima dessa média</strong>. Mostre os dois resultados.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Calcula a média primeiro (com <code>sum / len</code>). Depois, num <strong>segundo for</strong>,
+          compara cada nota com a média e incrementa um contador.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong>
+          Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">media_e_acima.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="var">notas</span> = [<span class="num">6.0</span>, <span class="num">9.5</span>, <span class="num">7.0</span>, <span class="num">5.5</span>, <span class="num">8.0</span>, <span class="num">10.0</span>]
+<span class="var">media</span> = <span class="bi">sum</span>(<span class="var">notas</span>) / <span class="bi">len</span>(<span class="var">notas</span>)
+
+<span class="var">acima</span> = <span class="num">0</span>
+<span class="kw">for</span> <span class="var">nota</span> <span class="kw">in</span> <span class="var">notas</span>:
+    <span class="kw">if</span> <span class="var">nota</span> &gt; <span class="var">media</span>:
+        <span class="var">acima</span> += <span class="num">1</span>
+
+<span class="bi">print</span>(<span class="st">f"Média: {media:.2f}"</span>)
+<span class="bi">print</span>(<span class="st">f"{acima} nota(s) acima da média."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · media_e_acima.py</span>
+            </div>
+            <div class="terminal-body">
+              Média: 7.67<br>3 nota(s) acima da média.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── DESAFIO 30 ─────────── -->
+  <section class="step-section" id="d30">
+    <div class="step-header">
+      <div class="step-number sn-mint">30</div>
+      <div>
+        <div class="step-title">Desafio 30 — <code>adicionar_nomes.py</code></div>
+        <div class="step-sub">Boss final: lista vazia + append + while sentinela</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">adicionar_nomes.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie uma <strong>lista vazia</strong> de alunos. Peça nomes ao usuário até ele
+          digitar <strong>"fim"</strong>. Cada nome digitado entra na lista. Quando ele
+          digitar "fim", mostre a lista final completa e quantos foram cadastrados.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Estrutura: <code>alunos = []</code> → <code>while True:</code> → input →
+          <code>if nome == "fim": break</code> → senão <code>alunos.append(nome)</code>.
+          No fim, um <code>for</code> mostra a lista completa.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Esse é o boss final do capítulo.</strong> Junta tudo: lista vazia,
+          append, while, if/break, for. Tenta sem espiar — vai com tudo! 💪
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">adicionar_nomes.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre><span class="var">alunos</span> = []
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="var">nome</span> = <span class="bi">input</span>(<span class="st">"Nome do aluno (ou 'fim' pra encerrar): "</span>)
+    <span class="kw">if</span> <span class="var">nome</span> == <span class="st">"fim"</span>:
+        <span class="kw">break</span>
+    <span class="var">alunos</span>.append(<span class="var">nome</span>)
+
+<span class="bi">print</span>(<span class="st">"\n📚 Turma final:"</span>)
+<span class="kw">for</span> <span class="var">aluno</span> <span class="kw">in</span> <span class="var">alunos</span>:
+    <span class="bi">print</span>(<span class="st">f"- {aluno}"</span>)
+
+<span class="bi">print</span>(<span class="st">f"\nTotal: {<span class="bi">len</span>(alunos)} aluno(s) cadastrado(s)."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · adicionar_nomes.py</span>
+            </div>
+            <div class="terminal-body">
+              Nome do aluno (ou 'fim' pra encerrar): Ana<br>
+              Nome do aluno (ou 'fim' pra encerrar): João<br>
+              Nome do aluno (ou 'fim' pra encerrar): Davi<br>
+              Nome do aluno (ou 'fim' pra encerrar): fim<br>
+              <br>
+              📚 Turma final:<br>- Ana<br>- João<br>- Davi<br>
+              <br>
+              Total: 3 aluno(s) cadastrado(s).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ENCERRAMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="encerramento">
+    <div class="step-header">
+      <div class="step-number sn-mint">🎉</div>
+      <div>
+        <div class="step-title">Você venceu os 30 desafios de loops e listas!</div>
+        <div class="step-sub">Olha o tamanho do seu progresso</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="resto-banner" style="margin-bottom:18px">
+        <h3>🏆 Mais 30 arquivos <code style="background:transparent;padding:0;color:var(--accent5)">.py</code> no seu repertório</h3>
+        <p>
+          Você saiu do <em>"contar até 10"</em> e chegou num cadastro interativo com
+          lista, while e break. Isso <strong>É</strong> programar de verdade. 💪
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-num">30</span>
+          <span class="stat-label">Desafios resolvidos</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Capítulos consolidados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Conteúdo novo (só prática!)</span>
+        </div>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">🔁</span>
+          <div class="tip-content"><strong>Bloco 1 ✅</strong> — <code>while</code>, sentinela, acumulador, contador. O tripé clássico.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">➡️</span>
+          <div class="tip-content"><strong>Bloco 2 ✅</strong> — <code>for</code> + <code>range</code> em todas as variações: passo, intervalo, filtro com <code>%</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📋</span>
+          <div class="tip-content"><strong>Bloco 3 ✅</strong> — listas: <code>for in</code>, <code>sum</code>, <code>len</code>, <code>in</code>, <code>append</code>, <code>enumerate</code>. Tudo na ponta da língua.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card next-chapter-card">
+      <h3 style="color:var(--accent7);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 05 — Funções.</strong>
+        Você já consegue <em>repetir</em> e <em>guardar</em>. Agora vai aprender a
+        <strong>empacotar pedaços de código com nome</strong> — escreve uma vez, usa mil. 🛠️
+      </p>
+      <a href="../05-funcoes/" class="cta-btn">🛠 Ir para Capítulo 05 →</a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pela <strong style="color:var(--text)">programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>
+

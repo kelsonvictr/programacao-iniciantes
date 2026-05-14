@@ -111,6 +111,26 @@ PDF: `../programacao-iniciantes/old-slides/Bootcamp_  Programação para Inician
 
 ---
 
+## 💪 Capítulo 4.5 — 30 Desafios (Caps 1, 2, 3 e 4)
+**Pasta:** `capitulos/04b-desafios-caps-1-2-3-4/`
+**Cor temática:** lilás + turquesa + verde menta (`--accent6` + `--accent3` + `--accent7`)
+**Origem:** segundo treinão de fixação (após o `03b`), antes de funções. Sem conteúdo novo — só prática.
+
+### Estrutura
+- Hero + intro + setup PyCharm (projeto `desafio_caps_1_2_3_4`) + "como usar"
+- **Bloco 1 — while (1-10):** contar, regressivo, pular de 2 em 2, tabuada, soma com acumulador, sentinela com `break`, média com soma+contagem
+- **Bloco 2 — for + range (11-20):** tabuada, soma de pares, range com passo, quadrados (`**`), múltiplos (`%`), intervalo dinâmico, fatorial (acumulador multiplicativo), enumeração, `for + break` com flag
+- **Bloco 3 — listas + for (21-30):** percorrer lista, `sum/len`, maior valor manual, contadores em paralelo (aprovado/reprovado, par/ímpar), `enumerate(start=1)`, operador `in`, dois passes (média + acima), lista vazia + `append` até `"fim"`
+- Encerramento com stats + ponte pro cap 05
+
+### Padrão por desafio
+Igual ao 03b: cabeçalho (n°+filename) → `exercise solo` → `concept` ("O que fazer") → `tip` conceitual → `try-first` 🚨 → `toggler` 👀 com código completo + terminal output.
+
+### Quando manter atualizado
+Se adicionar/remover desafios, sincronizar: sidebar do próprio capítulo + card no `index.html` do hub + linha do mapa rápido no fim deste arquivo.
+
+---
+
 ## 🟢 Capítulo 05 — Funções
 **Pasta:** `capitulos/05-funcoes/`
 **Cor temática:** verde menta + turquesa (`--accent7` + `--accent3`)
@@ -237,6 +257,7 @@ Cada desafio tem:
 | 02 | Variáveis & Tipos | Caixinhas | str, int, float, bool, f-string |
 | 03 | Condicionais | Decisões | if/elif/else, operadores |
 | 04 | Loops & Listas | Repetir | while, for, range, listas |
+| 4.5 | 30 Desafios (Caps 1-4) | Fixar | while + for + range + listas (treinão) |
 | 05 | Funções | Reutilizar | def, parâmetros, retorno |
 | 06 | Desafios | Consolidar | 5 mini-sistemas |
 | 07 | Dicionários | Estruturar | dict, lista de dicts |
