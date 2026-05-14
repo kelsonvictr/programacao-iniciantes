@@ -10,6 +10,15 @@
 <link rel="stylesheet" href="../../shared/animations.css">
 <style>
 /* extras locais ao capítulo 07 */
+
+/* ⚠️ Desativa ligatures da JetBrains Mono — `->`, `!=`, `>=` precisam aparecer literais */
+*, .code-block pre, pre, code,
+.menu-mock, .dict-viz, .dict-key, .dict-value, .dict-arrow,
+.versus-side code, .dpg-input, .dpg-output, .dpg-key-chip{
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
 .dict-shelf{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:18px;margin:24px 0;
@@ -95,6 +104,109 @@
 .bridge-card .ic{font-size:2.4rem;flex-shrink:0}
 .bridge-card .text{font-size:0.96rem;color:var(--text-dim)}
 .bridge-card strong{color:var(--text)}
+
+/* ─────────────────────────────────────────────
+   Playground Dicionário — busca por chave
+   ───────────────────────────────────────────── */
+.dict-playground{
+  background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(108,99,255,0.04));
+  border:1px solid rgba(167,139,250,0.25);
+  border-radius:18px;padding:20px 18px;margin:22px 0;
+  position:relative;overflow:hidden;
+}
+.dpg-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(167,139,250,0.14);color:var(--accent6);
+  font-weight:800;font-size:0.78rem;padding:4px 10px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
+}
+.dpg-badge::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--accent6);animation:dpgPulse 1.4s ease-in-out infinite;
+}
+@keyframes dpgPulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%    {opacity:0.5;transform:scale(1.4)}
+}
+.dpg-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:18px;align-items:start;margin:14px 0;
+}
+@media(max-width:680px){.dpg-row{grid-template-columns:1fr}}
+.dpg-dict-card{
+  background:var(--code-bg);
+  border:1px solid rgba(167,139,250,0.18);
+  border-radius:14px;padding:14px 16px;
+}
+.dpg-dict-name{
+  font-family:'Caveat',cursive;color:var(--accent6);
+  font-size:1.2rem;line-height:1;margin-bottom:10px;
+}
+.dpg-dict-row{
+  display:grid;grid-template-columns:auto auto 1fr;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:0.86rem;
+  align-items:center;padding:6px 4px;
+  border-radius:6px;transition:background 0.25s;
+}
+.dpg-dict-row.highlight{
+  background:rgba(6,214,160,0.12);
+  box-shadow:inset 0 0 0 1px rgba(6,214,160,0.30);
+}
+.dpg-dict-row .k{color:var(--accent5)}
+.dpg-dict-row .arr{color:var(--text-dim)}
+.dpg-dict-row .v{color:var(--accent7);font-weight:700}
+
+.dpg-query{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.dpg-query-label{
+  font-family:'Caveat',cursive;font-size:1.1rem;
+  color:var(--text-dim);line-height:1;
+}
+.dpg-code-line{
+  font-family:'JetBrains Mono',monospace;font-size:0.92rem;
+  color:#c9d1d9;background:var(--code-bg);
+  padding:8px 10px;border-radius:8px;
+}
+.dpg-code-line .var{color:var(--accent4)}
+.dpg-code-line .key{color:var(--accent5)}
+.dpg-input{
+  font-family:'JetBrains Mono',monospace;font-size:0.92rem;
+  background:#0d0d18;border:2px solid rgba(167,139,250,0.30);
+  color:var(--accent5);
+  padding:8px 12px;border-radius:8px;
+  outline:none;width:100%;
+}
+.dpg-input:focus{border-color:var(--accent6)}
+.dpg-chips{display:flex;gap:6px;flex-wrap:wrap}
+.dpg-key-chip{
+  font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,0.08);color:var(--text-dim);
+  padding:4px 10px;border-radius:8px;cursor:pointer;
+  transition:all 0.2s;
+}
+.dpg-key-chip:hover{border-color:var(--accent6);color:var(--accent6)}
+.dpg-output{
+  font-family:'JetBrains Mono',monospace;font-size:0.92rem;
+  padding:10px 12px;border-radius:8px;
+  background:#0d0d18;border:1px solid rgba(255,255,255,0.06);
+}
+.dpg-output.success{
+  border-color:rgba(6,214,160,0.35);
+  background:rgba(6,214,160,0.05);
+  color:var(--accent7);
+}
+.dpg-output.error{
+  border-color:rgba(255,107,107,0.35);
+  background:rgba(255,107,107,0.05);
+  color:var(--accent2);
+}
+.dpg-output.empty{color:var(--text-dim);font-style:italic}
+.dpg-output b{font-weight:800}
 </style>
 </head>
 <body>
@@ -120,7 +232,7 @@
     <a class="sidebar-link" onclick="goTo('quiz-relembrando')"><span class="dot" style="background:var(--accent5)"></span>Quiz relembrando</a>
     <a class="sidebar-link" onclick="goTo('o-que-e-dict')"><span class="dot" style="background:var(--accent6)"></span>O que é dicionário?</a>
     <a class="sidebar-link" onclick="goTo('cadastro-dict')"><span class="dot" style="background:var(--accent4)"></span>cadastro_dicionario.py</a>
-    <a class="sidebar-link" onclick="goTo('acessar')"><span class="dot" style="background:var(--accent6)"></span>Acessar valores</a>
+    <a class="sidebar-link" onclick="goTo('acessar')"><span class="dot" style="background:var(--accent6)"></span>Acessar valores · playground 🛝</a>
     <a class="sidebar-link" onclick="goTo('atualizar')"><span class="dot" style="background:var(--accent)"></span>Atualizar / Adicionar</a>
     <a class="sidebar-link" onclick="goTo('atualizar-aluno')"><span class="dot" style="background:var(--accent6)"></span>atualizar_dados_aluno.py</a>
     <a class="sidebar-link" onclick="goTo('lista-de-dicts')"><span class="dot" style="background:var(--accent6)"></span>Lista de dicionários</a>
@@ -428,6 +540,64 @@ aluno = {<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: 
           Em <strong>dicionário</strong> você acessa por <em>nome da chave</em>: <code>aluno["nome"]</code>.
           Mais legível, mais "humano". 👍
         </p>
+      </div>
+
+      <!-- ══ PLAYGROUND interativo — busca por chave ══ -->
+      <div class="dict-playground" id="dpg">
+        <span class="dpg-badge">Playground · busca por chave</span>
+        <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:6px">
+          Clica numa chave abaixo (ou digita uma chave qualquer) e vê o que sai.
+          Repara que se a chave <strong>não existe</strong>, o Python dispara
+          <code>KeyError</code> — o erro mais clássico do dicionário 🐛.
+        </p>
+
+        <div class="dpg-row">
+          <!-- esquerda: o dicionário "ficha" -->
+          <div class="dpg-dict-card" id="dpg-dict">
+            <div class="dpg-dict-name">aluno =</div>
+            <div class="dpg-dict-row" data-k="nome">
+              <span class="k">"nome"</span><span class="arr">:</span><span class="v">"Kelson"</span>
+            </div>
+            <div class="dpg-dict-row" data-k="idade">
+              <span class="k">"idade"</span><span class="arr">:</span><span class="v">33</span>
+            </div>
+            <div class="dpg-dict-row" data-k="curso">
+              <span class="k">"curso"</span><span class="arr">:</span><span class="v">"Python"</span>
+            </div>
+            <div class="dpg-dict-row" data-k="cidade">
+              <span class="k">"cidade"</span><span class="arr">:</span><span class="v">"João Pessoa"</span>
+            </div>
+          </div>
+
+          <!-- direita: a query interativa -->
+          <div class="dpg-query">
+            <div class="dpg-query-label">Você digita...</div>
+            <div class="dpg-code-line">
+              <span class="var">aluno</span>[<span class="key">"<span id="dpg-key-echo">nome</span>"</span>]
+            </div>
+            <input class="dpg-input" id="dpg-input" type="text" value="nome"
+                   placeholder="digite uma chave..."
+                   oninput="dpgUpdate()">
+            <div class="dpg-chips">
+              <button class="dpg-key-chip" onclick="dpgSet('nome')">nome</button>
+              <button class="dpg-key-chip" onclick="dpgSet('idade')">idade</button>
+              <button class="dpg-key-chip" onclick="dpgSet('curso')">curso</button>
+              <button class="dpg-key-chip" onclick="dpgSet('cidade')">cidade</button>
+              <button class="dpg-key-chip" onclick="dpgSet('email')">email 🐛</button>
+            </div>
+            <div class="dpg-query-label" style="margin-top:4px">...e o Python devolve:</div>
+            <div class="dpg-output success" id="dpg-output">"Kelson"</div>
+          </div>
+        </div>
+
+        <div class="tip" style="margin-top:14px">
+          <span class="tip-icon">🔑</span>
+          <div class="tip-content">
+            <strong>Sacou?</strong> A chave precisa existir <em>exatamente igual</em> à que você criou —
+            <code>"Nome"</code> com N maiúsculo é diferente de <code>"nome"</code>.
+            Dicionário não perdoa typo!
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1395,5 +1565,59 @@ pets = []
 </footer>
 
 <script src="../../shared/scripts.js" defer></script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   PLAYGROUND dicionário — busca por chave (vê KeyError ao vivo)
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+  const ALUNO = {
+    "nome":   '"Kelson"',
+    "idade":  '33',
+    "curso":  '"Python"',
+    "cidade": '"João Pessoa"'
+  };
+  const input  = document.getElementById('dpg-input');
+  if(!input) return;
+  const echo   = document.getElementById('dpg-key-echo');
+  const out    = document.getElementById('dpg-output');
+  const dict   = document.getElementById('dpg-dict');
+
+  function escapeHtml(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  window.dpgUpdate = function(){
+    const raw = input.value;
+    const k   = raw.trim();
+    echo.textContent = raw;
+
+    // highlight da linha correspondente
+    dict.querySelectorAll('.dpg-dict-row').forEach(r => r.classList.remove('highlight'));
+
+    if(k === ''){
+      out.className   = 'dpg-output empty';
+      out.textContent = '(digite uma chave acima)';
+      return;
+    }
+
+    if(Object.prototype.hasOwnProperty.call(ALUNO, k)){
+      out.className   = 'dpg-output success';
+      out.innerHTML   = ALUNO[k];
+      const row = dict.querySelector(`.dpg-dict-row[data-k="${escapeHtml(k)}"]`);
+      if(row) row.classList.add('highlight');
+    } else {
+      out.className   = 'dpg-output error';
+      out.innerHTML   = `❌ <b>KeyError</b>: ${escapeHtml(JSON.stringify(k))}`;
+    }
+  };
+  window.dpgSet = function(k){
+    input.value = k;
+    window.dpgUpdate();
+    input.focus();
+  };
+  window.dpgUpdate();
+})();
+</script>
 </body>
 </html>

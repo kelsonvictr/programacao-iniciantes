@@ -10,6 +10,15 @@
 <link rel="stylesheet" href="../../shared/animations.css">
 <style>
 /* ==== extras locais ao capítulo 08 ==== */
+
+/* ⚠️ Desativa ligatures da JetBrains Mono — `->`, `!=`, `>=` precisam aparecer literais */
+*, .code-block pre, pre, code,
+.json-file, .jpg-py, .jpg-json, .jpg-input,
+.split-compare code, .notebook-cell code{
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
 .panic-banner{
   background:linear-gradient(135deg,rgba(255,71,87,0.14),rgba(255,107,107,0.06));
   border:2px solid rgba(255,71,87,0.30);
@@ -116,6 +125,88 @@
 }
 .bridge-card h4{color:var(--accent5);margin-bottom:8px;font-size:1.15rem}
 .bridge-card p{color:var(--text-dim);font-size:0.94rem;margin-bottom:6px}
+
+/* ─────────────────────────────────────────────
+   Playground Python ↔ JSON
+   ───────────────────────────────────────────── */
+.json-playground{
+  background:linear-gradient(135deg,rgba(247,183,49,0.06),rgba(78,205,196,0.04));
+  border:1px solid rgba(247,183,49,0.25);
+  border-radius:18px;padding:20px 18px;margin:24px 0;
+}
+.jpg-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(247,183,49,0.16);color:var(--accent5);
+  font-weight:800;font-size:0.78rem;padding:4px 10px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
+}
+.jpg-badge::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--accent5);animation:jpgPulse 1.4s ease-in-out infinite;
+}
+@keyframes jpgPulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%    {opacity:0.5;transform:scale(1.4)}
+}
+.jpg-controls{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;
+}
+.jpg-preset{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.08);color:var(--text-dim);
+  font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;
+  padding:6px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;
+}
+.jpg-preset:hover{
+  border-color:var(--accent5);color:var(--accent5);
+  background:rgba(247,183,49,0.08);
+}
+.jpg-grid{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:14px;align-items:stretch;margin:8px 0;
+}
+@media(max-width:780px){
+  .jpg-grid{grid-template-columns:1fr;gap:10px}
+  .jpg-grid .jpg-arrow{transform:rotate(90deg);justify-self:center}
+}
+.jpg-panel{
+  background:#0d0d18;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.jpg-panel.py  {border-color:rgba(78,205,196,0.30)}
+.jpg-panel.json{border-color:rgba(247,183,49,0.30)}
+.jpg-panel-head{
+  display:flex;align-items:center;gap:8px;font-size:0.82rem;
+  color:var(--text-dim);font-weight:700;
+}
+.jpg-panel.py   .jpg-panel-head .lbl{color:var(--accent3)}
+.jpg-panel.json .jpg-panel-head .lbl{color:var(--accent5)}
+.jpg-arrow{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--accent5);font-weight:900;font-size:0.78rem;
+  text-align:center;line-height:1.4;
+  font-family:'Caveat',cursive;
+}
+.jpg-arrow .big{font-size:1.6rem;display:block;margin:2px 0}
+.jpg-py, .jpg-json{
+  font-family:'JetBrains Mono',monospace;font-size:0.86rem;
+  color:#c9d1d9;background:transparent;border:none;
+  resize:vertical;min-height:160px;outline:none;line-height:1.55;
+  padding:6px 4px;width:100%;
+}
+.jpg-py:focus, .jpg-json:focus{
+  outline:1px solid rgba(247,183,49,0.20);
+  border-radius:4px;
+}
+.jpg-py.error, .jpg-json.error{color:var(--accent2)}
+.jpg-status{
+  font-size:0.78rem;color:var(--text-dim);font-style:italic;
+  margin-top:2px;min-height:1.1em;
+}
+.jpg-status.ok{color:var(--accent7);font-style:normal}
+.jpg-status.bad{color:var(--accent2);font-style:normal}
 </style>
 </head>
 <body>
@@ -140,7 +231,7 @@
     <div class="sidebar-group-title">🎯 Conteúdo</div>
     <a class="sidebar-link" onclick="goTo('o-problema')"><span class="dot" style="background:var(--bug)"></span>O problema 😱</a>
     <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Aquecimento</a>
-    <a class="sidebar-link" onclick="goTo('o-que-e-json')"><span class="dot" style="background:var(--accent5)"></span>O que é JSON?</a>
+    <a class="sidebar-link" onclick="goTo('o-que-e-json')"><span class="dot" style="background:var(--accent5)"></span>O que é JSON? · playground 🛝</a>
     <a class="sidebar-link" onclick="goTo('magia-fluxo')"><span class="dot" style="background:var(--accent3)"></span>A mágica salvar/ler</a>
     <a class="sidebar-link" onclick="goTo('salvar-dados')"><span class="dot" style="background:var(--accent4)"></span>json.dump · salvar</a>
     <a class="sidebar-link" onclick="goTo('ler-dados')"><span class="dot" style="background:var(--accent4)"></span>json.load · ler</a>
@@ -378,6 +469,67 @@
           em JSON o <code>True</code> vira <code>true</code> (minúsculo) e
           <code>None</code> vira <code>null</code>. <strong>O resto é a mesma coisa.</strong>
           Por isso a gente diz que JSON é "o primo gêmeo" do dicionário Python.
+        </div>
+      </div>
+
+      <!-- ══ PLAYGROUND interativo — tradutor Python ↔ JSON ══ -->
+      <div class="json-playground" id="jpg">
+        <span class="jpg-badge">Playground · tradutor Python ↔ JSON</span>
+        <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:6px">
+          Edita o dicionário Python à esquerda <strong>ou</strong> o JSON à direita —
+          o outro lado se atualiza sozinho. Tenta os exemplos prontos pra ver as
+          diferenças finas (<code>True</code> vira <code>true</code>,
+          <code>None</code> vira <code>null</code>):
+        </p>
+
+        <div class="jpg-controls">
+          <button class="jpg-preset" onclick="jpgPreset('aluno')">📒 aluno simples</button>
+          <button class="jpg-preset" onclick="jpgPreset('bools')">✅ booleanos &amp; None</button>
+          <button class="jpg-preset" onclick="jpgPreset('lista')">📋 lista de alunos</button>
+          <button class="jpg-preset" onclick="jpgPreset('aninhado')">🧅 dict aninhado</button>
+        </div>
+
+        <div class="jpg-grid">
+          <div class="jpg-panel py">
+            <div class="jpg-panel-head">
+              <span>🐍</span>
+              <span class="lbl">Python (dict / list)</span>
+            </div>
+            <textarea class="jpg-py" id="jpg-py" spellcheck="false" oninput="jpgFromPy()">{
+    "nome": "Ana",
+    "idade": 22,
+    "ativo": True
+}</textarea>
+            <div class="jpg-status" id="jpg-py-status"></div>
+          </div>
+
+          <div class="jpg-arrow">
+            json.dumps
+            <span class="big">⇄</span>
+            json.loads
+          </div>
+
+          <div class="jpg-panel json">
+            <div class="jpg-panel-head">
+              <span>📄</span>
+              <span class="lbl">JSON (arquivo .json)</span>
+            </div>
+            <textarea class="jpg-json" id="jpg-json" spellcheck="false" oninput="jpgFromJson()">{
+    "nome": "Ana",
+    "idade": 22,
+    "ativo": true
+}</textarea>
+            <div class="jpg-status" id="jpg-json-status"></div>
+          </div>
+        </div>
+
+        <div class="tip" style="margin-top:14px">
+          <span class="tip-icon">💡</span>
+          <div class="tip-content">
+            <strong>Sacou a diferença?</strong> Mude o <code>True</code> do lado Python pra
+            <code>False</code> e veja virar <code>false</code> no JSON. Tenta colocar
+            <code>None</code> — vira <code>null</code>. <em>São quase a mesma coisa, mas não exatamente.</em>
+          </div>
         </div>
       </div>
 
@@ -1220,5 +1372,119 @@ ARQUIVO = <span class="st">"alunos.json"</span>
 </footer>
 
 <script src="../../shared/scripts.js" defer></script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   PLAYGROUND Python ↔ JSON — tradutor bidirecional
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+  const pyEl    = document.getElementById('jpg-py');
+  if(!pyEl) return;
+  const jsonEl  = document.getElementById('jpg-json');
+  const pyStat  = document.getElementById('jpg-py-status');
+  const jsonStat= document.getElementById('jpg-json-status');
+
+  let syncing = false;
+
+  /* Replace Python literals fora de strings: True/False/None ↔ true/false/null */
+  function tokenReplace(src, pairs){
+    let out = '', i = 0, inStr = false, q = '';
+    while(i < src.length){
+      const ch = src[i];
+      if(inStr){
+        out += ch;
+        if(ch === '\\' && i+1 < src.length){ out += src[i+1]; i += 2; continue; }
+        if(ch === q) inStr = false;
+        i++; continue;
+      }
+      if(ch === '"' || ch === "'"){ inStr = true; q = ch; out += ch; i++; continue; }
+      let matched = false;
+      for(const [from, to] of pairs){
+        if(src.startsWith(from, i)){
+          const before = i === 0 ? '' : src[i-1];
+          const after  = src[i+from.length] || '';
+          const wb = (c) => !c || !/[A-Za-z0-9_]/.test(c);
+          if(wb(before) && wb(after)){
+            out += to;
+            i += from.length;
+            matched = true;
+            break;
+          }
+        }
+      }
+      if(!matched){ out += ch; i++; }
+    }
+    return out;
+  }
+
+  function pyToJsonText(pySrc){
+    /* Python aceita aspas simples — JSON só duplas. */
+    let s = tokenReplace(pySrc, [['True','true'],['False','false'],['None','null']]);
+    /* converte aspas simples (heurística simples — basta pros casos do playground) */
+    s = s.replace(/'/g, '"');
+    return s;
+  }
+  function jsonToPyText(jsonSrc){
+    return tokenReplace(jsonSrc, [['true','True'],['false','False'],['null','None']]);
+  }
+
+  function setStatus(el, kind, msg){
+    el.className = 'jpg-status ' + (kind || '');
+    el.textContent = msg || '';
+  }
+
+  window.jpgFromPy = function(){
+    if(syncing) return;
+    const py = pyEl.value;
+    const candidate = pyToJsonText(py);
+    try{
+      const parsed = JSON.parse(candidate);
+      const pretty = JSON.stringify(parsed, null, 4);
+      syncing = true;
+      jsonEl.value = pretty;
+      pyEl.classList.remove('error');
+      jsonEl.classList.remove('error');
+      setStatus(pyStat, 'ok',   '✓ válido — Python entendeu');
+      setStatus(jsonStat, 'ok', '✓ JSON gerado com json.dumps');
+      syncing = false;
+    } catch(e){
+      pyEl.classList.add('error');
+      setStatus(pyStat, 'bad', '⚠ sintaxe inválida em Python: ' + e.message);
+      setStatus(jsonStat, '', '');
+    }
+  };
+  window.jpgFromJson = function(){
+    if(syncing) return;
+    const j = jsonEl.value;
+    try{
+      const parsed = JSON.parse(j);
+      const pyPretty = jsonToPyText(JSON.stringify(parsed, null, 4));
+      syncing = true;
+      pyEl.value = pyPretty;
+      pyEl.classList.remove('error');
+      jsonEl.classList.remove('error');
+      setStatus(jsonStat, 'ok', '✓ JSON válido — pronto pra salvar em arquivo');
+      setStatus(pyStat,   'ok', '✓ Python gerado com json.loads');
+      syncing = false;
+    } catch(e){
+      jsonEl.classList.add('error');
+      setStatus(jsonStat, 'bad', '⚠ JSON inválido: ' + e.message);
+      setStatus(pyStat, '', '');
+    }
+  };
+
+  const PRESETS = {
+    aluno:    '{\n    "nome": "Ana",\n    "idade": 22,\n    "ativo": True\n}',
+    bools:    '{\n    "ativo": True,\n    "premium": False,\n    "apelido": None\n}',
+    lista:    '[\n    {"nome": "Ana", "idade": 22},\n    {"nome": "João", "idade": 28},\n    {"nome": "Davi", "idade": 19}\n]',
+    aninhado: '{\n    "aluno": "Lia",\n    "notas": [9, 7.5, 10],\n    "endereco": {\n        "cidade": "João Pessoa",\n        "uf": "PB"\n    }\n}'
+  };
+  window.jpgPreset = function(key){
+    pyEl.value = PRESETS[key] || PRESETS.aluno;
+    window.jpgFromPy();
+  };
+
+  window.jpgFromPy();
+})();
+</script>
 </body>
 </html>

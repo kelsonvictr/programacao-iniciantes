@@ -13,6 +13,15 @@
    Extras locais ao Capítulo 05 — Funções
    ───────────────────────────────────────────── */
 
+/* ⚠️ Desativa ligatures da JetBrains Mono — `->`, `!=`, `>=` precisam aparecer literais */
+*, .code-block pre, pre, code,
+.machine-pill, .reuse-row, .anatomy .line,
+.lp-input-pill, .lp-output-pill, .lp-call-line, .lp-fn-name,
+.scope-box pre, .scope-var{
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
 /* Hero theme */
 .hero-badge.funcs{
   background:linear-gradient(135deg,var(--accent7),var(--accent3));
@@ -224,6 +233,155 @@
 .coffee-card .text{color:var(--text-dim);font-size:0.94rem}
 .coffee-card .text strong{color:var(--text)}
 @media(max-width:520px){.coffee-card{flex-direction:column;text-align:center}}
+
+/* ─────────────────────────────────────────────
+   Playground Função-Máquina (interativo)
+   ───────────────────────────────────────────── */
+.fn-playground{
+  background:linear-gradient(135deg,rgba(6,214,160,0.05),rgba(78,205,196,0.03));
+  border:1px solid rgba(6,214,160,0.22);
+  border-radius:18px;
+  padding:20px 18px;margin:22px 0;
+  position:relative;overflow:hidden;
+}
+.fn-pg-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(6,214,160,0.12);
+  color:var(--accent7);font-weight:800;font-size:0.78rem;
+  padding:4px 10px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
+}
+.fn-pg-badge::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--accent7);animation:livePulse 1.4s ease-in-out infinite;
+}
+@keyframes livePulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%    {opacity:0.5;transform:scale(1.4)}
+}
+.fn-pg-machine{
+  display:grid;grid-template-columns:1fr auto 1fr auto 1fr;
+  gap:10px;align-items:center;margin:14px 0;
+}
+@media(max-width:680px){
+  .fn-pg-machine{grid-template-columns:1fr;gap:14px}
+  .fn-pg-machine .fn-pg-arrow{transform:rotate(90deg);justify-self:center}
+}
+.fn-pg-slot{
+  background:var(--surface2);
+  border:2px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px 12px;
+  text-align:center;
+}
+.fn-pg-slot.in{border-color:var(--accent4)}
+.fn-pg-slot.out{border-color:var(--accent5)}
+.fn-pg-slot-label{
+  font-family:'Caveat',cursive;font-size:1.1rem;font-weight:700;
+  color:var(--text-dim);margin-bottom:8px;
+}
+.fn-pg-slot.in .fn-pg-slot-label{color:var(--accent4)}
+.fn-pg-slot.out .fn-pg-slot-label{color:var(--accent5)}
+.lp-input-pill{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:800;font-size:1.4rem;color:var(--accent4);
+  display:block;margin:6px 0;
+}
+.lp-output-pill{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:800;font-size:1.6rem;color:var(--accent5);
+  display:block;margin:6px 0;
+  transition:transform 0.25s, color 0.25s;
+}
+.lp-output-pill.bump{transform:scale(1.18);color:#fff;text-shadow:0 0 24px var(--accent7)}
+.fn-pg-slider{
+  width:100%;margin-top:6px;
+  accent-color:var(--accent4);
+}
+.fn-pg-body{
+  background:linear-gradient(135deg,rgba(6,214,160,0.20),rgba(78,205,196,0.10));
+  border:2px solid var(--accent7);
+  border-radius:16px;padding:14px 12px;text-align:center;
+  box-shadow:0 0 28px rgba(6,214,160,0.18);
+  position:relative;
+}
+.fn-pg-body .gear{
+  font-size:1.8rem;display:block;
+  animation:gearSpin 6s linear infinite;
+}
+.lp-fn-name{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:800;color:var(--text);font-size:0.9rem;
+  margin-top:4px;display:block;
+}
+.fn-pg-arrow{
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent7);font-weight:900;font-size:1.2rem;
+}
+.fn-pg-call{
+  background:var(--code-bg);
+  border-radius:10px;padding:10px 14px;
+  margin-top:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.95rem;color:#c9d1d9;
+  text-align:center;
+}
+.lp-call-line .call{color:var(--accent4);font-weight:700}
+.lp-call-line .arrow{color:var(--text-dim);margin:0 8px}
+.lp-call-line .ret{color:var(--accent5);font-weight:700}
+.fn-pg-controls{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  margin-top:12px;
+}
+.fn-pg-preset{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.08);
+  color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+  padding:6px 12px;border-radius:8px;cursor:pointer;
+  transition:all 0.2s;
+}
+.fn-pg-preset:hover{
+  border-color:var(--accent7);color:var(--accent7);
+  background:rgba(6,214,160,0.08);
+}
+
+/* ─────────────────────────────────────────────
+   Visualização de escopo (Erro #3 do BugZilla)
+   ───────────────────────────────────────────── */
+.scope-viz{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:14px;margin:18px 0;
+}
+@media(max-width:680px){.scope-viz{grid-template-columns:1fr}}
+.scope-box{
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:14px;
+  position:relative;
+}
+.scope-box.inside{border-color:var(--accent6);background:rgba(167,139,250,0.04)}
+.scope-box.outside{border-color:var(--accent2);background:rgba(255,107,107,0.04)}
+.scope-tag{
+  position:absolute;top:-10px;left:14px;
+  padding:2px 10px;border-radius:6px;
+  font-size:0.7rem;font-weight:900;letter-spacing:1.5px;
+  text-transform:uppercase;color:#0a0a12;
+}
+.scope-box.inside .scope-tag{background:var(--accent6)}
+.scope-box.outside .scope-tag{background:var(--accent2)}
+.scope-box h5{margin:10px 0 8px;font-size:0.9rem;color:var(--text)}
+.scope-box pre{
+  background:var(--code-bg);
+  padding:10px 12px;border-radius:8px;
+  font-size:0.82rem;line-height:1.6;
+  margin:8px 0 0;
+}
+.scope-var{
+  display:inline-block;padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;
+}
+.scope-var.local{background:rgba(167,139,250,0.20);color:var(--accent6)}
+.scope-var.missing{background:rgba(255,107,107,0.20);color:var(--accent2);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -251,7 +409,7 @@
     <a class="sidebar-link" onclick="goTo('def')"><span class="dot" style="background:var(--accent3)"></span>def — criando funções</a>
     <a class="sidebar-link" onclick="goTo('maquina')"><span class="dot" style="background:var(--accent7)"></span>Função = máquina 🛠️</a>
     <a class="sidebar-link" onclick="goTo('parametros')"><span class="dot" style="background:var(--accent4)"></span>Parâmetros</a>
-    <a class="sidebar-link" onclick="goTo('reaproveitar')"><span class="dot" style="background:var(--accent6)"></span>Reaproveitando</a>
+    <a class="sidebar-link" onclick="goTo('reaproveitar')"><span class="dot" style="background:var(--accent6)"></span>Reaproveitando · playground 🛝</a>
     <a class="sidebar-link" onclick="goTo('exercicio-soma')"><span class="dot" style="background:var(--accent4)"></span>Bora Codar — soma</a>
     <a class="sidebar-link" onclick="goTo('exercicio-saudacao')"><span class="dot" style="background:var(--accent6)"></span>Desafio — saudação</a>
     <a class="sidebar-link" onclick="goTo('return')"><span class="dot" style="background:var(--accent5)"></span>return</a>
@@ -655,6 +813,71 @@
           <em>Esse é o superpoder das funções.</em>
         </div>
       </div>
+
+      <!-- ══ PLAYGROUND interativo — função-máquina ══ -->
+      <div class="fn-playground" id="pg-fn">
+        <span class="fn-pg-badge">Playground · brinque com a função</span>
+        <p style="color:var(--text-dim);font-size:0.92rem;margin-bottom:6px">
+          Move os sliders pra mudar as entradas <strong>a</strong> e <strong>b</strong> da função
+          <code>soma(a, b)</code>. Olha a saída mudar em tempo real:
+        </p>
+
+        <div class="fn-pg-machine">
+          <div class="fn-pg-slot in">
+            <div class="fn-pg-slot-label">entrada · a</div>
+            <span class="lp-input-pill" id="pg-fn-a-val">2</span>
+            <input class="fn-pg-slider" id="pg-fn-a" type="range" min="0" max="20" value="2"
+                   oninput="pgFnUpdate()">
+          </div>
+
+          <div class="fn-pg-arrow">▶</div>
+
+          <div class="fn-pg-body">
+            <span class="gear">⚙️</span>
+            <span class="lp-fn-name">soma(a, b)</span>
+          </div>
+
+          <div class="fn-pg-arrow">▶</div>
+
+          <div class="fn-pg-slot out">
+            <div class="fn-pg-slot-label">saída · return</div>
+            <span class="lp-output-pill" id="pg-fn-out">5</span>
+          </div>
+        </div>
+
+        <div class="fn-pg-machine" style="grid-template-columns:1fr;margin-top:0">
+          <div class="fn-pg-slot in">
+            <div class="fn-pg-slot-label">entrada · b</div>
+            <span class="lp-input-pill" id="pg-fn-b-val">3</span>
+            <input class="fn-pg-slider" id="pg-fn-b" type="range" min="0" max="20" value="3"
+                   oninput="pgFnUpdate()">
+          </div>
+        </div>
+
+        <div class="fn-pg-call">
+          <span class="lp-call-line">
+            <span class="call" id="pg-fn-call">soma(2, 3)</span>
+            <span class="arrow">→ devolve →</span>
+            <span class="ret" id="pg-fn-ret">5</span>
+          </span>
+        </div>
+
+        <div class="fn-pg-controls">
+          <button class="fn-pg-preset" onclick="pgFnPreset(2,3)">soma(2, 3)</button>
+          <button class="fn-pg-preset" onclick="pgFnPreset(10,7)">soma(10, 7)</button>
+          <button class="fn-pg-preset" onclick="pgFnPreset(15,15)">soma(15, 15)</button>
+          <button class="fn-pg-preset" onclick="pgFnPreset(0,20)">soma(0, 20)</button>
+        </div>
+
+        <div class="tip" style="margin-top:14px">
+          <span class="tip-icon">🧠</span>
+          <div class="tip-content">
+            <strong>Sacou a ideia?</strong> A função <code>soma</code> é a MESMA o tempo todo.
+            Você só troca o que entra (<em>a</em>, <em>b</em>) — e ela responde com o resultado.
+            <strong>Mesmo código, entradas diferentes, saídas diferentes.</strong>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -984,7 +1207,7 @@
       <p style="color:var(--text-dim);margin-bottom:14px">
         Vamos juntar tudo que a gente já viu (input, conversão, condicional, agora função!)
         num sistema simples: o usuário digita 3 notas, a gente calcula a média e diz se passou.
-        <strong>Aprovado se média &ge; 7.</strong>
+        <strong>Aprovado se média &gt;= 7.</strong>
       </p>
 
       <div class="code-block with-lines">
@@ -1224,30 +1447,42 @@
         <span class="bug-icon">🐛</span>
         <div class="bug-content">
           <strong>O caso clássico:</strong> você cria uma variável <em>dentro</em> da função
-          e tenta usar fora. Não rola.
+          e tenta usar fora. Não rola. Olha o porquê visual:
         </div>
       </div>
 
-      <div class="code-block with-lines">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">bug_escopo.py</span>
-          <span class="lang-badge python">Python</span>
-        </div>
-        <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+      <div class="scope-viz">
+        <div class="scope-box inside">
+          <span class="scope-tag">🔒 Dentro</span>
+          <h5>O que a função enxerga</h5>
+          <p style="font-size:0.85rem;color:var(--text-dim);margin:6px 0">
+            Aqui dentro existe a variável <span class="scope-var local">resultado</span>.
+            Ela nasce, vive e <strong>morre</strong> dentro destas paredes.
+          </p>
 <pre><span class="kw">def</span> <span class="fn">calcular</span>():
-    <span class="var">resultado</span> = <span class="num">42</span>   <span class="cm"># existe SÓ dentro daqui</span>
+    <span class="var">resultado</span> = <span class="num">42</span>
+    <span class="cm"># 👆 só existe AQUI</span></pre>
+        </div>
 
-<span class="fn">calcular</span>()
-<span class="bi">print</span>(<span class="var">resultado</span>)  <span class="cm"># ❌ NameError: name 'resultado' is not defined</span></pre>
+        <div class="scope-box outside">
+          <span class="scope-tag">🌎 Fora</span>
+          <h5>O que o resto do programa enxerga</h5>
+          <p style="font-size:0.85rem;color:var(--text-dim);margin:6px 0">
+            Aqui fora, <span class="scope-var missing">resultado</span> não existe.
+            O Python procura, não acha, dispara erro.
+          </p>
+<pre><span class="fn">calcular</span>()
+<span class="bi">print</span>(<span class="var">resultado</span>)
+<span class="cm"># ❌ NameError</span></pre>
+        </div>
       </div>
 
       <div class="tip" style="margin-top:14px">
         <span class="tip-icon">💡</span>
         <div class="tip-content">
           <strong>Solução simples:</strong> use <code>return</code>! A função devolve o valor
-          e você guarda numa variável fora:
-          <code>resultado = calcular()</code>. Sem mistério.
+          e você guarda numa variável <strong>fora</strong>:
+          <code>resultado = calcular()</code>. Pronto, agora ela vive do lado de fora também.
         </div>
       </div>
     </div>
@@ -1286,7 +1521,7 @@
       <div class="concept">
         <div class="concept-title">🤝 zip() — junta duas listas em pares</div>
         <p>
-          <code>zip(["Ana","João"], [9, 6])</code> &rarr; <code>[("Ana",9), ("João",6)]</code>.
+          <code>zip(["Ana","João"], [9, 6])</code> → <code>[("Ana",9), ("João",6)]</code>.
           É tipo um zíper de calça: pega o primeiro de cada lado e une.
         </p>
       </div>
@@ -1294,7 +1529,7 @@
       <div class="concept">
         <div class="concept-title">📊 sorted() — ordena qualquer coisa</div>
         <p>
-          <code>sorted([3, 1, 2])</code> &rarr; <code>[1, 2, 3]</code>.
+          <code>sorted([3, 1, 2])</code> → <code>[1, 2, 3]</code>.
           Pra ordenar do maior pro menor, passa <code>reverse=True</code>.
         </p>
         <p>
@@ -1512,6 +1747,38 @@
   }
   tick();
   setInterval(tick, 1400);
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   PLAYGROUND — função-máquina soma(a, b)
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+  const aEl   = document.getElementById('pg-fn-a');
+  const bEl   = document.getElementById('pg-fn-b');
+  if(!aEl || !bEl) return;
+  const aVal  = document.getElementById('pg-fn-a-val');
+  const bVal  = document.getElementById('pg-fn-b-val');
+  const out   = document.getElementById('pg-fn-out');
+  const call  = document.getElementById('pg-fn-call');
+  const ret   = document.getElementById('pg-fn-ret');
+
+  window.pgFnUpdate = function(){
+    const a = parseInt(aEl.value);
+    const b = parseInt(bEl.value);
+    const r = a + b;
+    aVal.textContent = a;
+    bVal.textContent = b;
+    out.textContent  = r;
+    call.textContent = `soma(${a}, ${b})`;
+    ret.textContent  = r;
+    out.classList.add('bump');
+    setTimeout(() => out.classList.remove('bump'), 250);
+  };
+  window.pgFnPreset = function(a, b){
+    aEl.value = a; bEl.value = b;
+    window.pgFnUpdate();
+  };
+  window.pgFnUpdate();
 })();
 </script>
 </body>

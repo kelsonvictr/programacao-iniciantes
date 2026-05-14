@@ -11,6 +11,14 @@
 <style>
 /* ═════════ extras locais ao Capítulo 06 ═════════ */
 
+/* ⚠️ Desativa ligatures da JetBrains Mono — `->`, `!=`, `>=` precisam aparecer literais */
+*, .code-block pre, pre, code,
+.rule-item code, .challenge-banner code,
+.skeleton-step code, .skeleton-step .sk-name{
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
 /* Banner top de cada desafio — coral + dourado */
 .challenge-banner{
   position:relative;overflow:hidden;
@@ -178,6 +186,60 @@
   transition:transform .2s ease;
 }
 .cta-btn:hover{transform:translateY(-2px)}
+
+/* ─────────────────────────────────────────────
+   Esqueleto recorrente — 5 etapas animadas
+   ───────────────────────────────────────────── */
+.skeleton-flow{
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  gap:8px;margin:18px 0 6px;
+  align-items:stretch;
+}
+@media(max-width:780px){
+  .skeleton-flow{grid-template-columns:repeat(2,1fr);gap:10px}
+}
+@media(max-width:420px){
+  .skeleton-flow{grid-template-columns:1fr}
+}
+.skeleton-step{
+  position:relative;
+  background:var(--surface2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  padding:14px 10px 12px;
+  text-align:center;
+  opacity:0.55;
+  transition:all 0.45s ease;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.skeleton-step.active{
+  opacity:1;
+  border-color:var(--accent2);
+  background:linear-gradient(135deg,rgba(255,107,107,0.08),rgba(247,183,49,0.05));
+  transform:translateY(-3px);
+  box-shadow:0 10px 26px rgba(255,107,107,0.18);
+}
+.skeleton-step .sk-num{
+  font-family:'JetBrains Mono',monospace;font-weight:800;
+  font-size:0.7rem;letter-spacing:1.5px;
+  color:var(--text-dim);
+  background:rgba(255,255,255,0.04);
+  padding:2px 8px;border-radius:6px;
+}
+.skeleton-step.active .sk-num{
+  background:var(--accent2);color:#0a0a12;
+}
+.skeleton-step .sk-emoji{font-size:1.6rem;line-height:1}
+.skeleton-step .sk-name{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:800;font-size:0.85rem;color:var(--text);
+  line-height:1.25;
+}
+.skeleton-step .sk-desc{
+  font-size:0.74rem;color:var(--text-dim);line-height:1.4;
+}
+.skeleton-step.active .sk-name{color:var(--accent2)}
 </style>
 </head>
 <body>
@@ -326,13 +388,47 @@
       <div class="tip" style="margin-top:18px">
         <span class="tip-icon">💡</span>
         <div class="tip-content">
-          <strong>Estrutura padrão dos 5 desafios:</strong>
-          <code>menu</code> → <code>while True</code> → <code>input()</code>
-          → <code>if/elif/else</code> → <code>lista.append()</code> →
-          <code>break</code> quando 0 → <strong>resumo final</strong>.
-          Decora esse esqueleto. Os 5 problemas são variações do mesmo tema.
+          <strong>Estrutura padrão dos 5 desafios:</strong> os mesmos 5 passos se repetem,
+          só muda o cenário. Olha o esqueleto se animando aí embaixo — decora esse desenho:
         </div>
       </div>
+
+      <!-- ══ Esqueleto recorrente — 5 etapas, uma se acende por vez ══ -->
+      <div class="skeleton-flow" id="skeletonFlow">
+        <div class="skeleton-step">
+          <span class="sk-num">1</span>
+          <span class="sk-emoji">📜</span>
+          <span class="sk-name">mostrar_menu()</span>
+          <span class="sk-desc">imprime as opções</span>
+        </div>
+        <div class="skeleton-step">
+          <span class="sk-num">2</span>
+          <span class="sk-emoji">🔁</span>
+          <span class="sk-name">while True</span>
+          <span class="sk-desc">repete até alguém pedir pra sair</span>
+        </div>
+        <div class="skeleton-step">
+          <span class="sk-num">3</span>
+          <span class="sk-emoji">🔀</span>
+          <span class="sk-name">if / elif / else</span>
+          <span class="sk-desc">decide o que fazer com cada opção</span>
+        </div>
+        <div class="skeleton-step">
+          <span class="sk-num">4</span>
+          <span class="sk-emoji">📋</span>
+          <span class="sk-name">lista.append()</span>
+          <span class="sk-desc">guarda o que o usuário escolheu</span>
+        </div>
+        <div class="skeleton-step">
+          <span class="sk-num">5</span>
+          <span class="sk-emoji">🧾</span>
+          <span class="sk-name">resumo final</span>
+          <span class="sk-desc">sum / len / count → mostra o resultado</span>
+        </div>
+      </div>
+      <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:0">
+        <em>Esse mesmo desenho aparece nos 5 desafios. Mude o tema, o esqueleto fica.</em>
+      </p>
 
       <div class="warning">
         <span class="warning-icon">⏱️</span>
@@ -1302,7 +1398,7 @@ tempo_total    = <span class="bi">sum</span>(tempos)
               <span class="tip-icon">🌟</span>
               <div class="tip-content">
                 <strong>Reparou que os 5 desafios são o MESMO esqueleto?</strong>
-                <code>menu → while True → if/elif/break → resumo</code>. Mude o cenário
+                menu → <code>while True</code> → <code>if/elif/break</code> → resumo. Mude o cenário
                 e os números, e você tem: caixa de mercado, controle de estoque,
                 kanban pessoal, app de hábitos, contador de calorias…
                 <em>Você acabou de aprender um padrão que vale por 100 programas.</em>
@@ -1523,5 +1619,22 @@ tempo_total    = <span class="bi">sum</span>(tempos)
 </footer>
 
 <script src="../../shared/scripts.js" defer></script>
+<script>
+/* Esqueleto recorrente — destaca um passo por vez em loop */
+(function(){
+  const flow = document.getElementById('skeletonFlow');
+  if(!flow) return;
+  const steps = flow.querySelectorAll('.skeleton-step');
+  if(!steps.length) return;
+  let i = 0;
+  function tick(){
+    steps.forEach(s => s.classList.remove('active'));
+    steps[i].classList.add('active');
+    i = (i + 1) % steps.length;
+  }
+  tick();
+  setInterval(tick, 1100);
+})();
+</script>
 </body>
 </html>
