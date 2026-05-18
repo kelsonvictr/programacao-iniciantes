@@ -160,10 +160,48 @@ function playTerminal(term){
   next();
 }
 
+/* ---------- Generic auto-stepping sequences ----------
+   Usage:
+   <div data-seq="2000">                       // delay in ms (optional)
+     <div data-seq-step>...</div>               // gets .active one at a time
+     <div data-seq-frame="0">...</div>          // gets .on when its index is current
+   </div>
+   Starts automatically when the box scrolls into view, so the
+   iniciante never has to "discover" a button. */
+function initSeqLoops(){
+  const boxes = document.querySelectorAll('[data-seq]');
+  const obs = new IntersectionObserver((entries)=>{
+    for (const e of entries){
+      if (e.isIntersecting && !e.target.dataset.seqPlaying){
+        e.target.dataset.seqPlaying = '1';
+        playSeqLoop(e.target);
+      }
+    }
+  },{threshold:0.2});
+  boxes.forEach(b => obs.observe(b));
+}
+
+function playSeqLoop(box){
+  const steps  = [...box.querySelectorAll('[data-seq-step]')];
+  const frames = [...box.querySelectorAll('[data-seq-frame]')];
+  const count  = Math.max(steps.length, frames.length);
+  if (!count) return;
+  const delay = parseInt(box.dataset.seq) || 1600;
+  let i = 0;
+  function tick(){
+    steps.forEach((s, idx)  => s.classList.toggle('active', idx === i));
+    frames.forEach(f => f.classList.toggle('on', parseInt(f.dataset.seqFrame) === i));
+    i = (i + 1) % count;
+  }
+  tick();
+  setInterval(tick, delay);
+}
+
 /* ---------- Setup on load ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initAutoplayFlows();
+  initSeqLoops();
   initTerminals();
   updateProgress();
 

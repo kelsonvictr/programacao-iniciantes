@@ -64,6 +64,43 @@ A v1 (`programacao-iniciantes/index.html`) cobria apenas TinyDB e Streamlit em u
 
 ---
 
+## 📅 2026-05-18 — Arena de Treino Solo + motor de auto-flow genérico
+
+### Contexto
+Os capítulos 05, 06 e 07 tinham poucos exercícios "faça sozinho" (3, 5 e 4
+respectivamente) — pouco volume de prática individual. O professor pediu mais
+exercícios solo e mais didática (fluxos animados, playgrounds, "fator UAU").
+
+### Decisão
+1. **Motor de auto-flow declarativo em `shared/scripts.js`** — `initSeqLoops()`.
+   Qualquer elemento com `data-seq="<ms>"` vira um fluxo automático: filhos com
+   `data-seq-step` recebem `.active` um por vez; filhos com `data-seq-frame="N"`
+   recebem `.on` quando é a vez deles. Dispara via `IntersectionObserver`
+   (autoplay, decisão nº8). Substitui o padrão antigo de escrever um
+   `setInterval` à mão por capítulo (`reuseGrid`, `skeletonFlow`).
+2. **Componentes de "Arena" em `shared/components.css`** — `.arena-banner`,
+   `.arena-track`/`.at-dot`, `.drill-level` (selo de dificuldade ★☆☆/★★☆/★★★,
+   classes `lv1/lv2/lv3`) e `.drill-tag`. Reutilizáveis por qualquer capítulo
+   que tenha um banco de treinos solo.
+3. **Seção "Arena de Treino Solo"** padrão no fim de cada capítulo (antes do
+   projeto final / BugZilla): banner + trilha de dificuldade + 1 componente
+   auto-flow "UAU" + 6 treinos solo graduados, cada um no padrão olhinho.
+   Aplicado aos caps 05 (Cinema da Função), 06 (Ciclo do while True) e
+   07 (For percorrendo as fichas). Caps 05/06/07 foram de 3/5/4 → 9/11/10
+   exercícios solo.
+
+### Trade-offs
+- O auto-flow do componente fica em CSS local do capítulo (visual específico),
+  só o motor JS é compartilhado — aceitável: o comportamento é genérico, a
+  estética não.
+- Cap 06 ganhou treinos mais curtos (15-25 linhas) em vez de mais "desafios
+  grandes": mais repetições do mesmo esqueleto fixam melhor que poucos sistemas
+  longos.
+
+### Status: ativo
+
+---
+
 ## 📅 [próxima entrada]
 
 > Adicione aqui ao tomar uma nova decisão estrutural. Formato:
