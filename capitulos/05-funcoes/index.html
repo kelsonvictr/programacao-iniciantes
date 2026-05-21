@@ -481,7 +481,7 @@
     <a class="sidebar-link" onclick="goTo('sistema-notas')"><span class="dot" style="background:var(--accent4)"></span>Sistema de Notas</a>
     <a class="sidebar-link" onclick="goTo('sistema-notas-func')"><span class="dot" style="background:var(--accent6)"></span>Sistema de Notas (refatorado)</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
-    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent6)"></span>Arena de Funções · 6 treinos 🥷</a>
+    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent6)"></span>Arena de Funções · 12 treinos 🥷</a>
     <a class="sidebar-link" onclick="goTo('ranking')"><span class="dot" style="background:var(--accent6)"></span>Mini Projeto — Ranking 🎓</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
   </div>
@@ -1559,7 +1559,7 @@
     <span class="chapter-number">Treino Solo</span>
     <h2 class="grad-funcs">Arena de Funções</h2>
     <p class="chapter-subtitle">
-      <strong>Seis treinos curtinhos</strong> pra você fazer sozinho — do mais fácil
+      <strong>Doze treinos curtinhos</strong> pra você fazer sozinho — do mais fácil
       ao mais cabuloso. Olhinho 👀 só DEPOIS de tentar!
     </p>
   </div>
@@ -1571,7 +1571,7 @@
     <div class="arena-banner">
       <div class="ab-emoji">🥷</div>
       <div class="ab-text">
-        <div class="ab-tag">Faça sozinho · 6 treinos</div>
+        <div class="ab-tag">Faça sozinho · 12 treinos</div>
         <div class="ab-title">Virar a chave: de "vi o professor fazer" pra "EU fiz"</div>
         <div class="ab-sub">
           Cada treino é um arquivo <code>.py</code> separado. Tenta, erra, ajusta —
@@ -1586,7 +1586,13 @@
       <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
       <span class="at-dot lv2">4</span><span class="at-arrow">→</span>
       <span class="at-dot lv2">5</span><span class="at-arrow">→</span>
-      <span class="at-dot lv3">6</span>
+      <span class="at-dot lv3">6</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">7</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">8</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">9</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">10</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">11</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">12</span>
     </div>
     <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
       <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio &nbsp;·&nbsp; ★★★ cabuloso</em>
@@ -2039,7 +2045,7 @@
       <div class="concept">
         <div class="concept-title">💡 Dica para fazer sozinho</div>
         <p>
-          O boss dos treinos! Crie <code>saudacao_por_horario.py</code>. Defina uma
+          Primeiro boss da arena! Crie <code>saudacao_por_horario.py</code>. Defina uma
           função <code>saudacao(hora)</code> que recebe um número de 0 a 23.
         </p>
         <p>
@@ -2113,10 +2119,479 @@
     </div>
   </section>
 
+  <!-- ── TREINO 7 — imc.py ── -->
+  <section class="step-section" id="treino-7">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 7 — imc.py</div>
+          <div class="exercise-sub">Faça sozinho · imc.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">2 parâmetros</span>
+        <span class="drill-tag">return</span>
+        <span class="drill-tag">float</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>imc.py</code>. Defina uma função <code>imc(peso, altura)</code>
+          que <code>return</code> <code>peso / (altura * altura)</code>.
+        </p>
+        <p>
+          Fora da função, peça <strong>peso em kg</strong> e <strong>altura em metros</strong>
+          ao usuário (use <code>float()</code> — altura tem vírgula, tipo <code>1.72</code>).
+          Mostre o IMC com f-string e <code>:.2f</code> (2 casas decimais).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> É uma "calculadora" igual à do retângulo —
+          só muda a fórmula. Cuidado pra não esquecer os parênteses no
+          <code>(altura * altura)</code>.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">imc.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">def</span> <span class="fn">imc</span>(<span class="var">peso</span>, <span class="var">altura</span>):
+    <span class="kw">return</span> <span class="var">peso</span> / (<span class="var">altura</span> * <span class="var">altura</span>)
+
+<span class="var">p</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Peso (kg): "</span>))
+<span class="var">a</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Altura (m): "</span>))
+<span class="bi">print</span>(<span class="st">f"Seu IMC é {imc(p, a):.2f}"</span>)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Curiosidade:</strong> <code>altura * altura</code> e
+              <code>altura ** 2</code> dão o mesmo resultado. O <code>**</code>
+              é o operador de "elevado a" do Python.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 8 — eh_par.py ── -->
+  <section class="step-section" id="treino-8">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 8 — eh_par.py</div>
+          <div class="exercise-sub">Faça sozinho · eh_par.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">return True/False</span>
+        <span class="drill-tag">operador %</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>eh_par.py</code>. Defina <code>eh_par(n)</code> que devolve
+          <code>True</code> se <code>n</code> for par e <code>False</code> se for ímpar.
+        </p>
+        <p>
+          A "mágica" é o operador <code>%</code> (resto da divisão):
+          <code>n % 2</code> dá <code>0</code> quando o número é par.
+          Então <code>n % 2 == 0</code> JÁ é o <code>True/False</code> que você quer.
+        </p>
+        <p>
+          Teste com <code>print(eh_par(4))</code> e <code>print(eh_par(7))</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> Lembra da sacada do treino 4? Uma comparação
+          já É um booleano — não precisa de <code>if/else</code> pra devolver
+          <code>True</code> ou <code>False</code>. Uma linha só.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">eh_par.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">def</span> <span class="fn">eh_par</span>(<span class="var">n</span>):
+    <span class="kw">return</span> <span class="var">n</span> % <span class="num">2</span> == <span class="num">0</span>
+
+<span class="bi">print</span>(<span class="fn">eh_par</span>(<span class="num">4</span>))   <span class="cm"># True</span>
+<span class="bi">print</span>(<span class="fn">eh_par</span>(<span class="num">7</span>))   <span class="cm"># False</span></pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🧠</span>
+            <div class="tip-content">
+              <strong>Atenção:</strong> <code>==</code> (dois iguais) compara,
+              <code>=</code> (um só) atribui. Trocar um pelo outro é o erro mais
+              comum dos primeiros meses — fica esperto.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 9 — desconto.py ── -->
+  <section class="step-section" id="treino-9">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 9 — desconto.py</div>
+          <div class="exercise-sub">Faça sozinho · desconto.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">2 parâmetros</span>
+        <span class="drill-tag">return</span>
+        <span class="drill-tag">input</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>desconto.py</code>. Defina <code>preco_final(preco, percentual)</code>
+          que <code>return</code> <code>preco - preco * percentual / 100</code>.
+        </p>
+        <p>
+          Fora da função, peça o preço e o percentual ao usuário (ambos com
+          <code>float()</code>) e mostre o preço final com f-string e <code>:.2f</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> Dica: para 10% de desconto em R$ 50,
+          o resultado é R$ 45 — use isso pra checar se sua função tá certa.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">desconto.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">def</span> <span class="fn">preco_final</span>(<span class="var">preco</span>, <span class="var">percentual</span>):
+    <span class="kw">return</span> <span class="var">preco</span> - <span class="var">preco</span> * <span class="var">percentual</span> / <span class="num">100</span>
+
+<span class="var">p</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Preço: R$ "</span>))
+<span class="var">d</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Desconto (%): "</span>))
+<span class="bi">print</span>(<span class="st">f"Você paga R$ {preco_final(p, d):.2f}"</span>)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎯</span>
+            <div class="tip-content">
+              <strong>Atalho:</strong> daria pra escrever <code>preco * (1 - percentual / 100)</code>.
+              Mesma matemática, menos repetição. Mas se a forma longa é mais clara pra
+              <em>você</em> agora, fica com ela — clareza &gt; esperteza.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 10 — maior_de_tres.py ── -->
+  <section class="step-section" id="treino-10">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 10 — maior_de_tres.py</div>
+          <div class="exercise-sub">Faça sozinho · maior_de_tres.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">3 parâmetros</span>
+        <span class="drill-tag">if/elif/else</span>
+        <span class="drill-tag">return</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>maior_de_tres.py</code>. Defina <code>maior(a, b, c)</code>
+          que devolve o maior dos três números.
+        </p>
+        <p>
+          A lógica: se <code>a &gt;= b</code> <strong>e</strong> <code>a &gt;= c</code>,
+          o maior é <code>a</code>. Senão, se <code>b &gt;= c</code>, é <code>b</code>.
+          Senão, é <code>c</code>.
+        </p>
+        <p>
+          Use <code>and</code> pra juntar as duas comparações. Teste com
+          <code>maior(3, 7, 5)</code>, <code>maior(10, 2, 8)</code> e
+          <code>maior(1, 4, 9)</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> O segredo é o <code>and</code>:
+          ele exige que <strong>as duas</strong> comparações sejam verdadeiras ao
+          mesmo tempo. Pensa devagar, no papel se precisar.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">maior_de_tres.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="kw">def</span> <span class="fn">maior</span>(<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span>):
+    <span class="kw">if</span> <span class="var">a</span> &gt;= <span class="var">b</span> <span class="kw">and</span> <span class="var">a</span> &gt;= <span class="var">c</span>:
+        <span class="kw">return</span> <span class="var">a</span>
+    <span class="kw">elif</span> <span class="var">b</span> &gt;= <span class="var">c</span>:
+        <span class="kw">return</span> <span class="var">b</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="var">c</span>
+
+<span class="bi">print</span>(<span class="fn">maior</span>(<span class="num">3</span>, <span class="num">7</span>, <span class="num">5</span>))   <span class="cm"># 7</span>
+<span class="bi">print</span>(<span class="fn">maior</span>(<span class="num">10</span>, <span class="num">2</span>, <span class="num">8</span>))  <span class="cm"># 10</span></pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Truque ninja:</strong> o Python tem a função pronta
+              <code>max(a, b, c)</code>, que devolve o maior. Mas saber montar
+              "na unha" é o que prova que você entendeu a lógica.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 11 — conta_vogais.py ── -->
+  <section class="step-section" id="treino-11">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 11 — conta_vogais.py</div>
+          <div class="exercise-sub">Faça sozinho · conta_vogais.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">for</span>
+        <span class="drill-tag">if</span>
+        <span class="drill-tag">contador</span>
+        <span class="drill-tag">return</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>conta_vogais.py</code>. Defina <code>conta_vogais(palavra)</code>
+          que devolve <strong>quantas vogais</strong> a palavra tem.
+        </p>
+        <p>
+          Receita: comece com um contador em <code>0</code>. Use <code>for letra in palavra</code>
+          pra percorrer letra a letra. Dentro, <code>if letra in "aeiouAEIOU"</code>,
+          some <code>1</code> no contador. No final, <code>return</code> o contador.
+        </p>
+        <p>
+          Teste com <code>conta_vogais("programacao")</code> (deve dar 5).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse junta tudo:</strong> função + for + if + contador + return.
+          Se travar, lê o capítulo 04 de novo e respira. Você JÁ viu cada pedaço.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">conta_vogais.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+<pre><span class="kw">def</span> <span class="fn">conta_vogais</span>(<span class="var">palavra</span>):
+    <span class="var">total</span> = <span class="num">0</span>
+    <span class="kw">for</span> <span class="var">letra</span> <span class="kw">in</span> <span class="var">palavra</span>:
+        <span class="kw">if</span> <span class="var">letra</span> <span class="kw">in</span> <span class="st">"aeiouAEIOU"</span>:
+            <span class="var">total</span> = <span class="var">total</span> + <span class="num">1</span>
+    <span class="kw">return</span> <span class="var">total</span>
+
+<span class="bi">print</span>(<span class="fn">conta_vogais</span>(<span class="st">"programacao"</span>))   <span class="cm"># 5</span></pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🧠</span>
+            <div class="tip-content">
+              <strong>Por que <code>"aeiouAEIOU"</code>?</strong> O operador
+              <code>in</code> em uma string verifica se um caractere aparece
+              dentro dela. É um jeito curtinho de checar "é uma vogal?" sem
+              escrever 10 <code>or</code>s.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 12 — classifica_nota.py ── -->
+  <section class="step-section" id="treino-12">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 12 — classifica_nota.py</div>
+          <div class="exercise-sub">Faça sozinho · classifica_nota.py · BOSS FINAL</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">if/elif/else</span>
+        <span class="drill-tag">return</span>
+        <span class="drill-tag">input</span>
+        <span class="drill-tag">f-string</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          O BOSS FINAL! Crie <code>classifica_nota.py</code>. Defina
+          <code>classifica(nota)</code> que devolve a letra do conceito:
+        </p>
+        <ul style="color:var(--text-dim);margin:6px 0 6px 22px;line-height:1.8">
+          <li>nota <code>&gt;= 90</code> → <code>return "A"</code></li>
+          <li>nota <code>&gt;= 75</code> → <code>return "B"</code></li>
+          <li>nota <code>&gt;= 60</code> → <code>return "C"</code></li>
+          <li>nota <code>&gt;= 40</code> → <code>return "D"</code></li>
+          <li>senão → <code>return "F"</code></li>
+        </ul>
+        <p>
+          Fora da função, peça a nota ao usuário com <code>float(input(...))</code>,
+          chame <code>classifica</code> e mostre algo tipo
+          <code>"Nota 82 → conceito B"</code> com f-string.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse é o boss final da arena.</strong> A ordem dos
+          <code>elif</code> importa: precisa ir do MAIOR pro MENOR. Se inverter,
+          todo mundo vira "D". Pensa por quê.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">classifica_nota.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre><span class="kw">def</span> <span class="fn">classifica</span>(<span class="var">nota</span>):
+    <span class="kw">if</span> <span class="var">nota</span> &gt;= <span class="num">90</span>:
+        <span class="kw">return</span> <span class="st">"A"</span>
+    <span class="kw">elif</span> <span class="var">nota</span> &gt;= <span class="num">75</span>:
+        <span class="kw">return</span> <span class="st">"B"</span>
+    <span class="kw">elif</span> <span class="var">nota</span> &gt;= <span class="num">60</span>:
+        <span class="kw">return</span> <span class="st">"C"</span>
+    <span class="kw">elif</span> <span class="var">nota</span> &gt;= <span class="num">40</span>:
+        <span class="kw">return</span> <span class="st">"D"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="st">"F"</span>
+
+<span class="var">n</span> = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota (0-100): "</span>))
+<span class="bi">print</span>(<span class="st">f"Nota {n} → conceito {classifica(n)}"</span>)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Por que a ordem importa?</strong> Se você colocar
+              <code>nota &gt;= 40</code> primeiro, uma nota <code>95</code> já
+              cai ali e devolve <code>"D"</code> — nunca chega no <code>"A"</code>.
+              No <code>if/elif</code>, o Python <strong>para no primeiro que bater</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="step-section">
     <div class="repeat-relief" style="text-align:center">
       <h4 style="font-family:'Caveat',cursive;font-size:1.9rem;color:var(--accent7);margin-bottom:6px">
-        "Fez os 6 treinos? Então você não 'viu' funções — você SABE funções."
+        "Fez os 12 treinos? Então você não 'viu' funções — você SABE funções."
       </h4>
       <p style="color:var(--text-dim);font-size:0.95rem">
         Agora sim, bora pro Mini Projeto Final com a base firme. 🎓
