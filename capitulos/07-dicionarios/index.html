@@ -465,6 +465,31 @@ aluno = {
         </p>
       </div>
 
+      <p style="margin:18px 0 6px;color:var(--text-dim)">
+        Bora ver lado a lado <strong>os mesmos dados</strong> em uma lista e em um dicionário:
+      </p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0">
+        <div class="card" style="margin:0;padding:14px">
+          <div style="font-weight:700;color:var(--accent5);margin-bottom:8px">📋 Lista</div>
+<pre style="margin:0;font-size:0.9rem"><span class="cm"># quem é quem?</span>
+aluno = [<span class="st">"Kelson"</span>, <span class="num">33</span>, <span class="st">"Python"</span>]
+<span class="bi">print</span>(aluno[<span class="num">1</span>])  <span class="cm"># 33 (sei lá o quê)</span></pre>
+          <p style="margin:10px 0 0;font-size:0.88rem;color:var(--text-dim)">
+            Você precisa <em>decorar</em> que a posição 1 é a idade. 😵
+          </p>
+        </div>
+        <div class="card" style="margin:0;padding:14px;border:1px solid rgba(108,99,255,0.35)">
+          <div style="font-weight:700;color:var(--accent6);margin-bottom:8px">📒 Dicionário</div>
+<pre style="margin:0;font-size:0.9rem"><span class="cm"># cada dado com seu nome</span>
+aluno = {<span class="st">"nome"</span>:<span class="st">"Kelson"</span>, <span class="st">"idade"</span>:<span class="num">33</span>, <span class="st">"curso"</span>:<span class="st">"Python"</span>}
+<span class="bi">print</span>(aluno[<span class="st">"idade"</span>])  <span class="cm"># 33 (idade!)</span></pre>
+          <p style="margin:10px 0 0;font-size:0.88rem;color:var(--text-dim)">
+            Você lê pelo <em>nome</em>. Muito mais claro. ✨
+          </p>
+        </div>
+      </div>
+
       <p style="margin:14px 0 6px;color:var(--text-dim)">Outras analogias do mundo real:</p>
       <div class="reveal-stagger" style="display:grid;gap:10px">
         <div class="tip">
@@ -478,6 +503,52 @@ aluno = {
         <div class="tip">
           <span class="tip-icon">🎫</span>
           <div class="tip-content"><strong>Carteirinha de aluno:</strong> "Curso → Python", "Turma → A", "Matrícula → 042".</div>
+        </div>
+      </div>
+
+      <!-- ══ MINI-EXERCÍCIO A: monte seu personagem ══ -->
+      <div class="exercise solo" style="margin-top:18px">
+        <div class="exercise-header">
+          <span class="exercise-icon">✍️</span>
+          <div>
+            <div class="exercise-title">Mini-treino — meu_perfil.py</div>
+            <div class="exercise-sub">2 minutos · só pra digitar seu primeiro dict</div>
+          </div>
+        </div>
+        <div class="concept">
+          <div class="concept-title">💡 Sua vez!</div>
+          <p>
+            Crie um arquivo <code>meu_perfil.py</code> e monte um dicionário com
+            <strong>3 chaves sobre você</strong>: nome, idade e um hobby.
+            Depois dê um <code>print(perfil)</code> e veja como o Python mostra tudo junto.
+          </p>
+        </div>
+        <div class="try-first">
+          <div class="try-first-icon">🚨</div>
+          <div class="try-first-content">
+            <strong>Tente sozinho primeiro!</strong> É um dicionário só, com 3 chaves. Você já viu o modelo aí em cima.
+          </div>
+        </div>
+        <div class="toggler">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Espia só depois de tentar</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">meu_perfil.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+<pre>perfil = {
+    <span class="st">"nome"</span>:  <span class="st">"Maria"</span>,
+    <span class="st">"idade"</span>: <span class="num">20</span>,
+    <span class="st">"hobby"</span>: <span class="st">"desenhar"</span>,
+}
+<span class="bi">print</span>(perfil)</pre>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -663,6 +734,66 @@ aluno = {<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: 
             Dicionário não perdoa typo!
           </div>
         </div>
+
+        <div class="tip" style="margin-top:8px;background:rgba(6,214,160,0.08)">
+          <span class="tip-icon">🛟</span>
+          <div class="tip-content">
+            <strong>Spoiler:</strong> existe uma forma <em>segura</em> de pedir uma chave que talvez
+            não exista, sem quebrar o programa — chama <code>.get()</code>.
+            A gente vai usar ela na <strong>Arena</strong>, mais pra frente. Por enquanto,
+            só saiba que ela existe. 😉
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MINI-EXERCÍCIO B: ficha de filme ══ -->
+    <div class="exercise solo" style="margin-top:18px">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎬</span>
+        <div>
+          <div class="exercise-title">Mini-treino — ficha_filme.py</div>
+          <div class="exercise-sub">3 minutos · pratica acessar pela chave</div>
+        </div>
+      </div>
+      <div class="concept">
+        <div class="concept-title">💡 Sua vez!</div>
+        <p>
+          Crie um dicionário <code>filme</code> com as chaves
+          <code>"titulo"</code>, <code>"ano"</code> e <code>"diretor"</code>
+          (use um filme que você gosta). Depois imprima usando
+          <strong>f-string</strong> algo tipo:
+          <em>"Matrix (1999), dirigido por Wachowski"</em>.
+        </p>
+      </div>
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente antes de espiar!</strong> Você acabou de ver no playground como
+          ler pela chave: <code>filme["titulo"]</code>. É só usar isso dentro do f-string.
+        </div>
+      </div>
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Espia só depois de tentar</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">ficha_filme.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre>filme = {
+    <span class="st">"titulo"</span>:  <span class="st">"Matrix"</span>,
+    <span class="st">"ano"</span>:     <span class="num">1999</span>,
+    <span class="st">"diretor"</span>: <span class="st">"Wachowski"</span>,
+}
+
+<span class="bi">print</span>(<span class="st">f"{filme['titulo']} ({filme['ano']}), dirigido por {filme['diretor']}"</span>)</pre>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -683,17 +814,38 @@ aluno = {<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: 
 
     <div class="card">
       <p>
-        Aqui tem uma sacada legal: a sintaxe pra <strong>atualizar</strong> um valor e pra
-        <strong>adicionar</strong> uma chave nova é <strong>a mesma</strong>:
+        Antes de te mostrar o código, <strong>chuta:</strong> dado um dicionário
+        <code>aluno = {"nome": "Kelson", "idade": 33, "curso": "Python"}</code>,
+        como você faria pra mudar a idade de <code>33</code> pra <code>34</code>?
+        E pra <em>adicionar</em> uma chave <code>"telefone"</code> que ainda não existe?
       </p>
 
-      <div class="code-block with-lines">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">atualizar.py</span>
-          <span class="lang-badge python">Python</span>
+      <div class="try-first">
+        <div class="try-first-icon">🤔</div>
+        <div class="try-first-content">
+          <strong>Pensa 30 segundos antes de abrir!</strong> Lembra como você lê uma chave:
+          <code>aluno["idade"]</code>. Será que dá pra usar <code>=</code> nisso?
         </div>
-        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Mostrar a resposta</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <p style="margin:6px 0 10px">
+            Sacada legal: a sintaxe pra <strong>atualizar</strong> um valor e pra
+            <strong>adicionar</strong> uma chave nova é <strong>a mesma</strong>:
+          </p>
+
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">atualizar.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
 <pre>aluno = {<span class="st">"nome"</span>: <span class="st">"Kelson"</span>, <span class="st">"idade"</span>: <span class="num">33</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>}
 
 <span class="cm"># ATUALIZAR — a chave 'idade' já existe, então só sobrescreve</span>
@@ -703,7 +855,7 @@ aluno[<span class="st">"idade"</span>] = <span class="num">34</span>
 aluno[<span class="st">"telefone"</span>] = <span class="st">"99999-1234"</span>
 
 <span class="bi">print</span>(aluno)</pre>
-      </div>
+          </div>
 
       <div class="terminal">
         <div class="terminal-header">
@@ -748,6 +900,8 @@ aluno[<span class="st">"telefone"</span>] = <span class="st">"99999-1234"</span>
         <div class="tip-content">
           <strong>Regra simples:</strong> se a chave já existir, o Python <em>atualiza</em>.
           Se não existir, ele <em>cria</em>. Sem stress, sem método especial.
+        </div>
+      </div>
         </div>
       </div>
     </div>
