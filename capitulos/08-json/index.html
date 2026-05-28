@@ -238,6 +238,7 @@
     <a class="sidebar-link" onclick="goTo('with-open')"><span class="dot" style="background:var(--accent6)"></span>with open()</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
     <a class="sidebar-link" onclick="goTo('quiz-fixacao')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Fixação</a>
+    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent6)"></span>Arena de JSON · 6 treinos 💾</a>
     <a class="sidebar-link" onclick="goTo('desafio-final')"><span class="dot" style="background:var(--accent6)"></span>Desafio · cadastro JSON</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo + ponte</a>
   </div>
@@ -645,8 +646,8 @@
     <span class="chapter-number">Hora de Persistir</span>
     <h2 class="grad-json">Bora salvar de verdade!</h2>
     <p class="chapter-subtitle">
-      Dois exercícios guiados juntos — primeiro a gente <strong>salva</strong>, depois <strong>lê</strong>.
-      No final, um desafio solo épico pra unir tudo.
+      Primeiro dois exercícios guiados juntos — a gente <strong>salva</strong> e depois <strong>lê</strong>.
+      Depois <strong>6 treinos sozinho</strong> na Arena de JSON. E no final, um desafio solo épico pra unir tudo.
     </p>
   </div>
 
@@ -1079,6 +1080,619 @@ alunos = [
           <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) require("json")</button>
         </div>
         <div class="quiz-feedback" data-explain="json é módulo built-in (já vem com Python). Só precisa de import json no topo do arquivo. Sem isso, NameError na certa."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       9b. ARENA DE JSON — 6 treinos solo (olhinho 👀)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="arena-solo">
+    <div class="arena-banner">
+      <div class="ab-emoji">💾</div>
+      <div class="ab-text">
+        <div class="ab-tag">Faça sozinho · 6 treinos</div>
+        <div class="ab-title">De "vi o professor salvar" para "eu salvo e leio no automático"</div>
+        <div class="ab-sub">
+          Cada treino é um arquivo <code>.py</code> separado. Tenta, roda, erra, ajusta —
+          e só abre o olhinho 👀 depois de dar o seu melhor. Eles vão subindo de
+          dificuldade até te deixar pronto pro desafio final.
+        </div>
+      </div>
+    </div>
+
+    <div class="arena-track">
+      <span class="at-dot lv1">1</span><span class="at-arrow">→</span>
+      <span class="at-dot lv1">2</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">4</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">5</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">6</span>
+    </div>
+    <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
+      <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio &nbsp;·&nbsp; ★★★ cabuloso</em>
+    </p>
+
+    <div class="tip" style="margin-top:14px">
+      <span class="tip-icon">🧭</span>
+      <div class="tip-content">
+        <strong>Roteiro:</strong> os treinos 1 e 2 são as duas metades da mágica
+        (<code>json.dump</code> salva, <code>json.load</code> lê). Do 3 em diante a gente
+        junta tudo: lista de dicts, ler-modificar-salvar, e tratar "arquivo não existe".
+        O treino 6 é o que faz o queixo cair. 😏
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 1 — salvar_perfil.py ── -->
+  <section class="step-section" id="treino-1">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 1 — salvar_perfil.py</div>
+          <div class="exercise-sub">Faça sozinho · salvar_perfil.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">import json</span>
+        <span class="drill-tag">json.dump</span>
+        <span class="drill-tag">modo "w"</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie o arquivo <code>salvar_perfil.py</code>. No topo, sempre,
+          <code>import json</code>. Monte um dicionário <code>perfil</code> com SEUS dados:
+          <code>"nome"</code>, <code>"idade"</code> e <code>"cidade"</code>.
+        </p>
+        <p>
+          Agora salva ele: abre um arquivo <code>perfil.json</code> no modo <code>"w"</code>
+          (escrita) com <code>with open(...)</code> e chama
+          <code>json.dump(perfil, arquivo)</code>. Não esquece dos extras que deixam o JSON
+          bonito: <code>indent=4</code> e <code>ensure_ascii=False</code> (pra acento não virar bagunça).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É a primeira metade da mágica —
+          só salvar. Roda e confere: apareceu um <code>perfil.json</code> ao lado do seu código?
+          <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">salvar_perfil.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+<pre><span class="kw">import</span> json
+
+<span class="cm"># meu perfil como um dicionário</span>
+perfil = {
+    <span class="st">"nome"</span>: <span class="st">"Ana"</span>,
+    <span class="st">"idade"</span>: <span class="num">22</span>,
+    <span class="st">"cidade"</span>: <span class="st">"João Pessoa"</span>,
+}
+
+<span class="cm"># salva o dict no arquivo perfil.json</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"perfil.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+    json.dump(perfil, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
+
+<span class="bi">print</span>(<span class="st">"✅ Perfil salvo em perfil.json!"</span>)</pre>
+          </div>
+          <div class="json-file">
+            <span class="ic">📄</span>
+            <div>
+              <div class="nm">perfil.json (gerado)</div>
+              <div class="desc">abre ele no PyCharm — vai ver seus dados em texto, bonitinho com a identação</div>
+            </div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Repara:</strong> você salvou UM dicionário (não uma lista). JSON salva
+              os dois numerais — dict <code>{ }</code> ou lista <code>[ ]</code> — sem reclamar.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 2 — ler_perfil.py ── -->
+  <section class="step-section" id="treino-2">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 2 — ler_perfil.py</div>
+          <div class="exercise-sub">Faça sozinho · ler_perfil.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">json.load</span>
+        <span class="drill-tag">modo "r"</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Agora a outra metade. Crie um arquivo <strong>novo</strong>,
+          <code>ler_perfil.py</code>, que vai resgatar o que o Treino 1 salvou.
+        </p>
+        <p>
+          Abre o <code>perfil.json</code> no modo <code>"r"</code> (leitura) e chama
+          <code>json.load(arquivo)</code>. O que volta é um <strong>dict normal</strong> —
+          aí é só ler as chaves com colchetes (<code>perfil["nome"]</code>) e mostrar no
+          <code>print()</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> Rode o Treino 1 antes (pra existir o arquivo).
+          Se aparecer <code>FileNotFoundError</code>, é porque o <code>perfil.json</code>
+          ainda não foi criado. <strong>Você consegue!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">ler_perfil.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="kw">import</span> json
+
+<span class="cm"># abre o arquivo em modo leitura ("r")</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"perfil.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+    perfil = json.load(arquivo)
+
+<span class="cm"># agora 'perfil' é um dict normal — usa como sempre</span>
+<span class="bi">print</span>(<span class="st">"Nome:"</span>, perfil[<span class="st">"nome"</span>])
+<span class="bi">print</span>(<span class="st">"Idade:"</span>, perfil[<span class="st">"idade"</span>])
+<span class="bi">print</span>(<span class="st">"Cidade:"</span>, perfil[<span class="st">"cidade"</span>])</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · ler_perfil.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="typed" data-text="Nome: Ana"></span><br>
+              <span class="typed" data-text="Idade: 22"></span><br>
+              <span class="typed" data-text="Cidade: João Pessoa"></span><span class="cursor"></span>
+            </div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🆚</span>
+            <div class="tip-content">
+              <strong>Treino 1 + Treino 2 = a mágica completa.</strong>
+              <code>dump</code> despejou no arquivo, <code>load</code> carregou de volta.
+              Fechou o programa entre um e outro — e os dados sobreviveram. 💾
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 3 — playlist.py ── -->
+  <section class="step-section" id="treino-3">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 3 — playlist.py</div>
+          <div class="exercise-sub">Faça sozinho · playlist.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">lista de dicts</span>
+        <span class="drill-tag">dump + load</span>
+        <span class="drill-tag">for</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>playlist.py</code>. Monte uma <strong>lista de dicionários</strong>
+          chamada <code>playlist</code> — cada música é um dict com <code>"titulo"</code>
+          e <code>"artista"</code>. (Lembra da lista de fichas do Cap 07? É igualzinho.)
+        </p>
+        <p>
+          Faça o <strong>round-trip completo</strong> no mesmo arquivo: primeiro
+          <strong>salva</strong> a lista com <code>json.dump</code> (modo <code>"w"</code>),
+          depois <strong>lê</strong> de volta com <code>json.load</code> (modo <code>"r"</code>)
+          e percorre o resultado com um <code>for</code>, imprimindo cada música.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> Aqui você junta lista de dicts + as duas funções
+          de JSON num arquivo só. Se travar, volta no <code>salvar_dados.py</code> guiado —
+          a estrutura é a mesma. <strong>Vai com calma e tenta 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">playlist.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div>
+<pre><span class="kw">import</span> json
+
+<span class="cm"># lista de músicas (lista de dicionários)</span>
+playlist = [
+    {<span class="st">"titulo"</span>: <span class="st">"Tempo Perdido"</span>,     <span class="st">"artista"</span>: <span class="st">"Legião Urbana"</span>},
+    {<span class="st">"titulo"</span>: <span class="st">"Garota de Ipanema"</span>, <span class="st">"artista"</span>: <span class="st">"Tom Jobim"</span>},
+]
+
+<span class="cm"># salva a lista inteira no arquivo</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"playlist.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+    json.dump(playlist, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
+
+<span class="cm"># lê de volta e percorre com for</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"playlist.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+    musicas = json.load(arquivo)
+
+<span class="kw">for</span> m <span class="kw">in</span> musicas:
+    <span class="bi">print</span>(<span class="st">f"🎵 {m['titulo']} — {m['artista']}"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · playlist.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="typed" data-text="🎵 Tempo Perdido — Legião Urbana"></span><br>
+              <span class="typed" data-text="🎵 Garota de Ipanema — Tom Jobim"></span><span class="cursor"></span>
+            </div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🔁</span>
+            <div class="tip-content">
+              <strong>Cada volta do <code>for</code> te entrega UMA música completa</strong>
+              (um dict inteiro). Aí dentro você lê os campos com <code>m["titulo"]</code> e
+              <code>m["artista"]</code> — exatamente como no Cap 07, só que agora os dados
+              vieram de um arquivo. 😎
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 4 — adicionar_tarefa.py ── -->
+  <section class="step-section" id="treino-4">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 4 — adicionar_tarefa.py</div>
+          <div class="exercise-sub">Faça sozinho · adicionar_tarefa.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">ler → modificar → salvar</span>
+        <span class="drill-tag">append</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Esse é o padrão mais importante do capítulo: <strong>ler → modificar → salvar</strong>.
+          Crie <code>adicionar_tarefa.py</code>.
+        </p>
+        <p>
+          <strong>Antes de rodar</strong>, crie na mão um arquivo <code>tarefas.json</code>
+          com só <code>[]</code> dentro (uma lista vazia — lembra do BugZilla bug #2? arquivo
+          em branco quebra o <code>load</code>).
+        </p>
+        <p>
+          No código: <strong>1)</strong> abre o <code>tarefas.json</code> em <code>"r"</code> e
+          <code>json.load</code> pra uma lista; <strong>2)</strong> pede uma tarefa nova com
+          <code>input()</code> e dá <code>append</code> nela; <strong>3)</strong> abre de novo
+          em <code>"w"</code> e salva a lista atualizada com <code>json.dump</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> Roda umas 3 vezes adicionando tarefas diferentes
+          e abre o <code>tarefas.json</code> pra ver a lista crescendo a cada execução.
+          <strong>Esse acúmulo entre execuções é o pulo do gato!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">adicionar_tarefa.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
+<pre><span class="kw">import</span> json
+
+<span class="cm"># 1. lê a lista de tarefas que já está no arquivo</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"tarefas.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+    tarefas = json.load(arquivo)
+
+<span class="cm"># 2. adiciona uma tarefa nova na lista</span>
+nova = <span class="bi">input</span>(<span class="st">"Nova tarefa: "</span>)
+tarefas.append(nova)
+
+<span class="cm"># 3. salva a lista atualizada de volta no MESMO arquivo</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"tarefas.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+    json.dump(tarefas, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
+
+<span class="bi">print</span>(<span class="st">f"✅ Agora você tem {len(tarefas)} tarefa(s) salvas."</span>)</pre>
+          </div>
+          <div class="warning" style="margin-top:14px">
+            <span class="warning-icon">⚠️</span>
+            <div class="warning-content">
+              <strong>Por que abrir o arquivo DUAS vezes?</strong> Uma pra ler (<code>"r"</code>)
+              e outra pra escrever (<code>"w"</code>). Não dá pra fazer os dois com a mesma
+              abertura. Primeiro você puxa o que já existe, mexe na lista, e só então grava tudo de novo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 5 — carrega_seguro.py ── -->
+  <section class="step-section" id="treino-5">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 5 — carrega_seguro.py</div>
+          <div class="exercise-sub">Faça sozinho · carrega_seguro.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">try / except</span>
+        <span class="drill-tag">FileNotFoundError</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          No Treino 4 você teve que criar o arquivo na mão pra não quebrar. Chato, né?
+          Aqui você vai resolver isso de vez com <code>try / except FileNotFoundError</code>.
+        </p>
+        <p>
+          Crie <code>carrega_seguro.py</code>. Dentro do <code>try</code>, tenta abrir
+          <code>config.json</code> em <code>"r"</code> e carregar com <code>json.load</code>.
+          No <code>except FileNotFoundError</code> (quando o arquivo NÃO existe ainda),
+          em vez de quebrar, começa com uma configuração padrão — tipo
+          <code>{"tema": "claro", "idioma": "pt-br"}</code>.
+        </p>
+        <p>
+          No fim, dê <code>print()</code> no <code>config</code> pra ver qual dos dois rolou.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>Tente sozinho!</strong> Roda <strong>sem</strong> o arquivo existir
+          (cai no <code>except</code>, usa o padrão). Depois cria um <code>config.json</code>
+          na mão e roda de novo (cai no <code>try</code>, carrega o arquivo).
+          <strong>Vê os dois caminhos! 👀</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">carrega_seguro.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre><span class="kw">import</span> json
+
+<span class="cm"># tenta carregar as configurações salvas</span>
+<span class="kw">try</span>:
+    <span class="kw">with</span> <span class="bi">open</span>(<span class="st">"config.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
+        config = json.load(arquivo)
+    <span class="bi">print</span>(<span class="st">"⚙️ Configurações carregadas do arquivo!"</span>)
+<span class="kw">except</span> <span class="tp">FileNotFoundError</span>:
+    config = {<span class="st">"tema"</span>: <span class="st">"claro"</span>, <span class="st">"idioma"</span>: <span class="st">"pt-br"</span>}
+    <span class="bi">print</span>(<span class="st">"🆕 Primeira vez — usando configuração padrão."</span>)
+
+<span class="bi">print</span>(config)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🛡️</span>
+            <div class="tip-content">
+              <strong>Esse é o "cinto de segurança" do JSON.</strong> Em vez de o programa
+              explodir na primeira execução (quando o arquivo ainda não existe), ele
+              calmamente começa com um valor padrão. É EXATAMENTE essa proteção que o
+              desafio final vai usar. 😉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 6 — contador_execucoes.py (cabuloso, WOW) ── -->
+  <section class="step-section" id="treino-6">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🔥</span>
+        <div>
+          <div class="exercise-title">Treino 6 — contador_execucoes.py</div>
+          <div class="exercise-sub">Faça sozinho · contador_execucoes.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">try / except</span>
+        <span class="drill-tag">ler → +1 → salvar</span>
+        <span class="drill-tag">memória entre execuções</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          O treino que faz o queixo cair: um programa que <strong>lembra quantas vezes
+          já foi executado</strong>. Crie <code>contador_execucoes.py</code>.
+        </p>
+        <p>
+          Junta TUDO que você treinou:
+          <strong>1)</strong> tenta ler <code>contador.json</code> num <code>try</code>;
+          se não existir (<code>except FileNotFoundError</code>), começa com
+          <code>{"execucoes": 0}</code>.
+          <strong>2)</strong> soma 1 no contador:
+          <code>dados["execucoes"] = dados["execucoes"] + 1</code>.
+          <strong>3)</strong> salva de volta com <code>json.dump</code> e mostra o número.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE e tente!</strong> O segredo do "AHA!" aqui é
+          <strong>rodar o programa 3, 4, 5 vezes seguidas</strong> e ver o número subir
+          sozinho a cada execução — mesmo fechando tudo no meio. Seu programa virou um
+          que <em>não esquece</em>. <strong>Tenta antes de espiar 👀!</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">contador_execucoes.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19</div>
+<pre><span class="kw">import</span> json
+
+ARQUIVO = <span class="st">"contador.json"</span>
+
+<span class="cm"># 1. lê quantas vezes já rodou (ou começa do zero na 1ª vez)</span>
+<span class="kw">try</span>:
+    <span class="kw">with</span> <span class="bi">open</span>(ARQUIVO, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+        dados = json.load(f)
+<span class="kw">except</span> <span class="tp">FileNotFoundError</span>:
+    dados = {<span class="st">"execucoes"</span>: <span class="num">0</span>}
+
+<span class="cm"># 2. soma mais uma execução</span>
+dados[<span class="st">"execucoes"</span>] = dados[<span class="st">"execucoes"</span>] + <span class="num">1</span>
+
+<span class="cm"># 3. salva de volta no arquivo</span>
+<span class="kw">with</span> <span class="bi">open</span>(ARQUIVO, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    json.dump(dados, f, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
+
+<span class="bi">print</span>(<span class="st">f"🚀 Você já rodou este programa {dados['execucoes']} vez(es)!"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">rodando 3 vezes seguidas · contador_execucoes.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">$ python contador_execucoes.py</span><br>
+              <span class="typed" data-text="🚀 Você já rodou este programa 1 vez(es)!"></span><br>
+              <span class="out">$ python contador_execucoes.py</span><br>
+              <span class="typed" data-text="🚀 Você já rodou este programa 2 vez(es)!"></span><br>
+              <span class="out">$ python contador_execucoes.py</span><br>
+              <span class="typed" data-text="🚀 Você já rodou este programa 3 vez(es)!"></span><span class="cursor"></span>
+            </div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🤯</span>
+            <div class="tip-content">
+              <strong>Sentiu o poder?</strong> O número NÃO está numa variável (essa zeraria
+              a cada execução) — ele mora no <code>contador.json</code>, no disco. Por isso
+              sobrevive entre execuções. É a mesma ideia que faz um jogo lembrar seu recorde
+              ou um app lembrar suas configurações. 🎮
+            </div>
+          </div>
+          <div class="warning" style="margin-top:8px">
+            <span class="warning-icon">🐛</span>
+            <div class="warning-content">
+              <strong>BugZilla cochichando:</strong> repara que aqui a gente NÃO precisou criar
+              o arquivo na mão (como no Treino 4). O <code>try / except</code> resolve a primeira
+              execução sozinho. Esperto, né?
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
