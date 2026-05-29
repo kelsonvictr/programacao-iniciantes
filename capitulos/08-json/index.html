@@ -707,7 +707,7 @@ alunos = [
 ]
 
 <span class="cm"># 2. abre o arquivo em modo escrita ("w") e salva</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"alunos.json"</span>, <span class="st">"w"</span>) <span class="kw">as</span> arquivo:
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"alunos.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
     json.dump(alunos, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
 
 <span class="bi">print</span>(<span class="st">"✅ Dados salvos em alunos.json!"</span>)</pre>
@@ -764,6 +764,16 @@ alunos = [
           <strong>Reparou nos extras?</strong>
           <code>indent=4</code> deixa o JSON <em>bonitinho</em> com identação (sem isso, vira uma linha só horrível).
           <code>ensure_ascii=False</code> permite acentos e emojis no arquivo (sem isso, "João" virava <code>"João"</code> — feio).
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🪟</span>
+        <div class="warning-content">
+          <strong>Sempre passe <code>encoding="utf-8"</code> no <code>open()</code> — tanto pra salvar quanto pra ler.</strong>
+          No Mac/Linux costuma funcionar sem ele, mas <strong>no Windows o padrão NÃO é UTF-8</strong>:
+          sem o <code>encoding="utf-8"</code>, nomes com acento ("João", "José", "coração") podem
+          quebrar ou virar caracteres estranhos no arquivo. Coloca sempre e durma tranquilo. 😴
         </div>
       </div>
 
