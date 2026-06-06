@@ -11,6 +11,13 @@
 <style>
 /* extras locais ao capítulo 09 — TinyDB */
 
+/* ⚠️ Desativa ligatures da JetBrains Mono — `->`, `!=`, `>=`, `==`
+   precisam aparecer como caracteres separados pro aluno copiar certo. */
+*, pre, code, .code-block pre, .terminal, .terminal-body{
+  font-variant-ligatures:none;
+  font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+
 /* db-table — visualizador de banco em formato tabela */
 .db-table{
   background:var(--surface2);
@@ -153,6 +160,8 @@
     <a class="sidebar-link" onclick="goTo('tabelas')"><span class="dot" style="background:var(--accent5)"></span>Tabelas</a>
     <a class="sidebar-link" onclick="goTo('demo')"><span class="dot" style="background:var(--accent3)"></span>Demo Interativa</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
+    <a class="sidebar-link" onclick="goTo('quiz-fixacao')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Fixação</a>
+    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent7)"></span>Arena · 5 treinos 💾</a>
     <a class="sidebar-link" onclick="goTo('desafio')"><span class="dot" style="background:var(--accent6)"></span>Desafio Prático</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
   </div>
@@ -809,6 +818,42 @@ db.<span class="fn">remove</span>(q.nome == <span class="st">"João"</span>)
         </p>
       </div>
 
+      <p style="margin:6px 0 2px">
+        Olha a <strong>vida inteira de um registro</strong> dentro do <code>alunos.json</code> —
+        nasce, é lido, muda e some, tudo com uma linha cada:
+      </p>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-output">
+          <div class="label"><span class="crud-badge create">CREATE</span></div>
+          <div>➕ <code>db.insert({"nome": "Ana"})</code></div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">nasce no arquivo</span></div>
+
+        <div class="flow-box fb-input">
+          <div class="label"><span class="crud-badge read">READ</span></div>
+          <div>🔍 <code>db.search(q.nome == "Ana")</code></div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">achei a Ana!</span></div>
+
+        <div class="flow-box fb-process">
+          <div class="label"><span class="crud-badge update">UPDATE</span></div>
+          <div>✏️ <code>db.update({"idade": 23}, q.nome == "Ana")</code></div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">só a idade mudou</span></div>
+
+        <div class="flow-box fb-bug">
+          <div class="label"><span class="crud-badge delete">DELETE</span></div>
+          <div>🗑️ <code>db.remove(q.nome == "Ana")</code></div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">sumiu do disco</span></div>
+
+        <div class="flow-box fb-py">
+          <div class="label">📄 alunos.json</div>
+          <div>💾 sempre salvo no disco, a cada passo</div>
+        </div>
+      </div>
+
       <div class="db-table">
         <div class="db-table-header">🐍 CRUD com TinyDB · cheat sheet</div>
         <table>
@@ -1060,7 +1105,7 @@ professores.<span class="fn">insert</span>({<span class="st">"nome"</span>: <spa
         <span class="bugzilla-emoji">🐛</span>
         <div>
           <div class="bugzilla-title">BugZilla: "ah, esses bugs de Query… meu favorito!"</div>
-          <div class="bugzilla-sub">Três tropeços que TODO MUNDO comete na primeira semana de TinyDB</div>
+          <div class="bugzilla-sub">Quatro tropeços que TODO MUNDO comete na primeira semana de TinyDB</div>
         </div>
       </div>
       <div class="bugzilla-body">
@@ -1162,12 +1207,505 @@ db.<span class="fn">search</span>((q.curso == <span class="st">"Python"</span>) 
       </div>
     </div>
 
+    <!-- Bug #4: esquecer o import -->
+    <div class="card">
+      <h3>🐞 Bug #4 — Esquecer o <code>import</code> (NameError)</h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">bug_import.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+<pre><span class="cm"># ❌ ERRADO: usou TinyDB e Query sem importar</span>
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+<span class="cm"># NameError: name 'TinyDB' is not defined</span>
+
+<span class="cm"># ✅ CERTO: sempre a primeira linha do arquivo</span>
+<span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query</pre>
+      </div>
+
+      <div class="bug-box">
+        <span class="bug-icon">🐛</span>
+        <div class="bug-content">
+          <strong>NameError</strong> quer dizer "esse nome não existe aqui". Quase sempre é
+          <strong>import esquecido</strong> (ou escrito errado). Toda vez que usar <code>TinyDB</code> ou
+          <code>Query</code>, confirme que a primeira linha do arquivo é o <code>from tinydb import ...</code>.
+        </div>
+      </div>
+    </div>
+
     <div class="tip">
       <span class="tip-icon">📖</span>
       <div class="tip-content">
         <strong>Hábito de ouro (de novo):</strong> quando der erro, leia a mensagem.
         90% dos erros de TinyDB começam com <code>AttributeError</code> (esqueceu o <code>()</code> do Query)
         ou <code>TypeError</code> (combinou queries com <code>and</code>). Já sabe onde olhar!
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       13b. QUIZ DE FIXAÇÃO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="quiz-fixacao">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🧩</div>
+      <div>
+        <div class="step-title">Quiz de Fixação</div>
+        <div class="step-sub">Antes da arena, confirma se o CRUD entrou na cabeça</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Você quer mudar SÓ a idade da Ana, sem tocar no resto. Qual método?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) <code>db.insert(...)</code> de novo com os dados novos</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) <code>db.update({"idade": 23}, q.nome == "Ana")</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) <code>db.remove(...)</code> e depois insere tudo de novo</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Não dá — tem que reescrever o arquivo na mão</button>
+        </div>
+        <div class="quiz-feedback" data-explain="update() existe justamente pra mudar ALGUNS campos sem mexer no resto. O insert() criaria um registro novo, duplicado."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">4️⃣</span> O que <code>db.all()</code> devolve?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) Um texto gigante com todo o JSON</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) Uma lista de dicionários — dá pra percorrer com <code>for</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) Só o primeiro registro do banco</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) O número de registros</button>
+        </div>
+        <div class="quiz-feedback" data-explain="db.all() traz tudo no formato que você já domina: lista de dicts. for, len(), tudo funciona igual cap 04 e 07."></div>
+      </div>
+
+      <div class="quiz" style="margin-top:18px">
+        <div class="quiz-q"><span class="q-emoji">5️⃣</span> Pra combinar duas condições numa busca (Python <strong>E</strong> idade &gt;= 18), você usa:</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) <code>q.curso == "Python" and q.idade &gt;= 18</code></button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) <code>(q.curso == "Python") &amp; (q.idade &gt;= 18)</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) <code>q.curso == "Python" + q.idade &gt;= 18</code></button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">D) Não dá pra combinar condições no TinyDB</button>
+        </div>
+        <div class="quiz-feedback" data-explain="No TinyDB é & (E) e | (OU), SEMPRE com parênteses em volta de cada condição. and/or não funcionam aqui — é a pegadinha clássica!"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — ARENA DE TINYDB
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🏋️</span>
+    <span class="chapter-number">Arena de TinyDB · 5 treinos</span>
+    <h2 class="grad-tinydb">Agora é VOCÊ no comando do banco</h2>
+    <p class="chapter-subtitle">
+      Você viu o professor fazer cada operação. Agora faz <strong>sozinho</strong>, uma de cada vez,
+      subindo de dificuldade. Cada treino é um arquivo <code>.py</code> separado —
+      tenta, roda, erra, ajusta. Só abre o olhinho 👀 <strong>depois</strong> de dar o seu melhor.
+    </p>
+  </div>
+
+  <!-- ── ARENA — banner + trilha ── -->
+  <section class="step-section" id="arena-solo">
+    <div class="arena-banner">
+      <div class="ab-emoji">💾</div>
+      <div class="ab-text">
+        <div class="ab-tag">Faça sozinho · 5 treinos</div>
+        <div class="ab-title">De "vi o professor usar o banco" para "eu faço CRUD no automático"</div>
+        <div class="ab-sub">
+          Os treinos 1 e 2 são as bases (criar e listar). Do 3 em diante a gente filtra,
+          atualiza com cuidado e remove com segurança. No fim, você tá pronto pro desafio final.
+        </div>
+      </div>
+    </div>
+
+    <div class="arena-track">
+      <span class="at-dot lv1">1</span><span class="at-arrow">→</span>
+      <span class="at-dot lv1">2</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">4</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">5</span>
+    </div>
+    <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
+      <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio</em>
+    </p>
+
+    <div class="tip" style="margin-top:14px">
+      <span class="tip-icon">🧭</span>
+      <div class="tip-content">
+        <strong>Roteiro:</strong> use o mesmo <code>alunos.json</code> dos exercícios guiados.
+        Já tem a Ana e o João lá dentro — cada treino mexe nesse banco. Roda um, confere no
+        arquivo, parte pro próximo.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 1 — cadastrar_solo.py ── -->
+  <section class="step-section" id="treino-1">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 1 — cadastrar_solo.py</div>
+          <div class="exercise-sub">Faça sozinho · CREATE</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">TinyDB(...)</span>
+        <span class="drill-tag">db.insert</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>cadastrar_solo.py</code>. No topo, <code>from tinydb import TinyDB</code> e
+          <code>db = TinyDB("alunos.json")</code>. Agora cadastra <strong>você mesmo</strong>:
+          um <code>db.insert(...)</code> com um dicionário de <code>"nome"</code>, <code>"idade"</code>
+          e <code>"curso"</code> com SEUS dados. No fim, um <code>print</code> de confirmação.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É só uma linha de <code>insert</code> —
+          mas é a SUA primeira escrita no banco sem o professor do lado. Roda e confere: você apareceu
+          no <code>alunos.json</code>? <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">cadastrar_solo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+
+db.<span class="fn">insert</span>({<span class="st">"nome"</span>: <span class="st">"Maria"</span>, <span class="st">"idade"</span>: <span class="num">20</span>, <span class="st">"curso"</span>: <span class="st">"JavaScript"</span>})
+
+<span class="bi">print</span>(<span class="st">"✅ Aluno cadastrado!"</span>)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              Cada vez que você roda esse arquivo, ele insere de novo (vai duplicando!).
+              Isso é normal — <code>insert</code> sempre cria um registro novo. No desafio final
+              a gente controla isso com um menu.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 2 — listar_solo.py ── -->
+  <section class="step-section" id="treino-2">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 2 — listar_solo.py</div>
+          <div class="exercise-sub">Faça sozinho · READ</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">db.all</span>
+        <span class="drill-tag">for</span>
+        <span class="drill-tag">f-string</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>listar_solo.py</code>. Pega tudo com <code>alunos = db.all()</code> e
+          percorre com <code>for aluno in alunos:</code>. Pra cada um, imprime bonitinho com
+          uma f-string: <code>f"- {aluno['nome']}, {aluno['idade']} anos"</code>.
+          No fim, mostra o total com <code>len(alunos)</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É o <code>for</code> em lista de dicionários
+          que você já fez no cap 07 — só que a lista veio do banco. <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">listar_solo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+alunos = db.<span class="fn">all</span>()
+
+<span class="bi">print</span>(<span class="st">"📂 Alunos no banco:"</span>)
+<span class="kw">for</span> aluno <span class="kw">in</span> alunos:
+    <span class="bi">print</span>(<span class="st">f"- {aluno['nome']}, {aluno['idade']} anos, {aluno['curso']}"</span>)
+<span class="bi">print</span>(<span class="st">f"Total: {len(alunos)} aluno(s)"</span>)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 3 — buscar_curso.py ── -->
+  <section class="step-section" id="treino-3">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 3 — buscar_curso.py</div>
+          <div class="exercise-sub">Faça sozinho · SEARCH</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">Query()</span>
+        <span class="drill-tag">db.search</span>
+        <span class="drill-tag">if vazio</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>buscar_curso.py</code>. Importa também o <code>Query</code> e cria
+          <code>q = Query()</code> (não esquece o parêntese!). Busca todos os alunos de Python com
+          <code>db.search(q.curso == "Python")</code>. Se a lista vier vazia (<code>len(...) == 0</code>),
+          avisa que não achou ninguém. Senão, percorre e imprime cada um.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> O pulo do gato aqui é lembrar do
+          <code>q = Query()</code> com o parêntese — e tratar o caso "não achei ninguém".
+          <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">buscar_curso.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+resultado = db.<span class="fn">search</span>(q.curso == <span class="st">"Python"</span>)
+
+<span class="kw">if</span> <span class="bi">len</span>(resultado) == <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"Nenhum aluno de Python."</span>)
+<span class="kw">else</span>:
+    <span class="kw">for</span> aluno <span class="kw">in</span> resultado:
+        <span class="bi">print</span>(<span class="st">f"🐍 {aluno['nome']}"</span>)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🚀</span>
+            <div class="tip-content">
+              <strong>Quer ir além?</strong> Combina duas condições:
+              <code>db.search((q.curso == <span class="st">"Python"</span>) &amp; (q.idade &gt;= <span class="num">18</span>))</code>.
+              Lembra: <code>&amp;</code> e <code>|</code>, com parênteses em volta de cada parte!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 4 — aniversario.py ── -->
+  <section class="step-section" id="treino-4">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 4 — aniversario.py</div>
+          <div class="exercise-sub">Faça sozinho · UPDATE</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">db.search</span>
+        <span class="drill-tag">db.update</span>
+        <span class="drill-tag">ler → mudar</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          A Ana fez aniversário! Crie <code>aniversario.py</code> que <strong>aumenta a idade dela em 1</strong>.
+          O truque: primeiro <strong>descubra a idade atual</strong> dela com um <code>db.search(q.nome == "Ana")</code>,
+          pega <code>resultado[0]["idade"]</code>, soma 1, e aí faz o <code>db.update(...)</code> com o valor novo.
+        </p>
+        <p>
+          ⚠️ Cuidado com a <strong>ordem</strong> do update: <code>{"idade": nova_idade}</code> vem
+          <strong>primeiro</strong>, a query <code>q.nome == "Ana"</code> vem <strong>depois</strong>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o primeiro treino "ler → modificar → salvar":
+          você lê a idade, soma 1 e grava de volta. Se inverter a ordem do <code>update</code>, o BugZilla
+          aparece 🐛. <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">aniversario.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+resultado = db.<span class="fn">search</span>(q.nome == <span class="st">"Ana"</span>)
+idade_atual = resultado[<span class="num">0</span>][<span class="st">"idade"</span>]
+
+db.<span class="fn">update</span>({<span class="st">"idade"</span>: idade_atual + <span class="num">1</span>}, q.nome == <span class="st">"Ana"</span>)
+
+<span class="bi">print</span>(<span class="st">f"🎂 Ana agora tem {idade_atual + 1} anos!"</span>)</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 5 — formou.py ── -->
+  <section class="step-section" id="treino-5">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 5 — formou.py</div>
+          <div class="exercise-sub">Faça sozinho · DELETE com segurança</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">db.search</span>
+        <span class="drill-tag">db.remove</span>
+        <span class="drill-tag">confere antes</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          O João se formou e saiu. Crie <code>formou.py</code> que remove ele — mas com a
+          <strong>boa prática do cap</strong>: <strong>primeiro confere</strong> quem vai sumir.
+          Faça um <code>db.search(q.nome == "João")</code>, mostre o que achou, e <strong>só então</strong>
+          chame <code>db.remove(q.nome == "João")</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> O <code>remove</code> apaga de verdade do disco —
+          por isso a gente <em>olha antes</em>. Se não achar ninguém, avisa em vez de remover às cegas.
+          <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">formou.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre><span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB, Query
+
+db = <span class="fn">TinyDB</span>(<span class="st">"alunos.json"</span>)
+q  = <span class="fn">Query</span>()
+
+achados = db.<span class="fn">search</span>(q.nome == <span class="st">"João"</span>)
+
+<span class="kw">if</span> <span class="bi">len</span>(achados) == <span class="num">0</span>:
+    <span class="bi">print</span>(<span class="st">"Ninguém com esse nome — nada removido."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"Removendo: {achados}"</span>)
+    db.<span class="fn">remove</span>(q.nome == <span class="st">"João"</span>)
+    <span class="bi">print</span>(<span class="st">"✅ Removido com segurança."</span>)</pre>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Mandou bem!</strong> Você acabou de fazer o <strong>CRUD completo sozinho</strong>:
+              criou, leu, filtrou, atualizou e removeu. Agora bora juntar tudo num sistema só — o desafio final. 👇
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

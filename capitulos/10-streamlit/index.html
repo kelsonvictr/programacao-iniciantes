@@ -11,6 +11,13 @@
 <style>
 /* ───── Extras locais do capítulo 10 ───── */
 
+/* ⚠️ Desativa ligatures da JetBrains Mono — `->`, `!=`, `>=`, `==`
+   precisam aparecer como caracteres separados pro aluno copiar certo. */
+*, pre, code, .code-block pre, .terminal, .terminal-body{
+  font-variant-ligatures:none;
+  font-feature-settings:"liga" 0,"clig" 0,"calt" 0;
+}
+
 /* Browser mockup — simula o Streamlit no navegador */
 .browser-mockup{
   background:#fff;
@@ -289,6 +296,7 @@
     <a class="sidebar-link" onclick="goTo('o-que-e')"><span class="dot" style="background:var(--accent5)"></span>O que é Streamlit?</a>
     <a class="sidebar-link" onclick="goTo('instalar')"><span class="dot" style="background:var(--accent3)"></span>Instalando e rodando</a>
     <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Aquecimento</a>
+    <a class="sidebar-link" onclick="goTo('forja')"><span class="dot" style="background:var(--streamlit)"></span>Forja: código virando tela 🪄</a>
     <a class="sidebar-link" onclick="goTo('texto')"><span class="dot" style="background:var(--accent4)"></span>Textos: title, header, write</a>
     <a class="sidebar-link" onclick="goTo('input')"><span class="dot" style="background:var(--accent4)"></span>Inputs: text_input, number_input</a>
     <a class="sidebar-link" onclick="goTo('button')"><span class="dot" style="background:var(--accent6)"></span>Botões: st.button</a>
@@ -299,6 +307,7 @@
     <a class="sidebar-link" onclick="goTo('terminal-streamlit')"><span class="dot" style="background:var(--accent3)"></span>Terminal → Streamlit</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
     <a class="sidebar-link" onclick="goTo('quiz-final')"><span class="dot" style="background:var(--accent5)"></span>Quiz final</a>
+    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent7)"></span>Arena · 5 treinos 🎨</a>
     <a class="sidebar-link" onclick="goTo('desafio-final')"><span class="dot" style="background:var(--accent6)"></span>Desafio FINAL · Loja</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo do bootcamp</a>
     <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--streamlit)"></span>FIM 🎉</a>
@@ -588,6 +597,75 @@ streamlit run app.py</pre>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════
+       4b. FORJA DE TELA — animação: código virando tela
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="forja">
+    <div class="step-header">
+      <div class="step-number sn-red">🪄</div>
+      <div>
+        <div class="step-title">A mágica ao vivo: cada linha vira um pedaço de tela</div>
+        <div class="step-sub">Assista o seu código "voar" pro navegador e virar o app</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Montando o app igual LEGO 🧱</div>
+        <p>
+          Cada <strong>função do Streamlit</strong> que você escreve é um "tijolinho". O Streamlit
+          <strong>lê de cima pra baixo</strong> e, pra cada linha, encaixa o pedaço correspondente
+          na tela. Aperta o ▶ (ou só rola até aqui) e veja os tijolos voarem do código pro navegador:
+        </p>
+      </div>
+
+      <!-- Forja de Tela (engine em shared/tag-forge.js) -->
+      <div class="forge" data-forge>
+        <div class="forge-stage">
+          <div class="forge-pane code">
+            <div class="fp-head">📄 app.py</div>
+            <div class="fp-body">
+              <div class="fp-line"><span class="cm">import streamlit as st</span></div>
+              <div class="fp-line"><span class="brick" data-brick="0" data-msg="🧱 st.title() vira o título GRANDÃO no topo">st.title</span>("🏪 Minha Loja")</div>
+              <div class="fp-line"><span class="brick" data-brick="1" data-msg="🧱 st.header() vira um subtítulo">st.header</span>("Bem-vindo!")</div>
+              <div class="fp-line"><span class="brick" data-brick="2" data-msg="🧱 st.write() vira um texto comum (o print bonito)">st.write</span>("Seu app no ar! 🎉")</div>
+              <div class="fp-line"><span class="brick" data-brick="3" data-msg="🧱 st.button() vira um botão clicável">st.button</span>("Entrar")</div>
+            </div>
+          </div>
+          <div class="forge-pane browser">
+            <div class="browser-mockup">
+              <div class="browser-bar">
+                <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+                <div class="url">localhost:8501</div>
+              </div>
+              <div class="browser-body">
+                <h1 class="st-title" data-paint="0">🏪 Minha Loja</h1>
+                <h2 class="st-header" data-paint="1">Bem-vindo!</h2>
+                <p class="st-write" data-paint="2">Seu app no ar! 🎉</p>
+                <button class="st-button primary" data-paint="3">Entrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="forge-hud">
+          <button class="forge-btn" data-forge-play>▶ Renderizar de novo</button>
+          <span class="forge-msg"></span>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🪄</span>
+        <div class="tip-content">
+          <strong>Isso é "renderizar":</strong> transformar código em coisa visível na tela.
+          Reparou que a <strong>ordem das linhas</strong> vira a <strong>ordem dos elementos</strong>?
+          Title em cima, botão embaixo — exatamente como você escreveu. É só isso. 😎
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
        5. TEXTO — title, header, write
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="texto">
@@ -726,6 +804,44 @@ st.<span class="fn">write</span>(<span class="st">f"Olá {nome}, você tem {</sp
           <strong>Reatividade automática:</strong> toda vez que o usuário digita,
           o app <strong>recalcula tudo</strong> e a mensagem atualiza sozinha. Sem precisar de botão.
           Mágico, né? 🪄
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin:16px 0 2px">
+        Esse é o <strong>ciclo da reatividade</strong> — o coração do Streamlit. Olha como ele gira sozinho:
+      </p>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-input">
+          <div class="label">1. Você interage</div>
+          <div>⌨️ digita no campo ou clica num botão</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">o Streamlit percebe</span></div>
+
+        <div class="flow-box fb-process">
+          <div class="label">2. Re-roda TUDO</div>
+          <div>🔁 o script inteiro executa de novo, de cima a baixo</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">com os valores novos</span></div>
+
+        <div class="flow-box fb-output">
+          <div class="label">3. Tela se redesenha</div>
+          <div>🎨 a página aparece atualizada no navegador</div>
+        </div>
+        <div class="flow-arrow"><span class="flow-label">e repete a cada tecla 🔄</span></div>
+
+        <div class="flow-box fb-true">
+          <div class="label">↻ volta pro 1</div>
+          <div>✨ pronto pra próxima interação</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🤯</span>
+        <div class="warning-content">
+          <strong>Sacou a diferença?</strong> No terminal, o programa rodava <em>uma vez</em> e acabava.
+          No Streamlit, o script <strong>re-roda inteirinho</strong> a cada clique ou tecla. Por isso a tela
+          "se atualiza sozinha" — não é mágica, é o script rodando de novo, rapidinho.
         </div>
       </div>
     </div>
@@ -1256,6 +1372,492 @@ aba1, aba2 = st.<span class="fn">tabs</span>([<span class="st">"📦 Produtos"</
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — ARENA DE STREAMLIT
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🏋️</span>
+    <span class="chapter-number">Arena de Streamlit · 5 treinos</span>
+    <h2 class="grad-streamlit">Antes do boss, treina sozinho</h2>
+    <p class="chapter-subtitle">
+      Você viu cada componente com o professor. Agora monta apps <strong>sozinho</strong>, um por vez,
+      subindo de dificuldade — até chegar no desafio final com tudo na ponta da língua.
+      Cada treino é um <code>.py</code>, rodado com <code>streamlit run</code>. Olhinho 👀 só depois de tentar!
+    </p>
+  </div>
+
+  <!-- ── ARENA — banner + trilha ── -->
+  <section class="step-section" id="arena-solo">
+    <div class="arena-banner">
+      <div class="ab-emoji">🎨</div>
+      <div class="ab-text">
+        <div class="ab-tag">Faça sozinho · 5 treinos</div>
+        <div class="ab-title">De "vi o professor montar a tela" para "eu construo o app no automático"</div>
+        <div class="ab-sub">
+          Treinos 1 e 2: só texto e input. Do 3 em diante: botões com decisão, tabelas e
+          até TinyDB salvando de dentro do app. No fim, você encara o sistema de loja sem medo.
+        </div>
+      </div>
+    </div>
+
+    <div class="arena-track">
+      <span class="at-dot lv1">1</span><span class="at-arrow">→</span>
+      <span class="at-dot lv1">2</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">4</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">5</span>
+    </div>
+    <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
+      <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio</em>
+    </p>
+
+    <div class="tip" style="margin-top:14px">
+      <span class="tip-icon">🧭</span>
+      <div class="tip-content">
+        <strong>Roteiro:</strong> cada treino é um arquivo novo. Roda com
+        <code>streamlit run nome_do_arquivo.py</code>, olha o navegador, e parte pro próximo.
+        Em cada solução tem o <strong>print da tela</strong> pra você comparar com o seu. 😉
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 1 — app_cartao.py ── -->
+  <section class="step-section" id="treino-1">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 1 — app_cartao.py</div>
+          <div class="exercise-sub">Faça sozinho · só textos na tela</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">st.title</span>
+        <span class="drill-tag">st.header</span>
+        <span class="drill-tag">st.write</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>app_cartao.py</code> — um cartão de visita seu. No topo,
+          <code>import streamlit as st</code>. Depois: um <code>st.title</code> com seu nome,
+          um <code>st.header</code> com sua profissão ("Futuro(a) dev 🚀") e dois
+          <code>st.write</code> com uma frase sua e seu contato.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É o seu primeiro app do zero, sem copiar.
+          Roda com <code>streamlit run app_cartao.py</code> e vê no navegador.
+          <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código + tela</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">app_cartao.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"Kelson Almeida"</span>)
+st.<span class="fn">header</span>(<span class="st">"Futuro dev 🚀"</span>)
+st.<span class="fn">write</span>(<span class="st">"Aprendendo Python no bootcamp!"</span>)
+st.<span class="fn">write</span>(<span class="st">"📧 kelson@email.com"</span>)</pre>
+          </div>
+
+          <div class="section-light">↓ no navegador ↓</div>
+          <div class="browser-mockup">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body">
+              <h1 class="st-title">Kelson Almeida</h1>
+              <h2 class="st-header">Futuro dev 🚀</h2>
+              <p class="st-write">Aprendendo Python no bootcamp!</p>
+              <p class="st-write">📧 kelson@email.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 2 — app_saudacao.py ── -->
+  <section class="step-section" id="treino-2">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 2 — app_saudacao.py</div>
+          <div class="exercise-sub">Faça sozinho · input que vira texto na hora</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">st.text_input</span>
+        <span class="drill-tag">f-string</span>
+        <span class="drill-tag">reatividade</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>app_saudacao.py</code>. Pega o nome com
+          <code>nome = st.text_input("Seu nome:")</code> e mostra uma saudação personalizada com
+          <code>st.write(f"Olá, {nome}! 👋")</code>. Repara: <strong>não precisa de botão</strong> —
+          conforme você digita, o texto atualiza sozinho (reatividade!).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É o <code>input()</code> de sempre, com cara de site.
+          <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código + tela</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">app_saudacao.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"Saudação Mágica"</span>)
+nome = st.<span class="fn">text_input</span>(<span class="st">"Seu nome:"</span>)
+st.<span class="fn">write</span>(<span class="st">f"Olá, {nome}! 👋"</span>)</pre>
+          </div>
+
+          <div class="section-light">↓ no navegador (depois de digitar "Ana") ↓</div>
+          <div class="browser-mockup">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body">
+              <h1 class="st-title">Saudação Mágica</h1>
+              <div class="st-input-label">Seu nome:</div>
+              <input class="st-input" value="Ana" readonly>
+              <p class="st-write" style="margin-top:12px">Olá, Ana! 👋</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 3 — app_idade.py ── -->
+  <section class="step-section" id="treino-3">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 3 — app_idade.py</div>
+          <div class="exercise-sub">Faça sozinho · botão + decisão (if/else)</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">st.number_input</span>
+        <span class="drill-tag">st.button</span>
+        <span class="drill-tag">if / else</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>app_idade.py</code>. Pega a idade com <code>st.number_input("Sua idade:", min_value=0)</code>.
+          Quando clicar num <code>st.button("Verificar")</code>, decide: se
+          <code>idade &gt;= 18</code>, mostra <code>st.success("Maior de idade! ✅")</code>;
+          senão, <code>st.warning("Menor de idade.")</code>.
+        </p>
+        <p>
+          É o <code>if/else</code> do cap 03 — só que a condição "rodar" é o clique do botão. 😉
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> O segredo é colocar o <code>if idade &gt;= 18</code>
+          <strong>dentro</strong> do <code>if st.button(...)</code>. <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código + tela</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">app_idade.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"Verificador de Idade"</span>)
+idade = st.<span class="fn">number_input</span>(<span class="st">"Sua idade:"</span>, min_value=<span class="num">0</span>)
+
+<span class="kw">if</span> st.<span class="fn">button</span>(<span class="st">"Verificar"</span>):
+    <span class="kw">if</span> idade &gt;= <span class="num">18</span>:
+        st.<span class="fn">success</span>(<span class="st">"Maior de idade! ✅"</span>)
+    <span class="kw">else</span>:
+        st.<span class="fn">warning</span>(<span class="st">"Menor de idade."</span>)</pre>
+          </div>
+
+          <div class="section-light">↓ no navegador (idade 20, depois do clique) ↓</div>
+          <div class="browser-mockup">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body">
+              <h1 class="st-title">Verificador de Idade</h1>
+              <div class="st-input-label">Sua idade:</div>
+              <input class="st-input" type="number" value="20" readonly>
+              <button class="st-button">Verificar</button>
+              <div class="st-success" style="margin-top:8px">Maior de idade! ✅</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 4 — app_cardapio.py ── -->
+  <section class="step-section" id="treino-4">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 4 — app_cardapio.py</div>
+          <div class="exercise-sub">Faça sozinho · lista de dicts vira tabela</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">lista de dicts</span>
+        <span class="drill-tag">st.table</span>
+        <span class="drill-tag">st.metric</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Crie <code>app_cardapio.py</code>. Monte uma <strong>lista de dicionários</strong> (cap 07) com
+          3 pratos, cada um com <code>"prato"</code> e <code>"preco"</code>. Mostra tudo de uma vez com
+          <code>st.table(cardapio)</code> e, embaixo, um <code>st.metric("Itens", len(cardapio))</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Lembra do <code>for + print</code> pra listar?
+          Aqui é UMA linha: <code>st.table(...)</code>. <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código + tela</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">app_cardapio.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+
+st.<span class="fn">title</span>(<span class="st">"🍔 Cardápio"</span>)
+
+cardapio = [
+    {<span class="st">"prato"</span>: <span class="st">"X-Burguer"</span>, <span class="st">"preco"</span>: <span class="num">18.0</span>},
+    {<span class="st">"prato"</span>: <span class="st">"Pizza"</span>,     <span class="st">"preco"</span>: <span class="num">35.0</span>},
+    {<span class="st">"prato"</span>: <span class="st">"Suco"</span>,      <span class="st">"preco"</span>: <span class="num">8.0</span>},
+]
+st.<span class="fn">table</span>(cardapio)
+st.<span class="fn">metric</span>(<span class="st">"Itens no cardápio"</span>, <span class="bi">len</span>(cardapio))</pre>
+          </div>
+
+          <div class="section-light">↓ no navegador ↓</div>
+          <div class="browser-mockup">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body">
+              <h1 class="st-title">🍔 Cardápio</h1>
+              <table class="st-table">
+                <thead><tr><th>prato</th><th>preco</th></tr></thead>
+                <tbody>
+                  <tr><td>X-Burguer</td><td>18.0</td></tr>
+                  <tr><td>Pizza</td><td>35.0</td></tr>
+                  <tr><td>Suco</td><td>8.0</td></tr>
+                </tbody>
+              </table>
+              <div class="st-metric">
+                <div class="label">Itens no cardápio</div>
+                <div class="value">3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ── TREINO 5 — app_recados.py ── -->
+  <section class="step-section" id="treino-5">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 5 — app_recados.py</div>
+          <div class="exercise-sub">Faça sozinho · Streamlit + TinyDB juntos!</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">TinyDB</span>
+        <span class="drill-tag">db.insert</span>
+        <span class="drill-tag">db.all</span>
+        <span class="drill-tag">st.table</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          O grande ensaio pro desafio final: um <strong>mural de recados</strong> que <strong>salva de verdade</strong>.
+          Crie <code>app_recados.py</code>:
+        </p>
+        <p>
+          1️⃣ Importa os dois: <code>import streamlit as st</code> e
+          <code>from tinydb import TinyDB</code>. Cria <code>db = TinyDB("recados.json")</code>.<br>
+          2️⃣ Um <code>st.text_input("Seu recado:")</code> e um <code>st.button("Enviar")</code>.<br>
+          3️⃣ <strong>Dentro</strong> do <code>if st.button(...)</code>, faz
+          <code>db.insert({"texto": recado})</code> e mostra <code>st.success(...)</code>.<br>
+          4️⃣ No fim, sempre mostra todos com <code>st.table(db.all())</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É a <strong>combinação mágica</strong>:
+          Streamlit pra tela + TinyDB pra guardar. Feche o app, abra de novo — os recados continuam lá!
+          <strong>Tenta antes de espiar 👀.</strong>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código + tela</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">app_recados.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre><span class="kw">import</span> streamlit <span class="kw">as</span> st
+<span class="kw">from</span> tinydb <span class="kw">import</span> TinyDB
+
+db = <span class="fn">TinyDB</span>(<span class="st">"recados.json"</span>)
+
+st.<span class="fn">title</span>(<span class="st">"📌 Mural de Recados"</span>)
+recado = st.<span class="fn">text_input</span>(<span class="st">"Seu recado:"</span>)
+
+<span class="kw">if</span> st.<span class="fn">button</span>(<span class="st">"Enviar"</span>):
+    db.<span class="fn">insert</span>({<span class="st">"texto"</span>: recado})
+    st.<span class="fn">success</span>(<span class="st">"✅ Recado salvo!"</span>)
+
+st.<span class="fn">table</span>(db.<span class="fn">all</span>())</pre>
+          </div>
+
+          <div class="section-light">↓ no navegador (depois de enviar 2 recados) ↓</div>
+          <div class="browser-mockup">
+            <div class="browser-bar">
+              <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+              <div class="url">localhost:8501</div>
+            </div>
+            <div class="browser-body">
+              <h1 class="st-title">📌 Mural de Recados</h1>
+              <div class="st-input-label">Seu recado:</div>
+              <input class="st-input" value="Bom dia!" readonly>
+              <button class="st-button">Enviar</button>
+              <div class="st-success">✅ Recado salvo!</div>
+              <table class="st-table">
+                <thead><tr><th>texto</th></tr></thead>
+                <tbody>
+                  <tr><td>Bem-vindos ao mural 🎉</td></tr>
+                  <tr><td>Bom dia!</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Você juntou tudo!</strong> Interface (Streamlit) + dados que persistem (TinyDB).
+              É exatamente a receita do desafio final — só que lá é uma loja com 4 abas. Bora? 👇
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
        CHAPTER DIVIDER — DESAFIO FINAL
        ═══════════════════════════════════════════════════════ -->
   <div class="chapter-divider">
@@ -1636,5 +2238,6 @@ aba_est, aba_cad, aba_ven, aba_hist = st.<span class="fn">tabs</span>(
 </footer>
 
 <script src="../../shared/scripts.js" defer></script>
+<script type="module" src="../../shared/tag-forge.js"></script>
 </body>
 </html>

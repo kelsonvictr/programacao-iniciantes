@@ -101,6 +101,39 @@ exercícios solo e mais didática (fluxos animados, playgrounds, "fator UAU").
 
 ---
 
+## 📅 2026-06-06 — Caps 09 e 10 elevados ao padrão dos caps 07/08
+
+### Contexto
+Os caps 09 (TinyDB) e 10 (Streamlit) foram migrados da v1 e estavam uma
+geração atrás: pouquíssimo "olhinho" (3 try-first vs 21 no cap 08), sem Arena
+Solo, sem fluxo animado, e sem a desativação de ligatures obrigatória.
+
+### Decisão
+- **Arena Solo** em ambos: banner + trilha + 5 treinos progressivos
+  (`treino-1`..`treino-5`, lv1→lv2) com dica + `try-first` + `toggler`,
+  antes do desafio-boss que já existia.
+- **Fluxo animado** (`flow-container autoplay`): ciclo CRUD no cap 09 e ciclo
+  de reatividade no cap 10.
+- **Forja de Tela** (cap 10): engine `shared/tag-forge.js` reaproveitado do
+  material Fullstack — funções `st.*` "voam" do editor e viram a tela real
+  (Motion via CDN, com fallback estático + `prefers-reduced-motion`). CSS no
+  fim de `shared/components.css`. Alvo de pintura = qualquer `[data-paint]`
+  dentro de um `.browser-mockup`.
+- **Streamlit sempre mostra a tela resultante**: todo treino e o forge têm
+  `browser-mockup` com o resultado.
+- **Ligatures off** adicionado ao `<style>` local dos dois caps.
+- Cap 09: quiz de fixação (3 perguntas) + 4º bug no BugZilla (NameError/import).
+
+### Trade-offs
+- `tag-forge.js` puxa Motion da CDN — offline cai no fallback (revela tudo sem
+  voo). Aceitável: nunca quebra a página.
+- Mockups são estáticos (não é o Streamlit real). Continua sendo a melhor forma
+  de mostrar o resultado sem rodar Python no navegador.
+
+### Status: ativo
+
+---
+
 ## 📅 [próxima entrada]
 
 > Adicione aqui ao tomar uma nova decisão estrutural. Formato:
