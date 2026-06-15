@@ -102,6 +102,7 @@
     <a class="sidebar-link" onclick="goTo('desafio-media')"><span class="dot" style="background:var(--accent6)"></span>Desafio media_notas.py</a>
     <a class="sidebar-link" onclick="goTo('desafio-temperatura')"><span class="dot" style="background:var(--accent6)"></span>Desafio temperatura.py</a>
     <a class="sidebar-link" onclick="goTo('desafio-receita')"><span class="dot" style="background:var(--accent6)"></span>Desafio receita.py</a>
+    <a class="sidebar-link" onclick="goTo('exercicios-extras')"><span class="dot" style="background:var(--accent5)"></span>+10 Exercícios Extras</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
   </div>
@@ -1265,6 +1266,723 @@ total      = preco * quantidade
               um <em>checkout de e-commerce</em>: receber valores, multiplicar, formatar.
               Acrescente um <code>desconto</code> ou um <code>frete</code> pra brincar mais —
               é só somar/subtrair antes do <code>print</code>. 🛒
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CHAPTER DIVIDER — EXERCÍCIOS EXTRAS
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🏋️</span>
+    <span class="chapter-number">Treino Extra</span>
+    <h2 class="grad-vars">+10 exercícios pra fixar de vez!</h2>
+    <p class="chapter-subtitle">
+      Tudo o que cai aqui você já viu nos capítulos 01 e 02: <strong>variáveis</strong>,
+      <strong>input()</strong>, <strong>conversão de tipos</strong>, <strong>contas</strong> e
+      <strong>f-strings</strong>. Nada novo — só prática. Cada um tem olhinho 👀 (mas só depois de tentar!).
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       10.4 — 10 EXERCÍCIOS EXTRAS (mesmo nível dos caps 01 e 02)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="exercicios-extras">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Exercícios Extras — bateria de treino</div>
+        <div class="step-sub">10 desafios individuais · faça na ordem · olhinho só DEPOIS de tentar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tip">
+        <span class="tip-icon">🧰</span>
+        <div class="tip-content">
+          <strong>Sua caixa de ferramentas pra esses 10:</strong>
+          <code>input()</code> (lembra: sempre vem texto!),
+          <code>int()</code> / <code>float()</code> pra converter,
+          as contas <code>+</code> <code>-</code> <code>*</code> <code>/</code>,
+          e <code>f-string</code> com <code>{var:.2f}</code> pra deixar bonito.
+          <strong>Não precisa de nada que você ainda não viu.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───────── Extra 1 — dobro_triplo.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">1️⃣</span>
+        <div>
+          <div class="exercise-title">Dobro e Triplo</div>
+          <div class="exercise-sub">Faça sozinho · dobro_triplo.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Peça um <strong>número inteiro</strong> ao usuário (use <code>int()</code>) e mostre
+          o <strong>dobro</strong> e o <strong>triplo</strong> dele.
+        </p>
+        <p>
+          Dobro é <code>numero * 2</code>, triplo é <code>numero * 3</code>. Mostre tudo com f-string.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Se esquecer o <code>int()</code>,
+          <code>"5" * 2</code> vira <code>"55"</code> (repete o texto!) em vez de <code>10</code>.
+          Bom teste pra entender a diferença.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">dobro_triplo.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3</div>
+<pre>numero = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Digite um número: "</span>))
+
+<span class="bi">print</span>(<span class="st">f"O dobro de {numero} é {numero * 2} e o triplo é {numero * 3}."</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · dobro_triplo.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Digite um número: </span><span class="typed" data-text="5"></span><br>
+              <span class="typed" data-text="O dobro de 5 é 10 e o triplo é 15."></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 2 — troco.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">2️⃣</span>
+        <div>
+          <div class="exercise-title">Calculadora de Troco</div>
+          <div class="exercise-sub">Faça sozinho · troco.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Você é o caixa. Peça o <strong>valor da compra</strong> e o
+          <strong>valor que o cliente pagou</strong> (os dois com <code>float()</code>, são reais).
+          Mostre o <strong>troco</strong> = <code>pago - compra</code>.
+        </p>
+        <p>
+          Capriche com <code>{troco:.2f}</code> pra não aparecer <em>R$ 5.5</em> e sim <em>R$ 5.50</em>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Mesma ideia do <code>receita.py</code>,
+          só que agora a conta é uma <strong>subtração</strong>.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">troco.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>compra = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor da compra (R$): "</span>))
+pago   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor pago (R$): "</span>))
+troco  = pago - compra
+
+<span class="bi">print</span>(<span class="st">f"Troco: R$ {troco:.2f}"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · troco.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Valor da compra (R$): </span><span class="typed" data-text="44.50"></span><br>
+              <span class="out">Valor pago (R$): </span><span class="typed" data-text="50"></span><br>
+              <span class="typed" data-text="Troco: R$ 5.50"></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 3 — media_tres_notas.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">3️⃣</span>
+        <div>
+          <div class="exercise-title">Média de Três Notas</div>
+          <div class="exercise-sub">Faça sozinho · media_tres_notas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Igual ao <code>media_notas.py</code> que você já fez, mas agora com <strong>três</strong> notas.
+          Use <code>float()</code> (notas têm decimal) e a fórmula
+          <code>media = (n1 + n2 + n3) / 3</code>.
+        </p>
+        <p>
+          Atenção aos <strong>parênteses</strong>: sem eles, o Python divide só o <code>n3</code> por 3!
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Mostre a média com <code>{media:.2f}</code>
+          pra evitar aquele <em>7.333333333</em> feio.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">media_tres_notas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>n1    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 1: "</span>))
+n2    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 2: "</span>))
+n3    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Nota 3: "</span>))
+media = (n1 + n2 + n3) / <span class="num">3</span>
+
+<span class="bi">print</span>(<span class="st">f"A média das três notas é {media:.2f}."</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · media_tres_notas.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Nota 1: </span><span class="typed" data-text="7"></span><br>
+              <span class="out">Nota 2: </span><span class="typed" data-text="8"></span><br>
+              <span class="out">Nota 3: </span><span class="typed" data-text="6"></span><br>
+              <span class="typed" data-text="A média das três notas é 7.00."></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 4 — conversor_horas.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">4️⃣</span>
+        <div>
+          <div class="exercise-title">Horas em Minutos e Segundos</div>
+          <div class="exercise-sub">Faça sozinho · conversor_horas.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Peça uma quantidade de <strong>horas</strong> (use <code>int()</code>) e mostre quantos
+          <strong>minutos</strong> e quantos <strong>segundos</strong> isso dá.
+        </p>
+        <p>
+          Cada hora tem 60 minutos (<code>horas * 60</code>) e 3600 segundos (<code>horas * 3600</code>).
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> É só multiplicação — o segredo é
+          guardar cada resultado numa variável com nome claro.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">conversor_horas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>horas    = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantas horas? "</span>))
+minutos  = horas * <span class="num">60</span>
+segundos = horas * <span class="num">3600</span>
+
+<span class="bi">print</span>(<span class="st">f"{horas} horas = {minutos} minutos = {segundos} segundos."</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · conversor_horas.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Quantas horas? </span><span class="typed" data-text="2"></span><br>
+              <span class="typed" data-text="2 horas = 120 minutos = 7200 segundos."></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 5 — imc.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">5️⃣</span>
+        <div>
+          <div class="exercise-title">Calculadora de IMC</div>
+          <div class="exercise-sub">Faça sozinho · imc.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Peça o <strong>peso</strong> (em kg) e a <strong>altura</strong> (em metros, ex.: 1.75),
+          os dois com <code>float()</code>. O IMC é
+          <code>peso / (altura * altura)</code>.
+        </p>
+        <p>
+          Mostre o resultado com <code>{imc:.2f}</code>. (Só calcular — sem dizer se está
+          magro ou gordo; isso depende de <em>condições</em>, que vêm no capítulo 03 😉.)
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Os <strong>parênteses</strong> em
+          <code>(altura * altura)</code> são obrigatórios — senão a ordem das contas muda o resultado.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">imc.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>peso   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Seu peso (kg): "</span>))
+altura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua altura (m): "</span>))
+imc    = peso / (altura * altura)
+
+<span class="bi">print</span>(<span class="st">f"Seu IMC é {imc:.2f}."</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · imc.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Seu peso (kg): </span><span class="typed" data-text="70"></span><br>
+              <span class="out">Sua altura (m): </span><span class="typed" data-text="1.75"></span><br>
+              <span class="typed" data-text="Seu IMC é 22.86."></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 6 — salario_13.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">6️⃣</span>
+        <div>
+          <div class="exercise-title">Salário Anual + 13º</div>
+          <div class="exercise-sub">Faça sozinho · salario_13.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Peça o <strong>salário mensal</strong> (<code>float()</code>) e mostre quanto a pessoa
+          recebe <strong>no ano</strong>. Sem 13º são 12 meses (<code>salario * 12</code>);
+          com o 13º são 13 (<code>salario * 13</code>).
+        </p>
+        <p>
+          Mostre os dois valores formatados com <code>{valor:.2f}</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Crie uma variável pra cada total —
+          fica muito mais legível do que fazer a conta dentro do <code>print</code>.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">salario_13.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>salario   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Salário mensal (R$): "</span>))
+ano       = salario * <span class="num">12</span>
+ano_com13 = salario * <span class="num">13</span>
+
+<span class="bi">print</span>(<span class="st">f"Em 12 meses: R$ {ano:.2f}"</span>)
+<span class="bi">print</span>(<span class="st">f"Com o 13º: R$ {ano_com13:.2f}"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · salario_13.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Salário mensal (R$): </span><span class="typed" data-text="2000"></span><br>
+              <span class="typed" data-text="Em 12 meses: R$ 24000.00"></span><br>
+              <span class="typed" data-text="Com o 13º: R$ 26000.00"></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 7 — area_perimetro.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">7️⃣</span>
+        <div>
+          <div class="exercise-title">Área e Perímetro do Retângulo</div>
+          <div class="exercise-sub">Faça sozinho · area_perimetro.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Peça a <strong>base</strong> e a <strong>altura</strong> de um retângulo (<code>float()</code>).
+          Calcule a <strong>área</strong> (<code>base * altura</code>) e o
+          <strong>perímetro</strong> (<code>2 * (base + altura)</code>).
+        </p>
+        <p>
+          Mostre os dois com <code>{valor:.2f}</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> No perímetro os parênteses
+          em <code>(base + altura)</code> são essenciais — primeiro soma, depois multiplica por 2.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">area_perimetro.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>base      = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Base (m): "</span>))
+altura    = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Altura (m): "</span>))
+area      = base * altura
+perimetro = <span class="num">2</span> * (base + altura)
+
+<span class="bi">print</span>(<span class="st">f"Área: {area:.2f} m²"</span>)
+<span class="bi">print</span>(<span class="st">f"Perímetro: {perimetro:.2f} m"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · area_perimetro.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Base (m): </span><span class="typed" data-text="4"></span><br>
+              <span class="out">Altura (m): </span><span class="typed" data-text="2.5"></span><br>
+              <span class="typed" data-text="Área: 10.00 m²"></span><br>
+              <span class="typed" data-text="Perímetro: 13.00 m"></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 8 — gorjeta.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">8️⃣</span>
+        <div>
+          <div class="exercise-title">Gorjeta do Restaurante (10%)</div>
+          <div class="exercise-sub">Faça sozinho · gorjeta.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Peça o <strong>valor da conta</strong> (<code>float()</code>). Calcule os
+          <strong>10% de gorjeta</strong> (<code>conta * 0.10</code>) e o
+          <strong>total a pagar</strong> (<code>conta + gorjeta</code>).
+        </p>
+        <p>
+          Mostre a gorjeta e o total, ambos com <code>{valor:.2f}</code>.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> 10% é o mesmo que multiplicar por
+          <code>0.10</code>. Lembra: em Python o decimal usa <strong>ponto</strong>, não vírgula!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">gorjeta.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>conta   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor da conta (R$): "</span>))
+gorjeta = conta * <span class="num">0.10</span>
+total   = conta + gorjeta
+
+<span class="bi">print</span>(<span class="st">f"Gorjeta (10%): R$ {gorjeta:.2f}"</span>)
+<span class="bi">print</span>(<span class="st">f"Total com gorjeta: R$ {total:.2f}"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · gorjeta.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Valor da conta (R$): </span><span class="typed" data-text="80"></span><br>
+              <span class="typed" data-text="Gorjeta (10%): R$ 8.00"></span><br>
+              <span class="typed" data-text="Total com gorjeta: R$ 88.00"></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 9 — racha_conta.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">9️⃣</span>
+        <div>
+          <div class="exercise-title">Rachar a Conta</div>
+          <div class="exercise-sub">Faça sozinho · racha_conta.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Aquele rolê com a galera! Peça o <strong>valor total</strong> da conta (<code>float()</code>)
+          e o <strong>número de pessoas</strong> (<code>int()</code> — não tem meia pessoa).
+          Mostre quanto <strong>cada um paga</strong> = <code>total / pessoas</code>.
+        </p>
+        <p>
+          Use <code>{valor:.2f}</code> — divisão quase sempre dá número quebrado.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Repare que cada <code>input()</code>
+          usa uma conversão diferente: <code>float()</code> pro dinheiro, <code>int()</code> pras pessoas.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">racha_conta.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>total   = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor total da conta (R$): "</span>))
+pessoas = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Quantas pessoas? "</span>))
+cada_um = total / pessoas
+
+<span class="bi">print</span>(<span class="st">f"Cada pessoa paga R$ {cada_um:.2f}"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · racha_conta.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Valor total da conta (R$): </span><span class="typed" data-text="100"></span><br>
+              <span class="out">Quantas pessoas? </span><span class="typed" data-text="3"></span><br>
+              <span class="typed" data-text="Cada pessoa paga R$ 33.33"></span><span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-connector"><div class="line"></div></div>
+
+    <!-- ───────── Extra 10 — codigo_produto.py ───────── -->
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🔟</span>
+        <div>
+          <div class="exercise-title">Montando um Código de Produto</div>
+          <div class="exercise-sub">Faça sozinho · codigo_produto.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Hora de treinar o <code>print()</code> com <code>sep</code>! Peça três pedaços de um
+          código: a <strong>categoria</strong> (ex.: <em>BR</em>), o <strong>ano</strong> (ex.: <em>2026</em>)
+          e o <strong>número</strong> (ex.: <em>42</em>).
+        </p>
+        <p>
+          Junte tudo num <code>print(...)</code> usando <code>sep="-"</code> pra sair
+          <em>BR-2026-42</em> automaticamente, sem precisar digitar os traços na mão.
+        </p>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Aqui pode deixar tudo como texto (str) —
+          não vamos fazer conta com esses valores, só juntar. O <code>sep</code> faz a mágica.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">codigo_produto.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>categoria = <span class="bi">input</span>(<span class="st">"Categoria (ex.: BR): "</span>)
+ano       = <span class="bi">input</span>(<span class="st">"Ano (ex.: 2026): "</span>)
+numero    = <span class="bi">input</span>(<span class="st">"Número (ex.: 42): "</span>)
+
+<span class="bi">print</span>(<span class="st">"Código do produto:"</span>)
+<span class="bi">print</span>(categoria, ano, numero, sep=<span class="st">"-"</span>)</pre>
+          </div>
+          <div class="terminal" data-typewriter>
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · codigo_produto.py</span>
+            </div>
+            <div class="terminal-body">
+              <span class="out">Categoria (ex.: BR): </span><span class="typed" data-text="BR"></span><br>
+              <span class="out">Ano (ex.: 2026): </span><span class="typed" data-text="2026"></span><br>
+              <span class="out">Número (ex.: 42): </span><span class="typed" data-text="42"></span><br>
+              <span class="typed" data-text="Código do produto:"></span><br>
+              <span class="typed" data-text="BR-2026-42"></span><span class="cursor"></span>
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎉</span>
+            <div class="tip-content">
+              <strong>Fechou os 10!</strong> Se chegou até aqui fazendo sozinho, variáveis, tipos,
+              conversão e f-strings já estão no seu sangue. Bora pro capítulo 03 ensinar o programa
+              a <strong>tomar decisões</strong>! 😎
             </div>
           </div>
         </div>
