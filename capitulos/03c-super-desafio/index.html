@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 3.6 — Super Desafio (Caps 1, 2 e 3) | Bootcamp programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ── ligaduras OFF: operadores ASCII exatos pro aluno copiar certo ── */
+.code-block pre, pre, code,
+.exec-code, .exec-line, .exec-out, .var-box .vv, .var-box .vn {
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
+/* hero gradient próprio do capítulo */
+.hero h1.grad-super{
+  background:linear-gradient(135deg,var(--accent5),var(--accent2),var(--accent6));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── banner "monte seu projeto" (igual 03b) ── */
+.pycharm-banner{
+  position:relative;overflow:hidden;border-radius:22px;
+  padding:26px 28px;margin:18px 0;
+  background:linear-gradient(135deg,rgba(55,118,171,0.12),rgba(255,212,59,0.06));
+  border:2px solid rgba(55,118,171,0.30);
+}
+.pycharm-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 92% 12%,rgba(255,212,59,0.18),transparent 55%);
+  pointer-events:none;
+}
+.pycharm-banner h3{font-size:1.45rem;color:var(--python-y);margin-bottom:6px;position:relative;z-index:1}
+.pycharm-banner p{color:var(--text-dim);font-size:0.98rem;position:relative;z-index:1}
+.pycharm-banner code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+
+/* lista de passos do PyCharm */
+.steps-list{counter-reset:pcs;display:grid;gap:10px;margin:16px 0}
+.steps-list .pc-step{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 16px;font-size:0.95rem;line-height:1.55;
+}
+.steps-list .pc-step::before{
+  counter-increment:pcs;content:counter(pcs);
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--python),var(--accent4));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.9rem;flex-shrink:0;margin-top:2px;
+}
+
+/* divisor com label de bloco */
+.block-divider{margin:34px 0 18px;text-align:center;position:relative}
+.block-divider::before{
+  content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent);
+}
+.block-divider .bd-pill{
+  position:relative;display:inline-block;padding:8px 18px;border-radius:50px;
+  background:var(--surface2);border:1.5px solid rgba(247,183,49,0.30);
+  font-family:'JetBrains Mono',monospace;font-weight:800;
+  font-size:0.78rem;letter-spacing:1.5px;color:var(--accent5);text-transform:uppercase;
+}
+.block-divider .bd-pill.solo{border-color:rgba(167,139,250,0.35);color:var(--accent6)}
+
+/* mini-cards de stats */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr}}
+.stat-card{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:18px;text-align:center;
+}
+.stat-card .stat-num{
+  display:block;font-size:2.2rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--accent2),var(--accent5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;
+}
+.stat-card .stat-label{color:var(--text-dim);font-size:0.85rem;font-weight:600}
+
+/* CTA card próximo capítulo */
+.next-chapter-card{
+  text-align:center;
+  background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(108,99,255,0.04));
+  border-color:rgba(167,139,250,0.20);
+}
+.cta-btn{
+  display:inline-block;padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent6),var(--accent));
+  color:#fff;text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px;
+  box-shadow:0 8px 22px rgba(108,99,255,0.30);transition:transform .2s ease;
+}
+.cta-btn:hover{transform:translateY(-2px)}
+
+.step-title code{
+  background:var(--code-bg);color:var(--accent5);padding:1px 7px;border-radius:5px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+.sidebar-nav .sidebar-link{font-size:0.88rem;padding:7px 10px}
+.sidebar-nav .sidebar-group-title{margin-top:14px}
+
+/* ── cartões das faixas de idade (diagrama do if/elif/else) ── */
+.faixa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+@media(max-width:640px){.faixa-grid{grid-template-columns:1fr 1fr}}
+.faixa-card{
+  background:var(--surface2);border:1.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:14px 12px;text-align:center;position:relative;overflow:hidden;
+}
+.faixa-card .fx-cond{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent4);font-weight:700}
+.faixa-card .fx-cat{font-weight:800;margin:6px 0 2px;font-size:0.98rem}
+.faixa-card .fx-preco{font-size:1.5rem;font-weight:900;color:var(--accent5)}
+.faixa-card.f0{border-color:rgba(78,205,196,0.35)}
+.faixa-card.f1{border-color:rgba(69,183,209,0.35)}
+.faixa-card.f2{border-color:rgba(167,139,250,0.35)}
+.faixa-card.f3{border-color:rgba(247,183,49,0.40)}
+
+/* ════════════════════════════════════════════════════════
+   MÁQUINA DE EXECUÇÃO — o "motion" do capítulo (autoplay)
+   roda sozinho via initSeqLoops (data-seq do shared/scripts.js)
+   ════════════════════════════════════════════════════════ */
+.exec-machine{
+  border:1px solid rgba(108,99,255,0.25);border-radius:18px;overflow:hidden;
+  background:var(--surface);margin:24px 0;
+  box-shadow:0 0 0 1px rgba(108,99,255,0.05),0 14px 40px rgba(0,0,0,0.35);
+}
+.exec-head{
+  display:flex;align-items:center;gap:8px;padding:12px 18px;
+  background:linear-gradient(135deg,rgba(108,99,255,0.16),rgba(78,205,196,0.07));
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.exec-head .ed{width:11px;height:11px;border-radius:50%}
+.exec-head .ed.r{background:#ff5f57}.exec-head .ed.y{background:#febc2e}.exec-head .ed.g{background:#28c840}
+.exec-head .et{margin-left:8px;font-weight:800;font-size:0.9rem;color:var(--text)}
+.exec-head .live{
+  margin-left:auto;display:flex;align-items:center;gap:6px;
+  font-size:0.7rem;letter-spacing:1px;color:var(--accent7);font-weight:800;text-transform:uppercase;
+}
+.exec-head .live::before{
+  content:'';width:9px;height:9px;border-radius:50%;background:var(--accent7);
+  animation:pulse 1.1s infinite;
+}
+.exec-grid{display:grid;grid-template-columns:1.05fr 1fr}
+@media(max-width:760px){.exec-grid{grid-template-columns:1fr}}
+
+.exec-code{
+  background:var(--code-bg);padding:16px 12px;
+  font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.5;
+  border-right:1px solid rgba(255,255,255,0.05);
+}
+@media(max-width:760px){.exec-code{border-right:0;border-bottom:1px solid rgba(255,255,255,0.05)}}
+.exec-line{
+  padding:3px 10px;border-radius:7px;color:var(--text-dim);
+  border-left:3px solid transparent;transition:all .3s ease;white-space:pre-wrap;
+}
+.exec-line.active{
+  background:rgba(247,183,49,0.13);color:var(--text);
+  border-left-color:var(--accent5);box-shadow:0 0 0 1px rgba(247,183,49,0.18);
+}
+.exec-line .arrow{opacity:0;color:var(--accent5);font-weight:800}
+.exec-line.active .arrow{opacity:1}
+.exec-line .kw{color:#c4a7e7}.exec-line .bi{color:#82aaff}
+.exec-line .st{color:#c3e88d}.exec-line .num{color:#f78c6c}.exec-line .cm{color:#7785a8;font-style:italic}
+
+.exec-screen{position:relative;min-height:340px;padding:18px}
+@media(max-width:760px){.exec-screen{min-height:360px}}
+.exec-frame{
+  position:absolute;inset:18px;opacity:0;transform:translateY(10px);
+  transition:opacity .45s ease,transform .45s ease;pointer-events:none;
+}
+.exec-frame.on{opacity:1;transform:none}
+.exec-cap{
+  font-family:'Caveat',cursive;font-size:1.25rem;color:var(--accent5);
+  margin-bottom:12px;line-height:1.2;
+}
+.var-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.var-box{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:10px;padding:8px 11px;transition:all .35s ease;
+}
+.var-box .vn{
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:2px;
+}
+.var-box .vv{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);font-size:0.92rem}
+.var-box.empty{opacity:0.45}
+.var-box.empty .vv{color:#3a3a55}
+.var-box.fresh{
+  border-color:var(--accent7);background:rgba(6,214,160,0.08);
+  box-shadow:0 0 18px rgba(6,214,160,0.20);
+}
+.exec-out{
+  margin-top:13px;background:#000;border-radius:10px;padding:11px 13px;
+  font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#c9d1d9;
+  line-height:1.7;min-height:34px;border:1px solid rgba(255,255,255,0.05);
+}
+.exec-out .ok{color:var(--accent7)}.exec-out .warn{color:var(--accent2)}.exec-out .dim{color:var(--text-dim)}
+
+/* régua de progresso dos frames embaixo da máquina */
+.exec-foot{
+  display:flex;gap:6px;justify-content:center;align-items:center;
+  padding:10px;background:var(--surface2);border-top:1px solid rgba(255,255,255,0.05);
+}
+.exec-foot .pip{width:26px;height:5px;border-radius:3px;background:rgba(255,255,255,0.12);transition:background .3s}
+.exec-foot .pip.on{background:var(--accent5)}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>🏆 Cap 3.6 — Super Desafio</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🚀 Começar</div>
+    <a class="sidebar-link" onclick="goTo('intro')"><span class="dot" style="background:var(--accent5)"></span>O que é o Super Desafio</a>
+    <a class="sidebar-link" onclick="goTo('arsenal')"><span class="dot" style="background:var(--accent3)"></span>Seu arsenal (caps 1–3)</a>
+    <a class="sidebar-link" onclick="goTo('setup-pycharm')"><span class="dot" style="background:var(--python)"></span>Criar o projeto</a>
+
+    <div class="sidebar-group-title">🎬 Parte A · GUIADO · Cinema AI</div>
+    <a class="sidebar-link" onclick="goTo('cenario-cinema')"><span class="dot" style="background:var(--accent2)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('decompor')"><span class="dot" style="background:var(--accent2)"></span>Quebrando o problema</a>
+    <a class="sidebar-link" onclick="goTo('etapa1')"><span class="dot" style="background:var(--accent4)"></span>Etapa 1 · Cadastro</a>
+    <a class="sidebar-link" onclick="goTo('etapa2')"><span class="dot" style="background:var(--accent4)"></span>Etapa 2 · Preço por idade</a>
+    <a class="sidebar-link" onclick="goTo('etapa3')"><span class="dot" style="background:var(--accent4)"></span>Etapa 3 · Benefício lógico</a>
+    <a class="sidebar-link" onclick="goTo('etapa4')"><span class="dot" style="background:var(--accent4)"></span>Etapa 4 · Pagamento e troco</a>
+    <a class="sidebar-link" onclick="goTo('completo')"><span class="dot" style="background:var(--accent7)"></span>Programa completo</a>
+    <a class="sidebar-link" onclick="goTo('maquina')"><span class="dot" style="background:var(--accent6)"></span>🎥 Máquina de execução</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>🐛 BugZilla ataca</a>
+
+    <div class="sidebar-group-title">🎢 Parte B · SOZINHO · Parque AI</div>
+    <a class="sidebar-link" onclick="goTo('cenario-parque')"><span class="dot" style="background:var(--accent6)"></span>O cenário</a>
+    <a class="sidebar-link" onclick="goTo('desafio-solo')"><span class="dot" style="background:var(--accent6)"></span>💪 Faça você mesmo</a>
+
+    <div class="sidebar-group-title">🏁 Final</div>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--accent7)"></span>Você zerou o chefão! 🎉</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🏆 🎬 🐍</div>
+  <span class="hero-badge">Capítulo 3.6 · Bootcamp programa AI</span>
+  <h1 class="grad-super">Super Desafio — o Chefão dos Caps 1, 2 e 3</h1>
+  <p class="subtitle">
+    Um <strong>único projeto grande</strong> que junta <em>tudo</em> que você já viu:
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">input</code>,
+    variáveis, tipos, f-string,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">if/elif/else</code>
+    e os operadores <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">and / or</code>.
+    <strong>Zero conteúdo novo.</strong> Primeiro a gente faz um <em>juntos</em> 👀, depois você faz o seu sozinho 💪.
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">📥 input/print</span>
+    <span class="stack-chip">📦 variáveis & tipos</span>
+    <span class="stack-chip">✨ f-string</span>
+    <span class="stack-chip">🔀 if/elif/else</span>
+    <span class="stack-chip">🔗 and / or</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTRO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="intro">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🏆</div>
+      <div>
+        <div class="step-title">O que é o Super Desafio</div>
+        <div class="step-sub">A "luta de chefão" no fim da primeira fase</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Até agora você fez <strong>exercícios curtinhos</strong> — um conceito de cada vez.
+        No cap 3.5 foram 30 desafios separados. Agora muda o jogo: vamos montar
+        <strong>UM programa grande</strong>, completo, que usa <em>todos</em> os conceitos
+        dos capítulos 01, 02 e 03 ao mesmo tempo. 🧩
+      </p>
+
+      <div class="analogy">
+        <div class="analogy-title">É tipo o chefão do videogame 🎮</div>
+        <p>
+          Numa fase de jogo você aprende a pular, correr e atacar em salas separadas.
+          No <strong>fim da fase</strong> vem o chefão — e ele exige que você use
+          <strong>tudo junto</strong>, na hora certa. Esse capítulo é exatamente isso:
+          o chefão dos caps 1, 2 e 3.
+        </p>
+        <p>
+          E como todo bom jogo, primeiro tem um <strong>tutorial</strong> (a gente derrota
+          o chefão juntos, passo a passo) e depois um <strong>segundo chefão parecido</strong>
+          pra você encarar <em>sozinho</em>. Se fez o primeiro, faz o segundo. 💪
+        </p>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">🎬</span>
+          <div class="tip-content"><strong>Parte A — Cinema AI (guiado):</strong> a gente constrói juntos, em 4 etapas, com tudo explicado e uma animação mostrando o programa rodando por dentro.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🎢</span>
+          <div class="tip-content"><strong>Parte B — Parque AI (sozinho):</strong> o mesmo formato, tema diferente. Você faz, erra, ajusta — e só depois abre o olhinho 👀.</div>
+        </div>
+        <div class="warning">
+          <span class="warning-icon">🚫</span>
+          <div class="warning-content"><strong>Nada de coisa nova.</strong> Se em algum momento você pensar "isso eu não vi" — relaxa, não precisa. Tudo aqui sai dos caps 1, 2 e 3.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARSENAL — o que você vai usar
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="arsenal">
+    <div class="step-header">
+      <div class="step-number sn-green">🧰</div>
+      <div>
+        <div class="step-title">Seu arsenal (só o que já viu)</div>
+        <div class="step-sub">Confere se cada peça tá fresquinha na memória</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>Antes de encarar o chefão, revisão relâmpago do que você tem na mochila:</p>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:16px 0">
+        <div class="tip">
+          <span class="tip-icon">📥</span>
+          <div class="tip-content"><strong>input()</strong> pega texto do usuário. Sempre vem como <code>str</code> — precisa de <code>int()</code> ou <code>float()</code> pra virar número.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📦</span>
+          <div class="tip-content"><strong>Variáveis e tipos</strong> — caixinhas que guardam <code>str</code>, <code>int</code>, <code>float</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">✨</span>
+          <div class="tip-content"><strong>f-string</strong> — <code>f"Oi {nome}"</code> monta texto com variáveis dentro. E <code>{preco:.2f}</code> mostra 2 casas decimais.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🔀</span>
+          <div class="tip-content"><strong>if / elif / else</strong> — o programa decide qual caminho seguir.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🔗</span>
+          <div class="tip-content"><strong>and / or / not</strong> e os comparadores <code>==</code> <code>&gt;=</code> <code>&lt;=</code> <code>&gt;</code> <code>&lt;</code> <code>!=</code> — combinam condições.</div>
+        </div>
+      </div>
+
+      <div class="quiz">
+        <div class="quiz-q"><span class="q-emoji">⚡</span> Aquecimento: o que <code>idade = int(input("Idade: "))</code> guarda na caixinha <code>idade</code>?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">A) o texto que o usuário digitou</button>
+          <button class="quiz-opt" data-correct="true" onclick="checkQuiz(this, true)">B) um número inteiro</button>
+          <button class="quiz-opt" onclick="checkQuiz(this, false)">C) um número com vírgula</button>
+        </div>
+        <div class="quiz-feedback" data-explain="o input() pega texto, e o int() converte esse texto pra inteiro antes de guardar. Por isso dá pra comparar com >= depois."></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SETUP PYCHARM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="setup-pycharm">
+    <div class="step-header">
+      <div class="step-number sn-py">📦</div>
+      <div>
+        <div class="step-title">Criar o projeto <code>super_desafio</code></div>
+        <div class="step-sub">Dois arquivos: um guiado, um seu</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pycharm-banner">
+        <h3>🐍 Um projeto, dois chefões</h3>
+        <p>
+          Vamos guardar os dois programas no MESMO projeto, chamado <code>super_desafio</code>.
+          O guiado vira <code>cinema_ai.py</code> e o seu vira <code>parque_ai.py</code>.
+        </p>
+      </div>
+
+      <div class="steps-list">
+        <div class="pc-step">Abra o <strong>PyCharm</strong> → <code>New Project</code> (ou <em>File → New Project…</em>).</div>
+        <div class="pc-step">No <strong>Location</strong>, dê o nome <code>super_desafio</code> ao fim do caminho. Ex.: <code>~/PycharmProjects/super_desafio</code>.</div>
+        <div class="pc-step">Deixe o <strong>interpretador padrão</strong> (Project venv, Python 3.10+). Sem Python? Clique <code>Add Interpreter</code> que o PyCharm baixa.</div>
+        <div class="pc-step">Pode <strong>desmarcar</strong> o <em>welcome script / main.py</em>. Clique <strong>Create</strong>. ☕</div>
+        <div class="pc-step">Botão direito na pasta → <em>New → Python File</em> → <code>cinema_ai.py</code> → Enter. ✅</div>
+        <div class="pc-step"><strong>Rodar:</strong> triângulo verde ▶ no canto superior direito (ou botão direito → <em>Run</em>).</div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-content">
+          Nome de arquivo Python sempre em <code>minusculo_com_underline.py</code> — sem espaços,
+          sem acentos, sem maiúsculas (estilo <em>snake_case</em> 🐍).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PARTE A — GUIADO
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider"><span class="bd-pill">🎬 Parte A · Guiado · Cinema AI</span></div>
+
+  <!-- CENÁRIO -->
+  <section class="step-section" id="cenario-cinema">
+    <div class="step-header">
+      <div class="step-number sn-red">🎬</div>
+      <div>
+        <div class="step-title">O cenário — Bilheteria do Cinema AI</div>
+        <div class="step-sub">Um caixa de cinema de verdade, em código</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Você foi contratado(a) pra programar a <strong>bilheteria do Cinema AI</strong>.
+        O programa atende <strong>um cliente</strong>: pergunta os dados, calcula o preço do
+        ingresso seguindo as regras da casa, aplica benefício quando cabe, recebe o pagamento
+        e devolve o troco. Tudo em sequência, do começo ao fim. 🎟️
+      </p>
+
+      <div class="card" style="background:var(--surface2);border-color:rgba(255,107,107,0.20)">
+        <h3 style="color:var(--accent2);margin-bottom:10px">📋 Regras da bilheteria</h3>
+        <div class="reveal-stagger" style="display:grid;gap:8px">
+          <div class="tip"><span class="tip-icon">🧒</span><div class="tip-content"><strong>Menos de 5 anos:</strong> entra de graça (colo).</div></div>
+          <div class="tip"><span class="tip-icon">🎈</span><div class="tip-content"><strong>De 5 a 12 anos:</strong> ingresso <strong>infantil</strong>, R$ 15,00.</div></div>
+          <div class="tip"><span class="tip-icon">👴</span><div class="tip-content"><strong>60 anos ou mais:</strong> meia do idoso, R$ 12,00.</div></div>
+          <div class="tip"><span class="tip-icon">🎫</span><div class="tip-content"><strong>Os outros:</strong> inteira, R$ 30,00.</div></div>
+          <div class="tip"><span class="tip-icon">🎓</span><div class="tip-content"><strong>Benefício:</strong> quem paga inteira ganha <strong>meia (50% off)</strong> se for <strong>estudante</strong> OU se for <strong>quarta-feira</strong>.</div></div>
+          <div class="tip"><span class="tip-icon">💵</span><div class="tip-content"><strong>No fim:</strong> recebe o valor pago e mostra o troco (ou avisa se faltou dinheiro).</div></div>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">prévia · cinema_ai.py</span>
+        </div>
+        <div class="terminal-body">
+          =================================<br>
+          🎬&nbsp;&nbsp;CINEMA AI — BILHETERIA<br>
+          =================================<br>
+          Seu nome: <strong>Ana</strong><br>
+          Sua idade: <strong>20</strong><br>
+          É estudante? (s/n): <strong>s</strong><br>
+          Dia da semana (ex: quarta): <strong>quarta</strong><br>
+          ---------------------------------<br>
+          Cliente: Ana<br>
+          Categoria: Meia-entrada<br>
+          Valor do ingresso: R$ 15.00<br>
+          Quanto você vai pagar? R$ <strong>20</strong><br>
+          ✅ Pagamento OK! Troco: R$ 5.00<br>
+          🍿 Bom filme, Ana!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- DECOMPOR -->
+  <section class="step-section" id="decompor">
+    <div class="step-header">
+      <div class="step-number sn-red">🧩</div>
+      <div>
+        <div class="step-title">Quebrando o problema em pedaços</div>
+        <div class="step-sub">Pensar como programador antes de digitar</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Programa grande assusta? Não precisa. O truque é o mesmo de fazer um café:
+        <strong>um passo de cada vez</strong>. Olha como esse chefão se quebra em 4 etapas,
+        e em cada uma só aparece coisa que você já sabe:
+      </p>
+
+      <div class="flow-container autoplay">
+        <div class="flow-box fb-input">
+          <div class="label">Etapa 1</div>
+          📥 Cadastro — perguntar nome, idade, estudante, dia
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box fb-process">
+          <div class="label">Etapa 2</div>
+          🔀 Preço por idade — <code>if / elif / else</code>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box fb-process">
+          <div class="label">Etapa 3</div>
+          🔗 Benefício — <code>and / or</code> pra meia-entrada
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-box fb-output">
+          <div class="label">Etapa 4</div>
+          💵 Pagamento e troco — mostrar resultado
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          <strong>Decompor</strong> é isso: transformar "ai que programa enorme" em
+          quatro probleminhas fáceis. Resolve um, depois o outro. No fim, junta tudo.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPA 1 -->
+  <section class="step-section" id="etapa1">
+    <div class="step-header">
+      <div class="step-number sn-blue">1️⃣</div>
+      <div>
+        <div class="step-title">Etapa 1 — Cadastro do cliente</div>
+        <div class="step-sub">input() + conversão de tipos</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Construindo junto — Etapa 1</div>
+          <div class="exercise-sub">cinema_ai.py · só pegar os dados</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Primeiro o cabeçalho bonito com <code>print()</code>, depois as 4 perguntas.
+        Repara: a <strong>idade</strong> vira <code>int</code> (vamos comparar com números),
+        mas <strong>nome</strong>, <strong>estudante</strong> e <strong>dia</strong> ficam como texto.
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cinema_ai.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+<pre><span class="bi">print</span>(<span class="st">"================================="</span>)
+<span class="bi">print</span>(<span class="st">"🎬  CINEMA AI — BILHETERIA"</span>)
+<span class="bi">print</span>(<span class="st">"================================="</span>)
+
+<span class="cm"># 1) Cadastro do cliente</span>
+nome      = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)
+idade     = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+estudante = <span class="bi">input</span>(<span class="st">"É estudante? (s/n): "</span>)
+dia       = <span class="bi">input</span>(<span class="st">"Dia da semana (ex: quarta): "</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          <strong>Por que só a idade leva <code>int()</code>?</strong> Porque é o único valor
+          que vamos <em>comparar com números</em> (<code>idade &lt; 5</code>, <code>idade &gt;= 60</code>).
+          Texto a gente só guarda e mostra.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPA 2 -->
+  <section class="step-section" id="etapa2">
+    <div class="step-header">
+      <div class="step-number sn-blue">2️⃣</div>
+      <div>
+        <div class="step-title">Etapa 2 — Preço pela faixa de idade</div>
+        <div class="step-sub">o coração do if / elif / else</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Construindo junto — Etapa 2</div>
+          <div class="exercise-sub">4 faixas → 1 escolhida</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:8px">
+        São <strong>4 caminhos possíveis</strong>, mas o Python escolhe <strong>só um</strong> —
+        o primeiro que der verdadeiro. Visualiza as faixas:
+      </p>
+
+      <div class="faixa-grid">
+        <div class="faixa-card f0">
+          <div class="fx-cond">idade &lt; 5</div>
+          <div class="fx-cat">Colo</div>
+          <div class="fx-preco">R$ 0</div>
+        </div>
+        <div class="faixa-card f1">
+          <div class="fx-cond">idade &lt;= 12</div>
+          <div class="fx-cat">Infantil</div>
+          <div class="fx-preco">R$ 15</div>
+        </div>
+        <div class="faixa-card f2">
+          <div class="fx-cond">idade &gt;= 60</div>
+          <div class="fx-cat">Idoso</div>
+          <div class="fx-preco">R$ 12</div>
+        </div>
+        <div class="faixa-card f3">
+          <div class="fx-cond">senão (else)</div>
+          <div class="fx-cat">Inteira</div>
+          <div class="fx-preco">R$ 30</div>
+        </div>
+      </div>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cinema_ai.py · (continuação)</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23</div>
+<pre><span class="cm"># 2) Preço base pela faixa de idade</span>
+<span class="kw">if</span> idade <span class="op">&lt;</span> <span class="num">5</span>:
+    categoria = <span class="st">"Colo (grátis)"</span>
+    preco = <span class="num">0.0</span>
+<span class="kw">elif</span> idade <span class="op">&lt;=</span> <span class="num">12</span>:
+    categoria = <span class="st">"Infantil"</span>
+    preco = <span class="num">15.0</span>
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">60</span>:
+    categoria = <span class="st">"Idoso (meia)"</span>
+    preco = <span class="num">12.0</span>
+<span class="kw">else</span>:
+    categoria = <span class="st">"Inteira"</span>
+    preco = <span class="num">30.0</span></pre>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🧠</span>
+        <div class="warning-content">
+          <strong>A ordem importa!</strong> O Python testa de cima pra baixo e <em>para no primeiro
+          verdadeiro</em>. Por isso <code>idade &lt; 5</code> vem antes de <code>idade &lt;= 12</code> —
+          uma criança de 3 anos cairia nas duas, mas a gente quer que ela pegue o "colo".
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPA 3 -->
+  <section class="step-section" id="etapa3">
+    <div class="step-header">
+      <div class="step-number sn-blue">3️⃣</div>
+      <div>
+        <div class="step-title">Etapa 3 — Benefício com and / or</div>
+        <div class="step-sub">combinando condições de verdade</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Construindo junto — Etapa 3</div>
+          <div class="exercise-sub">meia-entrada: estudante OU quarta</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        A regra é: <strong>se</strong> a categoria é "Inteira" <strong>E</strong>
+        (a pessoa é estudante <strong>OU</strong> é quarta-feira) → vira meia-entrada,
+        preço cai pela metade. Lê em voz alta — é quase português:
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cinema_ai.py · (continuação)</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">25<br>26<br>27<br>28</div>
+<pre><span class="cm"># 3) Benefício: meia pra estudante OU na quarta-feira</span>
+<span class="kw">if</span> categoria <span class="op">==</span> <span class="st">"Inteira"</span> <span class="kw">and</span> (estudante <span class="op">==</span> <span class="st">"s"</span> <span class="kw">or</span> dia <span class="op">==</span> <span class="st">"quarta"</span>):
+    categoria = <span class="st">"Meia-entrada"</span>
+    preco = preco <span class="op">/</span> <span class="num">2</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🔗</span>
+        <div class="tip-content">
+          <strong>Os parênteses são de propósito.</strong> Eles agrupam o "estudante OU quarta"
+          como uma pergunta só. Em português: <em>"é inteira E (é estudante OU é quarta)?"</em>.
+          Sem os parênteses, o Python poderia entender outra coisa.
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✨</span>
+        <div class="tip-content">
+          <strong><code>preco = preco / 2</code></strong> pega o valor atual da caixinha,
+          divide por 2 e <em>guarda de volta na mesma caixinha</em>. R$ 30 vira R$ 15.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPA 4 -->
+  <section class="step-section" id="etapa4">
+    <div class="step-header">
+      <div class="step-number sn-blue">4️⃣</div>
+      <div>
+        <div class="step-title">Etapa 4 — Pagamento e troco</div>
+        <div class="step-sub">f-string + última decisão</div>
+      </div>
+    </div>
+
+    <div class="exercise guided">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Construindo junto — Etapa 4</div>
+          <div class="exercise-sub">mostra o resumo, cobra e devolve troco</div>
+        </div>
+      </div>
+
+      <p style="color:var(--text-dim);margin-bottom:14px">
+        Agora mostramos o resumo com <strong>f-string</strong> (repara no <code>:.2f</code> que
+        força 2 casas decimais, jeito de dinheiro) e fazemos a <strong>última decisão</strong>:
+        o cliente pagou o suficiente?
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cinema_ai.py · (continuação)</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45</div>
+<pre><span class="cm"># 4) Mostra o resumo e cobra</span>
+<span class="bi">print</span>(<span class="st">"---------------------------------"</span>)
+<span class="bi">print</span>(<span class="st">f"Cliente: {nome}"</span>)
+<span class="bi">print</span>(<span class="st">f"Categoria: {categoria}"</span>)
+<span class="bi">print</span>(<span class="st">f"Valor do ingresso: R$ {preco:.2f}"</span>)
+
+pago = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Quanto você vai pagar? R$ "</span>))
+
+<span class="cm"># 5) Pagamento e troco</span>
+<span class="kw">if</span> pago <span class="op">&lt;</span> preco:
+    falta = preco <span class="op">-</span> pago
+    <span class="bi">print</span>(<span class="st">f"❌ Faltou R$ {falta:.2f}. Pagamento insuficiente."</span>)
+<span class="kw">else</span>:
+    troco = pago <span class="op">-</span> preco
+    <span class="bi">print</span>(<span class="st">f"✅ Pagamento OK! Troco: R$ {troco:.2f}"</span>)
+    <span class="bi">print</span>(<span class="st">f"🍿 Bom filme, {nome}!"</span>)</pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💵</span>
+        <div class="tip-content">
+          <strong>Usamos <code>float()</code> no pagamento</strong> porque dinheiro tem centavos
+          (R$ 19,90). E <code>{troco:.2f}</code> sempre mostra 2 casas — fica "5.00" em vez de "5.0".
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- PROGRAMA COMPLETO -->
+  <section class="step-section" id="completo">
+    <div class="step-header">
+      <div class="step-number sn-mint">✅</div>
+      <div>
+        <div class="step-title">O programa completo</div>
+        <div class="step-sub">as 4 etapas juntas, do início ao fim</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Junta as 4 etapas e pronto — esse é o <code>cinema_ai.py</code> inteiro.
+        Cola no PyCharm, roda com o ▶ e testa com vários valores (criança, idoso,
+        estudante na quarta…). 🎬
+      </p>
+
+      <div class="code-block with-lines">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">cinema_ai.py</span>
+          <span class="lang-badge python">Python</span>
+        </div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45</div>
+<pre><span class="bi">print</span>(<span class="st">"================================="</span>)
+<span class="bi">print</span>(<span class="st">"🎬  CINEMA AI — BILHETERIA"</span>)
+<span class="bi">print</span>(<span class="st">"================================="</span>)
+
+<span class="cm"># 1) Cadastro do cliente</span>
+nome      = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)
+idade     = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+estudante = <span class="bi">input</span>(<span class="st">"É estudante? (s/n): "</span>)
+dia       = <span class="bi">input</span>(<span class="st">"Dia da semana (ex: quarta): "</span>)
+
+<span class="cm"># 2) Preço base pela faixa de idade</span>
+<span class="kw">if</span> idade <span class="op">&lt;</span> <span class="num">5</span>:
+    categoria = <span class="st">"Colo (grátis)"</span>
+    preco = <span class="num">0.0</span>
+<span class="kw">elif</span> idade <span class="op">&lt;=</span> <span class="num">12</span>:
+    categoria = <span class="st">"Infantil"</span>
+    preco = <span class="num">15.0</span>
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">60</span>:
+    categoria = <span class="st">"Idoso (meia)"</span>
+    preco = <span class="num">12.0</span>
+<span class="kw">else</span>:
+    categoria = <span class="st">"Inteira"</span>
+    preco = <span class="num">30.0</span>
+
+<span class="cm"># 3) Benefício: meia pra estudante OU na quarta-feira</span>
+<span class="kw">if</span> categoria <span class="op">==</span> <span class="st">"Inteira"</span> <span class="kw">and</span> (estudante <span class="op">==</span> <span class="st">"s"</span> <span class="kw">or</span> dia <span class="op">==</span> <span class="st">"quarta"</span>):
+    categoria = <span class="st">"Meia-entrada"</span>
+    preco = preco <span class="op">/</span> <span class="num">2</span>
+
+<span class="cm"># 4) Mostra o resumo e cobra</span>
+<span class="bi">print</span>(<span class="st">"---------------------------------"</span>)
+<span class="bi">print</span>(<span class="st">f"Cliente: {nome}"</span>)
+<span class="bi">print</span>(<span class="st">f"Categoria: {categoria}"</span>)
+<span class="bi">print</span>(<span class="st">f"Valor do ingresso: R$ {preco:.2f}"</span>)
+
+pago = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Quanto você vai pagar? R$ "</span>))
+
+<span class="cm"># 5) Pagamento e troco</span>
+<span class="kw">if</span> pago <span class="op">&lt;</span> preco:
+    falta = preco <span class="op">-</span> pago
+    <span class="bi">print</span>(<span class="st">f"❌ Faltou R$ {falta:.2f}. Pagamento insuficiente."</span>)
+<span class="kw">else</span>:
+    troco = pago <span class="op">-</span> preco
+    <span class="bi">print</span>(<span class="st">f"✅ Pagamento OK! Troco: R$ {troco:.2f}"</span>)
+    <span class="bi">print</span>(<span class="st">f"🍿 Bom filme, {nome}!"</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- MÁQUINA DE EXECUÇÃO (motion) -->
+  <section class="step-section" id="maquina">
+    <div class="step-header">
+      <div class="step-number sn-purple">🎥</div>
+      <div>
+        <div class="step-title">Máquina de execução — vê o programa rodando por dentro</div>
+        <div class="step-sub">cada caixinha enchendo, passo a passo (roda sozinho)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Código no papel é uma coisa; <strong>ver ele rodar</strong> é outra. Aqui embaixo, a
+        animação executa o <code>cinema_ai.py</code> com o exemplo <em>Ana, 20 anos, estudante,
+        quarta-feira, pagou R$ 20</em>. A linha que está rodando acende à esquerda e as
+        <strong>caixinhas (variáveis)</strong> vão enchendo à direita. 👀
+      </p>
+
+      <div class="exec-machine" data-seq="2100">
+        <div class="exec-head">
+          <span class="ed r"></span><span class="ed y"></span><span class="ed g"></span>
+          <span class="et">cinema_ai.py · execução</span>
+          <span class="live">rodando</span>
+        </div>
+
+        <div class="exec-grid">
+          <!-- CÓDIGO (linha ativa) -->
+          <div class="exec-code">
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span><span class="bi">print</span>(<span class="st">"🎬 CINEMA AI..."</span>)</div>
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span>nome = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)</div>
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span>idade = <span class="bi">int</span>(<span class="bi">input</span>(...))</div>
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span>estudante = ... ; dia = ...</div>
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span><span class="kw">else</span>: categoria=<span class="st">"Inteira"</span>; preco=<span class="num">30</span></div>
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span><span class="kw">if</span> ...<span class="kw">and</span>(...<span class="kw">or</span>...): preco = preco<span class="op">/</span><span class="num">2</span></div>
+            <div class="exec-line" data-seq-step><span class="arrow">▶ </span>troco = pago <span class="op">-</span> preco</div>
+          </div>
+
+          <!-- TELA (frames / snapshots) -->
+          <div class="exec-screen">
+            <!-- F0 -->
+            <div class="exec-frame" data-seq-frame="0">
+              <div class="exec-cap">▶ Programa começou — caixinhas vazias</div>
+              <div class="var-grid">
+                <div class="var-box empty"><span class="vn">nome</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">idade</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">categoria</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">preço</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">pago</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">troco</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">🎬 CINEMA AI — BILHETERIA</span></div>
+            </div>
+            <!-- F1 -->
+            <div class="exec-frame" data-seq-frame="1">
+              <div class="exec-cap">📥 Perguntou o nome → guardou texto</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box empty"><span class="vn">idade</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">categoria</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">preço</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">pago</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">troco</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Seu nome:</span> Ana</div>
+            </div>
+            <!-- F2 -->
+            <div class="exec-frame" data-seq-frame="2">
+              <div class="exec-cap">🔢 int(input()) → idade virou número 20</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box fresh"><span class="vn">idade</span><span class="vv">20</span></div>
+                <div class="var-box empty"><span class="vn">categoria</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">preço</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">pago</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">troco</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Sua idade:</span> 20</div>
+            </div>
+            <!-- F3 -->
+            <div class="exec-frame" data-seq-frame="3">
+              <div class="exec-cap">📥 estudante = "s" · dia = "quarta"</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box"><span class="vn">idade</span><span class="vv">20</span></div>
+                <div class="var-box fresh"><span class="vn">estudante</span><span class="vv">"s"</span></div>
+                <div class="var-box fresh"><span class="vn">dia</span><span class="vv">"quarta"</span></div>
+                <div class="var-box empty"><span class="vn">categoria</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">preço</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">É estudante? (s/n):</span> s &nbsp; <span class="dim">Dia:</span> quarta</div>
+            </div>
+            <!-- F4 -->
+            <div class="exec-frame" data-seq-frame="4">
+              <div class="exec-cap">🔀 20 não é &lt;5, nem &lt;=12, nem &gt;=60 → cai no else</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box"><span class="vn">idade</span><span class="vv">20</span></div>
+                <div class="var-box fresh"><span class="vn">categoria</span><span class="vv">"Inteira"</span></div>
+                <div class="var-box fresh"><span class="vn">preço</span><span class="vv">30.00</span></div>
+                <div class="var-box empty"><span class="vn">pago</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">troco</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">decisão de idade →</span> Inteira (R$ 30.00)</div>
+            </div>
+            <!-- F5 -->
+            <div class="exec-frame" data-seq-frame="5">
+              <div class="exec-cap">🔗 Inteira <b>and</b> (estudante=="s" <b>or</b> dia=="quarta") → meia!</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box"><span class="vn">idade</span><span class="vv">20</span></div>
+                <div class="var-box fresh"><span class="vn">categoria</span><span class="vv">"Meia-entrada"</span></div>
+                <div class="var-box fresh"><span class="vn">preço</span><span class="vv">15.00</span></div>
+                <div class="var-box empty"><span class="vn">pago</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">troco</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="ok">benefício aplicado</span> → preço 30.00 / 2 = <b>15.00</b></div>
+            </div>
+            <!-- F6 -->
+            <div class="exec-frame" data-seq-frame="6">
+              <div class="exec-cap">💵 pago 20 ≥ 15 → troco = 20 − 15 = 5.00 🎉</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box"><span class="vn">categoria</span><span class="vv">"Meia"</span></div>
+                <div class="var-box"><span class="vn">preço</span><span class="vv">15.00</span></div>
+                <div class="var-box fresh"><span class="vn">pago</span><span class="vv">20.00</span></div>
+                <div class="var-box fresh"><span class="vn">troco</span><span class="vv">5.00</span></div>
+                <div class="var-box"><span class="vn">status</span><span class="vv">OK ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="ok">✅ Troco: R$ 5.00</span><br>🍿 Bom filme, Ana!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          <strong>Esse é o segredo de todo programa:</strong> ele roda <em>de cima pra baixo</em>,
+          uma linha por vez, mudando o valor das caixinhas. Quando você "lê código na cabeça",
+          é exatamente esse filme que você roda. 🎞️
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- BUGZILLA -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number sn-red">🐛</div>
+      <div>
+        <div class="step-title">BugZilla ataca o Super Desafio</div>
+        <div class="step-sub">o erro nº1 de quem mistura tudo</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">"Roda no PyCharm e explode!"</div>
+          <div class="bugzilla-sub">esquecer o int() na idade</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p>
+          O erro campeão nesse tipo de programa: pegar a idade com <code>input()</code> e
+          <strong>esquecer o <code>int()</code></strong>. Aí a idade fica como <em>texto</em>,
+          e o Python não deixa comparar texto com número.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="split-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 18px">
+        <div class="bug-box">
+          <span class="bug-icon">❌</span>
+          <div class="bug-content">
+            <strong>Errado:</strong>
+            <pre style="background:transparent;padding:6px 0;font-size:0.85rem">idade = input("Idade: ")
+if idade &gt;= 60:
+    ...</pre>
+            <em>TypeError</em> — não dá pra comparar <code>"60"</code> (texto) com <code>60</code> (número).
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">✅</span>
+          <div class="tip-content">
+            <strong>Certo:</strong>
+            <pre style="background:transparent;padding:6px 0;font-size:0.85rem">idade = int(input("Idade: "))
+if idade &gt;= 60:
+    ...</pre>
+            Agora <code>idade</code> é número de verdade. A comparação funciona.
+          </div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🧠</span>
+        <div class="warning-content">
+          <strong>Regra de bolso:</strong> se você vai <em>comparar com número</em> ou
+          <em>fazer conta</em>, converte na hora de pegar — <code>int()</code> pra inteiro,
+          <code>float()</code> pra valor com centavos.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PARTE B — SOZINHO
+       ═══════════════════════════════════════════════════════ -->
+  <div class="block-divider"><span class="bd-pill solo">🎢 Parte B · Sozinho · Parque AI</span></div>
+
+  <!-- CENÁRIO PARQUE -->
+  <section class="step-section" id="cenario-parque">
+    <div class="step-header">
+      <div class="step-number sn-purple">🎢</div>
+      <div>
+        <div class="step-title">Agora é com você — Parque AI Adventure</div>
+        <div class="step-sub">mesma ideia do Cinema, tema diferente</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Se fez o Cinema, você faz o Parque 🎢</div>
+        <p>
+          Esse segundo chefão tem <strong>a mesma estrutura</strong> do Cinema AI:
+          cadastro → preço por idade → um benefício com <code>and/or</code> → pagamento e troco.
+          Muda o tema e entra <strong>uma reviravolta nova</strong> (mas ainda só com o que você já sabe):
+          uma regra de <strong>altura</strong> pra liberar a montanha-russa. 🎟️
+        </p>
+        <p>
+          Não tem código pronto à mostra aqui em cima — só o olhinho 👀 lá no fim.
+          Faça <em>de verdade</em> no PyCharm primeiro. Esse é o momento que vale ouro.
+        </p>
+      </div>
+
+      <div class="card" style="background:var(--surface2);border-color:rgba(167,139,250,0.22)">
+        <h3 style="color:var(--accent6);margin-bottom:10px">📋 Regras do Parque AI</h3>
+        <div class="reveal-stagger" style="display:grid;gap:8px">
+          <div class="tip"><span class="tip-icon">🧒</span><div class="tip-content"><strong>Menos de 6 anos:</strong> entra de graça.</div></div>
+          <div class="tip"><span class="tip-icon">🎈</span><div class="tip-content"><strong>De 6 a 12 anos:</strong> infantil, R$ 40,00.</div></div>
+          <div class="tip"><span class="tip-icon">👴</span><div class="tip-content"><strong>60 anos ou mais:</strong> melhor idade, R$ 35,00.</div></div>
+          <div class="tip"><span class="tip-icon">🎟️</span><div class="tip-content"><strong>Os outros:</strong> adulto, R$ 80,00.</div></div>
+          <div class="tip"><span class="tip-icon">⭐</span><div class="tip-content"><strong>Sócio do parque</strong> (respondeu "s") ganha <strong>20% de desconto</strong> (multiplica o preço por <code>0.8</code>).</div></div>
+          <div class="tip"><span class="tip-icon">🎢</span><div class="tip-content"><strong>Montanha-russa:</strong> só libera se a pessoa tiver <strong>idade &gt;= 12 E altura &gt;= 1.40</strong>. Senão, vai pro carrossel.</div></div>
+          <div class="tip"><span class="tip-icon">💵</span><div class="tip-content"><strong>No fim:</strong> recebe o pagamento e mostra o troco (ou avisa se faltou).</div></div>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">como deve ficar · parque_ai.py</span>
+        </div>
+        <div class="terminal-body">
+          =================================<br>
+          🎢&nbsp;&nbsp;PARQUE AI ADVENTURE — CAIXA<br>
+          =================================<br>
+          Seu nome: <strong>Beto</strong><br>
+          Sua idade: <strong>30</strong><br>
+          Sua altura em metros (ex: 1.70): <strong>1.75</strong><br>
+          É sócio do parque? (s/n): <strong>s</strong><br>
+          ---------------------------------<br>
+          Visitante: Beto<br>
+          Categoria: Adulto<br>
+          Valor da entrada: R$ 64.00<br>
+          🎢 Liberado para a MONTANHA-RUSSA!<br>
+          Quanto você vai pagar? R$ <strong>100</strong><br>
+          ✅ Troco: R$ 36.00<br>
+          🎉 Bom passeio, Beto!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESAFIO SOLO -->
+  <section class="step-section" id="desafio-solo">
+    <div class="step-header">
+      <div class="step-number sn-purple">💪</div>
+      <div>
+        <div class="step-title">Faça você mesmo — <code>parque_ai.py</code></div>
+        <div class="step-sub">o olhinho 👀 só depois de tentar de verdade</div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Desafio Final — sozinho</div>
+          <div class="exercise-sub">parque_ai.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer (passo a passo)</div>
+        <p>Crie o arquivo <code>parque_ai.py</code> e siga o mesmo caminho do Cinema AI:</p>
+        <p style="margin-left:6px">
+          <strong>1)</strong> Cabeçalho com <code>print()</code> e o cadastro: <code>nome</code> (texto),
+          <code>idade</code> com <code>int()</code>, <code>altura</code> com <code>float()</code> e
+          <code>socio</code> (texto "s"/"n").<br>
+          <strong>2)</strong> <code>if/elif/else</code> pra definir <code>categoria</code> e <code>preco</code>
+          pela faixa de idade (use as 4 faixas das regras).<br>
+          <strong>3)</strong> <code>if socio == "s":</code> → <code>preco = preco * 0.8</code>.<br>
+          <strong>4)</strong> Mostre o resumo com f-string e decida a montanha-russa com
+          <code>if idade &gt;= 12 and altura &gt;= 1.40:</code>.<br>
+          <strong>5)</strong> Peça o pagamento com <code>float()</code> e mostre o troco com
+          <code>if/else</code> (igualzinho ao Cinema).
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🎯</span>
+        <div class="tip-content">
+          <strong>Dica de ouro:</strong> abra o seu <code>cinema_ai.py</code> do lado.
+          A espinha é <em>idêntica</em> — você só troca os valores, os textos e adiciona
+          a regrinha da altura. Não está começando do zero!
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧮</span>
+        <div class="tip-content">
+          <strong>Confere a conta do exemplo:</strong> adulto = 80, sócio → <code>80 * 0.8 = 64</code>.
+          Pagou 100 → troco <code>100 - 64 = 36</code>. Se a sua deu isso, tá certo! ✅
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o desafio que prova que você
+          aprendeu os caps 1, 2 e 3. Quem espia antes de tentar perde a maior parte do aprendizado!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">parque_ai.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46</div>
+<pre><span class="bi">print</span>(<span class="st">"================================="</span>)
+<span class="bi">print</span>(<span class="st">"🎢  PARQUE AI ADVENTURE — CAIXA"</span>)
+<span class="bi">print</span>(<span class="st">"================================="</span>)
+
+<span class="cm"># 1) Cadastro do visitante</span>
+nome   = <span class="bi">input</span>(<span class="st">"Seu nome: "</span>)
+idade  = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Sua idade: "</span>))
+altura = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Sua altura em metros (ex: 1.70): "</span>))
+socio  = <span class="bi">input</span>(<span class="st">"É sócio do parque? (s/n): "</span>)
+
+<span class="cm"># 2) Preço base pela faixa de idade</span>
+<span class="kw">if</span> idade <span class="op">&lt;</span> <span class="num">6</span>:
+    categoria = <span class="st">"Criança (grátis)"</span>
+    preco = <span class="num">0.0</span>
+<span class="kw">elif</span> idade <span class="op">&lt;=</span> <span class="num">12</span>:
+    categoria = <span class="st">"Infantil"</span>
+    preco = <span class="num">40.0</span>
+<span class="kw">elif</span> idade <span class="op">&gt;=</span> <span class="num">60</span>:
+    categoria = <span class="st">"Melhor idade"</span>
+    preco = <span class="num">35.0</span>
+<span class="kw">else</span>:
+    categoria = <span class="st">"Adulto"</span>
+    preco = <span class="num">80.0</span>
+
+<span class="cm"># 3) Sócio ganha 20% de desconto</span>
+<span class="kw">if</span> socio <span class="op">==</span> <span class="st">"s"</span>:
+    preco = preco <span class="op">*</span> <span class="num">0.8</span>
+
+<span class="cm"># 4) Resumo + regra da montanha-russa</span>
+<span class="bi">print</span>(<span class="st">"---------------------------------"</span>)
+<span class="bi">print</span>(<span class="st">f"Visitante: {nome}"</span>)
+<span class="bi">print</span>(<span class="st">f"Categoria: {categoria}"</span>)
+<span class="bi">print</span>(<span class="st">f"Valor da entrada: R$ {preco:.2f}"</span>)
+
+<span class="kw">if</span> idade <span class="op">&gt;=</span> <span class="num">12</span> <span class="kw">and</span> altura <span class="op">&gt;=</span> <span class="num">1.40</span>:
+    <span class="bi">print</span>(<span class="st">"🎢 Liberado para a MONTANHA-RUSSA!"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"🎠 Hoje você curte o carrossel (regra de segurança)."</span>)
+
+<span class="cm"># 5) Pagamento e troco</span>
+pago = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Quanto você vai pagar? R$ "</span>))
+<span class="kw">if</span> pago <span class="op">&lt;</span> preco:
+    <span class="bi">print</span>(<span class="st">f"❌ Faltou R$ {preco - pago:.2f}. Pagamento insuficiente."</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"✅ Troco: R$ {pago - preco:.2f}"</span>)
+    <span class="bi">print</span>(<span class="st">f"🎉 Bom passeio, {nome}!"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · parque_ai.py</span>
+            </div>
+            <div class="terminal-body">
+              =================================<br>
+              🎢&nbsp;&nbsp;PARQUE AI ADVENTURE — CAIXA<br>
+              =================================<br>
+              Seu nome: <strong>Beto</strong><br>
+              Sua idade: <strong>30</strong><br>
+              Sua altura em metros (ex: 1.70): <strong>1.75</strong><br>
+              É sócio do parque? (s/n): <strong>s</strong><br>
+              ---------------------------------<br>
+              Visitante: Beto<br>
+              Categoria: Adulto<br>
+              Valor da entrada: R$ 64.00<br>
+              🎢 Liberado para a MONTANHA-RUSSA!<br>
+              Quanto você vai pagar? R$ <strong>100</strong><br>
+              ✅ Troco: R$ 36.00<br>
+              🎉 Bom passeio, Beto!
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Comparou com a sua versão?</strong> Pode ter ficado diferente nos textos
+              ou na ordem dos prints — e tá <em>certíssimo</em>. O que importa é a lógica:
+              faixa de idade, desconto de sócio, regra da montanha-russa e o troco. Se bate, você mandou bem! 🎉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ENCERRAMENTO -->
+  <section class="step-section" id="encerramento">
+    <div class="step-header">
+      <div class="step-number sn-mint">🎉</div>
+      <div>
+        <div class="step-title">Você zerou o chefão!</div>
+        <div class="step-sub">dois programas completos no seu currículo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pycharm-banner" style="background:linear-gradient(135deg,rgba(6,214,160,0.10),rgba(247,183,49,0.06));border-color:rgba(6,214,160,0.30);margin-bottom:18px">
+        <h3 style="color:var(--accent7)">🏆 Dois sistemas de verdade, do zero</h3>
+        <p>
+          Cinema AI e Parque AI não são "oi mundo": são <strong>programas completos</strong>,
+          com cadastro, regras de negócio, decisões compostas e cálculo de troco. Isso
+          <strong>É</strong> programar — e você fez usando só os caps 1, 2 e 3.
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">2</span><span class="stat-label">Sistemas completos</span></div>
+        <div class="stat-card"><span class="stat-num">3</span><span class="stat-label">Capítulos consolidados</span></div>
+        <div class="stat-card"><span class="stat-num">0</span><span class="stat-label">Conteúdo novo (só você + prática)</span></div>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip"><span class="tip-icon">📥</span><div class="tip-content"><strong>Cap 01 + 02 ✅</strong> — input, conversão, variáveis, tipos e f-string viraram reflexo.</div></div>
+        <div class="tip"><span class="tip-icon">🔀</span><div class="tip-content"><strong>Cap 03 ✅</strong> — você monta <code>if/elif/else</code> com faixas e combina condições com <code>and/or</code> sem medo.</div></div>
+        <div class="tip"><span class="tip-icon">🧩</span><div class="tip-content"><strong>Bônus:</strong> aprendeu a <em>decompor</em> um problema grande em etapas — a habilidade mais importante de todas.</div></div>
+      </div>
+    </div>
+
+    <div class="card next-chapter-card">
+      <h3 style="color:var(--accent6);margin-bottom:8px">Próximo capítulo →</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        <strong style="color:var(--text)">Capítulo 04 — Loops e Listas.</strong>
+        Repara que no Cinema e no Parque você atendeu <em>um cliente só</em>. E se a fila
+        tivesse 50 pessoas? Pra repetir sem copiar e colar, entram os <code>loops</code>. 🔁
+      </p>
+      <a href="../04-loops-listas/" class="cta-btn">🔁 Ir para Capítulo 04 →</a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pela <strong style="color:var(--text)">programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+</body>
+</html>

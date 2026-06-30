@@ -131,6 +131,38 @@ Se adicionar/remover desafios, sincronizar: sidebar do próprio capítulo + card
 
 ---
 
+## 🏆 Capítulo 3.6 — Super Desafio (Caps 1, 2 e 3)
+**Pasta:** `capitulos/03c-super-desafio/`
+**Cor temática:** dourado + coral + lilás (`--accent5` + `--accent2` + `--accent6`)
+**Origem:** vem **depois** do `03b` (30 desafios) e **antes** do cap 04. Sem conteúdo novo —
+só caps 1, 2 e 3 (input/conversão, variáveis, tipos, f-string, if/elif/else, and/or). **Sem loops,
+sem listas, sem funções.**
+
+### Estrutura
+- Hero + intro ("luta de chefão") + arsenal (revisão caps 1–3) + setup PyCharm (projeto `super_desafio`)
+- **Parte A — GUIADO · `cinema_ai.py`** (Bilheteria do Cinema AI): construído em 4 etapas
+  (cadastro → preço por faixa de idade com `if/elif/else` → benefício meia-entrada com
+  `and/or` → pagamento e troco), depois o programa completo
+- **🎥 Máquina de execução:** animação `data-seq` (autoplay) que executa o `cinema_ai.py` linha a
+  linha com 7 frames-snapshot das variáveis enchendo — o "motion/remotion" do capítulo
+- **BugZilla:** esquecer `int()` na idade → `TypeError` comparando texto com número
+- **Parte B — SOZINHO · `parque_ai.py`** (Parque AI Adventure): mesma espinha do Cinema, tema
+  diferente, com a reviravolta da regra de **altura** (`idade >= 12 and altura >= 1.40`) pra
+  montanha-russa. Padrão olhinho 👀 (concept → tip → try-first → toggler com solução + terminal)
+- Encerramento com stats + ponte pro cap 04 (gancho: "atendeu 1 cliente; e se a fila tivesse 50?")
+
+### Motion (atenção ao manter)
+A "Máquina de execução" depende do engine `data-seq`/`data-seq-step`/`data-seq-frame` do
+`shared/scripts.js`. O atributo `data-seq` fica no `.exec-machine` (ancestral de código E frames).
+**Nº de elementos `[data-seq-step]` deve bater com o nº de `[data-seq-frame]`** (hoje 7 e 7) — o
+engine usa `Math.max(steps, frames)` como total de quadros; sobra de elementos = quadros em branco.
+
+### Quando manter atualizado
+Sincronizar com: card no `index.html` do hub (CAP · 3.6), botão "próximo" do `03b` (aponta pra cá)
+e o mapa rápido abaixo.
+
+---
+
 ## 🟢 Capítulo 05 — Funções
 **Pasta:** `capitulos/05-funcoes/`
 **Cor temática:** verde menta + turquesa (`--accent7` + `--accent3`)
@@ -256,6 +288,7 @@ Cada desafio tem:
 | 01 | Boas-vindas | Hello world | print, input, primeira execução |
 | 02 | Variáveis & Tipos | Caixinhas | str, int, float, bool, f-string |
 | 03 | Condicionais | Decisões | if/elif/else, operadores |
+| 3.6 | Super Desafio (Caps 1-3) | Consolidar | Cinema AI (guiado) + Parque AI (solo), só if/elif/else + and/or |
 | 04 | Loops & Listas | Repetir | while, for, range, listas |
 | 4.5 | 30 Desafios (Caps 1-4) | Fixar | while + for + range + listas (treinão) |
 | 05 | Funções | Reutilizar | def, parâmetros, retorno |
