@@ -366,28 +366,6 @@
 }
 .recipe-step .emoji{font-size:1.4rem;margin-left:auto}
 
-/* ============================================================
-   CARD de desafio externo
-   ============================================================ */
-.external-challenge{
-  background:linear-gradient(135deg,rgba(108,99,255,0.10),rgba(78,205,196,0.06));
-  border:2px solid rgba(108,99,255,0.30);
-  border-radius:18px;padding:24px;
-  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
-  margin:24px 0;
-}
-.external-challenge .ic{font-size:3rem;line-height:1}
-.external-challenge .info{flex:1;min-width:240px}
-.external-challenge h4{color:var(--accent3);font-size:1.15rem;margin-bottom:6px}
-.external-challenge p{color:var(--text-dim);font-size:0.9rem;margin-bottom:0}
-.external-challenge a.btn{
-  display:inline-block;padding:10px 22px;
-  background:linear-gradient(135deg,var(--accent),var(--accent3));
-  color:white;font-weight:900;text-decoration:none;
-  border-radius:50px;font-size:0.9rem;letter-spacing:0.5px;
-  white-space:nowrap;
-}
-
 /* anim de bolinhas (legado) */
 .loop-anim{justify-content:center}
 .loop-anim .list-cell{animation:loopBounce 4s ease-in-out infinite;}
@@ -396,6 +374,127 @@
 .loop-anim .list-cell:nth-child(3){animation-delay:1s}
 .loop-anim .list-cell:nth-child(4){animation-delay:1.5s}
 .loop-anim .list-cell:nth-child(5){animation-delay:2s}
+
+/* ════════════════════════════════════════════════════════
+   CICLO DO WHILE — diagrama giratório (data-seq, autoplay)
+   a própria animação repete em círculo — igual ao loop 😄
+   ════════════════════════════════════════════════════════ */
+.loop-cycle{
+  background:linear-gradient(135deg,#0a0a1e 0%,#0f0f26 100%);
+  border:1.5px solid rgba(167,139,250,0.28);border-radius:22px;
+  padding:24px 22px 16px;margin:22px 0;position:relative;overflow:hidden;
+}
+.lc-track{display:flex;align-items:stretch;justify-content:center;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+.lc-node{
+  background:var(--surface2);border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:14px;padding:12px 16px;text-align:center;min-width:150px;
+  transition:all .35s ease;opacity:.5;
+}
+.lc-node .lc-ico{display:block;font-size:1.5rem;margin-bottom:4px}
+.lc-node b{display:block;font-size:.92rem}
+.lc-node small{display:block;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-dim);margin-top:3px}
+.lc-node.active{
+  opacity:1;border-color:var(--accent6);transform:translateY(-3px);
+  box-shadow:0 0 22px rgba(167,139,250,0.30);
+}
+.lc-arrow{align-self:center;color:var(--text-dim);font-weight:900;font-size:1.1rem}
+.lc-back{
+  text-align:center;font-family:'JetBrains Mono',monospace;font-size:.78rem;
+  color:var(--accent6);margin:6px 0 12px;opacity:.85;
+}
+.lc-caption{position:relative;min-height:38px}
+.lc-cap{
+  position:absolute;inset:0;text-align:center;
+  font-family:'Caveat',cursive;font-size:1.3rem;color:var(--accent5);
+  opacity:0;transform:translateY(8px);transition:all .4s ease;
+}
+.lc-cap.on{opacity:1;transform:none}
+
+/* ════════════════════════════════════════════════════════
+   MÁQUINA DE EXECUÇÃO — o "motion" do capítulo (autoplay)
+   roda sozinha via initSeqLoops (data-seq do shared/scripts.js);
+   as linhas usam data-seq-step="i,j,k" pro destaque VOLTAR
+   pra cima — é assim que se anima um loop. (padrão do cap 3.6)
+   ════════════════════════════════════════════════════════ */
+.exec-machine{
+  border:1px solid rgba(108,99,255,0.25);border-radius:18px;overflow:hidden;
+  background:var(--surface);margin:24px 0;
+  box-shadow:0 0 0 1px rgba(108,99,255,0.05),0 14px 40px rgba(0,0,0,0.35);
+}
+.exec-head{
+  display:flex;align-items:center;gap:8px;padding:12px 18px;
+  background:linear-gradient(135deg,rgba(167,139,250,0.16),rgba(108,99,255,0.07));
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.exec-head .ed{width:11px;height:11px;border-radius:50%}
+.exec-head .ed.r{background:#ff5f57}.exec-head .ed.y{background:#febc2e}.exec-head .ed.g{background:#28c840}
+.exec-head .et{margin-left:8px;font-weight:800;font-size:0.9rem;color:var(--text)}
+.exec-head .live{
+  margin-left:auto;display:flex;align-items:center;gap:6px;
+  font-size:0.7rem;letter-spacing:1px;color:var(--accent7);font-weight:800;text-transform:uppercase;
+}
+.exec-head .live::before{
+  content:'';width:9px;height:9px;border-radius:50%;background:var(--accent7);
+  animation:pulse 1.1s infinite;
+}
+.exec-grid{display:grid;grid-template-columns:1.05fr 1fr}
+@media(max-width:760px){.exec-grid{grid-template-columns:1fr}}
+
+.exec-code{
+  background:var(--code-bg);padding:16px 12px;
+  font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.5;
+  border-right:1px solid rgba(255,255,255,0.05);
+}
+@media(max-width:760px){.exec-code{border-right:0;border-bottom:1px solid rgba(255,255,255,0.05)}}
+.exec-line{
+  padding:3px 10px;border-radius:7px;color:var(--text-dim);
+  border-left:3px solid transparent;transition:all .3s ease;white-space:pre-wrap;
+}
+.exec-line.active{
+  background:rgba(247,183,49,0.13);color:var(--text);
+  border-left-color:var(--accent5);box-shadow:0 0 0 1px rgba(247,183,49,0.18);
+}
+.exec-line .arrow{opacity:0;color:var(--accent5);font-weight:800}
+.exec-line.active .arrow{opacity:1}
+.exec-line .kw{color:#c4a7e7}.exec-line .bi{color:#82aaff}
+.exec-line .st{color:#c3e88d}.exec-line .num{color:#f78c6c}.exec-line .cm{color:#7785a8;font-style:italic}
+
+.exec-screen{position:relative;min-height:340px;padding:18px}
+@media(max-width:760px){.exec-screen{min-height:360px}}
+.exec-frame{
+  position:absolute;inset:18px;opacity:0;transform:translateY(10px);
+  transition:opacity .45s ease,transform .45s ease;pointer-events:none;
+}
+.exec-frame.on{opacity:1;transform:none}
+.exec-cap{
+  font-family:'Caveat',cursive;font-size:1.25rem;color:var(--accent5);
+  margin-bottom:12px;line-height:1.2;
+}
+.var-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.var-box{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:10px;padding:8px 11px;transition:all .35s ease;
+}
+.var-box .vn{
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:2px;
+}
+.var-box .vv{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);font-size:0.92rem}
+.var-box.empty{opacity:0.45}
+.var-box.empty .vv{color:#3a3a55}
+.var-box.fresh{
+  border-color:var(--accent7);background:rgba(6,214,160,0.08);
+  box-shadow:0 0 18px rgba(6,214,160,0.20);
+}
+.var-box.gone{
+  border-color:rgba(255,107,107,0.45);background:rgba(255,107,107,0.07);
+}
+.exec-out{
+  margin-top:13px;background:#000;border-radius:10px;padding:11px 13px;
+  font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:#c9d1d9;
+  line-height:1.7;min-height:34px;border:1px solid rgba(255,255,255,0.05);
+}
+.exec-out .ok{color:var(--accent7)}.exec-out .warn{color:var(--accent2)}.exec-out .dim{color:var(--text-dim)}
 </style>
 </head>
 <body>
@@ -424,6 +523,7 @@
     <a class="sidebar-link" onclick="goTo('contagem')"><span class="dot" style="background:var(--accent4)"></span>Bora codar — contagem</a>
     <a class="sidebar-link" onclick="goTo('contagem-regressiva')"><span class="dot" style="background:var(--accent6)"></span>contagem_regressiva.py 👀</a>
     <a class="sidebar-link" onclick="goTo('exer-soma-naturais')"><span class="dot" style="background:var(--accent6)"></span>soma_naturais.py 👀</a>
+    <a class="sidebar-link" onclick="goTo('maquina-while')"><span class="dot" style="background:var(--accent5)"></span>🎥 Máquina — while</a>
     <a class="sidebar-link" onclick="goTo('for')"><span class="dot" style="background:var(--accent3)"></span>for — playground</a>
     <a class="sidebar-link" onclick="goTo('exer-saudacoes')"><span class="dot" style="background:var(--accent6)"></span>saudacoes.py 👀</a>
     <a class="sidebar-link" onclick="goTo('range')"><span class="dot" style="background:var(--accent5)"></span>range() — playground</a>
@@ -437,9 +537,11 @@
     <a class="sidebar-link" onclick="goTo('append-pg')"><span class="dot" style="background:var(--accent3)"></span>append — playground</a>
     <a class="sidebar-link" onclick="goTo('lista-alunos')"><span class="dot" style="background:var(--accent6)"></span>lista_alunos.py 👀</a>
     <a class="sidebar-link" onclick="goTo('exer-compras')"><span class="dot" style="background:var(--accent6)"></span>lista_compras.py 👀</a>
+    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent2)"></span>🥷 Arena de treino</a>
     <a class="sidebar-link" onclick="goTo('lista-interativa')"><span class="dot" style="background:var(--accent6)"></span>lista_interativa.py 👀</a>
+    <a class="sidebar-link" onclick="goTo('maquina-break')"><span class="dot" style="background:var(--accent5)"></span>🎥 Máquina — break</a>
+    <a class="sidebar-link" onclick="goTo('missoes')"><span class="dot" style="background:var(--accent3)"></span>💥 5 Missões finais</a>
     <a class="sidebar-link" onclick="goTo('quiz-listas')"><span class="dot" style="background:var(--accent5)"></span>Quiz V/F</a>
-    <a class="sidebar-link" onclick="goTo('desafio-externo')"><span class="dot" style="background:var(--accent3)"></span>Desafio extra</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo</a>
   </div>
 </aside>
@@ -605,6 +707,39 @@
 <span class="kw">while</span> contador &lt;= <span class="num">5</span>:
     <span class="bi">print</span>(contador)
     contador = contador + <span class="num">1</span>   <span class="cm"># 👈 não esquecer!</span></pre>
+      </div>
+
+      <!-- ══ CICLO DO WHILE — diagrama giratório (autoplay) ══ -->
+      <p style="margin:18px 0 0">
+        E o que o Python faz por dentro? <strong>Sempre as mesmas 3 coisas, em círculo</strong> —
+        repara que a animação abaixo também fica girando… igualzinho ao loop 😄:
+      </p>
+      <div class="loop-cycle" data-seq="1500">
+        <div class="lc-track">
+          <div class="lc-node" data-seq-step>
+            <span class="lc-ico">❓</span>
+            <b>1. Testa</b>
+            <small>contador &lt;= 5 ?</small>
+          </div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-node" data-seq-step>
+            <span class="lc-ico">⚙️</span>
+            <b>2. Executa o bloco</b>
+            <small>print(contador)</small>
+          </div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-node" data-seq-step>
+            <span class="lc-ico">➕</span>
+            <b>3. Atualiza</b>
+            <small>contador = contador + 1</small>
+          </div>
+        </div>
+        <div class="lc-back">↩ …e VOLTA pro teste. De novo. E de novo. Até o teste dar False → aí sai do loop 🚪</div>
+        <div class="lc-caption">
+          <div class="lc-cap" data-seq-frame="0">🔍 O Python olha a condição: ainda é True?</div>
+          <div class="lc-cap" data-seq-frame="1">▶ True! Então roda tudo que está indentado dentro do while</div>
+          <div class="lc-cap" data-seq-frame="2">🔁 Aumenta o contador… e volta lá pro começo!</div>
+        </div>
       </div>
 
       <div class="warning">
@@ -950,6 +1085,194 @@ soma     = <span class="num">0</span>            <span class="cm"># 👈 acumula
               é esse padrão. Variável zerada antes, somando dentro do loop.
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       🎥 MÁQUINA DE EXECUÇÃO — while + acumulador (motion)
+       o destaque de linha VOLTA pra cima a cada volta do loop
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="maquina-while">
+    <div class="step-header">
+      <div class="step-number sn-purple">🎥</div>
+      <div>
+        <div class="step-title">Máquina de execução — o while por dentro</div>
+        <div class="step-sub">vê o loop dando as voltas, caixinha por caixinha (roda sozinho)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Você acabou de escrever um acumulador — agora <strong>assiste um rodando</strong>.
+        A animação executa a soma de 1 até 3, linha por linha. Repara em duas coisas:
+        o destaque amarelo <strong>volta pra linha do <code>while</code></strong> a cada volta,
+        e as caixinhas <code>soma</code> e <code>contador</code> vão mudando de valor. 👀
+      </p>
+
+      <div class="exec-machine" data-seq="1800">
+        <div class="exec-head">
+          <span class="ed r"></span><span class="ed y"></span><span class="ed g"></span>
+          <span class="et">soma_ate_3.py · execução</span>
+          <span class="live">rodando</span>
+        </div>
+
+        <div class="exec-grid">
+          <!-- CÓDIGO (linha ativa; data-seq-step lista os quadros em que acende) -->
+          <div class="exec-code">
+            <div class="exec-line" data-seq-step="0"><span class="arrow">▶ </span>soma = <span class="num">0</span></div>
+            <div class="exec-line" data-seq-step="1"><span class="arrow">▶ </span>contador = <span class="num">1</span></div>
+            <div class="exec-line" data-seq-step="2,5,8,11"><span class="arrow">▶ </span><span class="kw">while</span> contador &lt;= <span class="num">3</span>:</div>
+            <div class="exec-line" data-seq-step="3,6,9"><span class="arrow">▶ </span>    soma = soma + contador</div>
+            <div class="exec-line" data-seq-step="4,7,10"><span class="arrow">▶ </span>    contador = contador + <span class="num">1</span></div>
+            <div class="exec-line" data-seq-step="12"><span class="arrow">▶ </span><span class="bi">print</span>(<span class="st">"Total:"</span>, soma)</div>
+          </div>
+
+          <!-- TELA (frames / snapshots) -->
+          <div class="exec-screen">
+            <!-- F0 -->
+            <div class="exec-frame" data-seq-frame="0">
+              <div class="exec-cap">▶ soma nasce zerada — a "sacola" vazia</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">soma</span><span class="vv">0</span></div>
+                <div class="var-box empty"><span class="vn">contador</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">contador &lt;= 3 ?</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F1 -->
+            <div class="exec-frame" data-seq-frame="1">
+              <div class="exec-cap">▶ contador começa valendo 1</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">0</span></div>
+                <div class="var-box fresh"><span class="vn">contador</span><span class="vv">1</span></div>
+                <div class="var-box empty"><span class="vn">contador &lt;= 3 ?</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F2 — 1ª volta: teste -->
+            <div class="exec-frame" data-seq-frame="2">
+              <div class="exec-cap">❓ Volta 1 — testa: 1 &lt;= 3? True → entra!</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">0</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">1</span></div>
+                <div class="var-box fresh"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F3 -->
+            <div class="exec-frame" data-seq-frame="3">
+              <div class="exec-cap">🧮 soma = 0 + 1 → a sacola recebe 1</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">soma</span><span class="vv">1</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">1</span></div>
+                <div class="var-box"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F4 -->
+            <div class="exec-frame" data-seq-frame="4">
+              <div class="exec-cap">➕ contador = 1 + 1 → vira 2</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">1</span></div>
+                <div class="var-box fresh"><span class="vn">contador</span><span class="vv">2</span></div>
+                <div class="var-box"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F5 — 2ª volta: o destaque VOLTOU -->
+            <div class="exec-frame" data-seq-frame="5">
+              <div class="exec-cap">🔁 Olha o destaque VOLTANDO! Volta 2 — 2 &lt;= 3? True</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">1</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">2</span></div>
+                <div class="var-box fresh"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F6 -->
+            <div class="exec-frame" data-seq-frame="6">
+              <div class="exec-cap">🧮 soma = 1 + 2 → agora tem 3 na sacola</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">soma</span><span class="vv">3</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">2</span></div>
+                <div class="var-box"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F7 -->
+            <div class="exec-frame" data-seq-frame="7">
+              <div class="exec-cap">➕ contador = 2 + 1 → vira 3</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">3</span></div>
+                <div class="var-box fresh"><span class="vn">contador</span><span class="vv">3</span></div>
+                <div class="var-box"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F8 — 3ª volta -->
+            <div class="exec-frame" data-seq-frame="8">
+              <div class="exec-cap">🔁 Volta 3 — 3 &lt;= 3? Ainda True (por pouco!)</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">3</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">3</span></div>
+                <div class="var-box fresh"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F9 -->
+            <div class="exec-frame" data-seq-frame="9">
+              <div class="exec-cap">🧮 soma = 3 + 3 → 6 na sacola</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">soma</span><span class="vv">6</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">3</span></div>
+                <div class="var-box"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F10 -->
+            <div class="exec-frame" data-seq-frame="10">
+              <div class="exec-cap">➕ contador = 3 + 1 → vira 4</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">6</span></div>
+                <div class="var-box fresh"><span class="vn">contador</span><span class="vv">4</span></div>
+                <div class="var-box"><span class="vn">contador &lt;= 3 ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando soma_ate_3.py…</span></div>
+            </div>
+            <!-- F11 — teste falha -->
+            <div class="exec-frame" data-seq-frame="11">
+              <div class="exec-cap">🚪 Volta 4 — 4 &lt;= 3? FALSE! Sai do loop</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">6</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">4</span></div>
+                <div class="var-box gone"><span class="vn">contador &lt;= 3 ?</span><span class="vv">False ❌</span></div>
+              </div>
+              <div class="exec-out"><span class="warn">condição falsa → pula pra primeira linha DEPOIS do while</span></div>
+            </div>
+            <!-- F12 — print final -->
+            <div class="exec-frame" data-seq-frame="12">
+              <div class="exec-cap">🎉 Última linha: mostra o total</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">soma</span><span class="vv">6</span></div>
+                <div class="var-box"><span class="vn">contador</span><span class="vv">4</span></div>
+                <div class="var-box"><span class="vn">voltas dadas</span><span class="vv">3 🔁</span></div>
+              </div>
+              <div class="exec-out"><span class="ok">Total: 6</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          <strong>Esse é O segredo dos loops:</strong> não é mágica — é o Python
+          <em>voltando pra linha do teste</em> a cada volta, até a condição dar False.
+          Quando um loop te confundir, rode esse "filme" na cabeça: teste → bloco → atualiza → volta. 🎞️
         </div>
       </div>
     </div>
@@ -2117,6 +2440,541 @@ total = <span class="num">0</span>           <span class="cm"># 👈 acumulador 
 
   <div class="section-connector"><div class="line"></div></div>
 
+  <!-- Divider — Arena de Treino Solo -->
+  <div class="chapter-divider">
+    <span class="chapter-icon">🥷</span>
+    <span class="chapter-number">Treino Solo</span>
+    <h2 class="grad-loops">Arena de Loops e Listas</h2>
+    <p class="chapter-subtitle">
+      <strong>Seis treinos curtinhos</strong> antes do desafio final — do mais fácil
+      ao mais cabuloso. Olhinho 👀 só DEPOIS de tentar!
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARENA — banco de treinos solo
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="arena-solo">
+    <div class="arena-banner">
+      <div class="ab-emoji">🥷</div>
+      <div class="ab-text">
+        <div class="ab-tag">Faça sozinho · 6 treinos</div>
+        <div class="ab-title">Virar a chave: de "vi o professor fazer" pra "EU fiz"</div>
+        <div class="ab-sub">
+          Cada treino é um arquivo <code>.py</code> separado, misturando
+          <code>while</code>, <code>for</code>, <code>range()</code> e listas.
+          Tenta, erra, ajusta — e só abre o olhinho depois de dar o seu melhor.
+        </div>
+      </div>
+    </div>
+
+    <div class="arena-track">
+      <span class="at-dot lv1">1</span><span class="at-arrow">→</span>
+      <span class="at-dot lv1">2</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">4</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">5</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">6</span>
+    </div>
+    <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
+      <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio &nbsp;·&nbsp; ★★★ cabuloso</em>
+    </p>
+  </section>
+
+  <!-- ── TREINO 1 — conta_de_3.py ── -->
+  <section class="step-section" id="treino-1">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 1 — conta_de_3.py</div>
+          <div class="exercise-sub">Faça sozinho · conta_de_3.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">while</span>
+        <span class="drill-tag">contador</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>conta_de_3.py</code> e use um <code>while</code> pra mostrar os números
+          <strong>de 3 em 3</strong>, começando no 3 e indo até o 30:
+          <code>3, 6, 9, … 30</code>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          É o mesmo esqueleto da contagem de 1 em 1 — só muda <strong>quanto</strong> o
+          contador cresce por volta. Em vez de <code>+ 1</code>… quanto?
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> São 4 linhas.
+          Se sair número errado, ajusta e roda de novo — é assim que se aprende.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">conta_de_3.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>contador = <span class="num">3</span>
+<span class="kw">while</span> contador &lt;= <span class="num">30</span>:
+    <span class="bi">print</span>(contador)
+    contador = contador + <span class="num">3</span></pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · conta_de_3.py</span>
+            </div>
+            <div class="terminal-body">3<br>6<br>9<br>12<br>15<br>18<br>21<br>24<br>27<br>30</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 2 — foguete.py ── -->
+  <section class="step-section" id="treino-2">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 2 — foguete.py</div>
+          <div class="exercise-sub">Faça sozinho · foguete.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">for</span>
+        <span class="drill-tag">range passo negativo</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>foguete.py</code>: uma contagem regressiva de lançamento,
+          do 10 até o 1, e no fim mostre <code>🚀 Decolar!</code>.
+          Mas dessa vez <strong>sem while</strong> — use <code>for</code> + <code>range()</code>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🆕</span>
+        <div class="tip-content">
+          <strong>Novidade:</strong> o passo do <code>range()</code> pode ser <strong>negativo</strong>!
+          <code>range(10, 0, -1)</code> = começa no 10, anda de -1 em -1, e para <strong>antes</strong>
+          do 0. Ou seja: 10, 9, 8, … 1. A regra do "último não entra" continua valendo.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> A pegadinha é o segundo número
+          do range. Se a contagem parar no 2 ou incluir o 0, ajusta e testa de novo.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">foguete.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3</div>
+<pre><span class="kw">for</span> numero <span class="kw">in</span> <span class="bi">range</span>(<span class="num">10</span>, <span class="num">0</span>, <span class="num">-1</span>):
+    <span class="bi">print</span>(numero)
+<span class="bi">print</span>(<span class="st">"🚀 Decolar!"</span>)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · foguete.py</span>
+            </div>
+            <div class="terminal-body">10<br>9<br>8<br>7<br>6<br>5<br>4<br>3<br>2<br>1<br>🚀 Decolar!</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou no último print?</strong> Ele está <em>fora</em> do loop
+              (sem indentação) — por isso só roda uma vez, no final. Indentação manda em tudo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 3 — soma_impares.py ── -->
+  <section class="step-section" id="treino-3">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 3 — soma_impares.py</div>
+          <div class="exercise-sub">Faça sozinho · soma_impares.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">for + range com passo</span>
+        <span class="drill-tag">acumulador</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>soma_impares.py</code>: some <strong>todos os números ímpares de 1 a 20</strong>
+          (1 + 3 + 5 + … + 19) e mostre o total no final.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Junte dois padrões que você já conhece: o <code>range()</code> com passo
+          (que você usou em <code>pares.py</code>) + o <strong>acumulador</strong>
+          (de <code>soma_naturais.py</code>). Ímpares de 1 a 20 = <code>range(1, 21, 2)</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Dica de conferência:
+          a soma dos 10 primeiros ímpares dá um número bem redondo. 😉
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">soma_impares.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4</div>
+<pre>soma = <span class="num">0</span>
+<span class="kw">for</span> numero <span class="kw">in</span> <span class="bi">range</span>(<span class="num">1</span>, <span class="num">21</span>, <span class="num">2</span>):
+    soma = soma + numero
+<span class="bi">print</span>(<span class="st">"Soma dos ímpares de 1 a 20:"</span>, soma)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · soma_impares.py</span>
+            </div>
+            <div class="terminal-body">Soma dos ímpares de 1 a 20: 100</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🤯</span>
+            <div class="tip-content">
+              <strong>Curiosidade matemática:</strong> a soma dos N primeiros ímpares é
+              sempre N². 10 ímpares → 10² = 100. Seu programa acabou de provar isso!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 4 — convidados.py ── -->
+  <section class="step-section" id="treino-4">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 4 — convidados.py</div>
+          <div class="exercise-sub">Faça sozinho · convidados.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">for + append</span>
+        <span class="drill-tag">lista crescendo</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>convidados.py</code>: comece com uma <strong>lista vazia</strong> e use um
+          <code>for</code> pra perguntar o nome de <strong>3 convidados</strong> da festa,
+          guardando cada um com <code>append()</code>. No fim, mostre a lista completa
+          e o total de convidados com <code>len()</code>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Aqui o loop não percorre uma lista pronta — ele <strong>constrói</strong> a lista!
+          <code>for i in range(3):</code> repete 3 vezes; dentro, <code>input()</code> + <code>append()</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> A lista vazia
+          (<code>convidados = []</code>) precisa ficar <em>antes</em> do loop — se ficar
+          dentro, ela é zerada a cada volta. Pensa no porquê!
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">convidados.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+<pre>convidados = []
+<span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="num">3</span>):
+    nome = <span class="bi">input</span>(<span class="st">"Nome do convidado: "</span>)
+    convidados.<span class="fn">append</span>(nome)
+
+<span class="bi">print</span>(<span class="st">"Lista da festa:"</span>, convidados)
+<span class="bi">print</span>(<span class="st">"Total de convidados:"</span>, <span class="bi">len</span>(convidados))</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · convidados.py</span>
+            </div>
+            <div class="terminal-body">Nome do convidado: Ana<br>Nome do convidado: Bruno<br>Nome do convidado: Carla<br>Lista da festa: ['Ana', 'Bruno', 'Carla']<br>Total de convidados: 3</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Padrão profissional:</strong> lista vazia + loop + <code>append()</code>
+              é como TODO cadastro do mundo funciona — só muda de onde vêm os dados
+              (teclado, arquivo, banco de dados…).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 5 — fila_do_lanche.py ── -->
+  <section class="step-section" id="treino-5">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Treino 5 — fila_do_lanche.py</div>
+          <div class="exercise-sub">Faça sozinho · fila_do_lanche.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">índices negativos</span>
+        <span class="drill-tag">lista</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>fila_do_lanche.py</code> com a lista
+          <code>fila = ["Ana", "Bruno", "Carla", "Davi", "Elisa"]</code>.
+          Mostre: quem é o <strong>primeiro</strong> da fila, quem é o <strong>último</strong>
+          e quem é o <strong>penúltimo</strong> — sem contar nas mãos: use índices!
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Índice <strong>negativo</strong> conta de trás pra frente: <code>[-1]</code> é o último,
+          <code>[-2]</code> o penúltimo. O melhor: funciona pra QUALQUER tamanho de lista —
+          você não precisa saber quantos itens tem.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Teste também adicionar mais um
+          nome na lista e rodar de novo — o <code>[-1]</code> continua acertando o último?
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">fila_do_lanche.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5</div>
+<pre>fila = [<span class="st">"Ana"</span>, <span class="st">"Bruno"</span>, <span class="st">"Carla"</span>, <span class="st">"Davi"</span>, <span class="st">"Elisa"</span>]
+
+<span class="bi">print</span>(<span class="st">"Primeiro da fila:"</span>, fila[<span class="num">0</span>])
+<span class="bi">print</span>(<span class="st">"Último da fila:"</span>, fila[<span class="num">-1</span>])
+<span class="bi">print</span>(<span class="st">"Penúltimo:"</span>, fila[<span class="num">-2</span>])</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · fila_do_lanche.py</span>
+            </div>
+            <div class="terminal-body">Primeiro da fila: Ana<br>Último da fila: Elisa<br>Penúltimo: Davi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TREINO 6 — notas_da_turma.py ── -->
+  <section class="step-section" id="treino-6">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🔥</span>
+        <div>
+          <div class="exercise-title">Treino 6 — notas_da_turma.py</div>
+          <div class="exercise-sub">Faça sozinho · notas_da_turma.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">for em lista</span>
+        <span class="drill-tag">acumulador</span>
+        <span class="drill-tag">contadores + if</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Crie <code>notas_da_turma.py</code> com a lista
+          <code>notas = [8.5, 4.0, 7.0, 9.5, 5.5, 10.0]</code>. Percorrendo a lista
+          <strong>uma única vez</strong>, calcule e mostre:
+        </p>
+        <p>
+          1️⃣ a <strong>média</strong> da turma &nbsp;·&nbsp;
+          2️⃣ quantos foram <strong>aprovados</strong> (nota &gt;= 7) &nbsp;·&nbsp;
+          3️⃣ quantos foram <strong>reprovados</strong>.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Você vai precisar de <strong>3 variáveis antes do loop</strong>: um acumulador
+          (<code>soma</code>) e dois contadores (<code>aprovados</code>, <code>reprovados</code>).
+          Dentro do loop, o <code>if/else</code> do capítulo 03 decide qual contador cresce.
+          Média = <code>soma / len(notas)</code>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse treino junta TUDO:
+          lista + for + acumulador + if. Se travar, resolve um pedaço por vez —
+          primeiro só a média, depois os contadores.
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">notas_da_turma.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17</div>
+<pre>notas = [<span class="num">8.5</span>, <span class="num">4.0</span>, <span class="num">7.0</span>, <span class="num">9.5</span>, <span class="num">5.5</span>, <span class="num">10.0</span>]
+
+soma = <span class="num">0</span>
+aprovados = <span class="num">0</span>
+reprovados = <span class="num">0</span>
+
+<span class="kw">for</span> nota <span class="kw">in</span> notas:
+    soma = soma + nota
+    <span class="kw">if</span> nota &gt;= <span class="num">7</span>:
+        aprovados = aprovados + <span class="num">1</span>
+    <span class="kw">else</span>:
+        reprovados = reprovados + <span class="num">1</span>
+
+media = soma / <span class="bi">len</span>(notas)
+<span class="bi">print</span>(<span class="st">f"Média da turma: {media:.1f}"</span>)
+<span class="bi">print</span>(<span class="st">"Aprovados:"</span>, aprovados)
+<span class="bi">print</span>(<span class="st">"Reprovados:"</span>, reprovados)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · notas_da_turma.py</span>
+            </div>
+            <div class="terminal-body">Média da turma: 7.4<br>Aprovados: 4<br>Reprovados: 2</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Fechou esse? Você está pronto pro desafio final.</strong>
+              Repara: uma volta só na lista alimentou 3 respostas diferentes.
+              Contadores em paralelo dentro do mesmo loop = técnica de gente grande.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
   <!-- ═══════════════════════════════════════════════════════
        DESAFIO FINAL — lista_interativa.py (clímax)
        ═══════════════════════════════════════════════════════ -->
@@ -2228,6 +3086,763 @@ nomes = []
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
+       🎥 MÁQUINA DE EXECUÇÃO — while True + break + append (motion)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="maquina-break">
+    <div class="step-header">
+      <div class="step-number sn-purple">🎥</div>
+      <div>
+        <div class="step-title">Máquina de execução — o break em câmera lenta</div>
+        <div class="step-sub">o programa que você acabou de escrever, rodando por dentro</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        O <code>while True</code> parece assustador ("loop que roda pra sempre?!"), mas o
+        <code>break</code> é a porta de saída. Assiste o <code>lista_interativa.py</code>
+        rodando com <em>Ana, Bia e "sair"</em>: repara na caixinha da <strong>lista crescendo</strong>
+        a cada <code>append()</code>, e no momento exato em que o <code>break</code>
+        <strong>pula pra fora</strong> do loop. 👀
+      </p>
+
+      <div class="exec-machine" data-seq="1800">
+        <div class="exec-head">
+          <span class="ed r"></span><span class="ed y"></span><span class="ed g"></span>
+          <span class="et">lista_interativa.py · execução</span>
+          <span class="live">rodando</span>
+        </div>
+
+        <div class="exec-grid">
+          <!-- CÓDIGO (linha ativa; data-seq-step lista os quadros em que acende) -->
+          <div class="exec-code">
+            <div class="exec-line" data-seq-step="0"><span class="arrow">▶ </span>nomes = []</div>
+            <div class="exec-line" data-seq-step="1,5,9"><span class="arrow">▶ </span><span class="kw">while</span> <span class="bi">True</span>:</div>
+            <div class="exec-line" data-seq-step="2,6,10"><span class="arrow">▶ </span>    nome = <span class="bi">input</span>(<span class="st">"Digite um nome (ou 'sair'): "</span>)</div>
+            <div class="exec-line" data-seq-step="3,7,11"><span class="arrow">▶ </span>    <span class="kw">if</span> nome == <span class="st">"sair"</span>:</div>
+            <div class="exec-line" data-seq-step="12"><span class="arrow">▶ </span>        <span class="kw">break</span></div>
+            <div class="exec-line" data-seq-step="4,8"><span class="arrow">▶ </span>    nomes.append(nome)</div>
+            <div class="exec-line" data-seq-step="13"><span class="arrow">▶ </span><span class="bi">print</span>(<span class="st">"Lista final:"</span>, nomes)</div>
+          </div>
+
+          <!-- TELA (frames / snapshots) -->
+          <div class="exec-screen">
+            <!-- F0 -->
+            <div class="exec-frame" data-seq-frame="0">
+              <div class="exec-cap">▶ A lista nasce vazia</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">nomes</span><span class="vv">[]</span></div>
+                <div class="var-box empty"><span class="vn">nome</span><span class="vv">—</span></div>
+                <div class="var-box empty"><span class="vn">nome == "sair" ?</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando lista_interativa.py…</span></div>
+            </div>
+            <!-- F1 -->
+            <div class="exec-frame" data-seq-frame="1">
+              <div class="exec-cap">🔁 Volta 1 — while True: sempre entra!</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">[]</span></div>
+                <div class="var-box empty"><span class="vn">nome</span><span class="vv">—</span></div>
+                <div class="var-box fresh"><span class="vn">True ?</span><span class="vv">sempre ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando lista_interativa.py…</span></div>
+            </div>
+            <!-- F2 -->
+            <div class="exec-frame" data-seq-frame="2">
+              <div class="exec-cap">📥 O usuário digita "Ana"</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">[]</span></div>
+                <div class="var-box fresh"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box empty"><span class="vn">nome == "sair" ?</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> Ana</div>
+            </div>
+            <!-- F3 -->
+            <div class="exec-frame" data-seq-frame="3">
+              <div class="exec-cap">❓ "Ana" == "sair"? Não → o break é PULADO</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">[]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box fresh"><span class="vn">nome == "sair" ?</span><span class="vv">False ❌</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> Ana</div>
+            </div>
+            <!-- F4 -->
+            <div class="exec-frame" data-seq-frame="4">
+              <div class="exec-cap">📋 append! "Ana" entra na lista</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">nomes</span><span class="vv">["Ana"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box"><span class="vn">nome == "sair" ?</span><span class="vv">False ❌</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> Ana</div>
+            </div>
+            <!-- F5 -->
+            <div class="exec-frame" data-seq-frame="5">
+              <div class="exec-cap">🔁 Volta 2 — o destaque VOLTOU pro while</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Ana"</span></div>
+                <div class="var-box fresh"><span class="vn">True ?</span><span class="vv">sempre ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando lista_interativa.py…</span></div>
+            </div>
+            <!-- F6 -->
+            <div class="exec-frame" data-seq-frame="6">
+              <div class="exec-cap">📥 Agora digita "Bia"</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana"]</span></div>
+                <div class="var-box fresh"><span class="vn">nome</span><span class="vv">"Bia"</span></div>
+                <div class="var-box empty"><span class="vn">nome == "sair" ?</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> Bia</div>
+            </div>
+            <!-- F7 -->
+            <div class="exec-frame" data-seq-frame="7">
+              <div class="exec-cap">❓ "Bia" == "sair"? Também não → segue</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Bia"</span></div>
+                <div class="var-box fresh"><span class="vn">nome == "sair" ?</span><span class="vv">False ❌</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> Bia</div>
+            </div>
+            <!-- F8 -->
+            <div class="exec-frame" data-seq-frame="8">
+              <div class="exec-cap">📋 append! A lista cresce de novo</div>
+              <div class="var-grid">
+                <div class="var-box fresh"><span class="vn">nomes</span><span class="vv">["Ana", "Bia"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Bia"</span></div>
+                <div class="var-box"><span class="vn">nome == "sair" ?</span><span class="vv">False ❌</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> Bia</div>
+            </div>
+            <!-- F9 -->
+            <div class="exec-frame" data-seq-frame="9">
+              <div class="exec-cap">🔁 Volta 3 — de novo no while…</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana", "Bia"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"Bia"</span></div>
+                <div class="var-box fresh"><span class="vn">True ?</span><span class="vv">sempre ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">rodando lista_interativa.py…</span></div>
+            </div>
+            <!-- F10 -->
+            <div class="exec-frame" data-seq-frame="10">
+              <div class="exec-cap">📥 Dessa vez o usuário digita "sair"</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana", "Bia"]</span></div>
+                <div class="var-box fresh"><span class="vn">nome</span><span class="vv">"sair"</span></div>
+                <div class="var-box empty"><span class="vn">nome == "sair" ?</span><span class="vv">—</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> sair</div>
+            </div>
+            <!-- F11 -->
+            <div class="exec-frame" data-seq-frame="11">
+              <div class="exec-cap">❗ "sair" == "sair"? TRUE! Entra no if…</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana", "Bia"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"sair"</span></div>
+                <div class="var-box fresh"><span class="vn">nome == "sair" ?</span><span class="vv">True ✅</span></div>
+              </div>
+              <div class="exec-out"><span class="dim">Digite um nome (ou 'sair'):</span> sair</div>
+            </div>
+            <!-- F12 — BREAK -->
+            <div class="exec-frame" data-seq-frame="12">
+              <div class="exec-cap">🚪 BREAK! Pula pra fora do loop na hora</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana", "Bia"]</span></div>
+                <div class="var-box"><span class="vn">nome</span><span class="vv">"sair"</span></div>
+                <div class="var-box gone"><span class="vn">loop</span><span class="vv">encerrado 🚪</span></div>
+              </div>
+              <div class="exec-out"><span class="warn">break → "sair" NÃO entra na lista; o while acabou</span></div>
+            </div>
+            <!-- F13 — print final -->
+            <div class="exec-frame" data-seq-frame="13">
+              <div class="exec-cap">🎉 Fora do loop: mostra a lista final</div>
+              <div class="var-grid">
+                <div class="var-box"><span class="vn">nomes</span><span class="vv">["Ana", "Bia"]</span></div>
+                <div class="var-box"><span class="vn">len(nomes)</span><span class="vv">2</span></div>
+                <div class="var-box"><span class="vn">voltas dadas</span><span class="vv">3 🔁</span></div>
+              </div>
+              <div class="exec-out"><span class="ok">Lista final: ['Ana', 'Bia']</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          <strong>Repara no detalhe:</strong> quando o usuário digita <code>"sair"</code>,
+          o <code>break</code> roda <em>antes</em> do <code>append()</code> — por isso
+          <code>"sair"</code> nunca entra na lista. A <strong>ordem das linhas</strong> dentro
+          do loop importa muito.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       💥 5 MISSÕES — evoluções do lista_interativa.py
+       ═══════════════════════════════════════════════════════ -->
+  <div class="chapter-divider" id="missoes">
+    <span class="chapter-icon">💥</span>
+    <span class="chapter-number">Missões finais</span>
+    <h2 class="grad-loops">5 Missões — evolua o lista_interativa.py</h2>
+    <p class="chapter-subtitle">
+      Você acabou de escrever o <code>lista_interativa.py</code>. Agora cada missão pega
+      <strong>esse mesmo programa</strong> e adiciona <strong>UMA ideia nova</strong>.
+      Quem fez o desafio final consegue fazer todas. 💪
+    </p>
+  </div>
+
+  <section class="step-section" id="missoes-intro">
+    <div class="arena-banner">
+      <div class="ab-emoji">💥</div>
+      <div class="ab-text">
+        <div class="ab-tag">Faça sozinho · 5 missões</div>
+        <div class="ab-title">O segredo: é sempre o MESMO esqueleto</div>
+        <div class="ab-sub">
+          Todas as missões começam igual: lista vazia + <code>while True</code> +
+          <code>input()</code> + <code>break</code> no <code>"sair"</code> + <code>append()</code>.
+          Não copie e cole do exercício anterior — <strong>digite de novo</strong>.
+          Escrever o esqueleto mais uma vez é exatamente o treino que faz ele grudar na memória.
+        </div>
+      </div>
+    </div>
+
+    <div class="arena-track">
+      <span class="at-dot lv1">1</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">2</span><span class="at-arrow">→</span>
+      <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">4</span><span class="at-arrow">→</span>
+      <span class="at-dot lv3">5</span>
+    </div>
+    <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
+      <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio &nbsp;·&nbsp; ★★★ cabuloso</em>
+    </p>
+  </section>
+
+  <!-- ── MISSÃO 1 — convidados_festa.py ── -->
+  <section class="step-section" id="missao-1">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Missão 1 — convidados_festa.py</div>
+          <div class="exercise-sub">Faça sozinho · convidados_festa.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
+        <span class="drill-tag">while True + break</span>
+        <span class="drill-tag">len()</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Você vai organizar uma festa 🎉. Crie <code>convidados_festa.py</code>, que funciona
+          <strong>igualzinho</strong> ao <code>lista_interativa.py</code> — só muda o assunto:
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Comece com uma lista vazia de <strong>convidados</strong>.</li>
+          <li>Fique perguntando <em>"Quem vem pra festa?"</em> até o usuário digitar <code>"sair"</code>.</li>
+          <li>Cada nome digitado entra na lista com <code>append</code>.</li>
+          <li>No final, mostre a lista com um <code>for</code>…</li>
+          <li>…e a <strong>novidade</strong>: mostre também <em>quantas</em> pessoas vêm,
+              usando <code>len()</code> (que você já conhece do playground de listas!).</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          É literalmente o <code>lista_interativa.py</code> com outro nome de variável +
+          <strong>uma linha a mais</strong> no final. Se você fez o desafio final,
+          essa missão é pra aquecer. 🔥
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Sem olhar o código do
+          <code>lista_interativa.py</code> — tenta lembrar do esqueleto de cabeça.
+          Se travar, aí sim espia o SEU código anterior (não a solução!).
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">convidados_festa.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+<pre>convidados = []
+
+<span class="kw">while</span> <span class="bi">True</span>:
+    nome = <span class="bi">input</span>(<span class="st">"Quem vem pra festa? (ou 'sair'): "</span>)
+    <span class="kw">if</span> nome == <span class="st">"sair"</span>:
+        <span class="kw">break</span>
+    convidados.append(nome)
+
+<span class="bi">print</span>(<span class="st">"\n--- Lista da festa ---"</span>)
+<span class="kw">for</span> convidado <span class="kw">in</span> convidados:
+    <span class="bi">print</span>(<span class="st">f"🎈 {convidado}"</span>)
+<span class="bi">print</span>(<span class="st">f"Total de convidados: {len(convidados)}"</span>)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · convidados_festa.py</span>
+            </div>
+            <div class="terminal-body">Quem vem pra festa? (ou 'sair'): Ana<br>Quem vem pra festa? (ou 'sair'): Bia<br>Quem vem pra festa? (ou 'sair'): Caio<br>Quem vem pra festa? (ou 'sair'): sair<br><br>--- Lista da festa ---<br>🎈 Ana<br>🎈 Bia<br>🎈 Caio<br>Total de convidados: 3</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> O <code>len(convidados)</code> foi usado
+              <em>dentro</em> da f-string, direto nas chaves. Chaves de f-string aceitam
+              qualquer expressão — variável, conta, <code>len()</code>…
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MISSÃO 2 — lista_numerada.py ── -->
+  <section class="step-section" id="missao-2">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Missão 2 — lista_numerada.py</div>
+          <div class="exercise-sub">Faça sozinho · lista_numerada.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">contador dentro do for</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          A lista final do <code>lista_interativa.py</code> saía com bolinha
+          (<code>• Ana</code>). Bonito, mas… e se a pessoa quiser saber quem foi o
+          <strong>3º</strong> a chegar? Crie <code>lista_numerada.py</code>:
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>O começo é o mesmo de sempre: lista vazia, <code>while True</code>,
+              <code>input</code>, <code>break</code> no <code>"sair"</code>, <code>append</code>.</li>
+          <li>A mudança é <strong>só na exibição final</strong>: em vez de bolinha,
+              cada nome sai com sua posição — <code>1. Ana</code>, <code>2. João</code>, <code>3. Davi</code>…</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Lembra do treino do placar, com <strong>contadores em paralelo</strong> dentro do loop?
+          Mesma técnica: crie uma variável <code>posicao</code> valendo <code>1</code>
+          <em>antes</em> do <code>for</code>, mostre ela junto com o nome,
+          e some 1 nela <em>a cada volta</em>.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> A pegadinha clássica:
+          se todos os nomes saírem com o número 1, é porque o <code>posicao = posicao + 1</code>
+          ficou <em>fora</em> do for. Indentação! 😉
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">lista_numerada.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
+<pre>nomes = []
+
+<span class="kw">while</span> <span class="bi">True</span>:
+    nome = <span class="bi">input</span>(<span class="st">"Digite um nome (ou 'sair'): "</span>)
+    <span class="kw">if</span> nome == <span class="st">"sair"</span>:
+        <span class="kw">break</span>
+    nomes.append(nome)
+
+<span class="bi">print</span>(<span class="st">"\n--- Lista final ---"</span>)
+posicao = <span class="num">1</span>
+<span class="kw">for</span> n <span class="kw">in</span> nomes:
+    <span class="bi">print</span>(<span class="st">f"{posicao}. {n}"</span>)
+    posicao = posicao + <span class="num">1</span></pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · lista_numerada.py</span>
+            </div>
+            <div class="terminal-body">Digite um nome (ou 'sair'): Ana<br>Digite um nome (ou 'sair'): João<br>Digite um nome (ou 'sair'): Davi<br>Digite um nome (ou 'sair'): sair<br><br>--- Lista final ---<br>1. Ana<br>2. João<br>3. Davi</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🎯</span>
+            <div class="tip-content">
+              <strong>Duas variáveis trabalhando juntas no mesmo for:</strong>
+              o <code>n</code> (que o for troca sozinho a cada volta) e a
+              <code>posicao</code> (que VOCÊ atualiza na mão). Ranking de música,
+              fila de banco, pódio de campeonato — tudo usa esse padrão.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MISSÃO 3 — porteiro.py ── -->
+  <section class="step-section" id="missao-3">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Missão 3 — porteiro.py</div>
+          <div class="exercise-sub">Faça sozinho · porteiro.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
+        <span class="drill-tag">🆕 in no if</span>
+        <span class="drill-tag">if / else dentro do loop</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          No <code>lista_interativa.py</code>, se você digitar <code>"Ana"</code> três vezes,
+          a Ana entra três vezes na lista. 😅 Crie <code>porteiro.py</code>: um cadastro
+          que <strong>barra nome repetido</strong>, como um porteiro que confere a lista da festa.
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Esqueleto de sempre: lista vazia, <code>while True</code>, <code>input</code>,
+              <code>break</code> no <code>"sair"</code>.</li>
+          <li>Antes do <code>append</code>, verifique: o nome <strong>já está</strong> na lista?</li>
+          <li>Se já está → avise <em>"⚠️ já está na lista!"</em> e <strong>não</strong> adicione.</li>
+          <li>Se não está → <code>append</code> normal.</li>
+          <li>No final, mostre a lista — sem nenhum repetido. 😎</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🆕</span>
+        <div class="tip-content">
+          <strong>Novidade:</strong> o <code>in</code> que você usa no <code>for</code>
+          também funciona <strong>dentro de um if</strong>! <code>if nome in nomes:</code>
+          pergunta <em>"esse valor está dentro da lista?"</em> e responde
+          <code>True</code> ou <code>False</code>. Mesma palavrinha, dois superpoderes.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Teste de verdade:
+          rode e digite "Ana" duas vezes. Se ela aparecer duplicada no final,
+          seu porteiro dormiu no serviço — revisa o if. 😴
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">porteiro.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+<pre>nomes = []
+
+<span class="kw">while</span> <span class="bi">True</span>:
+    nome = <span class="bi">input</span>(<span class="st">"Digite um nome (ou 'sair'): "</span>)
+    <span class="kw">if</span> nome == <span class="st">"sair"</span>:
+        <span class="kw">break</span>
+    <span class="kw">if</span> nome <span class="kw">in</span> nomes:
+        <span class="bi">print</span>(<span class="st">f"⚠️ {nome} já está na lista!"</span>)
+    <span class="kw">else</span>:
+        nomes.append(nome)
+
+<span class="bi">print</span>(<span class="st">"\n--- Lista final (sem repetidos) ---"</span>)
+<span class="kw">for</span> n <span class="kw">in</span> nomes:
+    <span class="bi">print</span>(<span class="st">f"• {n}"</span>)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · porteiro.py</span>
+            </div>
+            <div class="terminal-body">Digite um nome (ou 'sair'): Ana<br>Digite um nome (ou 'sair'): Bia<br>Digite um nome (ou 'sair'): Ana<br>⚠️ Ana já está na lista!<br>Digite um nome (ou 'sair'): sair<br><br>--- Lista final (sem repetidos) ---<br>• Ana<br>• Bia</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🧠</span>
+            <div class="tip-content">
+              <strong>Repara na ordem dos ifs:</strong> primeiro o teste do
+              <code>"sair"</code> (com <code>break</code>), <em>depois</em> o teste do repetido.
+              Sites que dizem "esse e-mail já está cadastrado" fazem exatamente
+              essa verificação — você acabou de escrever a versão iniciante dela.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MISSÃO 4 — media_notas.py ── -->
+  <section class="step-section" id="missao-4">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">🎯</span>
+        <div>
+          <div class="exercise-title">Missão 4 — media_notas.py</div>
+          <div class="exercise-sub">Faça sozinho · media_notas.py</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">float()</span>
+        <span class="drill-tag">acumulador + len()</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Até agora a lista guardou <strong>textos</strong>. Hora de guardar <strong>números</strong>:
+          crie <code>media_notas.py</code>, que recebe as notas de uma turma e calcula a média.
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Lista vazia de <strong>notas</strong> + <code>while True</code> pedindo uma nota por volta.</li>
+          <li>Se a pessoa digitar <code>"sair"</code>, <code>break</code>.</li>
+          <li>Senão, converta o texto pra número com <code>float()</code>
+              (lembra? <code>input()</code> SEMPRE devolve texto) e aí faça o <code>append</code>.</li>
+          <li>Depois do loop, some todas as notas com um <strong>acumulador</strong> +
+              <code>for</code> — igual você fez no <code>soma_impares.py</code>.</li>
+          <li>Média = soma ÷ quantidade de notas. Quem sabe a quantidade? O <code>len()</code>!</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          <strong>A pegadinha da missão:</strong> confira o <code>"sair"</code>
+          <em>ANTES</em> de converter com <code>float()</code>. Se você tentar converter,
+          o Python vai engasgar: <code>float("sair")</code> explode com erro —
+          "sair" não é número! A <strong>ordem das linhas</strong> salva o programa.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Teste com 7.5, 9.0 e 8.0 —
+          a média tem que dar 8.17 (arredondada). Não bateu? Investiga como um detetive. 🔍
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">media_notas.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
+<pre>notas = []
+
+<span class="kw">while</span> <span class="bi">True</span>:
+    resposta = <span class="bi">input</span>(<span class="st">"Digite uma nota (ou 'sair'): "</span>)
+    <span class="kw">if</span> resposta == <span class="st">"sair"</span>:
+        <span class="kw">break</span>
+    notas.append(<span class="bi">float</span>(resposta))
+
+soma = <span class="num">0</span>
+<span class="kw">for</span> nota <span class="kw">in</span> notas:
+    soma = soma + nota
+
+media = soma / <span class="bi">len</span>(notas)
+<span class="bi">print</span>(<span class="st">f"\n📊 Notas digitadas: {len(notas)}"</span>)
+<span class="bi">print</span>(<span class="st">f"📊 Média da turma: {media:.2f}"</span>)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · media_notas.py</span>
+            </div>
+            <div class="terminal-body">Digite uma nota (ou 'sair'): 7.5<br>Digite uma nota (ou 'sair'): 9.0<br>Digite uma nota (ou 'sair'): 8.0<br>Digite uma nota (ou 'sair'): sair<br><br>📊 Notas digitadas: 3<br>📊 Média da turma: 8.17</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🐛</span>
+            <div class="tip-content">
+              <strong>Desafio bônus do BugZilla:</strong> rode o programa e digite
+              <code>"sair"</code> logo de cara, sem nenhuma nota. 💥 Erro!
+              Dividir por <code>len(notas)</code> quando a lista está vazia é dividir por
+              <strong>zero</strong>. Consegue proteger o programa com um <code>if</code>
+              antes da divisão? (Você já sabe tudo que precisa pra isso!)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MISSÃO 5 — menu_lista.py ── -->
+  <section class="step-section" id="missao-5">
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">👑</span>
+        <div>
+          <div class="exercise-title">Missão 5 — menu_lista.py</div>
+          <div class="exercise-sub">Faça sozinho · o chefão final 👑</div>
+        </div>
+      </div>
+
+      <div class="drill-tags">
+        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
+        <span class="drill-tag">menu com if/elif</span>
+        <span class="drill-tag">tudo junto</span>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 O que fazer</div>
+        <p>
+          Todo sistema de verdade tem um <strong>menu</strong>: o caixa eletrônico,
+          o app de pedidos, o joguinho. Crie <code>menu_lista.py</code> — o
+          <code>lista_interativa.py</code> repaginado como um sistema com opções:
+        </p>
+        <ol style="margin-left:22px;color:var(--text-dim)">
+          <li>Lista vazia + <code>while True</code>, como sempre.</li>
+          <li>A cada volta, mostre o menu:
+              <code>1 - Adicionar nome</code> · <code>2 - Ver a lista</code> · <code>3 - Sair</code>,
+              e peça a opção com <code>input()</code>.</li>
+          <li>Opção <code>"1"</code> → pede um nome e faz <code>append</code>.</li>
+          <li>Opção <code>"2"</code> → mostra quantos nomes tem (<code>len()</code>) e lista todos com <code>for</code>.</li>
+          <li>Opção <code>"3"</code> → <code>break</code>, com uma mensagem de tchau depois do loop.</li>
+          <li>Qualquer outra coisa → avisa que a opção é inválida (o <code>else</code> do
+              if/elif que você domina desde o capítulo 3).</li>
+        </ol>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div class="tip-content">
+          Pegadinha de tipo: <code>input()</code> devolve <strong>texto</strong>, então compare
+          com <code>"1"</code>, <code>"2"</code>, <code>"3"</code> — <strong>com aspas</strong>!
+          <code>opcao == 1</code> (sem aspas) nunca vai ser True, porque texto ≠ número.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse é o chefão — derrote sem espiar.</strong> É o programa mais
+          longo que você já escreveu (umas 20 linhas!). Monta por partes: primeiro só o menu
+          repetindo, depois a opção 3, depois a 1, depois a 2. Testa a cada pedaço. 💪
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">menu_lista.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23</div>
+<pre>nomes = []
+
+<span class="kw">while</span> <span class="bi">True</span>:
+    <span class="bi">print</span>(<span class="st">"\n===== MENU ====="</span>)
+    <span class="bi">print</span>(<span class="st">"1 - Adicionar nome"</span>)
+    <span class="bi">print</span>(<span class="st">"2 - Ver a lista"</span>)
+    <span class="bi">print</span>(<span class="st">"3 - Sair"</span>)
+    opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
+
+    <span class="kw">if</span> opcao == <span class="st">"1"</span>:
+        nome = <span class="bi">input</span>(<span class="st">"Qual nome? "</span>)
+        nomes.append(nome)
+        <span class="bi">print</span>(<span class="st">f"✅ {nome} entrou na lista!"</span>)
+    <span class="kw">elif</span> opcao == <span class="st">"2"</span>:
+        <span class="bi">print</span>(<span class="st">f"\n--- {len(nomes)} nome(s) na lista ---"</span>)
+        <span class="kw">for</span> n <span class="kw">in</span> nomes:
+            <span class="bi">print</span>(<span class="st">f"• {n}"</span>)
+    <span class="kw">elif</span> opcao == <span class="st">"3"</span>:
+        <span class="kw">break</span>
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"⚠️ Opção inválida, tenta de novo!"</span>)
+
+<span class="bi">print</span>(<span class="st">"👋 Programa encerrado. Até a próxima!"</span>)</pre>
+          </div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · menu_lista.py</span>
+            </div>
+            <div class="terminal-body">===== MENU =====<br>1 - Adicionar nome<br>2 - Ver a lista<br>3 - Sair<br>Escolha uma opção: 1<br>Qual nome? Ana<br>✅ Ana entrou na lista!<br><br>===== MENU =====<br>1 - Adicionar nome<br>2 - Ver a lista<br>3 - Sair<br>Escolha uma opção: 2<br><br>--- 1 nome(s) na lista ---<br>• Ana<br><br>===== MENU =====<br>1 - Adicionar nome<br>2 - Ver a lista<br>3 - Sair<br>Escolha uma opção: 3<br>👋 Programa encerrado. Até a próxima!</div>
+          </div>
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">🏆</span>
+            <div class="tip-content">
+              <strong>Percebeu o que você construiu?</strong> Um programa que roda "pra sempre",
+              mostra um menu, decide o que fazer com if/elif, guarda dados numa lista e só
+              encerra quando o usuário manda. Esse é o esqueleto de <em>todo</em> sistema
+              de terminal — e nos próximos capítulos ele vai ganhar funções, dicionários
+              e até banco de dados. 🚀
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
        QUIZ V/F (movido para o fim)
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="quiz-listas">
@@ -2297,35 +3912,6 @@ nomes = []
         </div>
         <div class="quiz-feedback" data-explain="append SEMPRE coloca no fim. Pra colocar em outra posição existem outros métodos (que veremos depois)."></div>
       </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       DESAFIO EXTERNO
-       ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="desafio-externo">
-    <div class="step-header">
-      <div class="step-number sn-green">🌟</div>
-      <div>
-        <div class="step-title">Desafio extra — pra quem quer mais</div>
-        <div class="step-sub">Sistema completo prático lá fora</div>
-      </div>
-    </div>
-
-    <div class="external-challenge">
-      <span class="ic">🚀</span>
-      <div class="info">
-        <h4>Mini-projeto extra — Desafio 01</h4>
-        <p>
-          Sistema completo pra você praticar <strong>tudo</strong> que viu até aqui (variáveis, condicionais, loops, listas).
-          Acessa, lê o enunciado e tenta resolver. É opcional, mas <strong>quem faz, decola</strong>. 🚀
-        </p>
-      </div>
-      <a class="btn" href="https://desafio-01-programacao-iniciantes-p.vercel.app/" target="_blank" rel="noopener">
-        Abrir desafio →
-      </a>
     </div>
   </section>
 

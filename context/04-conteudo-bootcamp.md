@@ -102,12 +102,45 @@ PDF: `../programacao-iniciantes/old-slides/Bootcamp_  Programação para Inician
 11. **Desafio — Lista de nomes** (`lista_alunos.py`)
 12. **Desafio — Adicionando nomes interativamente** (`lista_interativa.py`)
 13. **Quiz sobre listas**
-14. **Link externo do desafio:** https://desafio-01-programacao-iniciantes-p.vercel.app/
+14. ~~Link externo do desafio (Vercel)~~ — removido em 2026-07-08, substituído
+    pelas **💥 5 Missões finais** dentro do próprio capítulo (ver abaixo)
 
 ### Visual obrigatório
 - **Loop while** — bolinhas pulando uma a uma com contador atualizando (autoplay)
 - **range()** — régua com números acendendo
 - **Lista** — quadradinhos com índices acima
+
+### Motion e Arena (adicionados 2026-07-01, padrão dos caps 3.6/05+)
+- **Ciclo do while** (dentro da própria seção `#while`): diagrama
+  giratório `data-seq` com 3 nós (testa → executa → atualiza) que roda em círculo —
+  a própria animação é um loop.
+- **🎥 Máquina de execução #1** (`#maquina-while`, após `soma_naturais.py`): executa
+  `soma_ate_3.py` (acumulador) com 13 frames. As linhas usam `data-seq-step="2,5,8,11"`
+  (lista de quadros) pro destaque **voltar** pra linha do `while` a cada volta.
+- **🥷 Arena de Treino Solo** (`#arena-solo` + `#treino-1..6`, antes do desafio final):
+  6 treinos graduados ★☆☆→★★★ no padrão olhinho — `conta_de_3.py` (while passo 3),
+  `foguete.py` (range passo **negativo**), `soma_impares.py` (range passo + acumulador),
+  `convidados.py` (**for + append**), `fila_do_lanche.py` (**índices negativos**),
+  `notas_da_turma.py` (for em lista + contadores paralelos + média).
+- **🎥 Máquina de execução #2** (`#maquina-break`, após `lista_interativa.py`): executa
+  o próprio `lista_interativa.py` (Ana, Bia, "sair") com 14 frames — lista crescendo
+  a cada `append` e o momento exato do `break` pulando pra fora.
+- **Atenção ao manter:** nº de quadros = nº de `data-seq-frame` (0..N-1, contíguos);
+  todo índice listado em `data-seq-step="…"` deve existir como frame. O engine
+  (`shared/scripts.js`) aceita `data-seq-step` sem valor (posicional, como no 3.6)
+  OU com lista de quadros (necessário pra loops).
+
+### 💥 5 Missões finais (adicionadas 2026-07-08, no lugar do desafio externo)
+Evoluções do `lista_interativa.py` no padrão olhinho (`#missoes` + `#missao-1..5`,
+entre `#maquina-break` e o quiz). Cada missão reusa o MESMO esqueleto
+(lista vazia + `while True` + `input` + `break` no `"sair"` + `append`) e
+adiciona UMA ideia nova:
+1. `convidados_festa.py` (★☆☆) — mesmo programa, outro contexto + `len()` no final
+2. `lista_numerada.py` (★★☆) — exibição numerada com contador em paralelo no `for`
+3. `porteiro.py` (★★☆) — barra repetidos; 🆕 `in` dentro do `if` (membership)
+4. `media_notas.py` (★★★) — lista de números com `float()`, acumulador, média `:.2f`;
+   pegadinha: checar `"sair"` ANTES de converter; bônus BugZilla: divisão por zero
+5. `menu_lista.py` (★★★, "chefão") — menu 1/2/3 com `if/elif/else` dentro do loop
 
 ---
 

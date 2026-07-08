@@ -134,6 +134,42 @@ Solo, sem fluxo animado, e sem a desativação de ligatures obrigatória.
 
 ---
 
+## 📅 2026-07-01 — Cap 04 elevado ao padrão dos caps 3.5/3.6 + engine `data-seq-step` com lista de quadros
+
+### Contexto
+O cap 04 (Loops e Listas) tinha bons playgrounds interativos, mas estava uma geração
+atrás dos caps 3.5/3.6: sem Máquina de Execução (o "motion"), sem Arena de Treino Solo,
+e com gaps didáticos — a "volta" do loop era invisível, o acumulador só existia em código
+estático, `break` só em texto, `range()` com passo negativo ausente, nenhum exercício de
+`for + append` nem de índices negativos.
+
+### Decisão
+1. **Engine `data-seq` estendido (`shared/scripts.js`)** — `data-seq-step` agora aceita
+   valor opcional com lista de quadros (`data-seq-step="2,5,8,11"`): o elemento fica
+   `.active` nos quadros listados. Sem valor, continua posicional (retrocompatível com
+   o cap 3.6). Motivação: animar um **loop** exige que o destaque de linha **volte** a
+   uma linha já visitada — impossível no esquema posicional, que serve só pra código linear.
+2. **Duas Máquinas de Execução no cap 04** (mesmo CSS/estrutura do 3.6, cores lilás):
+   `#maquina-while` (acumulador `soma_ate_3.py`, 13 frames, destaca a VOLTA do destaque)
+   e `#maquina-break` (`lista_interativa.py` com Ana/Bia/"sair", 14 frames, lista
+   crescendo no `append` e saída pelo `break`).
+3. **Ciclo do while** — diagrama giratório `data-seq` de 3 nós (testa → executa →
+   atualiza) na seção `#while`; a animação gira em círculo, espelhando o próprio loop.
+4. **Arena de Treino Solo** (padrão dos caps 05-10): banner + trilha + 6 treinos
+   graduados antes do desafio final, fechando os gaps (passo negativo, for+append,
+   índices negativos, contadores paralelos).
+5. Hub: card do cap 04 ganhou pills `🎥 motion` e `arena 🥷`.
+
+### Trade-offs
+- As máquinas do cap 04 têm 13-14 frames (vs 7 no 3.6) → ciclo de ~25s. Aceitável:
+  mostrar só 1 volta do loop mataria a didática; o loop da animação recomeça sozinho.
+- A Arena do cap 04 não tem componente auto-flow próprio (padrão dos caps 05-07):
+  o capítulo já tem 3 animações data-seq — uma 4ª seria ruído.
+
+### Status: ativo
+
+---
+
 ## 📅 [próxima entrada]
 
 > Adicione aqui ao tomar uma nova decisão estrutural. Formato:

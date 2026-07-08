@@ -166,6 +166,10 @@ function playTerminal(term){
      <div data-seq-step>...</div>               // gets .active one at a time
      <div data-seq-frame="0">...</div>          // gets .on when its index is current
    </div>
+   Um step também pode listar EM QUAIS quadros fica ativo:
+     <div data-seq-step="2,5,8">...</div>       // .active nos quadros 2, 5 e 8
+   Isso permite o destaque "voltar" para uma linha já visitada —
+   essencial pra animar loops (while/for) linha a linha.
    Starts automatically when the box scrolls into view, so the
    iniciante never has to "discover" a button. */
 function initSeqLoops(){
@@ -189,7 +193,13 @@ function playSeqLoop(box){
   const delay = parseInt(box.dataset.seq) || 1600;
   let i = 0;
   function tick(){
-    steps.forEach((s, idx)  => s.classList.toggle('active', idx === i));
+    steps.forEach((s, idx) => {
+      const spec = s.dataset.seqStep;
+      const on = spec
+        ? spec.split(',').some(n => parseInt(n) === i)  // lista explícita de quadros
+        : idx === i;                                     // padrão: posicional
+      s.classList.toggle('active', on);
+    });
     frames.forEach(f => f.classList.toggle('on', parseInt(f.dataset.seqFrame) === i));
     i = (i + 1) % count;
   }
