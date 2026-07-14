@@ -170,6 +170,40 @@ estático, `break` só em texto, `range()` com passo negativo ausente, nenhum ex
 
 ---
 
+## 📅 2026-07-14 — Cap 08 vira só fundamento de JSON; persistência = só TinyDB
+
+### Contexto
+O cap 08 (JSON) tinha metade fundamento de formato + metade persistência com arquivo
+(`json.dump`/`json.load`/`with open`/modos `"r"`/`"w"`/`try-except`, arena de 6 treinos de
+arquivo e desafio `sistema_cadastro_json.py`). Isso criava DOIS mecanismos de persistência no
+bootcamp (JSON na mão no cap 08 + TinyDB no cap 09), sobrecarregando o iniciante. O prof. Kelson
+decidiu ter **uma única** persistência no material (TinyDB), mas manter o embasamento de JSON
+**antes** dele — porque o TinyDB salva em `.json` por baixo dos panos.
+
+### Decisão
+- Cap 08 recortado pra **"JSON: a língua dos dados"** — só o formato, sem gravar arquivo.
+- **Removido:** `import json`/`json.dump`/`json.load`/`with open`, seção `#magia-fluxo` (salvar/ler),
+  `#salvar-dados`, `#ler-dados`, `#with-open`, chapter-divider "Hora de Persistir", a arena de 6
+  treinos de arquivo e o desafio `sistema_cadastro_json.py`. BugZilla trocado (era import/arquivo
+  vazio/modo errado → agora aspas simples/`True` maiúsculo/vírgula sobrando).
+- **Adicionado:** `#regras-json` (4 regras + 6 tipos), `#traducao` (fluxo dict⇄JSON + "não faz na
+  mão, o TinyDB faz"), `#onde-json` (APIs/config/TinyDB/IA). **Mantido** o playground tradutor
+  (WOW do cap) e o quiz.
+- 2115 → ~1318 linhas. Sidebar, hero, título, resumo/ponte e card do hub atualizados.
+- Cap 09 (`#ponte` e `#o-problema`) reescrito pra NÃO assumir que o aluno já usou `json.dump` nem
+  escreveu `sistema_cadastro_json.py` — agora contrasta TinyDB com "fazer JSON na mão".
+- `context/04-conteudo-bootcamp.md` atualizado (seção cap 08 + TL;DR) com aviso de não reintroduzir.
+
+### Trade-offs
+- Cap 08 fica mais curto e "teórico" (sem exercício de codar). Aceitável: o objetivo é ser ponte
+  conceitual pro cap 09, onde a prática de persistência acontece de fato.
+- O playground ainda referencia a tradução `dumps`/`loads` como conceito (setas relabeladas pra
+  "traduz"), sem ensinar as funções.
+
+### Status: ativo
+
+---
+
 ## 📅 [próxima entrada]
 
 > Adicione aqui ao tomar uma nova decisão estrutural. Formato:

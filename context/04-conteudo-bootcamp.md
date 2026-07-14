@@ -263,22 +263,39 @@ Cada desafio tem:
 
 ---
 
-## 🟡 Capítulo 08 — JSON (Persistência básica)
+## 🟡 Capítulo 08 — JSON: a língua dos dados (fundamento)
 **Pasta:** `capitulos/08-json/`
 **Cor temática:** dourado + turquesa (`--accent5` + `--accent3`)
-**Slides cobertos:** "E se fecharmos o programa?", JSON, salvar_dados, ler_dados, sistema_cadastro_json
+**Escopo:** SÓ fundamento do formato JSON. **NÃO** ensina persistência com arquivo —
+nada de `json.dump`/`json.load`/`with open`/modos `"r"`/`"w"`. A persistência com arquivo
+foi **removida em 2026-07-14**: a ÚNICA persistência do bootcamp agora é o TinyDB (cap 09).
+Este capítulo existe pra dar o embasamento de JSON *antes* do TinyDB (que salva em `.json`).
 
 ### Tópicos
-1. **O problema** — fechei o programa e tudo sumiu! 😱
-2. **JSON = JavaScript Object Notation** — texto que parece dicionário Python
-3. **Bora Codar — `salvar_dados.py`** (`json.dump`)
-4. **Bora Codar — `ler_dados.py`** (`json.load`)
-5. **Desafio Prático — `sistema_cadastro_json.py`** — pega o do cap 07 e salva ao sair, lê ao iniciar
-6. **Resumo / ponte para TinyDB**
+1. **O problema** — fechei o programa e tudo sumiu! 😱 (RAM volátil vs disco) → a solução é
+   guardar em arquivo, e o formato desse arquivo é o JSON (TinyDB usa ele no cap 09)
+2. **Quiz de aquecimento** — variáveis somem ao fechar; o que é JSON
+3. **O que é JSON** — texto que parece dicionário Python + **playground interativo**
+   (tradutor bidirecional dict ↔ JSON, `#o-que-e-json`) — o WOW do capítulo
+4. **As 4 regras do JSON** (`#regras-json`) — aspas duplas; `true`/`false`/`null` minúsculos;
+   sem vírgula sobrando; os 6 tipos (string, número, bool, null, array, objeto) + sem comentário
+5. **A tradução dict ⇄ JSON** (`#traducao`) — fluxo animado memória↔disco; menciona que o
+   módulo `json` faz a tradução mas que **a gente NÃO faz na mão** (TinyDB faz por você)
+6. **JSON no mundo real** (`#onde-json`) — APIs, config, TinyDB, IA; "o inglês dos programas"
+7. **BugZilla** (`#bugzilla`) — 3 erros de **sintaxe JSON**: aspas simples, `True` maiúsculo,
+   vírgula sobrando (NÃO mais erros de arquivo/import)
+8. **Quiz de fixação** — qual JSON é válido, `None`→`null`, `[ ]`→lista
+9. **Resumo + ponte pro TinyDB**
 
 ### Visual obrigatório
-- "Programa fecha → dados somem" → "JSON salva em arquivo"
+- Playground tradutor dict ↔ JSON (interativo, JS no fim do arquivo — preservado da versão antiga)
 - Estrutura de um arquivo `.json` com syntax highlight
+- Fluxo animado dict → texto → disco → dict de volta (`#traducao`)
+
+### ⚠️ Ao manter
+- **Não reintroduzir** `json.dump`/`json.load`/persistência com arquivo aqui — é decisão de
+  design (persistência = só TinyDB). Se precisar, revisar com o prof. Kelson antes.
+- A ponte do cap 09 (`#ponte`) NÃO deve assumir que o aluno já salvou com `json.dump` no cap 08.
 
 ---
 
@@ -327,8 +344,8 @@ Cada desafio tem:
 | 05 | Funções | Reutilizar | def, parâmetros, retorno |
 | 06 | Desafios | Consolidar | 5 mini-sistemas |
 | 07 | Dicionários | Estruturar | dict, lista de dicts |
-| 08 | JSON | Salvar | json.dump/load |
-| 09 | TinyDB | Banco mini | CRUD em arquivo |
+| 08 | JSON | Formato | sintaxe JSON, dict ⇄ JSON (sem dump/load — só fundamento) |
+| 09 | TinyDB | Banco mini · ÚNICA persistência | CRUD em arquivo .json |
 | 10 | Streamlit | UI | apps web em Python |
 
 ## 🔗 Links externos do bootcamp

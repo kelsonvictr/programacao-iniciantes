@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cap 08 — Persistência com JSON | Bootcamp programa AI</title>
+<title>Cap 08 — JSON: a língua dos dados | Bootcamp programa AI</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../shared/styles.css">
 <link rel="stylesheet" href="../../shared/components.css">
@@ -232,14 +232,11 @@
     <a class="sidebar-link" onclick="goTo('o-problema')"><span class="dot" style="background:var(--bug)"></span>O problema 😱</a>
     <a class="sidebar-link" onclick="goTo('quiz-aquecimento')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Aquecimento</a>
     <a class="sidebar-link" onclick="goTo('o-que-e-json')"><span class="dot" style="background:var(--accent5)"></span>O que é JSON? · playground 🛝</a>
-    <a class="sidebar-link" onclick="goTo('magia-fluxo')"><span class="dot" style="background:var(--accent3)"></span>A mágica salvar/ler</a>
-    <a class="sidebar-link" onclick="goTo('salvar-dados')"><span class="dot" style="background:var(--accent4)"></span>json.dump · salvar</a>
-    <a class="sidebar-link" onclick="goTo('ler-dados')"><span class="dot" style="background:var(--accent4)"></span>json.load · ler</a>
-    <a class="sidebar-link" onclick="goTo('with-open')"><span class="dot" style="background:var(--accent6)"></span>with open()</a>
+    <a class="sidebar-link" onclick="goTo('regras-json')"><span class="dot" style="background:var(--accent5)"></span>As 4 regras do JSON</a>
+    <a class="sidebar-link" onclick="goTo('traducao')"><span class="dot" style="background:var(--accent3)"></span>Tradução dict ⇄ JSON</a>
+    <a class="sidebar-link" onclick="goTo('onde-json')"><span class="dot" style="background:var(--accent4)"></span>JSON no mundo real 🌍</a>
     <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>BugZilla 🐛</a>
     <a class="sidebar-link" onclick="goTo('quiz-fixacao')"><span class="dot" style="background:var(--accent5)"></span>Quiz de Fixação</a>
-    <a class="sidebar-link" onclick="goTo('arena-solo')"><span class="dot" style="background:var(--accent6)"></span>Arena de JSON · 6 treinos 💾</a>
-    <a class="sidebar-link" onclick="goTo('desafio-final')"><span class="dot" style="background:var(--accent6)"></span>Desafio · cadastro JSON</a>
     <a class="sidebar-link" onclick="goTo('resumo')"><span class="dot" style="background:var(--accent7)"></span>Resumo + ponte</a>
   </div>
 </aside>
@@ -247,18 +244,18 @@
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero">
-  <div class="hero-icons">💾 📄 ✨</div>
+  <div class="hero-icons">📄 🌍 ✨</div>
   <span class="hero-badge">Capítulo 08 · Bootcamp programa AI</span>
-  <h1 class="grad-json">Persistência com JSON</h1>
+  <h1 class="grad-json">JSON: a língua dos dados</h1>
   <p class="subtitle">
-    Cansou de perder os dados quando fecha o programa? Hoje você aprende a
-    <strong>SALVAR</strong> tudo em arquivo e <strong>LER</strong> de volta.
-    Esse é o capítulo que muda o jogo. 💾
+    Antes de guardar dados pra valer, você precisa conhecer o
+    <strong>formato</strong> em que quase todo programa do mundo guarda e troca informação.
+    Spoiler: ele é o primo gêmeo do dicionário que você já conhece. 📄
   </p>
   <div class="hero-stack">
-    <span class="stack-chip">📦 import json</span>
-    <span class="stack-chip">💾 json.dump</span>
-    <span class="stack-chip">📖 json.load</span>
+    <span class="stack-chip">📄 formato JSON</span>
+    <span class="stack-chip">🗂️ dict ⇄ JSON</span>
+    <span class="stack-chip">🛝 playground</span>
     <span class="stack-chip bug">🐛 BugZilla</span>
   </div>
 </section>
@@ -322,7 +319,7 @@
           Você <strong>anota</strong> os contatos no caderno (escreve no disco).
           Depois <strong>fecha</strong> o caderno (fecha o programa).
           Daqui a uma semana você <strong>abre</strong> de novo (abre o programa) — e
-          <strong>tá lá tudo, intacto</strong>. É EXATAMENTE isso que JSON faz pelo seu programa.
+          <strong>tá lá tudo, intacto</strong>. É EXATAMENTE isso que <strong>salvar em arquivo</strong> faz pelo seu programa.
         </p>
       </div>
 
@@ -351,10 +348,11 @@
     </div>
 
     <div class="savior-banner">
-      <h3>💾 Calma. Vem aí a salvação: JSON.</h3>
+      <h3>💾 A solução é guardar os dados num arquivo no disco.</h3>
       <p>
-        JSON é um formato simples de texto que o Python sabe ler e escrever. Você salva
-        suas listas e dicionários num arquivo <code>.json</code> e pronto — <strong>nunca mais perde nada</strong>.
+        Mas em <strong>que formato</strong> a gente escreve esse arquivo pra qualquer programa
+        conseguir ler depois? A resposta é o <strong>JSON</strong> — e é ele que você vai dominar
+        hoje. No próximo capítulo, o TinyDB usa esse formato pra salvar tudo pra você. 🎯
       </p>
     </div>
   </section>
@@ -505,9 +503,9 @@
           </div>
 
           <div class="jpg-arrow">
-            json.dumps
+            traduz →
             <span class="big">⇄</span>
-            json.loads
+            ← traduz
           </div>
 
           <div class="jpg-panel json">
@@ -573,217 +571,270 @@
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       4. A MÁGICA — SALVAR E LER (FLUXO ANIMADO)
+       4. AS REGRAS DO JSON
        ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="magia-fluxo">
+  <section class="step-section" id="regras-json">
     <div class="step-header">
-      <div class="step-number sn-green">✨</div>
+      <div class="step-number sn-yellow">📏</div>
       <div>
-        <div class="step-title">A mágica: salvar → fechar → abrir → ler</div>
-        <div class="step-sub">O ciclo de vida dos seus dados</div>
+        <div class="step-title">As regras do JSON</div>
+        <div class="step-sub">É parecido com Python… mas é mais chato que ele. Repara nas diferenças.</div>
       </div>
     </div>
 
     <div class="card">
       <p>
-        Aqui é a hora do <strong>"AHA!"</strong>. Olha esse ciclo todo, do começo ao fim:
+        Python é <strong>flexível</strong> — ele aceita aspas simples, aspas duplas, vírgula sobrando,
+        comentário no meio. O JSON <strong>não</strong>. Ele é um formato <em>rígido</em>, porque precisa
+        ser entendido por qualquer linguagem do mundo, sem margem pra dúvida.
+      </p>
+      <p>
+        São <strong>4 regras</strong>. Decorou essas quatro, você lê e escreve JSON pro resto da vida. 🎯
+      </p>
+
+      <div class="concept">
+        <div class="concept-title">1️⃣ Aspas DUPLAS. Sempre.</div>
+        <p>
+          Nas chaves e nos textos, só vale <code>"aspas duplas"</code>. Em Python
+          <code>'Ana'</code> e <code>"Ana"</code> são a mesma coisa — em JSON, só a segunda existe.
+        </p>
+      </div>
+
+      <div class="split-compare">
+        <div>
+          <div class="split-label">❌ não é JSON</div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">errado</span>
+              <span class="lang-badge json">JSON</span>
+            </div>
+<pre>{
+    <span style="color:#ff6b6b">'nome'</span>: <span style="color:#ff6b6b">'Ana'</span>
+}</pre>
+          </div>
+        </div>
+
+        <div class="arrow-mid">conserta →</div>
+
+        <div>
+          <div class="split-label">✅ JSON válido</div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">certo</span>
+              <span class="lang-badge json">JSON</span>
+            </div>
+<pre>{
+    <span class="st">"nome"</span>: <span class="st">"Ana"</span>
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">2️⃣ <code>true</code>, <code>false</code> e <code>null</code> são minúsculos</div>
+        <p>
+          Aquilo que em Python é <code>True</code>, <code>False</code> e <code>None</code>,
+          em JSON vira <code>true</code>, <code>false</code> e <code>null</code>.
+          <strong>Mesma ideia, escrita diferente.</strong> É a pegadinha nº 1 de quem tá começando.
+        </p>
+      </div>
+
+      <div class="split-compare">
+        <div>
+          <div class="split-label">Python</div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">na memória</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+<pre>{
+    <span class="st">"ativo"</span>: <span class="bool">True</span>,
+    <span class="st">"premium"</span>: <span class="bool">False</span>,
+    <span class="st">"apelido"</span>: <span class="bool">None</span>
+}</pre>
+          </div>
+        </div>
+
+        <div class="arrow-mid">vira →</div>
+
+        <div>
+          <div class="split-label">JSON</div>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">aluno.json</span>
+              <span class="lang-badge json">JSON</span>
+            </div>
+<pre>{
+    <span class="st">"ativo"</span>: <span class="bool">true</span>,
+    <span class="st">"premium"</span>: <span class="bool">false</span>,
+    <span class="st">"apelido"</span>: <span class="bool">null</span>
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">3️⃣ Nada de vírgula sobrando no fim</div>
+        <p>
+          Python deixa você colocar uma vírgula depois do último item (aquela
+          <em>trailing comma</em> confortável). JSON <strong>não perdoa</strong>: se a vírgula
+          não separa dois itens, ela não pode estar ali.
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+          <span class="filename">a vírgula assassina</span>
+          <span class="lang-badge json">JSON</span>
+        </div>
+<pre>{
+    <span class="st">"nome"</span>: <span class="st">"Ana"</span>,
+    <span class="st">"idade"</span>: <span class="num">22</span><span style="color:#ff6b6b">,</span>   <span class="cm">← essa vírgula quebra tudo 💥</span>
+}</pre>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">4️⃣ Só existem 6 tipos — e comentário não é um deles</div>
+        <p>
+          JSON é minimalista. Tudo que você guardar nele vai ser uma dessas 6 coisas.
+          E <strong>não existe comentário em JSON</strong> — nada de <code>#</code> como no Python.
+        </p>
+      </div>
+
+      <div class="keyword-grid">
+        <div class="keyword-chip">
+          <span class="emoji">🔤</span>
+          <span class="kw-name">"texto"</span>
+          <span class="kw-desc">String — sempre entre aspas duplas</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🔢</span>
+          <span class="kw-name">22 · 7.5</span>
+          <span class="kw-desc">Número — inteiro ou com vírgula (que é ponto!)</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">✅</span>
+          <span class="kw-name">true · false</span>
+          <span class="kw-desc">Booleano — minúsculo, sempre</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🕳️</span>
+          <span class="kw-name">null</span>
+          <span class="kw-desc">Vazio, sem valor — o None do Python</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">📋</span>
+          <span class="kw-name">[ ... ]</span>
+          <span class="kw-desc">Array — a lista do Python</span>
+        </div>
+        <div class="keyword-chip">
+          <span class="emoji">🗂️</span>
+          <span class="kw-name">{ ... }</span>
+          <span class="kw-desc">Objeto — o dicionário do Python</span>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:18px">
+        <span class="tip-icon">🧠</span>
+        <div class="tip-content">
+          <strong>Sacou o combo?</strong> Um objeto <code>{ }</code> pode ter uma lista
+          <code>[ ]</code> dentro. E cada item dessa lista pode ser outro objeto <code>{ }</code>.
+          É assim que JSON guarda coisas grandes: <strong>encaixando caixinha dentro de caixinha</strong>. 🧅
+          Volta no playground ali em cima e clica em <em>"dict aninhado"</em> pra ver.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       5. A TRADUÇÃO — dict ⇄ JSON (fluxo animado)
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="traducao">
+    <div class="step-header">
+      <div class="step-number sn-green">🔁</div>
+      <div>
+        <div class="step-title">A tradução: dict ⇄ JSON</div>
+        <div class="step-sub">Como um dicionário vira texto — e volta a ser dicionário</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Um arquivo no disco só sabe guardar <strong>texto</strong>. Ele não faz ideia do que é
+        um dicionário Python. Então, pra guardar seus dados, alguém precisa fazer a
+        <strong>tradução</strong> — nos dois sentidos:
       </p>
 
       <div class="flow-container autoplay">
         <div class="flow-box fb-py">
-          <div class="label">1. Programa rodando</div>
-          <div>🐍 Lista de alunos na memória</div>
+          <div class="label">1. Na memória</div>
+          <div>🐍 dict / lista Python</div>
         </div>
-        <div class="flow-arrow"><span class="flow-label">json.dump(...)</span></div>
+        <div class="flow-arrow"><span class="flow-label">traduz</span></div>
 
         <div class="flow-box fb-process">
-          <div class="label">2. Salvar</div>
-          <div>💾 Python escreve no arquivo</div>
+          <div class="label">2. Vira texto</div>
+          <div>📝 aquele texto com chaves e aspas</div>
         </div>
         <div class="flow-arrow"></div>
 
         <div class="flow-box fb-disk">
-          <div class="label">3. Disco</div>
-          <div>📄 alunos.json salvo!</div>
+          <div class="label">3. Guardado</div>
+          <div>📄 texto JSON no arquivo</div>
         </div>
-        <div class="flow-arrow"><span class="flow-label">programa fecha</span></div>
-
-        <div class="flow-box fb-bug">
-          <div class="label">4. Tempo passa…</div>
-          <div>💤 Computador desligado, dia seguinte…</div>
-        </div>
-        <div class="flow-arrow"><span class="flow-label">programa abre</span></div>
+        <div class="flow-arrow"><span class="flow-label">tempo passa…</span></div>
 
         <div class="flow-box fb-input">
-          <div class="label">5. Ler</div>
-          <div>📖 Python lê o arquivo</div>
+          <div class="label">4. Traduz de volta</div>
+          <div>🔍 Python lê o texto</div>
         </div>
-        <div class="flow-arrow"><span class="flow-label">json.load(...)</span></div>
+        <div class="flow-arrow"></div>
 
         <div class="flow-box fb-true">
-          <div class="label">6. Voltou!</div>
-          <div>🎉 Lista intacta na memória</div>
+          <div class="label">5. Voltou!</div>
+          <div>🎉 dict / lista de novo, intacto</div>
         </div>
       </div>
 
       <div class="tip" style="margin-top:18px">
         <span class="tip-icon">🪄</span>
         <div class="tip-content">
-          <strong>Resumo da mágica:</strong>
-          <code>json.dump</code> = guarda no caderno (escreve).
-          <code>json.load</code> = lê o caderno de volta.
-          São as <strong>duas únicas funções</strong> que você precisa decorar deste capítulo.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       CHAPTER DIVIDER — HORA DE CODAR
-       ═══════════════════════════════════════════════════════ -->
-  <div class="chapter-divider">
-    <span class="chapter-icon">💾</span>
-    <span class="chapter-number">Hora de Persistir</span>
-    <h2 class="grad-json">Bora salvar de verdade!</h2>
-    <p class="chapter-subtitle">
-      Primeiro dois exercícios guiados juntos — a gente <strong>salva</strong> e depois <strong>lê</strong>.
-      Depois <strong>6 treinos sozinho</strong> na Arena de JSON. E no final, um desafio solo épico pra unir tudo.
-    </p>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       5. SALVAR DADOS — json.dump (GUIADO)
-       ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="salvar-dados">
-    <div class="step-header">
-      <div class="step-number sn-blue">8.0</div>
-      <div>
-        <div class="step-title">Bora Codar! — salvar_dados.py</div>
-        <div class="step-sub">Salvando uma lista de dicts num arquivo .json</div>
-      </div>
-    </div>
-
-    <div class="exercise guided">
-      <div class="exercise-header">
-        <span class="exercise-icon">🎯</span>
-        <div>
-          <div class="exercise-title">Desafio guiado pelo professor</div>
-          <div class="exercise-sub">Vamos fazer juntos · salvar_dados.py</div>
+          <strong>Esse vai e volta é a alma da persistência.</strong> Enquanto os dados estão
+          <em>na memória</em>, eles são dict e lista — do jeito que você já sabe usar.
+          Quando precisam <em>ir pro disco</em>, viram texto JSON. É a mesma informação,
+          vestida de outro jeito.
         </div>
       </div>
 
       <div class="concept">
-        <div class="concept-title">📦 import json — o módulo built-in</div>
+        <div class="concept-title">📦 E quem faz essa tradução?</div>
         <p>
-          O Python já vem com a "caixa de ferramentas" pra mexer com JSON.
-          Você só precisa <strong>importar</strong> ela no topo do arquivo:
-          <code>import json</code>. <strong>Não precisa instalar nada.</strong>
+          O Python já vem com um módulo chamado <code>json</code> (não precisa instalar nada) que
+          sabe traduzir nos dois sentidos. Dá <strong>sim</strong> pra abrir o arquivo na mão,
+          traduzir na mão e salvar na mão.
+        </p>
+        <p>
+          Mas isso dá um trabalho danado: você tem que <strong>abrir</strong> o arquivo,
+          <strong>ler tudo</strong>, <strong>mexer na lista</strong>, <strong>regravar tudo</strong> —
+          toda vez, pra qualquer mudancinha. E ainda tratar o caso de "o arquivo nem existe ainda". 😮‍💨
         </p>
       </div>
 
-      <p style="color:var(--text-dim);margin:12px 0">
-        A lógica do programa é:
-      </p>
-      <ul style="margin-left:24px;color:var(--text-dim);font-size:0.94rem;line-height:1.9">
-        <li>Cria uma lista de dicionários (alunos, contatos, o que for)</li>
-        <li>Abre um arquivo no modo <strong>escrita</strong> (<code>"w"</code> de <em>write</em>)</li>
-        <li>Chama <code>json.dump(dados, arquivo)</code> — a mágica acontece</li>
-        <li>Pronto — tem um arquivo <code>.json</code> no seu projeto 🎉</li>
-      </ul>
-
-      <div class="code-block with-lines">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">salvar_dados.py</span>
-          <span class="lang-badge python">Python</span>
-        </div>
-        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># 1. lista de dicionários (lembra do cap 07?)</span>
-alunos = [
-    {<span class="st">"nome"</span>: <span class="st">"Ana"</span>,  <span class="st">"idade"</span>: <span class="num">22</span>, <span class="st">"curso"</span>: <span class="st">"Python"</span>},
-    {<span class="st">"nome"</span>: <span class="st">"João"</span>, <span class="st">"idade"</span>: <span class="num">28</span>, <span class="st">"curso"</span>: <span class="st">"IA"</span>},
-]
-
-<span class="cm"># 2. abre o arquivo em modo escrita ("w") e salva</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"alunos.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    json.dump(alunos, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
-
-<span class="bi">print</span>(<span class="st">"✅ Dados salvos em alunos.json!"</span>)</pre>
-      </div>
-
-      <p style="color:var(--text-dim);margin:14px 0 6px">Saída no terminal:</p>
-
-      <div class="terminal" data-typewriter>
-        <div class="terminal-header">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="title">Run · salvar_dados.py</span>
-        </div>
-        <div class="terminal-body">
-          <span class="out">$ python salvar_dados.py</span><br>
-          <span class="typed" data-text="✅ Dados salvos em alunos.json!"></span><span class="cursor"></span>
-        </div>
-      </div>
-
-      <p style="color:var(--text-dim);margin:14px 0 6px">
-        E ao lado do <code>salvar_dados.py</code> apareceu um arquivo novo:
-      </p>
-
-      <div class="json-file">
-        <span class="ic">📄</span>
-        <div>
-          <div class="nm">alunos.json</div>
-          <div class="desc">criado automaticamente pelo Python — abre ele no PyCharm pra ver o conteúdo!</div>
-        </div>
-      </div>
-
-      <div class="code-block">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">alunos.json (gerado)</span>
-          <span class="lang-badge json">JSON</span>
-        </div>
-<pre>[
-    {
-        <span class="st">"nome"</span>: <span class="st">"Ana"</span>,
-        <span class="st">"idade"</span>: <span class="num">22</span>,
-        <span class="st">"curso"</span>: <span class="st">"Python"</span>
-    },
-    {
-        <span class="st">"nome"</span>: <span class="st">"João"</span>,
-        <span class="st">"idade"</span>: <span class="num">28</span>,
-        <span class="st">"curso"</span>: <span class="st">"IA"</span>
-    }
-]</pre>
-      </div>
-
-      <div class="tip">
-        <span class="tip-icon">✨</span>
-        <div class="tip-content">
-          <strong>Reparou nos extras?</strong>
-          <code>indent=4</code> deixa o JSON <em>bonitinho</em> com identação (sem isso, vira uma linha só horrível).
-          <code>ensure_ascii=False</code> permite acentos e emojis no arquivo (sem isso, "João" virava <code>"João"</code> — feio).
-        </div>
-      </div>
-
-      <div class="warning">
-        <span class="warning-icon">🪟</span>
-        <div class="warning-content">
-          <strong>Sempre passe <code>encoding="utf-8"</code> no <code>open()</code> — tanto pra salvar quanto pra ler.</strong>
-          No Mac/Linux costuma funcionar sem ele, mas <strong>no Windows o padrão NÃO é UTF-8</strong>:
-          sem o <code>encoding="utf-8"</code>, nomes com acento ("João", "José", "coração") podem
-          quebrar ou virar caracteres estranhos no arquivo. Coloca sempre e durma tranquilo. 😴
-        </div>
-      </div>
-
-      <div class="warning">
-        <span class="warning-icon">⚠️</span>
-        <div class="warning-content">
-          <strong>Atenção ao modo <code>"w"</code>:</strong> se o arquivo já existir,
-          ele é <strong>SOBRESCRITO</strong> (apagado e regravado). É o que a gente quer aqui —
-          mas tá ligado.
-        </div>
+      <div class="savior-banner">
+        <h3>😎 Boa notícia: você não vai fazer isso na mão.</h3>
+        <p>
+          No <strong>Capítulo 09</strong> a gente usa o <strong>TinyDB</strong> — uma ferramenta
+          que faz essa tradução e essa gravação <strong>por você</strong>, com comandos curtinhos.
+          Por baixo dos panos ele guarda tudo… <strong>num arquivo JSON</strong>.
+          Por isso você precisava entender esse formato <em>antes</em>. 🎯
+        </p>
       </div>
     </div>
   </section>
@@ -791,148 +842,57 @@ alunos = [
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       6. LER DADOS — json.load (GUIADO)
+       6. ONDE JSON APARECE NO MUNDO REAL
        ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="ler-dados">
+  <section class="step-section" id="onde-json">
     <div class="step-header">
-      <div class="step-number sn-blue">8.1</div>
+      <div class="step-number sn-blue">🌍</div>
       <div>
-        <div class="step-title">Bora Codar! — ler_dados.py</div>
-        <div class="step-sub">Recuperando os dados do arquivo .json</div>
-      </div>
-    </div>
-
-    <div class="exercise guided">
-      <div class="exercise-header">
-        <span class="exercise-icon">🎯</span>
-        <div>
-          <div class="exercise-title">Desafio guiado pelo professor</div>
-          <div class="exercise-sub">Vamos fazer juntos · ler_dados.py</div>
-        </div>
-      </div>
-
-      <p style="color:var(--text-dim);margin-bottom:12px">
-        Agora a outra metade da mágica. Crie um <strong>NOVO</strong> arquivo
-        <code>ler_dados.py</code> (separado do <code>salvar_dados.py</code>) e
-        bora resgatar os dados que você acabou de salvar:
-      </p>
-
-      <div class="code-block with-lines">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">ler_dados.py</span>
-          <span class="lang-badge python">Python</span>
-        </div>
-        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># 1. abre o arquivo em modo leitura ("r" de read)</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"alunos.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    alunos = json.load(arquivo)
-
-<span class="cm"># 2. agora 'alunos' é uma lista de dicts NORMAL — usa como sempre</span>
-<span class="kw">for</span> aluno <span class="kw">in</span> alunos:
-    <span class="bi">print</span>(<span class="st">f"👤 {aluno[<span class="fexp">'nome'</span>]} — {aluno[<span class="fexp">'idade'</span>]} anos — curso: {aluno[<span class="fexp">'curso'</span>]}"</span>)</pre>
-      </div>
-
-      <div class="terminal" data-typewriter>
-        <div class="terminal-header">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="title">Run · ler_dados.py</span>
-        </div>
-        <div class="terminal-body">
-          <span class="out">$ python ler_dados.py</span><br>
-          <span class="typed" data-text="👤 Ana — 22 anos — curso: Python"></span><br>
-          <span class="typed" data-text="👤 João — 28 anos — curso: IA"></span><span class="cursor"></span>
-        </div>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">🪄 O que aconteceu de verdade</div>
-        <p>
-          O <code>json.load(arquivo)</code> leu o texto do arquivo, entendeu que era JSON,
-          e <strong>reconstruiu</strong> a lista de dicts <em>idêntica</em> à que você salvou.
-          Você fechou o programa, abriu de novo, e os dados <strong>voltaram</strong>. ✨
-        </p>
-      </div>
-
-      <div class="tip">
-        <span class="tip-icon">🆚</span>
-        <div class="tip-content">
-          <strong>dump × load:</strong> "<strong>dump</strong>" é <em>despejar</em> os dados no arquivo.
-          "<strong>load</strong>" é <em>carregar</em> os dados do arquivo. Mesma família, sentidos opostos.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       7. with open(...) — explicação leve
-       ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="with-open">
-    <div class="step-header">
-      <div class="step-number sn-purple">📂</div>
-      <div>
-        <div class="step-title">Mas o que é esse <code>with open(...)</code>?</div>
-        <div class="step-sub">Explicação leve — sem complicar</div>
+        <div class="step-title">Onde você vai esbarrar em JSON</div>
+        <div class="step-sub">Spoiler: em basicamente tudo</div>
       </div>
     </div>
 
     <div class="card">
+      <p>
+        JSON não é "coisa de aula". É o formato que o mundo inteiro usa pra
+        <strong>trocar e guardar dados</strong>. Depois de hoje você vai começar a enxergar
+        ele em todo canto:
+      </p>
+
+      <div class="notebook-strip">
+        <div class="notebook-cell">
+          <span class="emoji">🌐</span>
+          <strong>APIs</strong>
+          <div>Quando um app pede dados pra um servidor, a resposta quase sempre volta em JSON</div>
+        </div>
+        <div class="notebook-cell">
+          <span class="emoji">⚙️</span>
+          <strong>Configuração</strong>
+          <div>Programas guardam suas preferências (tema, idioma) num arquivo .json</div>
+        </div>
+        <div class="notebook-cell">
+          <span class="emoji">💾</span>
+          <strong>TinyDB</strong>
+          <div>O banco de dados do próximo capítulo salva tudo num .json</div>
+        </div>
+        <div class="notebook-cell">
+          <span class="emoji">🤖</span>
+          <strong>IA</strong>
+          <div>Modelos como o ChatGPT recebem e devolvem dados em JSON o tempo todo</div>
+        </div>
+      </div>
+
       <div class="analogy">
-        <div class="analogy-title">📁 É a porta do arquivo</div>
+        <div class="analogy-title">🗣️ JSON é o "inglês" dos programas</div>
         <p>
-          Pensa que o arquivo é uma <strong>caixa fechada</strong>. Pra mexer nele,
-          você precisa <strong>abrir</strong>, fazer o que tem que fazer, e <strong>fechar</strong>.
-          Se esquecer de fechar, dá problema.
+          Um programa em Python precisa mandar dados pra um site feito em JavaScript, que guarda
+          num banco escrito em Java. Três mundos diferentes — <strong>como eles se entendem?</strong>
         </p>
         <p>
-          O <strong><code>with open(...) as arquivo:</code></strong> é o jeitão Python de fazer isso bonito:
-          ele abre, deixa você usar, e <strong>fecha sozinho</strong> no final. Sem chance de esquecer. 🪄
+          Combinando um <strong>idioma comum</strong>. Esse idioma é o JSON: texto puro, simples,
+          que qualquer linguagem sabe ler e escrever. É por isso que ele venceu. 🏆
         </p>
-      </div>
-
-      <div class="code-block">
-        <div class="code-header">
-          <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">estrutura geral</span>
-          <span class="lang-badge python">Python</span>
-        </div>
-<pre><span class="kw">with</span> <span class="bi">open</span>(<span class="st">"nome_do_arquivo.json"</span>, <span class="st">"modo"</span>) <span class="kw">as</span> apelido:
-    <span class="cm"># aqui dentro você usa "apelido" como se fosse o arquivo</span>
-    <span class="cm"># quando o bloco acaba, Python fecha sozinho ✅</span></pre>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">🚪 Os modos mais comuns</div>
-        <p>
-          O segundo argumento do <code>open()</code> é o <strong>modo</strong>:
-        </p>
-      </div>
-
-      <div class="memory-row">
-        <div class="memory-card disk">
-          <span class="ic">📖</span>
-          <h4><code style="color:var(--accent7)">"r"</code> — read (ler)</h4>
-          <p>Para <strong>ler</strong> um arquivo que JÁ existe.</p>
-          <p>Usa com <code>json.load(...)</code>.</p>
-        </div>
-        <div class="memory-card ram">
-          <span class="ic">✏️</span>
-          <h4><code style="color:var(--accent2)">"w"</code> — write (escrever)</h4>
-          <p>Para <strong>escrever</strong>. Cria o arquivo se não existir, <strong>sobrescreve</strong> se existir.</p>
-          <p>Usa com <code>json.dump(...)</code>.</p>
-        </div>
-      </div>
-
-      <div class="tip">
-        <span class="tip-icon">🧘</span>
-        <div class="tip-content">
-          <strong>Não trava nisso agora.</strong> Por enquanto basta lembrar: <code>"r"</code> pra ler,
-          <code>"w"</code> pra escrever. Depois, naturalmente, você vai entender o resto.
-        </div>
       </div>
     </div>
   </section>
@@ -940,14 +900,14 @@ alunos = [
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       8. BUGZILLA — armadilhas de JSON
+       7. BUGZILLA — armadilhas de sintaxe JSON
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="bugzilla">
     <div class="step-header">
       <div class="step-number sn-red">🐛</div>
       <div>
         <div class="step-title">BugZilla apareceu de novo!</div>
-        <div class="step-sub">Os 3 erros clássicos com JSON</div>
+        <div class="step-sub">Os 3 JSONs quebrados que você VAI escrever um dia</div>
       </div>
     </div>
 
@@ -955,91 +915,125 @@ alunos = [
       <div class="bugzilla-header">
         <span class="bugzilla-emoji">🐛</span>
         <div>
-          <div class="bugzilla-title">Tá com problema no seu JSON? Calma, é uma das três:</div>
-          <div class="bugzilla-sub">Erros que TODO mundo comete na primeira vez</div>
+          <div class="bugzilla-title">"Meu JSON tá dando erro e eu não vejo nada de errado!"</div>
+          <div class="bugzilla-sub">Vê se não é uma dessas três — é quase sempre uma dessas três</div>
         </div>
       </div>
       <div class="bugzilla-body">
         <p>
-          Antes de surtar, confere essa lista — quase sempre é uma das três coisas abaixo.
+          A mensagem clássica quando um JSON tá torto é essa aqui — e ela aparece tanto no Python
+          quanto no navegador:
         </p>
       </div>
     </div>
 
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="filename">erro</span>
+        <span class="lang-badge terminal">Terminal</span>
+      </div>
+<pre><span style="color:#ff6b6b">json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes</span></pre>
+    </div>
+
+    <p style="color:var(--text-dim);margin:14px 0">
+      Traduzindo do "computês": <em>"tem alguma coisa escrita errada aí, arruma."</em>
+      Bora ver as três culpadas de sempre. 👇
+    </p>
+
     <!-- Bug 1 -->
     <div class="card">
-      <h3 style="color:var(--bug);margin-bottom:6px">🐛 Bug #1 — esqueci de importar <code>json</code></h3>
+      <h3 style="color:var(--bug);margin-bottom:6px">🐛 Bug #1 — usei aspas simples (o vício do Python)</h3>
       <p style="color:var(--text-dim);margin-bottom:8px">
-        Você começa a digitar <code>json.dump(...)</code> e o Python solta:
+        Você digita do jeito que o Python deixa… mas isso <strong>não é JSON</strong>:
       </p>
 
       <div class="code-block">
         <div class="code-header">
           <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">erro</span>
-          <span class="lang-badge terminal">Terminal</span>
+          <span class="filename">quebrado.json</span>
+          <span class="lang-badge json">JSON</span>
         </div>
-<pre><span style="color:#ff6b6b">NameError: name 'json' is not defined</span></pre>
+<pre>{
+    <span style="color:#ff6b6b">'nome'</span>: <span style="color:#ff6b6b">'Ana'</span>
+}</pre>
       </div>
 
       <div class="tip">
         <span class="tip-icon">🩹</span>
         <div class="tip-content">
-          <strong>Conserto:</strong> primeira linha do arquivo, sempre — <code>import json</code>.
-          Sem isso, o Python não sabe quem é esse "json".
+          <strong>Conserto:</strong> troca TODAS as aspas simples por
+          <strong>aspas duplas</strong> — <code>"nome"</code>, <code>"Ana"</code>.
+          Em JSON, aspas simples simplesmente não existem.
         </div>
       </div>
     </div>
 
     <!-- Bug 2 -->
     <div class="card">
-      <h3 style="color:var(--bug);margin-bottom:6px">🐛 Bug #2 — arquivo vazio quebra o <code>json.load</code></h3>
+      <h3 style="color:var(--bug);margin-bottom:6px">🐛 Bug #2 — escrevi <code>True</code> com T maiúsculo</h3>
       <p style="color:var(--text-dim);margin-bottom:8px">
-        Você cria <code>alunos.json</code> manualmente, deixa em branco, e tenta carregar:
+        O dedo escorrega e sai o <code>True</code> do Python dentro de um arquivo JSON:
       </p>
 
       <div class="code-block">
         <div class="code-header">
           <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">erro</span>
-          <span class="lang-badge terminal">Terminal</span>
+          <span class="filename">quebrado.json</span>
+          <span class="lang-badge json">JSON</span>
         </div>
-<pre><span style="color:#ff6b6b">json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)</span></pre>
+<pre>{
+    <span class="st">"nome"</span>: <span class="st">"Ana"</span>,
+    <span class="st">"ativo"</span>: <span style="color:#ff6b6b">True</span>,
+    <span class="st">"apelido"</span>: <span style="color:#ff6b6b">None</span>
+}</pre>
       </div>
 
       <div class="tip">
         <span class="tip-icon">🩹</span>
         <div class="tip-content">
-          <strong>Conserto:</strong> arquivo JSON vazio NÃO É JSON válido.
-          Pra começar do zero, escreve <code>[]</code> (lista vazia) ou <code>{}</code> (dict vazio) dentro dele.
-          Ou então salva primeiro com <code>json.dump([], arq)</code>.
+          <strong>Conserto:</strong> em JSON é <code>true</code>, <code>false</code> e
+          <code>null</code> — <strong>tudo minúsculo</strong>. O <code>None</code> do Python
+          nem existe por lá: o nome dele é <code>null</code>.
         </div>
       </div>
     </div>
 
     <!-- Bug 3 -->
     <div class="card">
-      <h3 style="color:var(--bug);margin-bottom:6px">🐛 Bug #3 — modo errado: <code>"r"</code> vs <code>"w"</code></h3>
+      <h3 style="color:var(--bug);margin-bottom:6px">🐛 Bug #3 — a vírgula sobrando no último item</h3>
       <p style="color:var(--text-dim);margin-bottom:8px">
-        Tentou <strong>ler</strong> um arquivo que ainda não existe, com modo <code>"r"</code>:
+        Esse é <strong>traiçoeiro</strong>, porque em Python isso é permitido e ninguém reclama:
       </p>
 
       <div class="code-block">
         <div class="code-header">
           <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          <span class="filename">erro</span>
-          <span class="lang-badge terminal">Terminal</span>
+          <span class="filename">quebrado.json</span>
+          <span class="lang-badge json">JSON</span>
         </div>
-<pre><span style="color:#ff6b6b">FileNotFoundError: [Errno 2] No such file or directory: 'alunos.json'</span></pre>
+<pre>[
+    {<span class="st">"nome"</span>: <span class="st">"Ana"</span>},
+    {<span class="st">"nome"</span>: <span class="st">"João"</span>}<span style="color:#ff6b6b">,</span>
+]</pre>
       </div>
 
       <div class="tip">
         <span class="tip-icon">🩹</span>
         <div class="tip-content">
-          <strong>Conserto:</strong> ou roda o <code>salvar_dados.py</code> primeiro
-          (pra criar o arquivo), ou trata o erro com <code>try / except FileNotFoundError</code> —
-          é o que a gente vai usar no desafio final 👀.
+          <strong>Conserto:</strong> apaga a vírgula depois do último item. Regra de ouro:
+          <strong>vírgula só existe pra separar DOIS itens</strong>. Se não tem ninguém depois
+          dela, ela não devia estar ali.
         </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">🛝</span>
+      <div class="tip-content">
+        <strong>Testa você mesmo!</strong> Volta lá no <a href="#o-que-e-json" style="color:var(--accent5)">playground</a>
+        e cola um desses JSONs quebrados no lado direito. Ele vai apontar o erro na hora —
+        do mesmo jeitinho que o Python vai apontar. 😏
       </div>
     </div>
   </section>
@@ -1047,842 +1041,49 @@ alunos = [
   <div class="section-connector"><div class="line"></div></div>
 
   <!-- ═══════════════════════════════════════════════════════
-       9. QUIZ DE FIXAÇÃO
+       8. QUIZ DE FIXAÇÃO
        ═══════════════════════════════════════════════════════ -->
   <section class="step-section" id="quiz-fixacao">
     <div class="step-header">
       <div class="step-number sn-yellow">🎯</div>
       <div>
         <div class="step-title">Quiz de Fixação</div>
-        <div class="step-sub">Antes do desafio final, bora confirmar</div>
+        <div class="step-sub">Confirma se o formato entrou na cabeça</div>
       </div>
     </div>
 
     <div class="card">
       <div class="quiz">
-        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Pra <strong>salvar</strong> uma lista de dicts num arquivo, você usa:</div>
+        <div class="quiz-q"><span class="q-emoji">3️⃣</span> Qual desses é um JSON <strong>válido</strong>?</div>
         <div class="quiz-options">
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) json.save(lista, "arq.json")</button>
-          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">B) json.dump(lista, arquivo) com modo "w"</button>
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) print(lista) num .json</button>
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) json.load(lista, "arq.json")</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) { 'nome': 'Ana' }</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">B) { "nome": "Ana", }</button>
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">C) { "nome": "Ana", "ativo": true }</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) { "nome": "Ana", "ativo": True }</button>
         </div>
-        <div class="quiz-feedback" data-explain="dump = despejar os dados NO arquivo. E o arquivo precisa estar aberto em modo escrita ('w')."></div>
+        <div class="quiz-feedback" data-explain="aspas duplas ✅, sem vírgula sobrando ✅, true minúsculo ✅. A tem aspas simples, B tem vírgula sobrando, D tem True com T maiúsculo (isso é Python, não JSON)."></div>
       </div>
 
       <div class="quiz" style="margin-top:18px">
-        <div class="quiz-q"><span class="q-emoji">4️⃣</span> Você abriu <code>alunos.json</code> com modo <code>"w"</code> e ele já tinha dados. O que acontece?</div>
+        <div class="quiz-q"><span class="q-emoji">4️⃣</span> O <code>None</code> do Python, quando vira JSON, se chama:</div>
         <div class="quiz-options">
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) Os dados antigos são preservados e o novo é adicionado</button>
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">B) Python pergunta se você quer sobrescrever</button>
-          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">C) O conteúdo antigo é apagado e substituído</button>
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) Dá erro automaticamente</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) none</button>
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">B) null</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) vazio</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) 0</button>
         </div>
-        <div class="quiz-feedback" data-explain="modo 'w' (write) sobrescreve sem dó. Se você quer adicionar sem perder, leia primeiro com 'r' e salve a lista atualizada com 'w'."></div>
+        <div class="quiz-feedback" data-explain="null é o 'sem valor' do JSON. E cuidado: null NÃO é zero e NÃO é texto vazio — é a ausência de valor mesmo."></div>
       </div>
 
       <div class="quiz" style="margin-top:18px">
-        <div class="quiz-q"><span class="q-emoji">5️⃣</span> Qual é a primeira linha que NUNCA pode faltar?</div>
+        <div class="quiz-q"><span class="q-emoji">5️⃣</span> Um <code>[ ]</code> no JSON corresponde, no Python, a:</div>
         <div class="quiz-options">
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) install json</button>
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">B) from json import save</button>
-          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">C) import json</button>
-          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) require("json")</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">A) Um dicionário</button>
+          <button class="quiz-opt" data-correct="true"  onclick="checkQuiz(this, true)">B) Uma lista</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">C) Uma função</button>
+          <button class="quiz-opt"                       onclick="checkQuiz(this, false)">D) Um comentário</button>
         </div>
-        <div class="quiz-feedback" data-explain="json é módulo built-in (já vem com Python). Só precisa de import json no topo do arquivo. Sem isso, NameError na certa."></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       9b. ARENA DE JSON — 6 treinos solo (olhinho 👀)
-       ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="arena-solo">
-    <div class="arena-banner">
-      <div class="ab-emoji">💾</div>
-      <div class="ab-text">
-        <div class="ab-tag">Faça sozinho · 6 treinos</div>
-        <div class="ab-title">De "vi o professor salvar" para "eu salvo e leio no automático"</div>
-        <div class="ab-sub">
-          Cada treino é um arquivo <code>.py</code> separado. Tenta, roda, erra, ajusta —
-          e só abre o olhinho 👀 depois de dar o seu melhor. Eles vão subindo de
-          dificuldade até te deixar pronto pro desafio final.
-        </div>
-      </div>
-    </div>
-
-    <div class="arena-track">
-      <span class="at-dot lv1">1</span><span class="at-arrow">→</span>
-      <span class="at-dot lv1">2</span><span class="at-arrow">→</span>
-      <span class="at-dot lv2">3</span><span class="at-arrow">→</span>
-      <span class="at-dot lv2">4</span><span class="at-arrow">→</span>
-      <span class="at-dot lv2">5</span><span class="at-arrow">→</span>
-      <span class="at-dot lv3">6</span>
-    </div>
-    <p style="text-align:center;color:var(--text-dim);font-size:0.82rem;margin-top:2px">
-      <em>★☆☆ fácil &nbsp;·&nbsp; ★★☆ médio &nbsp;·&nbsp; ★★★ cabuloso</em>
-    </p>
-
-    <div class="tip" style="margin-top:14px">
-      <span class="tip-icon">🧭</span>
-      <div class="tip-content">
-        <strong>Roteiro:</strong> os treinos 1 e 2 são as duas metades da mágica
-        (<code>json.dump</code> salva, <code>json.load</code> lê). Do 3 em diante a gente
-        junta tudo: lista de dicts, ler-modificar-salvar, e tratar "arquivo não existe".
-        O treino 6 é o que faz o queixo cair. 😏
-      </div>
-    </div>
-  </section>
-
-  <!-- ── TREINO 1 — salvar_perfil.py ── -->
-  <section class="step-section" id="treino-1">
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">💪</span>
-        <div>
-          <div class="exercise-title">Treino 1 — salvar_perfil.py</div>
-          <div class="exercise-sub">Faça sozinho · salvar_perfil.py</div>
-        </div>
-      </div>
-
-      <div class="drill-tags">
-        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
-        <span class="drill-tag">import json</span>
-        <span class="drill-tag">json.dump</span>
-        <span class="drill-tag">modo "w"</span>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          Crie o arquivo <code>salvar_perfil.py</code>. No topo, sempre,
-          <code>import json</code>. Monte um dicionário <code>perfil</code> com SEUS dados:
-          <code>"nome"</code>, <code>"idade"</code> e <code>"cidade"</code>.
-        </p>
-        <p>
-          Agora salva ele: abre um arquivo <code>perfil.json</code> no modo <code>"w"</code>
-          (escrita) com <code>with open(...)</code> e chama
-          <code>json.dump(perfil, arquivo)</code>. Não esquece dos extras que deixam o JSON
-          bonito: <code>indent=4</code> e <code>ensure_ascii=False</code> (pra acento não virar bagunça).
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>PARE! Tente sozinho primeiro.</strong> É a primeira metade da mágica —
-          só salvar. Roda e confere: apareceu um <code>perfil.json</code> ao lado do seu código?
-          <strong>Tenta antes de espiar 👀.</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">salvar_perfil.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># meu perfil como um dicionário</span>
-perfil = {
-    <span class="st">"nome"</span>: <span class="st">"Ana"</span>,
-    <span class="st">"idade"</span>: <span class="num">22</span>,
-    <span class="st">"cidade"</span>: <span class="st">"João Pessoa"</span>,
-}
-
-<span class="cm"># salva o dict no arquivo perfil.json</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"perfil.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    json.dump(perfil, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
-
-<span class="bi">print</span>(<span class="st">"✅ Perfil salvo em perfil.json!"</span>)</pre>
-          </div>
-          <div class="json-file">
-            <span class="ic">📄</span>
-            <div>
-              <div class="nm">perfil.json (gerado)</div>
-              <div class="desc">abre ele no PyCharm — vai ver seus dados em texto, bonitinho com a identação</div>
-            </div>
-          </div>
-          <div class="tip" style="margin-top:14px">
-            <span class="tip-icon">✨</span>
-            <div class="tip-content">
-              <strong>Repara:</strong> você salvou UM dicionário (não uma lista). JSON salva
-              os dois numerais — dict <code>{ }</code> ou lista <code>[ ]</code> — sem reclamar.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ── TREINO 2 — ler_perfil.py ── -->
-  <section class="step-section" id="treino-2">
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">💪</span>
-        <div>
-          <div class="exercise-title">Treino 2 — ler_perfil.py</div>
-          <div class="exercise-sub">Faça sozinho · ler_perfil.py</div>
-        </div>
-      </div>
-
-      <div class="drill-tags">
-        <span class="drill-level lv1"><span class="stars">★☆☆</span> fácil</span>
-        <span class="drill-tag">json.load</span>
-        <span class="drill-tag">modo "r"</span>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          Agora a outra metade. Crie um arquivo <strong>novo</strong>,
-          <code>ler_perfil.py</code>, que vai resgatar o que o Treino 1 salvou.
-        </p>
-        <p>
-          Abre o <code>perfil.json</code> no modo <code>"r"</code> (leitura) e chama
-          <code>json.load(arquivo)</code>. O que volta é um <strong>dict normal</strong> —
-          aí é só ler as chaves com colchetes (<code>perfil["nome"]</code>) e mostrar no
-          <code>print()</code>.
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>Tente sozinho!</strong> Rode o Treino 1 antes (pra existir o arquivo).
-          Se aparecer <code>FileNotFoundError</code>, é porque o <code>perfil.json</code>
-          ainda não foi criado. <strong>Você consegue!</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">ler_perfil.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># abre o arquivo em modo leitura ("r")</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"perfil.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    perfil = json.load(arquivo)
-
-<span class="cm"># agora 'perfil' é um dict normal — usa como sempre</span>
-<span class="bi">print</span>(<span class="st">"Nome:"</span>, perfil[<span class="st">"nome"</span>])
-<span class="bi">print</span>(<span class="st">"Idade:"</span>, perfil[<span class="st">"idade"</span>])
-<span class="bi">print</span>(<span class="st">"Cidade:"</span>, perfil[<span class="st">"cidade"</span>])</pre>
-          </div>
-          <div class="terminal" data-typewriter>
-            <div class="terminal-header">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="title">Run · ler_perfil.py</span>
-            </div>
-            <div class="terminal-body">
-              <span class="typed" data-text="Nome: Ana"></span><br>
-              <span class="typed" data-text="Idade: 22"></span><br>
-              <span class="typed" data-text="Cidade: João Pessoa"></span><span class="cursor"></span>
-            </div>
-          </div>
-          <div class="tip" style="margin-top:14px">
-            <span class="tip-icon">🆚</span>
-            <div class="tip-content">
-              <strong>Treino 1 + Treino 2 = a mágica completa.</strong>
-              <code>dump</code> despejou no arquivo, <code>load</code> carregou de volta.
-              Fechou o programa entre um e outro — e os dados sobreviveram. 💾
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ── TREINO 3 — playlist.py ── -->
-  <section class="step-section" id="treino-3">
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">💪</span>
-        <div>
-          <div class="exercise-title">Treino 3 — playlist.py</div>
-          <div class="exercise-sub">Faça sozinho · playlist.py</div>
-        </div>
-      </div>
-
-      <div class="drill-tags">
-        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
-        <span class="drill-tag">lista de dicts</span>
-        <span class="drill-tag">dump + load</span>
-        <span class="drill-tag">for</span>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          Crie <code>playlist.py</code>. Monte uma <strong>lista de dicionários</strong>
-          chamada <code>playlist</code> — cada música é um dict com <code>"titulo"</code>
-          e <code>"artista"</code>. (Lembra da lista de fichas do Cap 07? É igualzinho.)
-        </p>
-        <p>
-          Faça o <strong>round-trip completo</strong> no mesmo arquivo: primeiro
-          <strong>salva</strong> a lista com <code>json.dump</code> (modo <code>"w"</code>),
-          depois <strong>lê</strong> de volta com <code>json.load</code> (modo <code>"r"</code>)
-          e percorre o resultado com um <code>for</code>, imprimindo cada música.
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>Tente sozinho!</strong> Aqui você junta lista de dicts + as duas funções
-          de JSON num arquivo só. Se travar, volta no <code>salvar_dados.py</code> guiado —
-          a estrutura é a mesma. <strong>Vai com calma e tenta 👀.</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">playlist.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># lista de músicas (lista de dicionários)</span>
-playlist = [
-    {<span class="st">"titulo"</span>: <span class="st">"Tempo Perdido"</span>,     <span class="st">"artista"</span>: <span class="st">"Legião Urbana"</span>},
-    {<span class="st">"titulo"</span>: <span class="st">"Garota de Ipanema"</span>, <span class="st">"artista"</span>: <span class="st">"Tom Jobim"</span>},
-]
-
-<span class="cm"># salva a lista inteira no arquivo</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"playlist.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    json.dump(playlist, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
-
-<span class="cm"># lê de volta e percorre com for</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"playlist.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    musicas = json.load(arquivo)
-
-<span class="kw">for</span> m <span class="kw">in</span> musicas:
-    <span class="bi">print</span>(<span class="st">f"🎵 {m['titulo']} — {m['artista']}"</span>)</pre>
-          </div>
-          <div class="terminal" data-typewriter>
-            <div class="terminal-header">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="title">Run · playlist.py</span>
-            </div>
-            <div class="terminal-body">
-              <span class="typed" data-text="🎵 Tempo Perdido — Legião Urbana"></span><br>
-              <span class="typed" data-text="🎵 Garota de Ipanema — Tom Jobim"></span><span class="cursor"></span>
-            </div>
-          </div>
-          <div class="tip" style="margin-top:14px">
-            <span class="tip-icon">🔁</span>
-            <div class="tip-content">
-              <strong>Cada volta do <code>for</code> te entrega UMA música completa</strong>
-              (um dict inteiro). Aí dentro você lê os campos com <code>m["titulo"]</code> e
-              <code>m["artista"]</code> — exatamente como no Cap 07, só que agora os dados
-              vieram de um arquivo. 😎
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ── TREINO 4 — adicionar_tarefa.py ── -->
-  <section class="step-section" id="treino-4">
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">💪</span>
-        <div>
-          <div class="exercise-title">Treino 4 — adicionar_tarefa.py</div>
-          <div class="exercise-sub">Faça sozinho · adicionar_tarefa.py</div>
-        </div>
-      </div>
-
-      <div class="drill-tags">
-        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
-        <span class="drill-tag">ler → modificar → salvar</span>
-        <span class="drill-tag">append</span>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          Esse é o padrão mais importante do capítulo: <strong>ler → modificar → salvar</strong>.
-          Crie <code>adicionar_tarefa.py</code>.
-        </p>
-        <p>
-          <strong>Antes de rodar</strong>, crie na mão um arquivo <code>tarefas.json</code>
-          com só <code>[]</code> dentro (uma lista vazia — lembra do BugZilla bug #2? arquivo
-          em branco quebra o <code>load</code>).
-        </p>
-        <p>
-          No código: <strong>1)</strong> abre o <code>tarefas.json</code> em <code>"r"</code> e
-          <code>json.load</code> pra uma lista; <strong>2)</strong> pede uma tarefa nova com
-          <code>input()</code> e dá <code>append</code> nela; <strong>3)</strong> abre de novo
-          em <code>"w"</code> e salva a lista atualizada com <code>json.dump</code>.
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>Tente sozinho!</strong> Roda umas 3 vezes adicionando tarefas diferentes
-          e abre o <code>tarefas.json</code> pra ver a lista crescendo a cada execução.
-          <strong>Esse acúmulo entre execuções é o pulo do gato!</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">adicionar_tarefa.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># 1. lê a lista de tarefas que já está no arquivo</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"tarefas.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    tarefas = json.load(arquivo)
-
-<span class="cm"># 2. adiciona uma tarefa nova na lista</span>
-nova = <span class="bi">input</span>(<span class="st">"Nova tarefa: "</span>)
-tarefas.append(nova)
-
-<span class="cm"># 3. salva a lista atualizada de volta no MESMO arquivo</span>
-<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"tarefas.json"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-    json.dump(tarefas, arquivo, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
-
-<span class="bi">print</span>(<span class="st">f"✅ Agora você tem {len(tarefas)} tarefa(s) salvas."</span>)</pre>
-          </div>
-          <div class="warning" style="margin-top:14px">
-            <span class="warning-icon">⚠️</span>
-            <div class="warning-content">
-              <strong>Por que abrir o arquivo DUAS vezes?</strong> Uma pra ler (<code>"r"</code>)
-              e outra pra escrever (<code>"w"</code>). Não dá pra fazer os dois com a mesma
-              abertura. Primeiro você puxa o que já existe, mexe na lista, e só então grava tudo de novo.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ── TREINO 5 — carrega_seguro.py ── -->
-  <section class="step-section" id="treino-5">
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">💪</span>
-        <div>
-          <div class="exercise-title">Treino 5 — carrega_seguro.py</div>
-          <div class="exercise-sub">Faça sozinho · carrega_seguro.py</div>
-        </div>
-      </div>
-
-      <div class="drill-tags">
-        <span class="drill-level lv2"><span class="stars">★★☆</span> médio</span>
-        <span class="drill-tag">try / except</span>
-        <span class="drill-tag">FileNotFoundError</span>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          No Treino 4 você teve que criar o arquivo na mão pra não quebrar. Chato, né?
-          Aqui você vai resolver isso de vez com <code>try / except FileNotFoundError</code>.
-        </p>
-        <p>
-          Crie <code>carrega_seguro.py</code>. Dentro do <code>try</code>, tenta abrir
-          <code>config.json</code> em <code>"r"</code> e carregar com <code>json.load</code>.
-          No <code>except FileNotFoundError</code> (quando o arquivo NÃO existe ainda),
-          em vez de quebrar, começa com uma configuração padrão — tipo
-          <code>{"tema": "claro", "idioma": "pt-br"}</code>.
-        </p>
-        <p>
-          No fim, dê <code>print()</code> no <code>config</code> pra ver qual dos dois rolou.
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>Tente sozinho!</strong> Roda <strong>sem</strong> o arquivo existir
-          (cai no <code>except</code>, usa o padrão). Depois cria um <code>config.json</code>
-          na mão e roda de novo (cai no <code>try</code>, carrega o arquivo).
-          <strong>Vê os dois caminhos! 👀</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">carrega_seguro.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
-<pre><span class="kw">import</span> json
-
-<span class="cm"># tenta carregar as configurações salvas</span>
-<span class="kw">try</span>:
-    <span class="kw">with</span> <span class="bi">open</span>(<span class="st">"config.json"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> arquivo:
-        config = json.load(arquivo)
-    <span class="bi">print</span>(<span class="st">"⚙️ Configurações carregadas do arquivo!"</span>)
-<span class="kw">except</span> <span class="tp">FileNotFoundError</span>:
-    config = {<span class="st">"tema"</span>: <span class="st">"claro"</span>, <span class="st">"idioma"</span>: <span class="st">"pt-br"</span>}
-    <span class="bi">print</span>(<span class="st">"🆕 Primeira vez — usando configuração padrão."</span>)
-
-<span class="bi">print</span>(config)</pre>
-          </div>
-          <div class="tip" style="margin-top:14px">
-            <span class="tip-icon">🛡️</span>
-            <div class="tip-content">
-              <strong>Esse é o "cinto de segurança" do JSON.</strong> Em vez de o programa
-              explodir na primeira execução (quando o arquivo ainda não existe), ele
-              calmamente começa com um valor padrão. É EXATAMENTE essa proteção que o
-              desafio final vai usar. 😉
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ── TREINO 6 — contador_execucoes.py (cabuloso, WOW) ── -->
-  <section class="step-section" id="treino-6">
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">🔥</span>
-        <div>
-          <div class="exercise-title">Treino 6 — contador_execucoes.py</div>
-          <div class="exercise-sub">Faça sozinho · contador_execucoes.py</div>
-        </div>
-      </div>
-
-      <div class="drill-tags">
-        <span class="drill-level lv3"><span class="stars">★★★</span> cabuloso</span>
-        <span class="drill-tag">try / except</span>
-        <span class="drill-tag">ler → +1 → salvar</span>
-        <span class="drill-tag">memória entre execuções</span>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          O treino que faz o queixo cair: um programa que <strong>lembra quantas vezes
-          já foi executado</strong>. Crie <code>contador_execucoes.py</code>.
-        </p>
-        <p>
-          Junta TUDO que você treinou:
-          <strong>1)</strong> tenta ler <code>contador.json</code> num <code>try</code>;
-          se não existir (<code>except FileNotFoundError</code>), começa com
-          <code>{"execucoes": 0}</code>.
-          <strong>2)</strong> soma 1 no contador:
-          <code>dados["execucoes"] = dados["execucoes"] + 1</code>.
-          <strong>3)</strong> salva de volta com <code>json.dump</code> e mostra o número.
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>PARE e tente!</strong> O segredo do "AHA!" aqui é
-          <strong>rodar o programa 3, 4, 5 vezes seguidas</strong> e ver o número subir
-          sozinho a cada execução — mesmo fechando tudo no meio. Seu programa virou um
-          que <em>não esquece</em>. <strong>Tenta antes de espiar 👀!</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">contador_execucoes.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19</div>
-<pre><span class="kw">import</span> json
-
-ARQUIVO = <span class="st">"contador.json"</span>
-
-<span class="cm"># 1. lê quantas vezes já rodou (ou começa do zero na 1ª vez)</span>
-<span class="kw">try</span>:
-    <span class="kw">with</span> <span class="bi">open</span>(ARQUIVO, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
-        dados = json.load(f)
-<span class="kw">except</span> <span class="tp">FileNotFoundError</span>:
-    dados = {<span class="st">"execucoes"</span>: <span class="num">0</span>}
-
-<span class="cm"># 2. soma mais uma execução</span>
-dados[<span class="st">"execucoes"</span>] = dados[<span class="st">"execucoes"</span>] + <span class="num">1</span>
-
-<span class="cm"># 3. salva de volta no arquivo</span>
-<span class="kw">with</span> <span class="bi">open</span>(ARQUIVO, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
-    json.dump(dados, f, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
-
-<span class="bi">print</span>(<span class="st">f"🚀 Você já rodou este programa {dados['execucoes']} vez(es)!"</span>)</pre>
-          </div>
-          <div class="terminal" data-typewriter>
-            <div class="terminal-header">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="title">rodando 3 vezes seguidas · contador_execucoes.py</span>
-            </div>
-            <div class="terminal-body">
-              <span class="out">$ python contador_execucoes.py</span><br>
-              <span class="typed" data-text="🚀 Você já rodou este programa 1 vez(es)!"></span><br>
-              <span class="out">$ python contador_execucoes.py</span><br>
-              <span class="typed" data-text="🚀 Você já rodou este programa 2 vez(es)!"></span><br>
-              <span class="out">$ python contador_execucoes.py</span><br>
-              <span class="typed" data-text="🚀 Você já rodou este programa 3 vez(es)!"></span><span class="cursor"></span>
-            </div>
-          </div>
-          <div class="tip" style="margin-top:14px">
-            <span class="tip-icon">🤯</span>
-            <div class="tip-content">
-              <strong>Sentiu o poder?</strong> O número NÃO está numa variável (essa zeraria
-              a cada execução) — ele mora no <code>contador.json</code>, no disco. Por isso
-              sobrevive entre execuções. É a mesma ideia que faz um jogo lembrar seu recorde
-              ou um app lembrar suas configurações. 🎮
-            </div>
-          </div>
-          <div class="warning" style="margin-top:8px">
-            <span class="warning-icon">🐛</span>
-            <div class="warning-content">
-              <strong>BugZilla cochichando:</strong> repara que aqui a gente NÃO precisou criar
-              o arquivo na mão (como no Treino 4). O <code>try / except</code> resolve a primeira
-              execução sozinho. Esperto, né?
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-connector"><div class="line"></div></div>
-
-  <!-- ═══════════════════════════════════════════════════════
-       10. DESAFIO FINAL — sistema_cadastro_json.py (SOLO 👀)
-       ═══════════════════════════════════════════════════════ -->
-  <section class="step-section" id="desafio-final">
-    <div class="step-header">
-      <div class="step-number sn-purple">8.2</div>
-      <div>
-        <div class="step-title">Desafio Prático — sistema_cadastro_json.py</div>
-        <div class="step-sub">Pega o sistema do Cap 07 e PERSISTE de verdade</div>
-      </div>
-    </div>
-
-    <div class="exercise solo">
-      <div class="exercise-header">
-        <span class="exercise-icon">💪</span>
-        <div>
-          <div class="exercise-title">Desafio Individual — o "boss" do capítulo</div>
-          <div class="exercise-sub">Faça sozinho · sistema_cadastro_json.py</div>
-        </div>
-      </div>
-
-      <div class="concept">
-        <div class="concept-title">💡 Dica para fazer sozinho</div>
-        <p>
-          Lembra do <code>sistema_cadastro.py</code> do <strong>Capítulo 07</strong>?
-          Aquele com menu (1-Adicionar, 2-Listar, 3-Buscar, 4-Sair) e uma lista de dicionários
-          dos alunos. <strong>Você vai pegar exatamente esse</strong> e fazer 3 mudanças:
-        </p>
-        <p>
-          <strong>1.</strong> No <strong>começo</strong> do programa, antes de mostrar o menu,
-          tenta <strong>LER</strong> o arquivo <code>alunos.json</code>. Se existir, carrega na lista.
-          Se NÃO existir (primeira vez rodando), começa com lista vazia.
-        </p>
-        <p>
-          <strong>2.</strong> A opção <strong>4-Sair</strong> deixa de só dar <code>break</code> —
-          agora ela também <strong>SALVA</strong> a lista no <code>alunos.json</code> antes de sair.
-        </p>
-        <p>
-          <strong>3.</strong> Pra tratar "arquivo não existe ainda" sem quebrar, usa
-          <code>try / except FileNotFoundError</code>. Tipo:
-          <em>"tenta abrir; se não rolar, começa vazio".</em>
-        </p>
-        <p>
-          Conceitos que você JÁ tem: <code>while True</code>, <code>if/elif/else</code>,
-          <code>input()</code>, <code>append</code>, <code>for</code>,
-          <code>list</code>, <code>dict</code>, <code>import json</code>,
-          <code>json.dump</code>, <code>json.load</code>, <code>with open(...)</code>.
-          <strong>Você tem TODAS as peças</strong>. 💪
-        </p>
-      </div>
-
-      <div class="try-first">
-        <div class="try-first-icon">🚨</div>
-        <div class="try-first-content">
-          <strong>PARE! Tente sozinho primeiro.</strong> Esse é o exercício mais legal do capítulo —
-          você vai sentir o "AHA!" de fazer um programa que <strong>lembra das coisas</strong>.
-          Roda, cadastra um aluno, fecha. Roda DE NOVO e vê os alunos voltando.
-          <strong>Quem espia antes de tentar perde a maior parte do aprendizado!</strong>
-        </div>
-      </div>
-
-      <div class="toggler">
-        <div class="toggler-header" onclick="toggleSection(this)">
-          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
-          <span class="toggler-arrow">▼</span>
-        </div>
-        <div class="toggler-body">
-          <div class="code-block with-lines">
-            <div class="code-header">
-              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-              <span class="filename">sistema_cadastro_json.py</span>
-              <span class="lang-badge python">Python</span>
-            </div>
-            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48</div>
-<pre><span class="kw">import</span> json
-
-ARQUIVO = <span class="st">"alunos.json"</span>
-
-<span class="cm"># 1. carrega os dados do arquivo (se existir)</span>
-<span class="kw">try</span>:
-    <span class="kw">with</span> <span class="bi">open</span>(ARQUIVO, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
-        alunos = json.load(f)
-    <span class="bi">print</span>(<span class="st">f"📂 Carreguei {<span class="fexp">len(alunos)</span>} aluno(s) salvos."</span>)
-<span class="kw">except</span> <span class="tp">FileNotFoundError</span>:
-    alunos = []
-    <span class="bi">print</span>(<span class="st">"📭 Nenhum cadastro ainda. Começando do zero."</span>)
-
-
-<span class="kw">while</span> <span class="bool">True</span>:
-    <span class="bi">print</span>(<span class="st">"\n=== Sistema de Cadastro ==="</span>)
-    <span class="bi">print</span>(<span class="st">"1 - Adicionar aluno"</span>)
-    <span class="bi">print</span>(<span class="st">"2 - Listar alunos"</span>)
-    <span class="bi">print</span>(<span class="st">"3 - Buscar aluno"</span>)
-    <span class="bi">print</span>(<span class="st">"4 - Sair (e salvar)"</span>)
-
-    opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
-
-    <span class="kw">if</span> opcao == <span class="st">"1"</span>:
-        nome  = <span class="bi">input</span>(<span class="st">"Nome: "</span>)
-        idade = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Idade: "</span>))
-        curso = <span class="bi">input</span>(<span class="st">"Curso: "</span>)
-        alunos.append({<span class="st">"nome"</span>: nome, <span class="st">"idade"</span>: idade, <span class="st">"curso"</span>: curso})
-        <span class="bi">print</span>(<span class="st">f"✅ {<span class="fexp">nome</span>} cadastrado(a)!"</span>)
-
-    <span class="kw">elif</span> opcao == <span class="st">"2"</span>:
-        <span class="kw">if</span> <span class="kw">not</span> alunos:
-            <span class="bi">print</span>(<span class="st">"📭 Nenhum aluno cadastrado ainda."</span>)
-        <span class="kw">for</span> a <span class="kw">in</span> alunos:
-            <span class="bi">print</span>(<span class="st">f"👤 {<span class="fexp">a['nome']</span>} — {<span class="fexp">a['idade']</span>} anos — {<span class="fexp">a['curso']</span>}"</span>)
-
-    <span class="kw">elif</span> opcao == <span class="st">"3"</span>:
-        alvo = <span class="bi">input</span>(<span class="st">"Nome a buscar: "</span>)
-        encontrados = [a <span class="kw">for</span> a <span class="kw">in</span> alunos <span class="kw">if</span> a[<span class="st">"nome"</span>].lower() == alvo.lower()]
-        <span class="bi">print</span>(encontrados <span class="kw">if</span> encontrados <span class="kw">else</span> <span class="st">"😶 Não encontrei."</span>)
-
-    <span class="kw">elif</span> opcao == <span class="st">"4"</span>:
-        <span class="kw">with</span> <span class="bi">open</span>(ARQUIVO, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
-            json.dump(alunos, f, indent=<span class="num">4</span>, ensure_ascii=<span class="bool">False</span>)
-        <span class="bi">print</span>(<span class="st">"💾 Dados salvos. Até mais!"</span>)
-        <span class="kw">break</span>
-
-    <span class="kw">else</span>:
-        <span class="bi">print</span>(<span class="st">"❓ Opção inválida."</span>)</pre>
-          </div>
-
-          <div class="terminal" data-typewriter style="margin-top:14px">
-            <div class="terminal-header">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="title">primeira execução · sistema_cadastro_json.py</span>
-            </div>
-            <div class="terminal-body">
-              <span class="typed" data-text="📭 Nenhum cadastro ainda. Começando do zero."></span><br>
-              <span class="out">=== Sistema de Cadastro ===</span><br>
-              <span class="out">Escolha uma opção: </span><span class="typed" data-text="1"></span><br>
-              <span class="out">Nome: </span><span class="typed" data-text="Ana"></span><br>
-              <span class="out">Idade: </span><span class="typed" data-text="22"></span><br>
-              <span class="out">Curso: </span><span class="typed" data-text="Python"></span><br>
-              <span class="typed" data-text="✅ Ana cadastrado(a)!"></span><br>
-              <span class="out">Escolha uma opção: </span><span class="typed" data-text="4"></span><br>
-              <span class="typed" data-text="💾 Dados salvos. Até mais!"></span><span class="cursor"></span>
-            </div>
-          </div>
-
-          <div class="terminal" data-typewriter style="margin-top:14px">
-            <div class="terminal-header">
-              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="title">segunda execução (no dia seguinte!) · sistema_cadastro_json.py</span>
-            </div>
-            <div class="terminal-body">
-              <span class="typed" data-text="📂 Carreguei 1 aluno(s) salvos."></span><br>
-              <span class="out">=== Sistema de Cadastro ===</span><br>
-              <span class="out">Escolha uma opção: </span><span class="typed" data-text="2"></span><br>
-              <span class="typed" data-text="👤 Ana — 22 anos — Python"></span><span class="cursor"></span>
-            </div>
-          </div>
-
-          <div class="tip" style="margin-top:14px">
-            <span class="tip-icon">🎉</span>
-            <div class="tip-content">
-              <strong>SENTIU?</strong> Fechou e abriu de novo, e a Ana <strong>tava lá</strong>.
-              Esse é o momento exato em que seus programas deixam de ser brincadeira e
-              viram <em>software de verdade</em>. Bem-vindo(a) ao mundo da persistência! 💾
-            </div>
-          </div>
-
-          <div class="warning" style="margin-top:8px">
-            <span class="warning-icon">🤓</span>
-            <div class="warning-content">
-              <strong>Curiosidade pra quem tá ligado:</strong> esse padrão de "carregar tudo na memória →
-              modificar → salvar tudo de novo" funciona pra cadastros pequenos (até umas centenas de itens).
-              Quando passar disso, a gente quer algo melhor — e é exatamente o que vem no Cap 09. 😉
-            </div>
-          </div>
-        </div>
+        <div class="quiz-feedback" data-explain="colchetes [ ] = lista (array). Chaves { } = dicionário (objeto). É a mesma dupla que você já usa desde o cap 04 e o cap 07 — só mudou o nome."></div>
       </div>
     </div>
   </section>
@@ -1904,69 +1105,70 @@ ARQUIVO = <span class="st">"alunos.json"</span>
     <div class="card">
       <div class="keyword-grid">
         <div class="keyword-chip">
-          <span class="emoji">📦</span>
-          <span class="kw-name">import json</span>
-          <span class="kw-desc">Módulo built-in do Python — não instala nada</span>
+          <span class="emoji">📄</span>
+          <span class="kw-name">JSON</span>
+          <span class="kw-desc">Formato de texto pra guardar e trocar dados — universal</span>
         </div>
         <div class="keyword-chip">
-          <span class="emoji">💾</span>
-          <span class="kw-name">json.dump</span>
-          <span class="kw-desc">Salva (despeja) lista/dict num arquivo .json</span>
+          <span class="emoji">👯</span>
+          <span class="kw-name">primo do dict</span>
+          <span class="kw-desc">Chave: valor, quase igual ao dicionário do Python</span>
         </div>
         <div class="keyword-chip">
-          <span class="emoji">📖</span>
-          <span class="kw-name">json.load</span>
-          <span class="kw-desc">Carrega (lê) o arquivo .json de volta pra memória</span>
+          <span class="emoji">❝❞</span>
+          <span class="kw-name">aspas duplas</span>
+          <span class="kw-desc">Sempre — nada de aspas simples em JSON</span>
         </div>
         <div class="keyword-chip">
-          <span class="emoji">📂</span>
-          <span class="kw-name">with open()</span>
-          <span class="kw-desc">Abre o arquivo e fecha sozinho no fim do bloco</span>
+          <span class="emoji">🔡</span>
+          <span class="kw-name">true · false · null</span>
+          <span class="kw-desc">Minúsculos — o True/False/None do Python vira isso</span>
         </div>
         <div class="keyword-chip">
-          <span class="emoji">✏️</span>
-          <span class="kw-name">modo "w"</span>
-          <span class="kw-desc">Escrita — sobrescreve o arquivo</span>
+          <span class="emoji">🚫</span>
+          <span class="kw-name">sem vírgula sobrando</span>
+          <span class="kw-desc">Vírgula só separa dois itens — nunca no fim</span>
         </div>
         <div class="keyword-chip">
-          <span class="emoji">📖</span>
-          <span class="kw-name">modo "r"</span>
-          <span class="kw-desc">Leitura — só lê, não modifica</span>
+          <span class="emoji">🔁</span>
+          <span class="kw-name">dict ⇄ JSON</span>
+          <span class="kw-desc">Na memória é dict; no disco vira texto JSON</span>
         </div>
         <div class="keyword-chip">
-          <span class="emoji">🛡️</span>
-          <span class="kw-name">try/except FileNotFoundError</span>
-          <span class="kw-desc">Trata "arquivo ainda não existe" sem quebrar</span>
+          <span class="emoji">🧅</span>
+          <span class="kw-name">{ } e [ ]</span>
+          <span class="kw-desc">Objeto e lista — encaixam um dentro do outro</span>
         </div>
         <div class="keyword-chip">
           <span class="emoji">🐛</span>
           <span class="kw-name">BugZilla</span>
-          <span class="kw-desc">import esquecido, arquivo vazio, modo errado</span>
+          <span class="kw-desc">aspas simples, True maiúsculo, vírgula sobrando</span>
         </div>
       </div>
 
       <div class="savior-banner" style="margin-top:24px">
         <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--accent5)">
-          "Agora seus programas TÊM MEMÓRIA. <br>Fechou? Abriu? Tá tudo lá." 💾✨
+          "Agora você LÊ e ESCREVE a língua dos dados. <br>Todo programa fala JSON." 📄✨
         </h3>
       </div>
 
       <div class="bridge-card">
         <h4>🌉 Ponte pro próximo capítulo</h4>
         <p>
-          JSON é fantástico — simples, universal, funciona em qualquer projeto pequeno.
-          Mas tem um detalhe: a gente sempre <strong>carrega o arquivo INTEIRO na memória</strong>,
-          modifica, e salva o arquivo INTEIRO de novo.
+          Você já entende o <strong>formato</strong> — agora falta a parte que interessa:
+          <strong>guardar seus dados nesse formato pra valer</strong>, num arquivo que sobrevive
+          ao programa fechar.
         </p>
         <p>
-          Isso é tranquilo pra 10, 100, 500 alunos. Mas se você cresce pra <strong>10 mil cadastros</strong>?
-          Aí já vira lerdeza. E se duas pessoas mexerem ao mesmo tempo? Bagunça.
+          Dá pra fazer isso na mão com o módulo <code>json</code> do Python (abrir arquivo,
+          traduzir, gravar, tratar erro…). Mas é trabalhoso e cheio de detalhe. Existe um jeito
+          bem mais gostoso.
         </p>
         <p>
           <strong>É aí que entra o TinyDB</strong> — um <em>banco de dados de bolso</em>
-          que ainda usa JSON por baixo dos panos, mas oferece <code>insert</code>,
-          <code>search</code>, <code>update</code>, <code>remove</code> de forma profissional.
-          <strong>Vai parecer mágica depois do que você acabou de aprender. 🚀</strong>
+          que guarda tudo <strong>num arquivo JSON</strong> (por isso você precisava conhecer o
+          formato antes!) e ainda te dá <code>insert</code>, <code>search</code>,
+          <code>update</code> e <code>remove</code> prontinhos. <strong>Bora? 🚀</strong>
         </p>
       </div>
     </div>
@@ -1975,8 +1177,8 @@ ARQUIVO = <span class="st">"alunos.json"</span>
       <h3 style="color:var(--accent5);margin-bottom:8px">Próximo capítulo →</h3>
       <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
         <strong style="color:var(--text)">Capítulo 09 — TinyDB.</strong>
-        Persistência de nível profissional, ainda em arquivo, mas com superpoderes.
-        Você vai amar.
+        Guardar dados de verdade — no formato JSON que você acabou de aprender,
+        mas sem a parte chata. Você vai amar.
       </p>
       <a href="../09-tinydb/" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--accent5),var(--accent3));color:var(--bg);text-decoration:none;font-weight:900;border-radius:50px;letter-spacing:1px">
         🗃️ Ir para Capítulo 09 →
@@ -2068,7 +1270,7 @@ ARQUIVO = <span class="st">"alunos.json"</span>
       pyEl.classList.remove('error');
       jsonEl.classList.remove('error');
       setStatus(pyStat, 'ok',   '✓ válido — Python entendeu');
-      setStatus(jsonStat, 'ok', '✓ JSON gerado com json.dumps');
+      setStatus(jsonStat, 'ok', '✓ traduzido pra JSON');
       syncing = false;
     } catch(e){
       pyEl.classList.add('error');
@@ -2086,8 +1288,8 @@ ARQUIVO = <span class="st">"alunos.json"</span>
       pyEl.value = pyPretty;
       pyEl.classList.remove('error');
       jsonEl.classList.remove('error');
-      setStatus(jsonStat, 'ok', '✓ JSON válido — pronto pra salvar em arquivo');
-      setStatus(pyStat,   'ok', '✓ Python gerado com json.loads');
+      setStatus(jsonStat, 'ok', '✓ JSON válido — pronto pra guardar em arquivo');
+      setStatus(pyStat,   'ok', '✓ traduzido de volta pra dict Python');
       syncing = false;
     } catch(e){
       jsonEl.classList.add('error');

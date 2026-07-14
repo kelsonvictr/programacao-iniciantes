@@ -202,37 +202,39 @@
 
     <div class="card">
       <p>
-        No <strong>Capítulo 08</strong> você aprendeu a salvar dados em <code>.json</code> com
-        <code>json.dump()</code> e <code>json.load()</code>. Foi um marco — a partir dali seus dados
-        <strong>sobrevivem</strong> ao programa fechar.
+        No <strong>Capítulo 08</strong> você aprendeu o <strong>formato JSON</strong> —
+        aquele texto que é o primo gêmeo do dicionário Python, com aspas duplas e
+        <code>true</code>/<code>false</code>/<code>null</code> minúsculos. Ficou faltando só
+        uma coisa: <strong>guardar seus dados nesse formato pra valer</strong>, num arquivo que
+        sobrevive ao programa fechar.
       </p>
 
       <div class="concept">
-        <div class="concept-title">🤔 Mas… e se eu quisesse mais?</div>
+        <div class="concept-title">🤔 E quem salva o JSON no arquivo?</div>
         <p>
-          Pensa só: hoje, pra atualizar UM aluno no JSON, você precisa
-          <strong>ler o arquivo inteiro</strong>, <strong>modificar a lista</strong> e
-          <strong>regravar tudo</strong>. Pra <em>buscar</em> alguém, é um <code>for</code> na mão.
-          Funciona? Funciona. Mas dá pra fazer melhor.
+          Dava pra fazer isso na mão com o módulo <code>json</code> do Python: abrir o arquivo,
+          traduzir a lista, gravar, e ainda tratar "o arquivo nem existe ainda". Toda vez,
+          pra qualquer mudancinha. Trabalhoso demais. 😮‍💨
         </p>
         <p>
-          E se a gente pudesse falar com o arquivo assim:
+          E se a gente pudesse simplesmente falar:
           <em>"me dá quem se chama Ana"</em> ou
-          <em>"atualiza só a idade do João, deixa o resto em paz"</em>?
-          Esse é o trabalho de um <strong style="color:var(--accent5)">banco de dados</strong>.
+          <em>"atualiza só a idade do João, deixa o resto em paz"</em> — e alguém cuidasse
+          do arquivo por baixo? Esse alguém é um
+          <strong style="color:var(--accent5)">banco de dados</strong>. É o TinyDB. 🎯
         </p>
       </div>
 
       <div class="analogy">
         <div class="analogy-title">Pensa numa caixa de fichas</div>
         <p>
-          Com JSON, é como se você tivesse uma <strong>caixa fechada com elástico</strong>.
-          Pra mexer numa ficha, abre a caixa, tira tudo, mexe, guarda tudo de novo.
+          Mexer no arquivo JSON na mão é como ter uma <strong>caixa fechada com elástico</strong>.
+          Pra trocar uma ficha, abre a caixa, tira tudo, mexe, guarda tudo de novo.
         </p>
         <p>
           Com o TinyDB é como ter uma <strong>caixa com divisórias e etiquetas</strong>.
           Você fala: "puxa a ficha da Ana" e ela vem. "Troca a idade dela", e só ela muda.
-          O resto fica intocado. 📂
+          O resto fica intocado — e ele ainda guarda tudo num arquivo <code>.json</code>. 📂
         </p>
       </div>
     </div>
@@ -254,8 +256,9 @@
 
     <div class="card">
       <p>
-        Lembra do <code>sistema_cadastro_json.py</code> do capítulo passado? Ele fazia mais ou menos isso
-        toda vez que você atualizava ou removia alguém:
+        Se você fosse salvar aquele cadastro de alunos num arquivo JSON <strong>na mão</strong>
+        (com o módulo <code>json</code>), toda vez que quisesse atualizar ou remover alguém
+        teria que fazer mais ou menos isso:
       </p>
 
       <div class="layer-stack">
