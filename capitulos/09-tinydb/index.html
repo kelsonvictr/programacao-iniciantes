@@ -322,7 +322,7 @@
           A lista de dicionários do cap 07 era um <strong>caderno que rasgava</strong> ao fechar o programa.
         </p>
         <p>
-          O JSON do cap 08 é um <strong>caderno guardado na gaveta</strong> — mas pra mexer numa ficha,
+          Salvar em JSON na mão seria um <strong>caderno guardado na gaveta</strong> — mas pra mexer numa ficha,
           tem que tirar tudo da gaveta, mexer e guardar tudo de novo.
         </p>
         <p>
@@ -463,9 +463,9 @@ db.<span class="fn">insert</span>({<span class="st">"nome"</span>: <span class="
       <div class="tip">
         <span class="tip-icon">🤯</span>
         <div class="tip-content">
-          <strong>Só isso!</strong> Sem <code>open()</code>, sem <code>json.dump()</code>, sem <code>with</code>.
+          <strong>Só isso!</strong> Sem abrir arquivo, sem traduzir pra JSON na mão, sem gravar de volta.
           Cada <code>db.insert()</code> recebe um <strong>dicionário</strong> — exatamente o que você já sabe usar.
-          O TinyDB salva no disco automaticamente.
+          O TinyDB salva tudo num arquivo <code>.json</code> automaticamente.
         </div>
       </div>
 
@@ -1739,8 +1739,10 @@ achados = db.<span class="fn">search</span>(q.nome == <span class="st">"João"</
       <div class="concept">
         <div class="concept-title">💡 Dica para fazer sozinho</div>
         <p>
-          Lembra do <code>sistema_cadastro_json.py</code> do <strong>Capítulo 08</strong>? Aquele com menu
-          (1- adicionar, 2- listar, 3- buscar, 0- sair)? <strong>Reescreva ele</strong> usando TinyDB.
+          Lembra do <code>sistema_cadastro.py</code> do <strong>Capítulo 07</strong>? Aquele com menu
+          (1- adicionar, 2- listar, 3- buscar, 0- sair) que guardava tudo numa <strong>lista</strong> —
+          e perdia tudo ao fechar? <strong>Reescreva ele</strong> usando TinyDB pra ele finalmente
+          <strong>não esquecer</strong>.
         </p>
         <p>
           Crie <code>sistema_cadastro_tinydb.py</code> com:
@@ -1762,7 +1764,7 @@ achados = db.<span class="fn">search</span>(q.nome == <span class="st">"João"</
           É a primeira vez que seu programa tem memória de verdade. 🧠
         </p>
         <p>
-          Você já fez praticamente esse código no <strong>cap 07 e cap 08</strong>. A diferença agora é só:
+          Você já fez praticamente esse código no <strong>cap 07</strong>. A diferença agora é só:
           a <code>lista</code> virou <code>db</code>, e o <code>append</code> virou <code>insert</code>.
           Você consegue!
         </p>
@@ -1842,9 +1844,9 @@ q  = <span class="fn">Query</span>()
           <div class="tip" style="margin-top:14px">
             <span class="tip-icon">✨</span>
             <div class="tip-content">
-              <strong>Reparou?</strong> Comparado ao <code>sistema_cadastro_json.py</code> do cap 08,
-              esse código é <strong>menor</strong>. Sumiram o <code>json.dump</code>, o <code>json.load</code>,
-              o <code>open()</code> com <code>with</code>… O TinyDB cuida de tudo.
+              <strong>Reparou?</strong> Se você fosse salvar isso em JSON <strong>na mão</strong>,
+              o código seria bem maior: teria <code>json.dump</code>, <code>json.load</code>,
+              <code>open()</code> com <code>with</code>, tratamento de "arquivo não existe"… O TinyDB cuida de tudo.
             </div>
           </div>
 
