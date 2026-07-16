@@ -204,6 +204,39 @@ decidiu ter **uma única** persistência no material (TinyDB), mas manter o emba
 
 ---
 
+## 📅 2026-07-16 — Novo cap 7.5: 3 Desafios Chefões (entre Dicionários e JSON)
+
+### Contexto
+Depois do cap 07 o aluno domina todas as estruturas do "Python de terminal" (dict fecha o ciclo),
+mas ia direto pro cap 08 (JSON, teórico, sem codar). Faltava um momento de consolidação TOTAL —
+os treinões 3.5/4.5 cobrem até loops/listas e o cap 06 é anterior aos dicionários. O professor
+pediu 3 desafios bem didáticos com tudo visto até então, com olhinho mas incentivando a não ver.
+
+### Decisão
+1. **Novo capítulo `capitulos/07b-desafios-caps-1-a-7/`** (CAP · 7.5), com 3 desafios em escada:
+   `playlist_ai.py` (★☆☆), `mercadinho_ai.py` (★★☆, reintroduz `def`) e `banco_ai.py`
+   (★★★, `def` + `return` + menu completo). Framing de "fase de chefão": nenhum golpe novo.
+2. **Padrão de desafio mais rico** que o dos treinões: cenário (`boss-banner`) + terminal
+   `data-typewriter` mostrando o programa-alvo + regras numeradas + dica que cita exercícios
+   anteriores POR NOME (playlist ← adicionar_nomes/cadastro_dicionario; banco ← sistema_cadastro).
+3. **Escada anti-spoiler em 2 degraus**: toggler 🆘 "empurrãozinho" (roteiro em palavras, zero
+   código) ANTES do olhinho 👀. Mais o "Juramento do olhinho" (botão interativo) no início.
+   Objetivo: dar saída pro aluno travado sem entregar a solução.
+4. **`None` como único "tempero novo"**, apresentado explicitamente como bônus (retorno de
+   `buscar_conta`), ancorado no `.get()` do cap 07. Fora isso, conteúdo 100% já visto.
+5. **Navegação re-roteada**: ponte do cap 07 → 7.5 (JSON citado como "depois"); encerramento do
+   7.5 reusa o gancho "fechou o programa, dados sumiram" → cap 08. Card novo no hub.
+
+### Trade-offs
+- São só 3 desafios (vs 30 dos treinões) — proposital: aqui o objetivo é integração em sistemas
+  completos, não volume de repetição.
+- O typewriter mostra a "resposta comportamental" antes do aluno codar — decisão consciente:
+  ver O QUE construir não revela COMO (o código continua atrás do olhinho).
+
+### Status: ativo
+
+---
+
 ## 📅 [próxima entrada]
 
 > Adicione aqui ao tomar uma nova decisão estrutural. Formato:

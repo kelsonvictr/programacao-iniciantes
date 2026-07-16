@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cap 7.5 — 3 Desafios Chefões (Caps 1 a 7) | Bootcamp programa AI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/styles.css">
+<link rel="stylesheet" href="../../shared/components.css">
+<link rel="stylesheet" href="../../shared/animations.css">
+<style>
+/* ⚠️ desativa ligaduras pra operadores ficarem exatos */
+.code-block pre, pre, code {
+  font-feature-settings: 'calt' 0, 'liga' 0;
+  font-variant-ligatures: none;
+}
+
+/* hero gradient próprio do capítulo (clima de chefão: dourado → coral → lilás) */
+.hero h1.grad-d75{
+  background:linear-gradient(135deg,var(--accent5),var(--accent2),var(--accent6));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* banner do "monte seu projeto" */
+.pycharm-banner{
+  position:relative;overflow:hidden;border-radius:22px;
+  padding:26px 28px;margin:18px 0;
+  background:linear-gradient(135deg,rgba(55,118,171,0.12),rgba(255,212,59,0.06));
+  border:2px solid rgba(55,118,171,0.30);
+}
+.pycharm-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 92% 12%,rgba(255,212,59,0.18),transparent 55%);
+  pointer-events:none;
+}
+.pycharm-banner h3{
+  font-size:1.45rem;color:var(--python-y);margin-bottom:6px;
+  position:relative;z-index:1;
+}
+.pycharm-banner p{color:var(--text-dim);font-size:0.98rem;position:relative;z-index:1}
+.pycharm-banner code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:2px 8px;border-radius:6px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+
+/* lista de passos numerados (PyCharm e regras dos desafios) */
+.steps-list{counter-reset:pcs;display:grid;gap:10px;margin:16px 0}
+.steps-list .pc-step{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.05);
+  border-radius:12px;padding:12px 16px;
+  font-size:0.95rem;line-height:1.55;
+}
+.steps-list .pc-step::before{
+  counter-increment:pcs;content:counter(pcs);
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent5),var(--accent2));
+  color:#0a0a12;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:0.9rem;flex-shrink:0;margin-top:2px;
+}
+
+/* card de apresentação de cada chefão */
+.boss-banner{
+  position:relative;overflow:hidden;border-radius:22px;
+  padding:24px 26px;margin:0 0 18px;
+  background:linear-gradient(135deg,rgba(247,183,49,0.10),rgba(255,107,107,0.05));
+  border:2px solid rgba(247,183,49,0.28);
+  display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+}
+.boss-banner .boss-emoji{font-size:3.2rem;line-height:1;flex-shrink:0}
+.boss-banner h3{font-size:1.35rem;margin-bottom:4px}
+.boss-banner p{color:var(--text-dim);font-size:0.95rem;max-width:560px}
+
+/* juramento do olhinho */
+.oath-card{
+  text-align:center;border-radius:22px;padding:28px;
+  background:linear-gradient(135deg,rgba(167,139,250,0.10),rgba(255,107,107,0.05));
+  border:2px solid rgba(167,139,250,0.30);
+}
+.oath-card .oath-text{
+  font-family:'Caveat',cursive;font-size:1.9rem;line-height:1.35;
+  color:var(--text);max-width:600px;margin:0 auto 18px;
+}
+.oath-btn{
+  display:inline-block;padding:14px 30px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent6),var(--accent2));
+  color:#fff;font-weight:900;font-size:1rem;font-family:'Nunito',sans-serif;
+  border-radius:50px;letter-spacing:0.5px;
+  box-shadow:0 8px 22px rgba(167,139,250,0.30);
+  transition:transform .2s ease,opacity .2s ease;
+}
+.oath-btn:hover{transform:translateY(-2px)}
+.oath-btn.done{
+  background:linear-gradient(135deg,var(--accent7),var(--accent3));
+  color:#0a0a12;cursor:default;transform:none;
+}
+
+/* toggler SOS (dica intermediária, sem código) */
+.toggler.sos .toggler-header{
+  background:linear-gradient(135deg,rgba(247,183,49,0.10),rgba(247,183,49,0.04));
+  border-color:rgba(247,183,49,0.30);
+  color:var(--accent5);
+}
+
+/* mini-cards de stats (no encerramento) */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr}}
+.stat-card{
+  background:var(--surface2);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:18px;text-align:center;
+}
+.stat-card .stat-num{
+  display:block;font-size:2.2rem;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--accent5),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.stat-card .stat-label{color:var(--text-dim);font-size:0.85rem;font-weight:600}
+
+/* CTA card próximo capítulo */
+.next-chapter-card{
+  text-align:center;
+  background:linear-gradient(135deg,rgba(247,183,49,0.08),rgba(78,205,196,0.04));
+  border-color:rgba(247,183,49,0.20);
+}
+.cta-btn{
+  display:inline-block;padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent5),var(--accent3));
+  color:#0a0a12;text-decoration:none;font-weight:900;
+  border-radius:50px;letter-spacing:1px;
+  box-shadow:0 8px 22px rgba(247,183,49,0.30);
+  transition:transform .2s ease;
+}
+.cta-btn:hover{transform:translateY(-2px)}
+
+/* banner de encerramento */
+.resto-banner{
+  background:linear-gradient(135deg,rgba(247,183,49,0.10),rgba(255,107,107,0.05));
+  border:2px solid rgba(247,183,49,0.30);
+  border-radius:18px;padding:22px;text-align:center;
+}
+.resto-banner h3{color:var(--accent5);margin-bottom:6px;font-size:1.4rem}
+.resto-banner p{color:var(--text-dim);font-size:0.96rem;max-width:560px;margin:0 auto}
+
+/* banner de celebração (mesmo visual do cap 07) */
+.celebrate-banner{
+  background:linear-gradient(135deg,rgba(108,99,255,0.10),rgba(167,139,250,0.06));
+  border:2px solid rgba(167,139,250,0.30);
+  border-radius:24px;padding:32px 28px;text-align:center;
+  margin:18px 0;position:relative;overflow:hidden;
+}
+.celebrate-banner::after{
+  content:'🎉';font-size:8rem;position:absolute;
+  top:-30px;right:-20px;opacity:0.06;line-height:1;
+  transform:rotate(12deg);
+}
+.celebrate-banner h3{font-size:1.6rem;margin-bottom:8px;color:var(--accent6)}
+
+/* título do desafio com filename mais legível */
+.step-title code{
+  background:var(--code-bg);color:var(--accent5);
+  padding:1px 7px;border-radius:5px;
+  font-family:'JetBrains Mono',monospace;font-size:0.88em;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+</div>
+
+<div class="progress-track"><div class="progress-bar"></div></div>
+
+<!-- ═══════════════ MENU MOBILE ═══════════════ -->
+<button class="menu-toggle" onclick="openSidebar()" aria-label="Abrir menu">☰</button>
+
+<aside class="sidebar-nav" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()" aria-label="Fechar menu">✕</button>
+  <div class="sidebar-header">
+    <h3>⚔️ Cap 7.5 — Chefões</h3>
+    <a href="../../index.html" class="sidebar-back">← Voltar ao hub</a>
+  </div>
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">🚀 Começar</div>
+    <a class="sidebar-link" onclick="goTo('intro')"><span class="dot" style="background:var(--accent5)"></span>A fase dos chefões</a>
+    <a class="sidebar-link" onclick="goTo('setup-pycharm')"><span class="dot" style="background:var(--python)"></span>Criar projeto no PyCharm</a>
+    <a class="sidebar-link" onclick="goTo('juramento')"><span class="dot" style="background:var(--accent6)"></span>O juramento do olhinho 👀</a>
+
+    <div class="sidebar-group-title">⚔️ Os 3 chefões</div>
+    <a class="sidebar-link" onclick="goTo('d1')"><span class="dot" style="background:var(--accent7)"></span>🎧 1 · playlist_ai.py ★☆☆</a>
+    <a class="sidebar-link" onclick="goTo('d2')"><span class="dot" style="background:var(--accent5)"></span>🛒 2 · mercadinho_ai.py ★★☆</a>
+    <a class="sidebar-link" onclick="goTo('bugzilla')"><span class="dot" style="background:var(--bug)"></span>🐛 BugZilla ataca!</a>
+    <a class="sidebar-link" onclick="goTo('d3')"><span class="dot" style="background:var(--accent2)"></span>🏦 3 · banco_ai.py ★★★</a>
+
+    <div class="sidebar-group-title">🏁 Final</div>
+    <a class="sidebar-link" onclick="goTo('encerramento')"><span class="dot" style="background:var(--accent5)"></span>Você derrotou os 3! 🏆</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-icons">🎮 ⚔️ 🏆</div>
+  <span class="hero-badge">Capítulo 7.5 · Bootcamp programa AI</span>
+  <h1 class="grad-d75">3 Desafios Chefões — Tudo até aqui</h1>
+  <p class="subtitle">
+    Você chegou na <strong>fase dos chefões</strong>: três sistemas completos que juntam
+    <strong>TUDO</strong> que você viu do cap 01 ao 07 — print, input, variáveis,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">if/elif/else</code>,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">while</code>,
+    <code style="background:var(--code-bg);padding:2px 8px;border-radius:6px;color:var(--accent5);font-family:'JetBrains Mono',monospace">for</code>,
+    listas, funções e <strong>dicionários</strong>. Sem conteúdo novo. Só você e o Python. 💪
+  </p>
+  <div class="hero-stack">
+    <span class="stack-chip">🎧 Playlist AI</span>
+    <span class="stack-chip">🛒 Mercadinho AI</span>
+    <span class="stack-chip">🏦 Banco AI</span>
+    <span class="stack-chip">👀 olhinho</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTRO — A FASE DOS CHEFÕES
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="intro">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🎮</div>
+      <div>
+        <div class="step-title">Bem-vindo(a) à fase dos chefões</div>
+        <div class="step-sub">3 desafios · 7 capítulos de arsenal · 0 conteúdo novo</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="analogy">
+        <div class="analogy-title">Sabe fase de chefão de videogame? É exatamente isso. 🎮</div>
+        <p>
+          Num jogo, você passa as fases aprendendo golpes: pular, correr, atacar.
+          Aí chega o <strong>chefão</strong> — e ele não pede nenhum golpe novo.
+          Ele pede que você use <strong>todos os golpes que já sabe, juntos e na hora certa</strong>.
+        </p>
+        <p>
+          Este capítulo é isso: <strong>nenhuma ferramenta nova</strong>. Três programas
+          completos, cada um um pouco maior que o anterior, usando tudo que você
+          já treinou nos caps 01 a 07.
+        </p>
+      </div>
+
+      <p style="margin-top:16px">Seu arsenal completo até aqui:</p>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:14px 0">
+        <div class="tip">
+          <span class="tip-icon">🐍</span>
+          <div class="tip-content"><strong>Caps 01-02:</strong> <code>print</code>, <code>input</code>, variáveis, <code>int()</code> / <code>float()</code> e f-strings.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🤔</span>
+          <div class="tip-content"><strong>Cap 03:</strong> decisões com <code>if</code> / <code>elif</code> / <code>else</code>, comparações e <code>and</code> / <code>or</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🔁</span>
+          <div class="tip-content"><strong>Cap 04:</strong> <code>while</code>, <code>for</code>, <code>range</code>, listas, <code>append</code>, <code>break</code>, acumulador.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">⚙️</span>
+          <div class="tip-content"><strong>Cap 05:</strong> funções — <code>def</code>, parâmetros e <code>return</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">📒</span>
+          <div class="tip-content"><strong>Cap 07:</strong> dicionários <code>{"chave": valor}</code> e <strong>listas de dicionários</strong> — as fichas de cadastro.</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📈</span>
+        <div class="tip-content">
+          <strong>A dificuldade sobe degrau por degrau:</strong>
+          🎧 Playlist AI (★☆☆ aquecimento) → 🛒 Mercadinho AI (★★☆ entra função) →
+          🏦 Banco AI (★★★ o chefão final, com <code>def</code> + <code>return</code> + menu completo).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SETUP NO PYCHARM
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="setup-pycharm">
+    <div class="step-header">
+      <div class="step-number sn-py">📦</div>
+      <div>
+        <div class="step-title">Criar o projeto <code>desafios_chefoes</code> no PyCharm</div>
+        <div class="step-sub">Uma arena só pra essa batalha</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pycharm-banner">
+        <h3>🐍 Um projeto, três arquivos</h3>
+        <p>
+          Crie <strong>UM projeto</strong> chamado <code>desafios_chefoes</code> e, dentro dele,
+          um arquivo <code>.py</code> pra cada chefão:
+          <code>playlist_ai.py</code>, <code>mercadinho_ai.py</code> e <code>banco_ai.py</code>.
+        </p>
+      </div>
+
+      <div class="steps-list">
+        <div class="pc-step">
+          Abra o <strong>PyCharm</strong> → <code>New Project</code>
+          (ou <em>File → New Project…</em>).
+        </div>
+        <div class="pc-step">
+          Nomeie o projeto <code>desafios_chefoes</code> e clique em <strong>Create</strong>.
+        </div>
+        <div class="pc-step">
+          Pra cada desafio: botão direito na pasta do projeto →
+          <em>New → Python File</em> → digite o nome (ex.: <code>playlist_ai.py</code>).
+        </div>
+        <div class="pc-step">
+          Pra rodar: triângulo verde ▶ no canto superior direito
+          (ou <em>botão direito → Run</em>).
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🌀</span>
+        <div class="tip-content">
+          <strong>Programa travou num loop infinito?</strong> Aperta
+          <kbd style="padding:2px 8px;background:var(--surface3);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem">Ctrl + F2</kbd>
+          no PyCharm pra encerrar. Acontece com todo mundo. 😅
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       O JURAMENTO DO OLHINHO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="juramento">
+    <div class="step-header">
+      <div class="step-number sn-purple">👀</div>
+      <div>
+        <div class="step-title">O juramento do olhinho</div>
+        <div class="step-sub">A regra mais importante do capítulo inteiro</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Cada chefão tem <strong>duas ajudas escondidas</strong>, nessa ordem:
+      </p>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:14px 0">
+        <div class="tip">
+          <span class="tip-icon">🆘</span>
+          <div class="tip-content">
+            <strong>O empurrãozinho</strong> — uma dica extra <em>sem nenhuma linha de código</em>.
+            Use se travar de verdade depois de uns bons minutos tentando.
+          </div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">👀</span>
+          <div class="tip-content">
+            <strong>O olhinho</strong> — a solução completa. Esse é o <strong>último</strong> recurso:
+            só abre depois que seu programa já roda (pra comparar) ou depois de ter tentado MUITO.
+          </div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <span class="warning-icon">🚨</span>
+        <div class="warning-content">
+          <strong>Por que insistimos tanto nisso?</strong> Quando você lê uma solução pronta,
+          seu cérebro fala "ah, entendi" — mas entender de ler e <strong>saber fazer</strong>
+          são coisas MUITO diferentes. O aprendizado mora no tempo em que você fica
+          <em>travado, tentando</em>. O olhinho existe pra proteger esse tempo, não pra pular ele.
+        </div>
+      </div>
+
+      <div class="oath-card" style="margin-top:18px">
+        <p class="oath-text">
+          "Eu juro tentar sozinho(a) primeiro,<br>
+          errar sem vergonha, ler os erros com calma,<br>
+          e só abrir o olhinho 👀 depois de dar o meu máximo."
+        </p>
+        <button class="oath-btn" onclick="fazerJuramento(this)">🤚 Eu juro!</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 1 — PLAYLIST AI ★☆☆
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="d1">
+    <div class="step-header">
+      <div class="step-number sn-mint">1</div>
+      <div>
+        <div class="step-title">Chefão 1 — <code>playlist_ai.py</code></div>
+        <div class="step-sub">★☆☆ · O aquecimento: sua playlist em Python</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="boss-banner">
+        <span class="boss-emoji">🎧</span>
+        <div>
+          <h3>Playlist AI</h3>
+          <p>
+            Um app de música raiz: você cadastra suas músicas favoritas e, no final,
+            ele mostra a playlist inteira com o tempo total de som. Tipo um Spotify
+            de terminal. 😄
+          </p>
+        </div>
+      </div>
+
+      <div class="drill-tags" style="margin-bottom:16px">
+        <span class="drill-level lv1"><span class="stars">★☆☆</span> aquecimento</span>
+        <span class="drill-tag">while True + break</span>
+        <span class="drill-tag">lista de dicts</span>
+        <span class="drill-tag">for</span>
+        <span class="drill-tag">acumulador</span>
+        <span class="drill-tag">f-string</span>
+      </div>
+
+      <p><strong>🎬 Como o programa deve se comportar</strong> (olha ele rodando):</p>
+
+      <div class="terminal" data-typewriter style="margin-top:12px">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · playlist_ai.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">==== 🎧 PLAYLIST AI ====</span><br>
+          <span class="out">Música (ou 'sair' pra fechar): </span><span class="typed" data-text="Evidências"></span><br>
+          <span class="out">Artista: </span><span class="typed" data-text="Chitãozinho &amp; Xororó"></span><br>
+          <span class="out">Duração em minutos: </span><span class="typed" data-text="5"></span><br>
+          <span class="typed" data-text="✅ Evidências entrou na playlist!"></span><br>
+          <span class="out">Música (ou 'sair' pra fechar): </span><span class="typed" data-text="sair"></span><br>
+          <br>
+          <span class="out">==== 🎶 SUA PLAYLIST ====</span><br>
+          <span class="out">• Evidências — Chitãozinho &amp; Xororó (5 min)</span><br>
+          <br>
+          <span class="typed" data-text="1 música(s) · 5 minutos de som 🔊"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <p style="margin-top:18px"><strong>📜 As regras do chefão:</strong></p>
+
+      <div class="steps-list">
+        <div class="pc-step">
+          O programa fica pedindo músicas <strong>até você digitar "sair"</strong>.
+        </div>
+        <div class="pc-step">
+          Cada música pergunta 3 coisas: <strong>título</strong>, <strong>artista</strong> e
+          <strong>duração em minutos</strong> (número inteiro).
+        </div>
+        <div class="pc-step">
+          Cada música vira um <strong>dicionário</strong> com as chaves
+          <code>"titulo"</code>, <code>"artista"</code> e <code>"duracao"</code> —
+          e entra numa <strong>lista</strong>.
+        </div>
+        <div class="pc-step">
+          Ao sair, mostre a playlist completa: uma linha por música, com título,
+          artista e duração (capricha na f-string!).
+        </div>
+        <div class="pc-step">
+          Feche com o total: <strong>quantas músicas</strong> tem na playlist e a
+          <strong>soma de todos os minutos</strong>.
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">playlist_ai.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Esse chefão é <strong>primo</strong> de dois programas que você já fez:
+          o <code>adicionar_nomes.py</code> (cap 4.5) e o <code>cadastro_dicionario.py</code>
+          (cap 07). A espinha é a mesma: lista vazia → <code>while True</code> →
+          <code>input</code> → <code>if ... == "sair": break</code> → <code>append</code>.
+        </p>
+        <p>
+          A diferença: em vez de dar <code>append</code> num texto solto, você monta um
+          <strong>dicionário</strong> com os 3 dados e dá <code>append</code> nele.
+          No final, um <code>for</code> percorre a lista imprimindo cada ficha, e um
+          <strong>acumulador</strong> (lembra dele?) vai somando as durações.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          <strong>Pegadinha clássica:</strong> cheque o <code>"sair"</code>
+          <em>logo depois</em> de pedir o título — antes de perguntar artista e duração.
+          Senão o programa pede artista da música "sair". 😅
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Você JÁ fez programas quase iguais
+          a esse. Confia no seu arsenal — errar e corrigir é exatamente o treino!
+        </div>
+      </div>
+
+      <div class="toggler sos">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🆘 Travei de verdade — me dá um empurrãozinho (sem código)</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="tip">
+            <span class="tip-icon">🧭</span>
+            <div class="tip-content">
+              <strong>A ordem das peças:</strong>
+              (1) crie a lista vazia <code>playlist</code> antes do loop;
+              (2) dentro do <code>while True</code>, peça o título e teste o "sair" na sequência;
+              (3) peça artista e duração — a duração precisa de <code>int()</code>;
+              (4) monte o dicionário com as 3 chaves e dê <code>append</code>;
+              (5) <em>depois</em> do loop, crie <code>total = 0</code> e faça um <code>for</code>
+              que imprime cada música E soma <code>musica["duracao"]</code> no total;
+              (6) fecha com um <code>print</code> usando <code>len(playlist)</code> e o total.
+              Agora volta lá e tenta — tá pertinho! 💪
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">playlist_ai.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20</div>
+<pre>playlist = []
+
+<span class="bi">print</span>(<span class="st">"==== 🎧 PLAYLIST AI ===="</span>)
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    titulo = <span class="bi">input</span>(<span class="st">"Música (ou 'sair' pra fechar): "</span>)
+    <span class="kw">if</span> titulo == <span class="st">"sair"</span>:
+        <span class="kw">break</span>
+    artista = <span class="bi">input</span>(<span class="st">"Artista: "</span>)
+    duracao = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"Duração em minutos: "</span>))
+    playlist.append({<span class="st">"titulo"</span>: titulo, <span class="st">"artista"</span>: artista, <span class="st">"duracao"</span>: duracao})
+    <span class="bi">print</span>(<span class="st">f"✅ {titulo} entrou na playlist!"</span>)
+
+<span class="bi">print</span>(<span class="st">"\n==== 🎶 SUA PLAYLIST ===="</span>)
+total = <span class="num">0</span>
+<span class="kw">for</span> musica <span class="kw">in</span> playlist:
+    <span class="bi">print</span>(<span class="st">f"• {musica['titulo']} — {musica['artista']} ({musica['duracao']} min)"</span>)
+    total += musica[<span class="st">"duracao"</span>]
+
+<span class="bi">print</span>(<span class="st">f"\n{<span class="bi">len</span>(playlist)} música(s) · {total} minutos de som 🔊"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · playlist_ai.py</span>
+            </div>
+            <div class="terminal-body">
+              ==== 🎧 PLAYLIST AI ====<br>
+              Música (ou 'sair' pra fechar): Evidências<br>
+              Artista: Chitãozinho &amp; Xororó<br>
+              Duração em minutos: 5<br>
+              ✅ Evidências entrou na playlist!<br>
+              Música (ou 'sair' pra fechar): Envolver<br>
+              Artista: Anitta<br>
+              Duração em minutos: 3<br>
+              ✅ Envolver entrou na playlist!<br>
+              Música (ou 'sair' pra fechar): sair<br>
+              <br>
+              ==== 🎶 SUA PLAYLIST ====<br>
+              • Evidências — Chitãozinho &amp; Xororó (5 min)<br>
+              • Envolver — Anitta (3 min)<br>
+              <br>
+              2 música(s) · 8 minutos de som 🔊
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> O mesmo <code>for</code> faz duas coisas: imprime a
+              música <em>e</em> soma a duração no acumulador. Não precisa de dois loops.
+              E dentro da f-string, a chave usa <strong>aspas simples</strong>
+              (<code>musica['titulo']</code>) porque as duplas já estão ocupadas pela f-string.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 2 — MERCADINHO AI ★★☆
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="d2">
+    <div class="step-header">
+      <div class="step-number sn-yellow">2</div>
+      <div>
+        <div class="step-title">Chefão 2 — <code>mercadinho_ai.py</code></div>
+        <div class="step-sub">★★☆ · Caixa de mercadinho com busca e desconto</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="boss-banner">
+        <span class="boss-emoji">🛒</span>
+        <div>
+          <h3>Mercadinho AI</h3>
+          <p>
+            Agora você é o <strong>caixa</strong>: o mercadinho já tem uma prateleira de produtos
+            (lista de dicionários pronta no código) e o cliente vai falando o que quer levar.
+            Você busca o produto, soma no carrinho e, no final, imprime o cupom —
+            com desconto se a compra for grande. 🧾
+          </p>
+        </div>
+      </div>
+
+      <div class="drill-tags" style="margin-bottom:16px">
+        <span class="drill-level lv2"><span class="stars">★★☆</span> esquenta</span>
+        <span class="drill-tag">def (função!)</span>
+        <span class="drill-tag">busca com flag</span>
+        <span class="drill-tag">acumulador float</span>
+        <span class="drill-tag">:.2f</span>
+        <span class="drill-tag">desconto com if</span>
+      </div>
+
+      <p><strong>🎬 Como o programa deve se comportar:</strong></p>
+
+      <div class="terminal" data-typewriter style="margin-top:12px">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · mercadinho_ai.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">==== 🛒 MERCADINHO AI ====</span><br>
+          <span class="out">• arroz — R$ 25.50</span><br>
+          <span class="out">• feijao — R$ 9.90</span><br>
+          <span class="out">• cafe — R$ 18.00</span><br>
+          <span class="out">Produto (ou 'cardapio' / 'fim'): </span><span class="typed" data-text="cafe"></span><br>
+          <span class="typed" data-text="🧺 cafe no carrinho! Parcial: R$ 18.00"></span><br>
+          <span class="out">Produto (ou 'cardapio' / 'fim'): </span><span class="typed" data-text="pizza"></span><br>
+          <span class="typed" data-text="❌ Hoje não temos esse produto."></span><br>
+          <span class="out">Produto (ou 'cardapio' / 'fim'): </span><span class="typed" data-text="fim"></span><br>
+          <br>
+          <span class="out">==== 🧾 CUPOM FISCAL ====</span><br>
+          <span class="typed" data-text="Total da compra: R$ 18.00"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <p style="margin-top:18px"><strong>📜 As regras do chefão:</strong></p>
+
+      <div class="steps-list">
+        <div class="pc-step">
+          O programa começa com a prateleira <strong>pronta no código</strong>: uma lista com
+          5 dicionários, cada um com <code>"nome"</code> e <code>"preco"</code>
+          (invente os produtos e preços que quiser!).
+        </div>
+        <div class="pc-step">
+          Crie uma <strong>função</strong> <code>mostrar_cardapio()</code> que imprime todos os
+          produtos com preço no formato <code>R$ 25.50</code> — e chame ela logo no início.
+        </div>
+        <div class="pc-step">
+          Depois, um loop: o cliente digita o <strong>nome do produto</strong>.
+          Se digitar <code>"fim"</code>, fecha a conta. Se digitar <code>"cardapio"</code>,
+          mostre a prateleira de novo (<strong>reusando a função</strong> — é pra isso que ela existe!).
+        </div>
+        <div class="pc-step">
+          Pra qualquer outro texto: <strong>procure</strong> o produto na lista.
+          Achou? Soma o preço no total e mostra o parcial.
+          Não achou? <code>"❌ Hoje não temos esse produto."</code>
+        </div>
+        <div class="pc-step">
+          No final, imprima o cupom com o total. Se a compra deu
+          <strong>R$ 50 ou mais</strong>, aplique <strong>10% de desconto</strong>
+          e mostre o novo total. 🎉
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">mercadinho_ai.py</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          A <strong>busca</strong> é o coração desse chefão — e você já fez ela no
+          <code>sistema_cadastro.py</code> (cap 07, opção "buscar"): um <code>for</code>
+          percorrendo a lista, um <code>if</code> comparando <code>produto["nome"]</code>
+          com o que o cliente digitou, e uma variável <code>encontrou = False</code>
+          que vira <code>True</code> quando acha (a famosa <em>flag</em>).
+        </p>
+        <p>
+          A função <code>mostrar_cardapio()</code> é do tipo mais simples que existe
+          (cap 05): sem parâmetro, sem <code>return</code> — só um <code>for</code>
+          com <code>print</code> dentro. E pra mostrar preço bonito com 2 casas,
+          lembra da missão da média (cap 04)? <code>f"R$ {preco:.2f}"</code>.
+        </p>
+        <p>
+          O desconto de 10%: multiplicar por <code>0.90</code> é o mesmo que tirar 10%.
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          <strong>Pegadinha:</strong> teste o <code>"fim"</code> e o <code>"cardapio"</code>
+          <em>antes</em> de sair procurando na prateleira — senão o programa vai dizer
+          que "não temos o produto fim". 😄
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Tente sozinho primeiro.</strong> Esse aqui pede um pouco mais de
+          paciência — monte por partes: primeiro a prateleira e a função, depois o loop,
+          depois a busca, e o cupom por último. Uma peça de cada vez!
+        </div>
+      </div>
+
+      <div class="toggler sos">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🆘 Travei de verdade — me dá um empurrãozinho (sem código)</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="tip">
+            <span class="tip-icon">🧭</span>
+            <div class="tip-content">
+              <strong>A ordem das peças:</strong>
+              (1) a lista <code>produtos</code> com os 5 dicionários vem primeiro;
+              (2) o <code>def mostrar_cardapio():</code> logo depois — dentro dele, um
+              <code>for</code> imprime cada <code>produto["nome"]</code> e
+              <code>produto["preco"]</code>;
+              (3) chame a função uma vez e crie <code>total = 0</code>;
+              (4) no <code>while True</code>: pediu o nome → testou "fim" (<code>break</code>) →
+              testou "cardapio" (chama a função) → <code>else</code>: a busca com flag;
+              (5) na busca, quando achar, faça <code>total += produto["preco"]</code>;
+              (6) depois do loop vem o cupom: imprime o total e um <code>if total &gt;= 50:</code>
+              aplica o desconto. Bora, você consegue! 💪
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">mercadinho_ai.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38</div>
+<pre>produtos = [
+    {<span class="st">"nome"</span>: <span class="st">"arroz"</span>,    <span class="st">"preco"</span>: <span class="num">25.50</span>},
+    {<span class="st">"nome"</span>: <span class="st">"feijao"</span>,   <span class="st">"preco"</span>: <span class="num">9.90</span>},
+    {<span class="st">"nome"</span>: <span class="st">"cafe"</span>,     <span class="st">"preco"</span>: <span class="num">18.00</span>},
+    {<span class="st">"nome"</span>: <span class="st">"leite"</span>,    <span class="st">"preco"</span>: <span class="num">6.50</span>},
+    {<span class="st">"nome"</span>: <span class="st">"biscoito"</span>, <span class="st">"preco"</span>: <span class="num">4.75</span>},
+]
+
+<span class="kw">def</span> <span class="fn">mostrar_cardapio</span>():
+    <span class="bi">print</span>(<span class="st">"\n==== 🛒 MERCADINHO AI ===="</span>)
+    <span class="kw">for</span> produto <span class="kw">in</span> produtos:
+        <span class="bi">print</span>(<span class="st">f"• {produto['nome']} — R$ {produto['preco']:.2f}"</span>)
+
+mostrar_cardapio()
+total = <span class="num">0</span>
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    escolha = <span class="bi">input</span>(<span class="st">"\nProduto (ou 'cardapio' / 'fim'): "</span>)
+    <span class="kw">if</span> escolha == <span class="st">"fim"</span>:
+        <span class="kw">break</span>
+    <span class="kw">if</span> escolha == <span class="st">"cardapio"</span>:
+        mostrar_cardapio()
+    <span class="kw">else</span>:
+        encontrou = <span class="bool">False</span>
+        <span class="kw">for</span> produto <span class="kw">in</span> produtos:
+            <span class="kw">if</span> produto[<span class="st">"nome"</span>] == escolha:
+                total += produto[<span class="st">"preco"</span>]
+                <span class="bi">print</span>(<span class="st">f"🧺 {escolha} no carrinho! Parcial: R$ {total:.2f}"</span>)
+                encontrou = <span class="bool">True</span>
+        <span class="kw">if</span> <span class="kw">not</span> encontrou:
+            <span class="bi">print</span>(<span class="st">"❌ Hoje não temos esse produto."</span>)
+
+<span class="bi">print</span>(<span class="st">"\n==== 🧾 CUPOM FISCAL ===="</span>)
+<span class="bi">print</span>(<span class="st">f"Total da compra: R$ {total:.2f}"</span>)
+<span class="kw">if</span> total &gt;= <span class="num">50</span>:
+    total = total * <span class="num">0.90</span>
+    <span class="bi">print</span>(<span class="st">f"🎉 Compra acima de R$ 50! Com 10% de desconto: R$ {total:.2f}"</span>)
+<span class="bi">print</span>(<span class="st">"Volte sempre! 👋"</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · mercadinho_ai.py</span>
+            </div>
+            <div class="terminal-body">
+              ==== 🛒 MERCADINHO AI ====<br>
+              • arroz — R$ 25.50<br>
+              • feijao — R$ 9.90<br>
+              • cafe — R$ 18.00<br>
+              • leite — R$ 6.50<br>
+              • biscoito — R$ 4.75<br>
+              <br>
+              Produto (ou 'cardapio' / 'fim'): cafe<br>
+              🧺 cafe no carrinho! Parcial: R$ 18.00<br>
+              Produto (ou 'cardapio' / 'fim'): arroz<br>
+              🧺 arroz no carrinho! Parcial: R$ 43.50<br>
+              Produto (ou 'cardapio' / 'fim'): pizza<br>
+              ❌ Hoje não temos esse produto.<br>
+              Produto (ou 'cardapio' / 'fim'): leite<br>
+              🧺 leite no carrinho! Parcial: R$ 50.00<br>
+              Produto (ou 'cardapio' / 'fim'): fim<br>
+              <br>
+              ==== 🧾 CUPOM FISCAL ====<br>
+              Total da compra: R$ 50.00<br>
+              🎉 Compra acima de R$ 50! Com 10% de desconto: R$ 45.00<br>
+              Volte sempre! 👋
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou?</strong> A função <code>mostrar_cardapio()</code> é chamada
+              em DOIS lugares (no início e quando o cliente pede) — escreveu uma vez,
+              usou duas. <strong>É exatamente pra isso que funções existem.</strong>
+              E o <code>{total:.2f}</code> garante os dois zeros do preço: sem ele,
+              R$ 50.00 viraria R$ 50.0.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BUGZILLA — O MENU QUE NUNCA FUNCIONA
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="bugzilla">
+    <div class="step-header">
+      <div class="step-number" style="background:linear-gradient(135deg,var(--bug),var(--accent2))">🐛</div>
+      <div>
+        <div class="step-title">BugZilla ataca antes do chefão final!</div>
+        <div class="step-sub">O menu que sempre diz "opção inválida"</div>
+      </div>
+    </div>
+
+    <div class="bugzilla-card">
+      <div class="bugzilla-header">
+        <span class="bugzilla-emoji">🐛</span>
+        <div>
+          <div class="bugzilla-title">BugZilla detectou: o menu fantasma</div>
+          <div class="bugzilla-sub">Você digita 1, 2, 3... e ele SEMPRE responde "opção inválida" 😤</div>
+        </div>
+      </div>
+      <div class="bugzilla-body">
+        <p style="margin-bottom:10px">
+          O próximo chefão tem um <strong>menu numérico</strong> — e esse é o lugar favorito
+          do BugZilla. Olha esse código que <em>parece</em> certinho:
+        </p>
+
+        <div class="code-block with-lines" style="margin-top:14px">
+          <div class="code-header">
+            <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            <span class="filename">menu_fantasma.py</span>
+            <span class="lang-badge python">Python</span>
+          </div>
+          <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
+
+<span class="kw">if</span> opcao == <span class="num">1</span>:          <span class="cm"># 💥 NUNCA vai ser verdade!</span>
+    <span class="bi">print</span>(<span class="st">"Criar conta"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)</pre>
+        </div>
+
+        <p style="margin-top:14px">
+          Digitou <code>1</code> e caiu no "inválida"? É porque <code>input()</code>
+          <strong>sempre devolve texto</strong>. O que chega ali é <code>"1"</code>
+          (string), e <code>"1" == 1</code> é <code>False</code> — texto nunca é
+          igual a número. Você sabe disso desde o cap 02, mas em menu
+          <strong>todo mundo</strong> esquece pelo menos uma vez. 😅
+        </p>
+
+        <div class="toggler" style="margin-top:14px">
+          <div class="toggler-header" onclick="toggleSection(this)">
+            <span>👀 Ver a correção</span>
+            <span class="toggler-arrow">▼</span>
+          </div>
+          <div class="toggler-body">
+            <div class="code-block with-lines">
+              <div class="code-header">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span class="filename">menu_consertado.py</span>
+                <span class="lang-badge python">Python</span>
+              </div>
+              <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+<pre>opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
+
+<span class="kw">if</span> opcao == <span class="st">"1"</span>:        <span class="cm"># ✅ compara texto com texto</span>
+    <span class="bi">print</span>(<span class="st">"Criar conta"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)</pre>
+            </div>
+            <div class="tip" style="margin-top:14px">
+              <span class="tip-icon">💡</span>
+              <div class="tip-content">
+                A solução mais simples: compare com <code>"1"</code> <strong>entre aspas</strong>.
+                Foi assim no <code>sistema_cadastro.py</code> do cap 07 — e é assim no
+                Banco AI logo abaixo. Guarda essa! 🐛🔨
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DESAFIO 3 — BANCO AI ★★★
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="d3">
+    <div class="step-header">
+      <div class="step-number sn-red">3</div>
+      <div>
+        <div class="step-title">Chefão final — <code>banco_ai.py</code></div>
+        <div class="step-sub">★★★ · Um banco de verdade: contas, depósito, saque</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="boss-banner" style="border-color:rgba(255,107,107,0.35)">
+        <span class="boss-emoji">🏦</span>
+        <div>
+          <h3>Banco AI — o chefão final</h3>
+          <p>
+            O maior programa que você já escreveu: um banco com menu completo onde dá pra
+            <strong>criar conta, depositar, sacar e ver todas as contas</strong>.
+            Com direito a validação de saldo — ninguém saca dinheiro que não tem! 💸
+          </p>
+        </div>
+      </div>
+
+      <div class="drill-tags" style="margin-bottom:16px">
+        <span class="drill-level lv3"><span class="stars">★★★</span> chefão final</span>
+        <span class="drill-tag">def + parâmetro + return</span>
+        <span class="drill-tag">menu if/elif/else</span>
+        <span class="drill-tag">lista de dicts</span>
+        <span class="drill-tag">atualizar dict</span>
+        <span class="drill-tag">validação</span>
+      </div>
+
+      <p><strong>🎬 Como o programa deve se comportar:</strong></p>
+
+      <div class="terminal" data-typewriter style="margin-top:12px">
+        <div class="terminal-header">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title">Run · banco_ai.py</span>
+        </div>
+        <div class="terminal-body">
+          <span class="out">==== 🏦 BANCO AI ====</span><br>
+          <span class="out">[1] Criar conta  [2] Depositar  [3] Sacar</span><br>
+          <span class="out">[4] Ver contas   [0] Sair</span><br>
+          <span class="out">Escolha uma opção: </span><span class="typed" data-text="1"></span><br>
+          <span class="out">Nome do cliente: </span><span class="typed" data-text="Ana"></span><br>
+          <span class="typed" data-text="✅ Conta de Ana criada!"></span><br>
+          <span class="out">Escolha uma opção: </span><span class="typed" data-text="2"></span><br>
+          <span class="out">Conta de quem? </span><span class="typed" data-text="Ana"></span><br>
+          <span class="out">Valor do depósito: R$ </span><span class="typed" data-text="100"></span><br>
+          <span class="typed" data-text="💰 Novo saldo de Ana: R$ 100.00"></span><br>
+          <span class="out">Escolha uma opção: </span><span class="typed" data-text="3"></span><br>
+          <span class="out">Conta de quem? </span><span class="typed" data-text="Ana"></span><br>
+          <span class="out">Valor do saque: R$ </span><span class="typed" data-text="500"></span><br>
+          <span class="typed" data-text="🚫 Saldo insuficiente!"></span><span class="cursor"></span>
+        </div>
+      </div>
+
+      <p style="margin-top:18px"><strong>📜 As regras do chefão:</strong></p>
+
+      <div class="steps-list">
+        <div class="pc-step">
+          As contas vivem numa <strong>lista de dicionários</strong>, cada uma com
+          <code>"nome"</code> e <code>"saldo"</code> (começando em <code>0.0</code>).
+        </div>
+        <div class="pc-step">
+          Menu num <code>while True</code>:
+          <strong>[1]</strong> criar conta · <strong>[2]</strong> depositar ·
+          <strong>[3]</strong> sacar · <strong>[4]</strong> ver contas ·
+          <strong>[0]</strong> sair.
+        </div>
+        <div class="pc-step">
+          Crie uma <strong>função</strong> <code>buscar_conta(nome)</code> que procura a conta
+          pelo nome e <strong>devolve</strong> (<code>return</code>) o dicionário quando acha.
+          Você vai usar ela nas opções 1, 2 e 3 — três usos, uma função!
+        </div>
+        <div class="pc-step">
+          <strong>Criar conta:</strong> se o nome já existe, avise. Senão, entra na lista com saldo zero.
+        </div>
+        <div class="pc-step">
+          <strong>Depositar:</strong> busca a conta; se não existe, avisa. Se existe, pergunta o
+          valor (<code>float()</code>!) e <strong>soma no saldo</strong> do dicionário.
+        </div>
+        <div class="pc-step">
+          <strong>Sacar:</strong> igual ao depósito, mas com uma validação a mais —
+          se o valor for maior que o saldo: <code>"🚫 Saldo insuficiente!"</code>.
+        </div>
+        <div class="pc-step">
+          <strong>Ver contas:</strong> lista todas com o saldo formatado
+          (<code>:.2f</code>). Sem contas ainda? Avise também.
+        </div>
+      </div>
+
+      <div class="concept" style="margin-top:16px">
+        <div class="concept-title">🆕 Um tempero novo (o único do capítulo): None</div>
+        <p>
+          E se <code>buscar_conta("Zé")</code> não achar o Zé? A função devolve
+          <code>None</code> — a palavra do Python pra <strong>"nada"</strong>
+          (é o que o <code>.get()</code> do cap 07 devolve quando a chave não existe, lembra?).
+          Aí quem chamou testa: <code>if conta == None:</code> → conta não existe, avisa o cliente.
+        </p>
+        <p>
+          Ou seja: sua função devolve <strong>a ficha da conta OU "nada"</strong> —
+          e o resto do programa decide o que fazer com cada caso. 🧠
+        </p>
+      </div>
+    </div>
+
+    <div class="exercise solo">
+      <div class="exercise-header">
+        <span class="exercise-icon">💪</span>
+        <div>
+          <div class="exercise-title">Faça sozinho</div>
+          <div class="exercise-sub">banco_ai.py · o chefão final</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-title">💡 Dica para fazer sozinho</div>
+        <p>
+          Esse chefão é o <code>sistema_cadastro.py</code> do cap 07 <strong>turbinado</strong>:
+          a mesma espinha (lista + <code>while True</code> + menu <code>if/elif/else</code>),
+          só que agora as opções <em>mexem</em> nos dados — depositar e sacar
+          <strong>atualizam</strong> o <code>conta["saldo"]</code>, do jeito que você
+          aprendeu no <code>atualizar_dados_aluno.py</code>.
+        </p>
+        <p>
+          Comece pela função <code>buscar_conta(nome)</code>: um <code>for</code> na lista,
+          um <code>if</code> comparando o nome, e <code>return conta</code> quando achar.
+          Se o <code>for</code> terminar sem achar ninguém, <code>return None</code>
+          na última linha da função.
+        </p>
+        <p>
+          Depois monte o menu opção por opção, <strong>testando cada uma antes de ir
+          pra próxima</strong>: primeiro só criar+ver, roda e testa. Depois depositar,
+          roda e testa. Por último sacar. Programador de verdade constrói assim,
+          em fatias. 🍰
+        </p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">⚠️</span>
+        <div class="tip-content">
+          <strong>Pegadinhas:</strong> o BugZilla logo ali em cima já te contou a do menu
+          (compare <code>opcao == "1"</code> com aspas!). E o valor do depósito/saque
+          precisa de <code>float()</code>, senão o <code>+=</code> quebra tentando
+          somar texto com número.
+        </div>
+      </div>
+
+      <div class="try-first">
+        <div class="try-first-icon">🚨</div>
+        <div class="try-first-content">
+          <strong>PARE! Esse é O chefão final — tente MUITO antes de espiar.</strong>
+          É normal levar tempo. É normal errar. Cada erro que você conserta sozinho(a)
+          aqui vale por dez olhinhos abertos. Vai com tudo! ⚔️
+        </div>
+      </div>
+
+      <div class="toggler sos">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>🆘 Travei de verdade — me dá um empurrãozinho (sem código)</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="tip">
+            <span class="tip-icon">🧭</span>
+            <div class="tip-content">
+              <strong>A ordem das peças:</strong>
+              (1) <code>contas = []</code> no topo;
+              (2) a função <code>buscar_conta(nome)</code> logo depois —
+              <code>for</code> + <code>if</code> + <code>return conta</code>, e
+              <code>return None</code> fora do for;
+              (3) o <code>while True</code> imprime o menu e lê a opção;
+              (4) cada opção é um <code>elif</code> e segue o mesmo ritual:
+              pede o nome → chama <code>buscar_conta(nome)</code> → <code>if conta == None:</code>
+              avisa → <code>else:</code> faz a operação;
+              (5) no saque, dentro do <code>else</code>, compare
+              <code>valor</code> com <code>conta["saldo"]</code> antes de subtrair;
+              (6) opção "0" dá <code>break</code>, e o <code>else</code> final pega opção inválida.
+              Fôlego e bora — você tá a UMA tela de zerar o capítulo! 🎮
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toggler">
+        <div class="toggler-header" onclick="toggleSection(this)">
+          <span>👀 Só clique aqui DEPOIS de tentar — Ver código completo</span>
+          <span class="toggler-arrow">▼</span>
+        </div>
+        <div class="toggler-body">
+          <div class="code-block with-lines">
+            <div class="code-header">
+              <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+              <span class="filename">banco_ai.py</span>
+              <span class="lang-badge python">Python</span>
+            </div>
+            <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58</div>
+<pre>contas = []
+
+<span class="kw">def</span> <span class="fn">buscar_conta</span>(nome):
+    <span class="kw">for</span> conta <span class="kw">in</span> contas:
+        <span class="kw">if</span> conta[<span class="st">"nome"</span>] == nome:
+            <span class="kw">return</span> conta
+    <span class="kw">return</span> <span class="bool">None</span>
+
+<span class="kw">while</span> <span class="bool">True</span>:
+    <span class="bi">print</span>(<span class="st">"\n==== 🏦 BANCO AI ===="</span>)
+    <span class="bi">print</span>(<span class="st">"[1] Criar conta  [2] Depositar  [3] Sacar"</span>)
+    <span class="bi">print</span>(<span class="st">"[4] Ver contas   [0] Sair"</span>)
+    opcao = <span class="bi">input</span>(<span class="st">"Escolha uma opção: "</span>)
+
+    <span class="kw">if</span> opcao == <span class="st">"1"</span>:
+        nome = <span class="bi">input</span>(<span class="st">"Nome do cliente: "</span>)
+        <span class="kw">if</span> buscar_conta(nome) != <span class="bool">None</span>:
+            <span class="bi">print</span>(<span class="st">"❌ Esse cliente já tem conta!"</span>)
+        <span class="kw">else</span>:
+            contas.append({<span class="st">"nome"</span>: nome, <span class="st">"saldo"</span>: <span class="num">0.0</span>})
+            <span class="bi">print</span>(<span class="st">f"✅ Conta de {nome} criada!"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"2"</span>:
+        nome = <span class="bi">input</span>(<span class="st">"Conta de quem? "</span>)
+        conta = buscar_conta(nome)
+        <span class="kw">if</span> conta == <span class="bool">None</span>:
+            <span class="bi">print</span>(<span class="st">"❌ Conta não encontrada."</span>)
+        <span class="kw">else</span>:
+            valor = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor do depósito: R$ "</span>))
+            conta[<span class="st">"saldo"</span>] += valor
+            <span class="bi">print</span>(<span class="st">f"💰 Novo saldo de {nome}: R$ {conta['saldo']:.2f}"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"3"</span>:
+        nome = <span class="bi">input</span>(<span class="st">"Conta de quem? "</span>)
+        conta = buscar_conta(nome)
+        <span class="kw">if</span> conta == <span class="bool">None</span>:
+            <span class="bi">print</span>(<span class="st">"❌ Conta não encontrada."</span>)
+        <span class="kw">else</span>:
+            valor = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"Valor do saque: R$ "</span>))
+            <span class="kw">if</span> valor &gt; conta[<span class="st">"saldo"</span>]:
+                <span class="bi">print</span>(<span class="st">"🚫 Saldo insuficiente!"</span>)
+            <span class="kw">else</span>:
+                conta[<span class="st">"saldo"</span>] -= valor
+                <span class="bi">print</span>(<span class="st">f"💸 Saque feito! Saldo: R$ {conta['saldo']:.2f}"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"4"</span>:
+        <span class="kw">if</span> <span class="bi">len</span>(contas) == <span class="num">0</span>:
+            <span class="bi">print</span>(<span class="st">"Nenhuma conta ainda."</span>)
+        <span class="kw">else</span>:
+            <span class="kw">for</span> conta <span class="kw">in</span> contas:
+                <span class="bi">print</span>(<span class="st">f"• {conta['nome']} — R$ {conta['saldo']:.2f}"</span>)
+
+    <span class="kw">elif</span> opcao == <span class="st">"0"</span>:
+        <span class="bi">print</span>(<span class="st">"👋 Banco AI fechado por hoje!"</span>)
+        <span class="kw">break</span>
+
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"❌ Opção inválida."</span>)</pre>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="title">Run · banco_ai.py</span>
+            </div>
+            <div class="terminal-body">
+              ==== 🏦 BANCO AI ====<br>
+              [1] Criar conta  [2] Depositar  [3] Sacar<br>
+              [4] Ver contas   [0] Sair<br>
+              Escolha uma opção: 1<br>
+              Nome do cliente: Ana<br>
+              ✅ Conta de Ana criada!<br>
+              <br>
+              ==== 🏦 BANCO AI ====<br>
+              Escolha uma opção: 2<br>
+              Conta de quem? Ana<br>
+              Valor do depósito: R$ 100<br>
+              💰 Novo saldo de Ana: R$ 100.00<br>
+              <br>
+              ==== 🏦 BANCO AI ====<br>
+              Escolha uma opção: 3<br>
+              Conta de quem? Ana<br>
+              Valor do saque: R$ 500<br>
+              🚫 Saldo insuficiente!<br>
+              <br>
+              ==== 🏦 BANCO AI ====<br>
+              Escolha uma opção: 4<br>
+              • Ana — R$ 100.00<br>
+              <br>
+              ==== 🏦 BANCO AI ====<br>
+              Escolha uma opção: 0<br>
+              👋 Banco AI fechado por hoje!
+            </div>
+          </div>
+
+          <div class="tip" style="margin-top:14px">
+            <span class="tip-icon">✨</span>
+            <div class="tip-content">
+              <strong>Reparou na mágica?</strong> Quando <code>buscar_conta</code> devolve o
+              dicionário, mexer em <code>conta["saldo"]</code> mexe <strong>na conta que está
+              dentro da lista</strong> — é a mesma ficha, não uma cópia. Por isso o depósito
+              "fica salvo". E a função foi usada em <strong>3 opções diferentes</strong>:
+              escreveu o for de busca UMA vez só.
+            </div>
+          </div>
+
+          <div class="celebrate-banner" style="margin-top:18px">
+            <h3 style="font-family:'Caveat',cursive;font-size:2.2rem;color:var(--accent5)">
+              🏆 VOCÊ ESCREVEU UM BANCO! 🏆
+            </h3>
+            <p style="color:var(--text-dim);font-size:1rem;max-width:560px;margin:8px auto 0">
+              58 linhas com <strong style="color:var(--text)">função, return, menu, lista de
+              dicionários, validação de saldo</strong>… Isso não é exercício de iniciante —
+              é a lógica de um sistema de verdade. Pode se orgulhar MUITO. 🎉
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-connector"><div class="line"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ENCERRAMENTO
+       ═══════════════════════════════════════════════════════ -->
+  <section class="step-section" id="encerramento">
+    <div class="step-header">
+      <div class="step-number sn-yellow">🏆</div>
+      <div>
+        <div class="step-title">Você derrotou os 3 chefões!</div>
+        <div class="step-sub">Olha o tamanho do que você construiu</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="resto-banner" style="margin-bottom:18px">
+        <h3>🎧 + 🛒 + 🏦 = você programando de verdade</h3>
+        <p>
+          Playlist, caixa de mercado e um banco com validação de saldo.
+          Três sistemas completos, escritos por <strong>você</strong>, usando
+          <strong>todo</strong> o conteúdo dos caps 01 a 07.
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <span class="stat-label">Chefões derrotados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">7</span>
+          <span class="stat-label">Capítulos no seu arsenal</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">116</span>
+          <span class="stat-label">Linhas de sistema escritas</span>
+        </div>
+      </div>
+
+      <div class="reveal-stagger" style="display:grid;gap:10px;margin:18px 0">
+        <div class="tip">
+          <span class="tip-icon">🎧</span>
+          <div class="tip-content"><strong>Playlist AI ✅</strong> — while + break + lista de dicts + acumulador. O esqueleto de todo cadastro.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🛒</span>
+          <div class="tip-content"><strong>Mercadinho AI ✅</strong> — função reutilizada, busca com flag, desconto condicional e <code>:.2f</code>.</div>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🏦</span>
+          <div class="tip-content"><strong>Banco AI ✅</strong> — <code>def</code> + <code>return</code>, menu completo e dicionários sendo <em>atualizados</em>. Chefão zerado. 🎮</div>
+        </div>
+      </div>
+
+      <div class="celebrate-banner">
+        <h3 style="font-family:'Caveat',cursive;font-size:2rem;color:var(--accent5)">
+          "Chefão nenhum pediu golpe novo.<br>
+          Você venceu com o que <strong>já sabia</strong>." ⚔️✨
+        </h3>
+      </div>
+    </div>
+
+    <div class="card next-chapter-card">
+      <h3 style="color:var(--accent5);margin-bottom:8px">🤔 Mas peraí…</h3>
+      <p style="color:var(--text-dim);font-size:1rem;margin-bottom:18px">
+        Você criou a conta da Ana, depositou R$ 100… e quando <strong style="color:var(--text)">fechou
+        o programa, o dinheiro sumiu</strong>. 💨 Tudo que seus sistemas guardam vive só na memória —
+        desligou o Python, perdeu. No <strong style="color:var(--text)">Capítulo 08 — JSON</strong>
+        você descobre o formato que os programas usam pra guardar dados de verdade.
+      </p>
+      <a href="../08-json/" class="cta-btn">💾 Ir para Capítulo 08 — JSON →</a>
+      <p style="color:var(--text-dim);font-size:0.8rem;margin-top:14px">
+        ou <a href="../../index.html" style="color:var(--accent4);text-decoration:none">← voltar ao hub</a>
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  Feito com <span class="heart">♥</span> pela <strong style="color:var(--text)">programa AI</strong> ·
+  <a href="../../index.html">Hub do bootcamp</a> ·
+  <a href="https://github.com/kelsonvictr" target="_blank" rel="noopener">github.com/kelsonvictr</a>
+</footer>
+
+<script src="../../shared/scripts.js" defer></script>
+<script>
+function fazerJuramento(btn){
+  if(btn.classList.contains('done')) return;
+  btn.classList.add('done');
+  btn.textContent = '🤝 Juramento registrado! Bora pro primeiro chefão 👊';
+}
+</script>
+</body>
+</html>

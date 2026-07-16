@@ -263,6 +263,47 @@ Cada desafio tem:
 
 ---
 
+## ⚔️ Capítulo 7.5 — 3 Desafios Chefões (Caps 1 a 7)
+**Pasta:** `capitulos/07b-desafios-caps-1-a-7/`
+**Cor temática:** dourado + coral + lilás (`--accent5` + `--accent2` + `--accent6`)
+**Origem:** criado em 2026-07-16, entre o cap 07 (Dicionários) e o cap 08 (JSON). Sem conteúdo
+novo — consolidação de TUDO até o cap 07 (print/input, variáveis, tipos, f-string, if/elif/else,
+while/for/range, listas, funções, dict e lista de dicts). Framing de "fase de chefão de videogame".
+
+### Estrutura
+- Hero + intro (analogia chefão: nenhum golpe novo, todos os golpes juntos) + arsenal por capítulo
+- Setup PyCharm (projeto `desafios_chefoes`, 1 arquivo por desafio)
+- **Juramento do olhinho** (`#juramento`): explica as DUAS ajudas escondidas de cada desafio
+  (🆘 empurrãozinho sem código → 👀 solução completa) + botão interativo de juramento
+  ("Eu juro tentar sozinho primeiro") — reforço explícito de NÃO espiar
+- **Chefão 1 — `playlist_ai.py`** (★☆☆): cadastro de músicas em lista de dicts com while True/
+  break, listagem com for + f-string, acumulador de minutos + `len()`
+- **Chefão 2 — `mercadinho_ai.py`** (★★☆): prateleira pré-pronta (lista de dicts), função
+  `mostrar_cardapio()` reutilizada em 2 lugares, busca com flag, acumulador float, `:.2f`,
+  desconto condicional (>= 50 → 10%)
+- **BugZilla — o menu fantasma** (`#bugzilla`, entre os chefões 2 e 3): `if opcao == 1` nunca
+  bate porque `input()` devolve string — preparação direta pro menu do Banco AI
+- **Chefão 3 — `banco_ai.py`** (★★★, chefão final): menu completo (criar conta/depositar/sacar/
+  ver/sair), função `buscar_conta(nome)` com parâmetro + `return` (usada em 3 opções),
+  atualização de `conta["saldo"]`, validação de saldo insuficiente. Único "tempero novo" do
+  capítulo: `None` como retorno de "não achei" (apresentado num `.concept` dedicado, ligado
+  ao `.get()` do cap 07)
+- Encerramento com stats (3 chefões / 7 caps / 116 linhas) + ponte pro cap 08 (gancho: fechou
+  o Banco AI e o dinheiro da Ana sumiu → JSON)
+
+### Padrão por desafio (mais rico que o dos treinões 3.5/4.5)
+Cabeçalho (nº + filename + estrelas) → `boss-banner` (cenário) → `drill-tags` (nível + arsenal) →
+**terminal `data-typewriter`** mostrando o programa-alvo rodando → regras numeradas
+(`steps-list`) → `exercise solo` com `concept` (dica que referencia exercícios anteriores por
+nome) → `tip` pegadinha → `try-first` 🚨 → **toggler 🆘 SOS** (empurrãozinho SEM código) →
+toggler 👀 (código completo + terminal + "Reparou?").
+
+### Quando manter atualizado
+Sincronizar com: card no hub (CAP · 7.5), ponte do fim do cap 07 (aponta pra cá; JSON citado como
+"depois"), botão final deste cap (aponta pro 08) e o mapa rápido no fim deste arquivo.
+
+---
+
 ## 🟡 Capítulo 08 — JSON: a língua dos dados (fundamento)
 **Pasta:** `capitulos/08-json/`
 **Cor temática:** dourado + turquesa (`--accent5` + `--accent3`)
@@ -344,6 +385,7 @@ Este capítulo existe pra dar o embasamento de JSON *antes* do TinyDB (que salva
 | 05 | Funções | Reutilizar | def, parâmetros, retorno |
 | 06 | Desafios | Consolidar | 5 mini-sistemas |
 | 07 | Dicionários | Estruturar | dict, lista de dicts |
+| 7.5 | 3 Desafios Chefões (Caps 1-7) | Consolidar | Playlist + Mercadinho + Banco AI, tudo junto (dict + def + loops) |
 | 08 | JSON | Formato | sintaxe JSON, dict ⇄ JSON (sem dump/load — só fundamento) |
 | 09 | TinyDB | Banco mini · ÚNICA persistência | CRUD em arquivo .json |
 | 10 | Streamlit | UI | apps web em Python |
